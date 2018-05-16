@@ -12,7 +12,7 @@ call vundle#begin()
     Plugin 'jistr/vim-nerdtree-tabs'
     Plugin 'posva/vim-vue'
     Plugin 'ervandew/supertab'
-    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'dracula/vim'
 call vundle#end()
 
 
@@ -20,7 +20,7 @@ syntax enable
 filetype plugin indent on
 
 set background=dark
-colorscheme solarized
+colorscheme dracula
 
 autocmd InsertLeave * if expand('%') != '' | update | endif
 
