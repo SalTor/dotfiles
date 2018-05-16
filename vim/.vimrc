@@ -12,7 +12,7 @@ call vundle#begin()
     Plugin 'jistr/vim-nerdtree-tabs'
     Plugin 'posva/vim-vue'
     Plugin 'ervandew/supertab'
-    Plugin 'dracula/vim'
+    Plugin 'morhetz/gruvbox'
 call vundle#end()
 
 
@@ -20,7 +20,7 @@ syntax enable
 filetype plugin indent on
 
 set background=dark
-colorscheme dracula
+colorscheme gruvbox
 
 autocmd InsertLeave * if expand('%') != '' | update | endif
 
