@@ -25,6 +25,7 @@ call vundle#begin()
     Plugin 'junegunn/fzf.vim'
     Plugin 'pangloss/vim-javascript'
     Plugin 'mxw/vim-jsx'
+    Plugin 'wincent/terminus'
 call vundle#end()
 
 set rtp+=~/.fzf
@@ -34,10 +35,18 @@ autocmd VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 
 colorscheme gruvbox
 
-let g:indentLine_setColors = 1
-let g:gitgutter_terminal_reports_focus=0
-let g:nerdtree_tabs_open_on_console_startup=2
-let g:nerdtree_tabs_autofind=1
+
+" PLUGIN SETTINGS  
+    let g:indentLine_setColors = 1
+
+    let g:gitgutter_terminal_reports_focus=0
+
+    let g:nerdtree_tabs_open_on_console_startup=2
+    let g:nerdtree_tabs_autofind=1
+
+    let g:fzf_layout={ 'down': '~30%' }
+" PLUGIN SETTINGS
+
 
 filetype plugin indent on
 syntax enable

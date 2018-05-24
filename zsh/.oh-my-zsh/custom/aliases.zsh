@@ -22,3 +22,6 @@ alias remote='git remote -v'
 alias fetch='git fetch origin'
 alias merge='git merge origin/master'
 alias commit='git commit'
+
+#VIM
+alias vi='vim'

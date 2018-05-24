@@ -8,6 +8,9 @@ ENABLE_CORRECTION="true"
 bindkey "[C" forward-word
 bindkey "[D" backward-word
 
+# So as not to be disturbed by Ctrl-S ctrl-Q in terminals:
+stty -ixon
+
 source ~/.oh-my-zsh/oh-my-zsh.sh
 
 export NVM_DIR="$HOME/.nvm"
@@ -17,4 +20,6 @@ export NVM_DIR="$HOME/.nvm"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+export FZF_DEFAULT_COMMAND='ag -g --hidden --file-search-regex ""'
+export FZF_DEFAULT_OPTS='--height 10% --border'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
