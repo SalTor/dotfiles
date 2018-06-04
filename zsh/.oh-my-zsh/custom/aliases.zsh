@@ -24,4 +24,5 @@ alias merge='git merge origin/master'
 alias commit='git commit'
 
 #VIM
-alias vi='vim'
+alias vi='nvim'
+alias vim='nvim'
