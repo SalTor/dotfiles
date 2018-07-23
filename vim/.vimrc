@@ -1,6 +1,7 @@
 set background=dark
 set hidden
 
+" Save when leaving insert mode
 autocmd InsertLeave * if expand('%') != '' | update | endif
 
 hi CursorLineNR cterm=bold
@@ -18,6 +19,9 @@ augroup numbertoggle
 augroup END
 
 let mapleader = ','
+set updatetime=100
+set splitbelow
+set splitright
 
 source ~/.vim/imports/plugins.vim
 source ~/.vim/imports/mappings.vim

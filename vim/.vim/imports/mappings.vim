@@ -1,22 +1,26 @@
 " EasyMotion Maps
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+nmap / <Plug>(easymotion-sn)
+nnoremap  n <Plug>(easymotion-nex)
+nnoremap  N <Plug>(easymotion-prev)
+map <Leader><Leader> <Plug>(easymotion-prefix)
 
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+" Buffers
+nnoremap ]b <Esc>:bn<CR>
+nnoremap [b <Esc>:bN<CR>
+nnoremap <Leader>cb <Esc>:bd<CR>
 
-map <Leader> <Plug>(easymotion-prefix)
-
-" Toggle NERDTree sidebar
+" NERDTree sidebar
 nnoremap <C-n> :NERDTreeToggle<CR>
 
 " Save
 nnoremap <C-s> :w<CR>
 
 " FZF (Fuzzy Finder For Files)
-nnoremap <C-p> :Files<CR>
+nnoremap <space>f :GFiles<CR>
+nnoremap <space>b :Buffers<CR>
+nnoremap <space>fs :GFiles?<cr>
 
-" Use ; to enter Command-mode, rather than Shift-;
+" Command-mode, rather than <S-;>
 nnoremap ; :
 nnoremap : ;
 vnoremap ; :
@@ -26,6 +30,15 @@ noremap ;; ;
 " Move between wrapped lines
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
+
+" Map ctrl-movement keys to window switching
+map <C-k> <C-w>k
+map <C-j> <C-w>j
+map <C-l> <C-w>l
+map <C-h> <C-w>h
+
+" :terminal escape
+:tnoremap <Esc> <C-\><C-n>
 
 " More or less disable arrow key usage
 no <down> ddp
