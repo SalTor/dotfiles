@@ -1,6 +1,12 @@
-alias lo='ls --group-directories-first -1'
-alias ll='ll --group-directories-first -1'
-alias la='ls --group-directories-first -1A'
+if [[ $OSTYPE == darwin* ]]; then
+    alias lo='ls -1'
+    alias ll='lo -l'
+    alias la='lo -A'
+else
+    alias lo='ls -1 --group-directories-first'
+    alias ll='lo -l'
+    alias la='lo -A'
+fi
 
 alias c='clear'
 alias psaux='ps aux | grep'
