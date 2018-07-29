@@ -35,10 +35,10 @@ nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " Map ctrl-movement keys to window switching
-map <C-k> <C-w>k
-map <C-j> <C-w>j
-map <C-l> <C-w>l
-map <C-h> <C-w>h
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
 
 " :terminal escape
 :tnoremap <Esc> <C-\><C-n>
