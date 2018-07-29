@@ -1,7 +1,10 @@
 " EasyMotion Maps
-nmap / <Plug>(easymotion-sn)
-nnoremap  n <Plug>(easymotion-nex)
-nnoremap  N <Plug>(easymotion-prev)
+map / <Plug>(easymotion-sn)
+map n <Plug>(easymotion-next)
+map N <Plug>(easymotion-prev)
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
 " Buffers
