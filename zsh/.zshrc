@@ -40,8 +40,8 @@ export ZSH=$HOME/.oh-my-zsh
 source ~/.oh-my-zsh/oh-my-zsh.sh
 
 
-if [ hash cowsay>/dev/null ] && [ hash fortune>/dev/null ]; then
-    clear; cowsay $(fortune)!
+if hash cowsay>/dev/null && hash fortune>/dev/null; then
+    cowsay $(fortune)!
 else
     if $ONMAC; then
         brew install cowsay fortune
@@ -49,5 +49,5 @@ else
         sudo apt-get install cowsay fortune
     fi
 
-    clear; cowsay $(fortune)!
+    cowsay $(fortune)!
 fi
