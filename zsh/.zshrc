@@ -43,7 +43,7 @@ source ~/.oh-my-zsh/oh-my-zsh.sh
 if hash cowsay>/dev/null && hash fortune>/dev/null; then
     cowsay $(fortune)!
 else
-    if $ONMAC; then
+    if [[ $OSTYPE == darwin* ]]; then
         brew install cowsay fortune
     else
         sudo apt-get install cowsay fortune
