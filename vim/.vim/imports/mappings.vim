@@ -5,8 +5,8 @@ nnoremap  N <Plug>(easymotion-prev)
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
 " Buffers
-nnoremap ]b <Esc>:bn<CR>
-nnoremap [b <Esc>:bN<CR>
+nnoremap [] <Esc>:bn<CR>
+nnoremap [p <Esc>:bN<CR>
 nnoremap <Leader>cb <Esc>:bd<CR>
 
 " NERDTree sidebar
