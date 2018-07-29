@@ -38,3 +38,16 @@ export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting.
 
 export ZSH=$HOME/.oh-my-zsh
 source ~/.oh-my-zsh/oh-my-zsh.sh
+
+
+if [ hash cowsay>/dev/null ] && [ hash fortune>/dev/null ]; then
+    clear; cowsay $(fortune)!
+else
+    if $ONMAC; then
+        brew install cowsay fortune
+    else
+        sudo apt-get install cowsay fortune
+    fi
+
+    clear; cowsay $(fortune)!
+fi
