@@ -34,20 +34,26 @@ export FZF_DEFAULT_OPTS='--height 10% --border'
     [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Make sure this is the last PATH variable change.
-export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting. 
+export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting.
 
 export ZSH=$HOME/.oh-my-zsh
 source ~/.oh-my-zsh/oh-my-zsh.sh
 
-
-if hash cowsay>/dev/null && hash fortune>/dev/null; then
-    cowsay $(fortune)!
-else
+req_cowsay=false
+req_fortune=false
+command -v cowsay >/dev/null 2>&1 || { echo >&2 "[!] Command not found: cowsay"; req_cowsay=true }
+command -v fortune >/dev/null 2>&1 || { echo >&2 "[!] Command not found: fortune"; req_fortune=true }
+if $req_cowsay && $req_fortune; then
+    echo >&2 "[ ] Installing missing commands..."
+    echo >&2 ""
     if [[ $OSTYPE == darwin* ]]; then
         brew install cowsay fortune
     else
         sudo apt-get install cowsay fortune
     fi
 
-    cowsay $(fortune)!
+    echo >&2 ""
+    echo >&2 "[!] Here's an example of combining cowsay and fortune! (aka: cowsay \$(fortune))"
 fi
+
+cowsay $(fortune)!
