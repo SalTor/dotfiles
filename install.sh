@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ ! -f ./vim/.vimrc ]; then
+    echo "[!] Bad execution. Being run from incorrect directory."
+    echo "[!] Execute this install script from within the correct directory."
+    return
+fi
+
 # Install VIM
 ln -s ~/dotfiles/vim/.vim/ ~/
 ln -s ~/dotfiles/vim/.vimrc ~/
