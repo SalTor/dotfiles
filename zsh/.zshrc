@@ -5,9 +5,6 @@ ENABLE_CORRECTION="true"
 bindkey "[C" forward-word
 bindkey "[D" backward-word
 
-# So as not to be disturbed by Ctrl-S ctrl-Q in terminals:
-stty -ixon
-
 # Ctrl+s will not hault terminal interactions
 stty -ixon
 
