@@ -1,27 +1,18 @@
 set background=dark
 set hidden
 
-" Save when leaving insert mode
-autocmd InsertLeave * if expand('%') != '' | update | endif
+highlight CursorLineNR cterm=bold
 
-hi CursorLineNR cterm=bold
-augroup CLNRSet
-    set cursorline
-    autocmd! ColorScheme * hi CursorLineNR cterm=bold
-augroup END
-
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
-set number relativenumber
-augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+let g:python_host_prog  = '/usr/bin/python'
 
 let mapleader = ','
 set updatetime=100
 set splitbelow
 set splitright
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set number relativenumber
 
+source ~/.vim/imports/autocmds.vim
 source ~/.vim/imports/plugins.vim
 source ~/.vim/imports/mappings.vim
+source ~/.vim/imports/coolstuff.vim

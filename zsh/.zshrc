@@ -26,8 +26,7 @@ export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export FZF_DEFAULT_COMMAND='ag -g --hidden --file-search-regex ""'
-export FZF_DEFAULT_OPTS='--height 10% --border'
+export FZF_DEFAULT_OPTS='--border'
     [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Make sure this is the last PATH variable change.

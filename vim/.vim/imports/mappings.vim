@@ -7,10 +7,21 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 map <Leader><Leader> <Plug>(easymotion-prefix)
 
+" Search For Visually Selected Text: Recursively uses easymotion-sn /
+vmap // y/<C-R>"<CR>
+
+" Shared Clipboard
+vnoremap <C-c> :w !pbcopy<CR><CR>
+noremap <D-v> :r !pbpaste<CR><CR>
+
 " Buffers
 nnoremap [] <Esc>:bn<CR>
 nnoremap [p <Esc>:bN<CR>
 nnoremap <Leader>cb <Esc>:bd<CR>
+
+" Create New Lines
+nnoremap <silent> [<space> :pu! _<cr>:']+1<cr>
+nnoremap <silent> ]<space> :pu _<cr>:'[-1<cr>
 
 " NERDTree sidebar
 nnoremap <C-n> :NERDTreeToggle<CR>
@@ -20,8 +31,10 @@ nnoremap <C-s> :w<CR>
 
 " FZF (Fuzzy Finder For Files)
 nnoremap <space>f :GFiles<CR>
-nnoremap <space>b :Buffers<CR>
-nnoremap <space>fs :GFiles?<cr>
+nnoremap <space>b :Buffers!<CR>
+nnoremap <space>? :GFiles?<cr>
+nnoremap <space>s :Files<cr>
+nnoremap <space>a :Ag!<space>
 
 " Command-mode, rather than <S-;>
 nnoremap ; :

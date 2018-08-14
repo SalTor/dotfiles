@@ -9,7 +9,7 @@ call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion. `idiv<C+y+,>` => <div></div>
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
-    Plugin 'ervandew/supertab'    " Tab-completion
+    Plugin 'Valloric/YouCompleteMe' " Suggestions as you type
     Plugin 'morhetz/gruvbox'      " Color scheme
     Plugin 'w0rp/ale'             " Linter
     Plugin 'easymotion/vim-easymotion'   " Move around file more easily
@@ -25,30 +25,47 @@ call vundle#begin()
     Plugin 'mjbrownie/django_completeme' " Auto-completion for django templates
     """ below - syntax
     Plugin 'posva/vim-vue'             " Syntax Highlighting for Vim Components
-    Plugin 'pangloss/vim-javascript'   " Syntax highlighting for JavaScript
+    Plugin 'pangloss/vim-javascript'   " Syntax highlighting for JavaScript (and 'dependency' of vim-jsx)
     Plugin 'mxw/vim-jsx'               " Syntax highlighting for JSX
     Plugin 'hail2u/vim-css3-syntax'    " CSS3 syntax highlighting
     Plugin 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
 call vundle#end()
+
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END
 
 autocmd VimEnter * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 autocmd VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 
 colorscheme gruvbox
 
-
 " PLUGIN SETTINGS
     let g:indentLine_setColors = 1
-
-    let g:fzf_layout={ 'down': '~30%' }
 
     let g:airline#extensions#tabline#enabled=1
     let g:airline#extensions#ale#enabled=1
 
-    let g:ale_lint_on_enter='never'
-    let g:ale_lint_delay=0 " <int>ms
-    let g:ale_lint_on_text_changed='never'
-    let g:ale_lint_on_insert_leave='always'
+    let g:ale_lint_delay=0
+    let g:ale_lint_on_enter=1
+    let g:ale_lint_on_save=1
+    let g:ale_lint_on_text_changed=1
+    let g:ale_lint_on_insert_leave=1
+    let g:ale_completion_enabled=1
+    let g:ale_fixers = {'javascript': 'eslint'}
+
+    " FZF
+    " Sane default for :Ag usage to not match folder/file names
+    let s:__fzf_ag_options='--only-matching'
+    command! -bang -nargs=* Ag
+      \ call fzf#vim#ag(<q-args>, s:__fzf_ag_options, fzf#vim#with_preview('right:50%:hidden', '?'))
+    command! -bang -nargs=? -complete=dir GFiles
+      \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+
+    " [Buffers] Jump to the existing window if possible
+    let g:fzf_buffers_jump = 1
+    let g:fzf_layout={ 'down': '~40%' }
 " PLUGIN SETTINGS
 
 
