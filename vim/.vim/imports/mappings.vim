@@ -20,8 +20,8 @@ nnoremap [p <Esc>:bN<CR>
 nnoremap <Leader>cb <Esc>:bd<CR>
 
 " Create New Lines
-nnoremap <silent> [<space> :pu! _<cr>:']+1<cr>
-nnoremap <silent> ]<space> :pu _<cr>:'[-1<cr>
+nnoremap <silent> [<space> :pu! _<CR>:']+1<CR>
+nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " NERDTree sidebar
 nnoremap <C-n> :NERDTreeToggle<CR>
