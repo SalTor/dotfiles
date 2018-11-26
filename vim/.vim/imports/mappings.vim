@@ -2,7 +2,7 @@
 map / <Plug>(easymotion-sn)
 map n <Plug>(easymotion-next)
 map N <Plug>(easymotion-prev)
-map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>l <Plug>(easymotion-sl)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 map <Leader><Leader> <Plug>(easymotion-prefix)
