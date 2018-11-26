@@ -59,6 +59,8 @@ colorscheme gruvbox
       \ call fzf#vim#ag(<q-args>, s:__fzf_ag_options, fzf#vim#with_preview('right:50%', '?'))
     command! -bang -nargs=? GFiles
       \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+    command! -bang -nargs=? Buffers
+      \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
     " [Buffers] Jump to the existing window if possible
     let g:fzf_buffers_jump = 1
