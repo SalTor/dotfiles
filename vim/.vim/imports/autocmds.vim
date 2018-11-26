@@ -1,4 +1,4 @@
-autocmd BufRead,BufNewFile *.css,*.scss set tabstop=4 softtabstop=0 expandtab shiftwidth=2 smarttab
+autocmd BufRead,BufNewFile *.css,*.scss set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 augroup numbertoggle
     autocmd!
