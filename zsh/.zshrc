@@ -36,6 +36,8 @@ export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting.
 export ZSH=$HOME/.oh-my-zsh
 source ~/.oh-my-zsh/oh-my-zsh.sh
 
+export ANSIBLE_NOCOWS=1
+
 req_cowsay=false
 req_fortune=false
 command -v cowsay >/dev/null 2>&1 || { echo >&2 "[!] Command not found: cowsay"; req_cowsay=true }
