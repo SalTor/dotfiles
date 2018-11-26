@@ -50,7 +50,7 @@ colorscheme gruvbox
     let g:ale_lint_on_text_changed=1
     let g:ale_lint_on_insert_leave=1
     let g:ale_completion_enabled=1
-    let g:ale_fixers = {'javascript': 'eslint'}
+    let g:ale_fixers = {'javascript': 'eslint', 'javascript.jsx': 'eslint'}
 
     " FZF
     " Sane default for :Ag usage to not match folder/file names
