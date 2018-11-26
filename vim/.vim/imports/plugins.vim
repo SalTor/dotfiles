@@ -56,8 +56,8 @@ colorscheme gruvbox
     " Sane default for :Ag usage to not match folder/file names
     let s:__fzf_ag_options='--only-matching'
     command! -bang -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>, s:__fzf_ag_options, fzf#vim#with_preview('right:50%:hidden', '?'))
-    command! -bang -nargs=? -complete=dir GFiles
+      \ call fzf#vim#ag(<q-args>, s:__fzf_ag_options, fzf#vim#with_preview('right:50%', '?'))
+    command! -bang -nargs=? GFiles
       \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
     " [Buffers] Jump to the existing window if possible
