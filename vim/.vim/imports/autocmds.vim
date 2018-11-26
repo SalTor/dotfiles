@@ -1,4 +1,5 @@
 autocmd BufRead,BufNewFile *.css,*.scss set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+autocmd BufRead,BufNewFile *.json set conceallevel=0
 
 augroup numbertoggle
     autocmd!
