@@ -12,6 +12,8 @@ set splitbelow
 set splitright
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set number relativenumber
+set ignorecase
+set smartcase
 
 source ~/.vim/imports/autocmds.vim
 source ~/.vim/imports/plugins.vim
