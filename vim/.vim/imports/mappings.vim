@@ -15,7 +15,7 @@ vnoremap <C-c> :w !pbcopy<CR><CR>
 noremap <D-v> :r !pbpaste<CR><CR>
 
 " Buffers
-nnoremap [] <Esc>:bn<CR>
+nnoremap [; <Esc>:bn<CR>
 nnoremap [p <Esc>:bN<CR>
 nnoremap <Leader>cb <Esc>:bd<CR>
 
