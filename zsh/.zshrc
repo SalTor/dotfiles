@@ -20,6 +20,7 @@ export PATH=/usr/bin/npm:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.rbenv/bin:$PATH
 export PATH=$HOME/.rbenv/plugins/ruby-build/bin:$PATH
+export PYTHONPATH=/
 eval "$(rbenv init -)"
 
 export NVM_DIR="$HOME/.nvm"
