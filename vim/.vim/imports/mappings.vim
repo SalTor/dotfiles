@@ -32,9 +32,10 @@ nnoremap <C-s> :w<CR>
 " FZF (Fuzzy Finder For Files)
 nnoremap <space>f :GFiles<CR>
 nnoremap <space>b :Buffers!<CR>
-nnoremap <space>? :GFiles?<cr>
-nnoremap <space>s :Files<cr>
+nnoremap <space>? :GFiles?<CR>
+nnoremap <space>s :Files<CR>
 nnoremap <space>a :Ag!<space>
+nnoremap <space>m :Marks!<CR>
 
 " Command-mode, rather than <S-;>
 nnoremap ; :
