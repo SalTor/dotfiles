@@ -9,6 +9,7 @@ call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'wellle/targets.vim'   " More text objects and useful manipulations
     Plugin 'terryma/vim-multiple-cursors' " Multiple cursors
+    Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion. `idiv<C+y+,>` => <div></div>
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
     Plugin 'Valloric/YouCompleteMe' " Suggestions as you type
