@@ -10,6 +10,21 @@ map <Leader><Leader> <Plug>(easymotion-prefix)
 " Search For Visually Selected Text: Recursively uses easymotion-sn /
 vmap // y/<C-R>"<CR>
 
+" move to beginning/end of line
+nnoremap B ^
+nnoremap E $
+" $/^ doesn't do anything
+nnoremap ^ <nop>
+nnoremap $ <nop>
+
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMR<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" save session
+nnoremap <leader>s :mksession<CR>
+
 " Shared Clipboard
 vnoremap <C-c> :w !pbcopy<CR><CR>
 noremap <D-v> :r !pbpaste<CR><CR>
@@ -25,9 +40,6 @@ nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " NERDTree sidebar
 nnoremap <C-n> :NERDTreeToggle<CR>
-
-" Save
-nnoremap <C-s> :w<CR>
 
 " FZF (Fuzzy Finder For Files)
 nnoremap <space>f :GFiles<CR>

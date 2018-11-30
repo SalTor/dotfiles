@@ -8,7 +8,6 @@ set rtp+=~/.fzf
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'wellle/targets.vim'   " More text objects and useful manipulations
-    Plugin 'terryma/vim-multiple-cursors' " Multiple cursors
     Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion. `idiv<C+y+,>` => <div></div>
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
@@ -33,11 +32,6 @@ call vundle#begin()
     Plugin 'hail2u/vim-css3-syntax'    " CSS3 syntax highlighting
     Plugin 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
 call vundle#end()
-
-augroup javascript_folding
-    au!
-    au FileType javascript setlocal foldmethod=syntax
-augroup END
 
 colorscheme gruvbox
 
