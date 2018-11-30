@@ -33,11 +33,6 @@ call vundle#begin()
     Plugin 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
 call vundle#end()
 
-augroup javascript_folding
-    au!
-    au FileType javascript setlocal foldmethod=syntax
-augroup END
-
 colorscheme gruvbox
 
 " PLUGIN SETTINGS
