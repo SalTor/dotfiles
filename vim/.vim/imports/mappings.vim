@@ -18,36 +18,35 @@ nnoremap ^ <nop>
 nnoremap $ <nop>
 
 " edit vimrc/zshrc and load vimrc bindings
-nnoremap <leader>ev :vsp $MYVIMR<CR>
-nnoremap <leader>ez :vsp ~/.zshrc<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-
-" save session
-nnoremap <leader>s :mksession<CR>
+nnoremap <leader>ev :vsp ~/.vimrc<cr>
+nnoremap <leader>sv :source ~/.vimrc<cr>
+nnoremap <leader>ez :vsp ~/.zshrc<cr>
+nnoremap <leader>sz :source ~/.zshrc<cr>
 
 " Shared Clipboard
-vnoremap <C-c> :w !pbcopy<CR><CR>
-noremap <D-v> :r !pbpaste<CR><CR>
+vnoremap <c-c> "*y
+noremap <c-p> "*p
 
 " Buffers
-nnoremap [; <Esc>:bn<CR>
-nnoremap [p <Esc>:bN<CR>
-nnoremap <Leader>cb <Esc>:bd<CR>
+nnoremap ;[ <esc>:bn<cr>
+nnoremap ;] <esc>:bN<cr>
+nnoremap <leader>cb <esc>:bd<cr>
 
 " Create New Lines
-nnoremap <silent> [<space> :pu! _<CR>:']+1<CR>
-nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
+nnoremap <silent> [<space> :pu! _<cr>:']+1<cr>
+nnoremap <silent> ]<space> :pu  _<cr>:'[-1<cr>
 
 " NERDTree sidebar
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <c-n> :NERDTreeToggle<cr>
+nnoremap <leader>sf :NERDTreeFind<cr>
 
 " FZF (Fuzzy Finder For Files)
-nnoremap <space>f :GFiles<CR>
-nnoremap <space>b :Buffers!<CR>
-nnoremap <space>? :GFiles?<CR>
-nnoremap <space>s :Files<CR>
+nnoremap <space>f :GFiles<cr>
+nnoremap <space>b :Buffers!<cr>
+nnoremap <space>? :GFiles?<cr>
+nnoremap <space>s :Files<cr>
 nnoremap <space>a :Ag!<space>
-nnoremap <space>m :Marks!<CR>
+nnoremap <space>m :Marks!<cr>
 
 " Command-mode, rather than <S-;>
 nnoremap ; :
@@ -84,3 +83,6 @@ vno <down> <Nop>
 vno <left> <Nop>
 vno <right> <Nop>
 vno <up> <Nop>
+
+" Misc
+vnoremap <leader>s !sort<cr>

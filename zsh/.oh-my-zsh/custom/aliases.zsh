@@ -12,9 +12,9 @@ alias c='clear'
 alias psaux='ps aux | grep'
 alias please='sudo !!'
 
-alias editit='vim ~/.zshrc'
-alias saveit='source ~/.zshrc'
-alias editvim='vim ~/.vimrc'
+alias ev='vim ~/.vimrc'
+alias ez='vim ~/.zshrc'
+alias sz='source ~/.zshrc'
 
 #GIT
 alias g='git '

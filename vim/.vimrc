@@ -6,17 +6,19 @@ let g:ruby_host_prog    = 'rvm system do neovim-ruby-host'
 let mapleader = ','
 
 set background=dark
-set hidden
-set updatetime=100
-set splitbelow
-set splitright
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
-set number relativenumber
-set ignorecase
-set smartcase
+set directory^=$HOME/.vim/nvim/tmp//
 set foldenable
 set foldlevelstart=10
 set foldnestmax=10
+set hidden
+set ignorecase
+set inccommand=split
+set number relativenumber
+set smartcase
+set splitbelow
+set splitright
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set updatetime=100
 
 source ~/.vim/imports/autocmds.vim
 source ~/.vim/imports/plugins.vim

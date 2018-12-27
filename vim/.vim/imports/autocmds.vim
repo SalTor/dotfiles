@@ -10,6 +10,7 @@ augroup CLNRSet
 augroup END
 
 autocmd BufRead,BufNewFile *.css,*.scss set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab foldmethod=syntax
+autocmd BufRead,BufNewFile *.html set foldmethod=indent
 
 autocmd BufRead,BufNewFile *.json set conceallevel=0
 augroup javascript_css_folding

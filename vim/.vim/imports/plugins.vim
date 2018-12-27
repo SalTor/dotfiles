@@ -7,10 +7,12 @@ set rtp+=~/.fzf
 
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
+    Plugin 'tommcdo/vim-exchange' " Swap text in a non-manual manner
     Plugin 'wellle/targets.vim'   " More text objects and useful manipulations
     Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion. `idiv<C+y+,>` => <div></div>
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
+    Plugin 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
     Plugin 'Valloric/YouCompleteMe' " Suggestions as you type
     Plugin 'morhetz/gruvbox'      " Color scheme
     Plugin 'w0rp/ale'             " Linter
