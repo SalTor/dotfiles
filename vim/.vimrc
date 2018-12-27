@@ -1,7 +1,7 @@
 highlight CursorLineNR cterm=bold
 
-let g:python_host_prog  = '/usr/bin/python'
-let g:ruby_host_prog    = 'rvm system do neovim-ruby-host'
+let g:python_host_prog = '/usr/bin/python'
+let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
 let mapleader = ','
 

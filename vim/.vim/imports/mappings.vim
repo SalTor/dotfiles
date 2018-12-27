@@ -1,14 +1,14 @@
 " EasyMotion Maps
-map / <Plug>(easymotion-sn)
-map n <Plug>(easymotion-next)
-map N <Plug>(easymotion-prev)
-map <Leader>l <Plug>(easymotion-sl)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader><Leader> <Plug>(easymotion-prefix)
+map / <plug>(easymotion-sn)
+map n <plug>(easymotion-next)
+map N <plug>(easymotion-prev)
+map <leader>l <plug>(easymotion-sl)
+map <leader>j <plug>(easymotion-j)
+map <leader>k <plug>(easymotion-k)
+map <leader><leader> <plug>(easymotion-prefix)
 
 " Search For Visually Selected Text: Recursively uses easymotion-sn /
-vmap // y/<C-R>"<CR>
+vmap // y/<c-r>"<cr>
 
 " move to beginning/end of line
 nnoremap B ^
@@ -60,24 +60,24 @@ nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " Map ctrl-movement keys to window switching
-nnoremap <C-k> <C-w>k
-nnoremap <C-j> <C-w>j
-nnoremap <C-l> <C-w>l
-nnoremap <C-h> <C-w>h
+nnoremap <c-k> <c-w>k
+nnoremap <c-j> <c-w>j
+nnoremap <c-l> <c-w>l
+nnoremap <c-h> <c-w>h
 
 " :terminal escape
-:tnoremap <Esc> <C-\><C-n>
+:tnoremap <esc> <c-\><c-n>
 
 " More or less disable arrow key usage
 no <down> ddp
-no <left> <Nop>
-no <right> <Nop>
+no <left> <nop>
+no <right> <nop>
 no <up> ddkP
 
-ino <down> <ESC>ddpi
-ino <left> <Nop>
-ino <right> <Nop>
-ino <up> <ESC>ddkPi
+ino <down> <esc>ddpi
+ino <left> <nop>
+ino <right> <nop>
+ino <up> <esc>ddkPi
 
 vno <down> <Nop>
 vno <left> <Nop>

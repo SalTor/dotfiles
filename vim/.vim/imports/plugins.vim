@@ -8,6 +8,7 @@ set rtp+=~/.fzf
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'tommcdo/vim-exchange' " Swap text in a non-manual manner
+    " Plugin 'ap/vim-css-color'     " Preview colors
     Plugin 'wellle/targets.vim'   " More text objects and useful manipulations
     Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion. `idiv<C+y+,>` => <div></div>
