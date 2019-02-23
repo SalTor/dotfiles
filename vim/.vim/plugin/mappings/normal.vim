@@ -47,14 +47,6 @@ nnoremap <silent> ]<space> :pu  _<cr>:'[-1<cr>
 " NERDTree Sidebar:
 nnoremap <c-n> :NERDTreeToggle<cr>
 
-" Fuzzy Finder For Files Using FZF:
-nnoremap <space>f :GFiles<cr>
-nnoremap <space>b :Buffers!<cr>
-nnoremap <space>? :GFiles?<cr>
-nnoremap <space>s :Files<cr>
-nnoremap <space>a :Ag!<space>
-nnoremap <space>m :Marks<cr>
-
 " Command-mode, rather than <S-;>
 nnoremap ; :
 nnoremap : ;
@@ -85,3 +77,5 @@ vno <up> <nop>
 " Misc:
 nnoremap <space>j <nop>
 nnoremap <space>k <nop>
+
+nnoremap <C-f>c  :Commands<CR>

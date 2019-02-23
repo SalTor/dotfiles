@@ -1,10 +1,6 @@
 highlight CursorLineNR cterm=bold
 
-let g:python_host_prog = '/usr/bin/python'
-let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
-
 set background=dark
-set directory^=$HOME/.vim/nvim/tmp//
 
 set autoindent                    " maintain indent of current line
 set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode

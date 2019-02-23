@@ -28,22 +28,28 @@ nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>
 nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 " Buffers:
-nnoremap <Leader>cb <esc>:bd<cr>
+nnoremap <Leader>cb <ESC>:bd<CR>
 
 " NERDTree Sidebar:
-nnoremap <Leader>sf :NERDTreeFind<cr>
+nnoremap <Leader>sf :NERDTreeFind<CR>
 
 " ALE Linter:
-nnoremap <Leader>a :ALENextWrap<cr>
-nnoremap <Leader>A :ALEPreviousWrap<cr>
+nnoremap <Leader>a :ALENextWrap<CR>
+nnoremap <Leader>A :ALEPreviousWrap<CR>
 
 " Replace:
 nnoremap <Leader>r :%s/\v
-vnoremap <Leader>r y:%s/\v<c-r>"
+vnoremap <Leader>r y:%s/\v<C-R>"
 
 " Misc:
 nnoremap <Leader>h :nohl
 
 " Smooth Scrolling:
-nnoremap <Leader>k 5<c-e>
-nnoremap <Leader>j 5<c-y>
+nnoremap <Leader>k 5<C-e>
+nnoremap <Leader>j 5<C-y>
+
+" Fuzzy Finder For Files Using FZF:
+nnoremap <Leader>f :call functions#GFilesWithFallback(0)<CR>
+nnoremap <Leader>g :call functions#GFilesWithFallback(1)<CR>
+nnoremap <Leader>a :Ag!<Space>
+nnoremap <Leader>m :Marks<CR>

@@ -40,40 +40,5 @@ call vundle#end()
 
 colorscheme gruvbox
 
-" PLUGIN SETTINGS
-    let g:airline#extensions#tabline#enabled=1
-    let g:airline#extensions#ale#enabled=1
-
-    let g:ale_lint_delay=0
-    let g:ale_lint_on_enter=1
-    let g:ale_lint_on_save=1
-    let g:ale_lint_on_text_changed=1
-    let g:ale_lint_on_insert_leave=1
-    let g:ale_completion_enabled=1
-    let g:ale_fixers = {'javascript': 'eslint', 'javascript.jsx': 'eslint'}
-
-    " FZF
-    " Sane default for :Ag usage to not match folder/file names
-    let s:__fzf_ag_options='--only-matching'
-    command! -bang -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>, s:__fzf_ag_options, fzf#vim#with_preview('right:50%', '?'))
-    command! -bang -nargs=? GFiles
-      \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-    command! -bang -nargs=? Buffers
-      \ call fzf#vim#buffers(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-
-    " [Buffers] Jump to the existing window if possible
-    let g:fzf_buffers_jump = 1
-    let g:fzf_layout={ 'down': '~40%' }
-
-    " Action
-    let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-x': 'split',
-      \ 'ctrl-v': 'vsplit',
-      \ 'enter': 'tab split' }
-" PLUGIN SETTINGS
-
-
 filetype plugin indent on
 syntax enable

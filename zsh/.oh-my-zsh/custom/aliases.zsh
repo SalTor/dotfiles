@@ -12,10 +12,10 @@ alias c='clear'
 alias psaux='ps aux | grep'
 alias please='sudo !!'
 
-alias ev='vim ~/.vim/plugin/settings.vim'
-alias ez='vim ~/.zshrc'
+alias ev='vim ~/vim/.vim'
+alias ez='vim ~/zsh/'
 alias sz='source ~/.zshrc'
-alias et='vim ~/.tmux.conf'
+alias et='vim ~/tmux/'
 alias st='tmux source-file ~/.tmux.conf'
 
 #GIT
