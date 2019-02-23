@@ -9,7 +9,7 @@ function is_git_repo() {
 
 function fzf_git_checkout_branch() {
     if is_git_repo; then
-        git checkout $(git branch | fzf)
+        git checkout $(git branch $@ | fzf)
     fi
 }
 
@@ -29,6 +29,10 @@ function fzf_git_add_changed() {
     if is_git_repo; then
         git add $@ $(fzf_git_changed_files)
     fi
+}
+
+function fzf_tmux_attach() {
+    tmux a -t $(tmux list-sessions -F '#S' | fzf --no-preview)
 }
 
 if [[ $OSTYPE == darwin* ]]; then
@@ -61,8 +65,10 @@ alias gr='git remote -v'
 alias gc='git commit'
 
 alias gaf=fzf_git_add_changed
-alias gchb=fzf_git_checkout_changed
+alias gchb=fzf_git_checkout_branch
 alias gchf=fzf_git_checkout_changed
+
+alias fmuxa=fzf_tmux_attach
 
 #VIM
 alias vi='nvim'
