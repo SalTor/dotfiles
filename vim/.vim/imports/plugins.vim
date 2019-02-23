@@ -8,16 +8,18 @@ set rtp+=~/.fzf
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'tommcdo/vim-exchange' " Swap text in a non-manual manner
-    " Plugin 'ap/vim-css-color'     " Preview colors
+    Plugin 'terryma/vim-smooth-scroll' " Smooth Scrolling
+    Plugin 'tpope/vim-repeat'     " Allow repeating of more actions
     Plugin 'wellle/targets.vim'   " More text objects and useful manipulations
     Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
+    Plugin 'rizzatti/dash.vim'    " Integration with DASH documentation tool
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion. `idiv<C+y+,>` => <div></div>
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
     Plugin 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
     Plugin 'Valloric/YouCompleteMe' " Suggestions as you type
     Plugin 'morhetz/gruvbox'      " Color scheme
     Plugin 'w0rp/ale'             " Linter
-    Plugin 'easymotion/vim-easymotion'   " Move around file more easily
+    " Plugin 'easymotion/vim-easymotion'   " Move around file more easily
     Plugin 'Raimondi/delimitMate'        " Auto-complete \" \' \( etc.
     Plugin 'Yggdroot/indentLine'         " Display indentations as gray, vertical lines
     Plugin 'vim-airline/vim-airline'     " Info bar at bottom of view for line count, cursor position, etc.
@@ -65,6 +67,13 @@ colorscheme gruvbox
     " [Buffers] Jump to the existing window if possible
     let g:fzf_buffers_jump = 1
     let g:fzf_layout={ 'down': '~40%' }
+
+    " Action
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-x': 'split',
+      \ 'ctrl-v': 'vsplit',
+      \ 'enter': 'tab split' }
 " PLUGIN SETTINGS
 
 
