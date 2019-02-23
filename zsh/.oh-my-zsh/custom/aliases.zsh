@@ -12,7 +12,7 @@ alias c='clear'
 alias psaux='ps aux | grep'
 alias please='sudo !!'
 
-alias ev='vim ~/.vimrc'
+alias ev='vim ~/.vim/plugin/settings.vim'
 alias ez='vim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias et='vim ~/.tmux.conf'
