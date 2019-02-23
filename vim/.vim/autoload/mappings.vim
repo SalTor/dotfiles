@@ -21,3 +21,9 @@ function! mappings#zap() abort
     nohlsearch
     call setpos('.', l:pos)
 endfunction
+
+" Apply macro to selected lines
+function! mappings#ExecuteMacroOverVisualRange()
+    echo "@".getcmdline()
+    execute ":'<,'>normal @".nr2char(getchar())
+endfunction

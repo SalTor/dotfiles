@@ -1,0 +1,37 @@
+autoload ./functions.zsh
+
+if [[ $OSTYPE == darwin* ]]; then
+    alias lo='ls -1'
+    alias ll='lo -l'
+    alias la='lo -A'
+else
+    alias lo='ls -1 --group-directories-first'
+    alias ll='lo -l'
+    alias la='lo -A'
+fi
+
+alias c='clear'
+alias psaux='ps aux | grep'
+alias please='sudo !!'
+
+alias ev='cd ~/dotfiles/vim/.vim && vim'
+alias ez='cd ~/dotfiles/zsh/ && vim'
+alias sz='source ~/.zshrc'
+alias et='cd ~/dotfiles/tmux/ && vim'
+alias st='tmux source-file ~/.tmux.conf'
+
+alias g='git '
+alias gs='git status'
+alias ga='git add'
+alias gch='git checkout'
+alias gd='git diff -w'
+alias gb='git branch'
+alias gr='git remote -v'
+alias gc='git commit'
+alias gaa='git add --all'
+
+alias gaf=fzf_git_add_changed
+alias gchb=fzf_git_checkout_branch
+alias gchf=fzf_git_checkout_changed
+
+alias fmuxa=fzf_tmux_attach

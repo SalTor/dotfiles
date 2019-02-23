@@ -38,6 +38,8 @@ let g:fzf_action = {
     \ 'enter': 'tab split' }
 
 let g:NERDTreeShowHidden=1
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 source $HOME/.vim/imports/plugins.vim
 source $HOME/.vim/imports/commands.vim

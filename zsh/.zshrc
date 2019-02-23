@@ -2,6 +2,12 @@ ZSH_THEME="aphrodite"
 DEFAULT_USER="saltor"
 ENABLE_CORRECTION="true"
 
+. ~/.zsh_aliases
+
+#VIM
+alias vi='nvim'
+alias vim='nvim'
+
 bindkey "[C" forward-word
 bindkey "[D" backward-word
 
