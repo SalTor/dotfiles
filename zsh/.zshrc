@@ -37,22 +37,3 @@ export ZSH=$HOME/.oh-my-zsh
 source ~/.oh-my-zsh/oh-my-zsh.sh
 
 export ANSIBLE_NOCOWS=1
-
-req_cowsay=false
-req_fortune=false
-command -v cowsay >/dev/null 2>&1 || { echo >&2 "[!] Command not found: cowsay"; req_cowsay=true }
-command -v fortune >/dev/null 2>&1 || { echo >&2 "[!] Command not found: fortune"; req_fortune=true }
-if $req_cowsay && $req_fortune; then
-    echo >&2 "[ ] Installing missing commands..."
-    echo >&2 ""
-    if [[ $OSTYPE == darwin* ]]; then
-        brew install cowsay fortune
-    else
-        sudo apt-get install cowsay fortune
-    fi
-
-    echo >&2 ""
-    echo >&2 "[!] Here's an example of combining cowsay and fortune! (aka: cowsay \$(fortune))"
-fi
-
-cowsay $(fortune)!
