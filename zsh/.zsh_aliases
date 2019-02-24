@@ -1,4 +1,4 @@
-autoload ./functions.zsh
+. ~/dotfiles/zsh/functions.zsh
 
 if [[ $OSTYPE == darwin* ]]; then
     alias lo='ls -1'

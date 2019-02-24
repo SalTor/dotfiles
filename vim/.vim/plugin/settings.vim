@@ -14,8 +14,13 @@ endif
 
 " Folding:
 if has('folding')
-    set foldlevelstart=50
+    if has('windows')
+        set fillchars=vert:┃
+        set fillchars+=fold:·
+    endif
     set foldmethod=indent
+    set foldlevelstart=50
+    set foldtext=saltor#settings#foldtext()
 endif
 
 if has('linebreak')
