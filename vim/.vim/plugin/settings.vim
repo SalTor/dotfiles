@@ -1,4 +1,5 @@
 highlight CursorLineNR cterm=bold
+set cursorline
 
 set background=dark
 
