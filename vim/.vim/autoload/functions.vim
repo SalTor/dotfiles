@@ -13,7 +13,7 @@ function! functions#GFilesWithFallback(...) abort
     return 0
 endfunction
 
-function functions#change_branch(e) abort
+function! functions#change_branch(e) abort
     let res = system("git checkout " . a:e)
     :e!
     echom "Changed branch to" . a:e
