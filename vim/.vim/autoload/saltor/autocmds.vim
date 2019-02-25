@@ -26,14 +26,18 @@ endfunction
 
 function! saltor#autocmds#blur_window() abort
   if saltor#autocmds#should_colorcolumn()
-    ownsyntax off
+    if exists('+colorcolumn')
+        let &l:colorcolumn=join(range(1, 255), ',')
+    endif
   endif
 endfunction
 
 function! saltor#autocmds#focus_window() abort
   if saltor#autocmds#should_colorcolumn()
     if !empty(&ft)
-      ownsyntax on
+      if exists('+colorcolumn')
+        let &l:colorcolumn='+' . join(range(500, 754), ',+')
+      endif
     endif
   endif
 endfunction
