@@ -1,8 +1,6 @@
 highlight CursorLineNR cterm=bold
 set cursorline
 
-set background=dark
-
 set autoindent                    " maintain indent of current line
 set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode
 
@@ -21,7 +19,7 @@ if has('folding')
     endif
     set foldmethod=indent
     set foldlevelstart=50
-    set foldtext=saltor#settings#foldtext()
+    set foldtext=wincent#settings#foldtext()
 endif
 
 if has('linebreak')
@@ -29,11 +27,6 @@ if has('linebreak')
     if exists('&breakindentopt')
         set breakindentopt=shift:4
     endif
-endif
-
-if exists('+colorcolumn')
-    " Highlight up to 255 columns (this is the current Vim mxa) beyond 'textwidth'
-    let &l:colorcolumn='+' . join(range(0, 254), ',+')
 endif
 
 " Search Case Insensitive Until Uppercase Used:

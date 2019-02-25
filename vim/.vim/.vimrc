@@ -2,6 +2,8 @@ if v:progname == 'vi'
   set noloadplugins
 endif
 
+set guifont=Source\ Code\ Pro\ Light\ for\ Powerline:h15
+
 let mapleader="\,"
 let maplocalleader="\\"
 
@@ -17,9 +19,6 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
 set directory^=$HOME/.vim/nvim/tmp//
 
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#ale#enabled=1
-
 let g:ale_lint_delay=0
 let g:ale_lint_on_enter=1
 let g:ale_lint_on_save=1
@@ -31,6 +30,9 @@ let g:ale_fixers = {'javascript': 'eslint', 'javascript.jsx': 'eslint'}
 let g:fzf_buffers_jump = 1 " Jump to the existing window if possible
 let g:fzf_layout={ 'down': '~40%' }
 
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#ale#enabled=1
+
 let g:fzf_action = {
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-x': 'split',
@@ -38,6 +40,9 @@ let g:fzf_action = {
     \ 'enter': 'tab split' }
 
 let g:NERDTreeShowHidden=1
+let g:NERDTreeDirArrowExpandable = '-'
+let g:NERDTreeDirArrowCollapsible = '+'
+
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
