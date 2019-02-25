@@ -170,38 +170,6 @@ export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%
 
 autoload -U add-zsh-hook
 
-function -set-tab-and-window-title() {
-  emulate -L zsh
-  local CMD="${1:gs/$/\\$}"
-  print -Pn "\e]0;$CMD:q\a"
-}
-
-# $HISTCMD (the current history event number) is shared across all shells
-# (due to SHARE_HISTORY). Maintain this local variable to count the number of
-# commands run in this specific shell.
-HISTCMD_LOCAL=0
-
-# Executed before displaying prompt.
-function -update-window-title-precmd() {
-  emulate -L zsh
-  if [[ HISTCMD_LOCAL -eq 0 ]]; then
-    # About to display prompt for the first time; nothing interesting to show in
-    # the history. Show $PWD.
-    -set-tab-and-window-title "$(basename $PWD)"
-  else
-    local LAST=$(history | tail -1 | awk '{print $2}')
-    if [ -n "$TMUX" ]; then
-      # Inside tmux, just show the last command: tmux will prefix it with the
-      # session name (for context).
-      -set-tab-and-window-title "$LAST"
-    else
-      # Outside tmux, show $PWD (for context) followed by the last command.
-      -set-tab-and-window-title "$(basename $PWD) > $LAST"
-    fi
-  fi
-}
-add-zsh-hook precmd -update-window-title-precmd
-
 # Executed before executing a command: $2 is one-line (truncated) version of
 # the command.
 function -update-window-title-preexec() {
