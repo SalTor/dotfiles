@@ -132,7 +132,7 @@ function +vi-git-untracked() {
   fi
 }
 
-RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}%~%f"
+RPROMPT_BASE="%F{blue}%~%f"
 setopt PROMPT_SUBST
 
 # Anonymous function to avoid leaking variables.
@@ -153,7 +153,7 @@ function () {
   else
     local SUFFIX=$(printf '%%F{red}$%.0s%%f' {1..$LVL})
   fi
-  export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{blue}%B%1~%b%F{yellow}%B%(1j.*.)%(?..!)%b%f %B${SUFFIX}%b "
+  export PS1="\${vcs_info_msg_0_}%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{blue}%B%1~%b%F{yellow}%B%(1j.*.)%(?..!)%b%f %B${SUFFIX}%b "
   if [[ -n "$TMUXING" ]]; then
     # Outside tmux, ZLE_RPROMPT_INDENT ends up eating the space after PS1, and
     # prompt still gets corrupted even if we add an extra space to compensate.
@@ -169,28 +169,6 @@ export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%
 #
 
 autoload -U add-zsh-hook
-
-# Executed before executing a command: $2 is one-line (truncated) version of
-# the command.
-function -update-window-title-preexec() {
-  emulate -L zsh
-  setopt EXTENDED_GLOB
-  HISTCMD_LOCAL=$((++HISTCMD_LOCAL))
-
-  # Skip ENV=settings, sudo, ssh; show first distinctive word of command;
-  # mostly stolen from:
-  #   https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/termsupport.zsh
-  local TRIMMED="${2[(wr)^(*=*|mosh|ssh|sudo)]}"
-  if [ -n "$TMUX" ]; then
-    # Inside tmux, show the running command: tmux will prefix it with the
-    # session name (for context).
-    -set-tab-and-window-title "$TRIMMED"
-  else
-    # Outside tmux, show $PWD (for context) followed by the running command.
-    -set-tab-and-window-title "$(basename $PWD) > $TRIMMED"
-  fi
-}
-add-zsh-hook preexec -update-window-title-preexec
 
 typeset -F SECONDS
 function -record-start-time() {
