@@ -14,22 +14,22 @@ function s:CheckColorScheme()
       echoerr 'Bad background ' . s:config[1] . ' in ' . s:config_file
     endif
 
-    if filereadable(expand('~/.vim/pack/bundle/start/base16-vim/colors/base16-' . s:config[0] . '.vim'))
+    if filereadable(expand('~/.vim/bundle/base16-vim/colors/base16-' . s:config[0] . '.vim'))
       execute 'color base16-' . s:config[0]
     else
       echoerr 'Bad scheme ' . s:config[0] . ' in ' . s:config_file
     endif
+  else " default
+    set background=dark
+    color base16-default-dark
   endif
-
-  " Hide (or at least make less obvious) the EndOfBuffer region
-  " highlight! EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
-  let l:bg = pinnacle#extract_bg('ColorColumn')
-  execute 'highlight EndOfBuffer ' pinnacle#highlight({'bg': l:bg, 'fg': l:bg })
 
   " Sync with corresponding non-nvim 'highlight' settings in
   " ~/.vim/plugin/settings.vim:
   highlight clear NonText
   highlight link NonText Conceal
+  highlight clear CursorLineNr
+  highlight link CursorLineNr DiffText
   highlight clear VertSplit
   highlight link VertSplit LineNr
 
@@ -56,7 +56,7 @@ endfunction
 
 if v:progname !=# 'vi'
   if has('autocmd')
-    augroup SalTorAutocolor
+    augroup WincentAutocolor
       autocmd!
       autocmd FocusGained * call s:CheckColorScheme()
     augroup END

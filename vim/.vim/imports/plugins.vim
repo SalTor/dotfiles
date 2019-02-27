@@ -1,5 +1,5 @@
-set nocompatible
-filetype off
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -7,7 +7,7 @@ set rtp+=~/.fzf
 
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
-    Plugin 'morhetz/gruvbox'      " Color scheme
+    Plugin 'chriskempson/base16-vim'
 
     Plugin 'tpope/vim-repeat'     " Allow repeating of more actions
     Plugin 'tpope/vim-surround'   " Easily add/change/remove surrounding characters
@@ -16,7 +16,6 @@ call vundle#begin()
     Plugin 'junegunn/fzf'     " FZF: A search tool that is fast AF
     Plugin 'junegunn/fzf.vim' " FZF: FZF for vim
 
-    Plugin 'vim-airline/vim-airline'     " Info bar at bottom of view for line count, cursor position, etc
     Plugin 'tommcdo/vim-exchange' " Swap text in a non-manual manner
     Plugin 'terryma/vim-smooth-scroll' " Smooth Scrolling
     Plugin 'wellle/targets.vim'   " More text objects and useful manipulations
@@ -40,8 +39,4 @@ call vundle#begin()
     Plugin 'wincent/pinnacle'          " Functions for manipulating highlight groups by userwincent
 call vundle#end()
 
-colorscheme gruvbox
-set background=dark
-
-filetype plugin indent on
-syntax enable
+filetype on
