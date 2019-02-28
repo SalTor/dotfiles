@@ -28,7 +28,7 @@ nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>
 nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 
 " Buffers
-nnoremap <Leader>cb <ESC>:bd<CR>
+nnoremap <Leader>cb :bd<CR>
 
 " Replace
 nnoremap <Leader>r :%s/\v

@@ -43,18 +43,18 @@ if has('virtualedit')
     set virtualedit=block " allow cursor to move where there is no text in visual block mode
 endif
 
-" Search Case Insensitive Until Uppercase Used:
+" Search Case Insensitive Until Uppercase Used
 set ignorecase
 set smartcase
 
-" Split Prioritization:
+" Split Prioritization
 set splitbelow
 set splitright
 
-" NVIM Create Split To Preview Search And Replace Effects On Lines Out Of Sight:
+" NVIM Create Split To Preview Search And Replace Effects On Lines Out Of Sight
 set inccommand=split
 
-" Tabs Instead Of Spaces:
+" Tabs Instead Of Spaces
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 
 if v:version > 703 || v:version == 703 && has('patch541')

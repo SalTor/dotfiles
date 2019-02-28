@@ -1,10 +1,10 @@
 command! Gbranch call fzf#run(
-            \ {
-            \ 'source': 'git branch',
-            \ 'sink': function('functions#change_branch'),
-            \ 'options': '-m',
-            \ 'down': '30%'
-            \ })
+        \ {
+        \ 'source': 'git branch',
+        \ 'sink': function('functions#change_branch'),
+        \ 'options': '-m',
+        \ 'down': '30%'
+        \ })
 
 let s:__fzf_ag_options='--only-matching' " Don't match folder/file names
 command! -bang -nargs=* Ag
