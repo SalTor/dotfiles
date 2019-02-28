@@ -3,5 +3,5 @@ vmap // y/<c-r>"<cr>
 vnoremap <leader>s !sort<cr>
 xnoremap @ :<C-u>call mappings#ExecuteMacroOverVisualRange()<CR>
 
-xnoremap <silent> K :call mappings#visual_move_up()<CR>
-xnoremap <silent> J :call mappings#visual_move_down()<CR>
+xnoremap <silent> K :call wincent#mappings#visual#move_up()<CR>
+xnoremap <silent> J :call wincent#mappings#visual#move_down()<CR>

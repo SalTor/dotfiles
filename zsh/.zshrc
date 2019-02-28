@@ -9,7 +9,7 @@ typeset -A __WINCENT
 __WINCENT[ITALIC_ON]=$'\e[3m'
 __WINCENT[ITALIC_OFF]=$'\e[23m'
 
-ZSH_THEME="aphrodite"
+ZSH_THEME="aphrodite-custom"
 DEFAULT_USER="saltor"
 ENABLE_CORRECTION="true"
 

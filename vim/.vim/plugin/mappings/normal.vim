@@ -12,16 +12,16 @@ nmap Q q
 " Multi-mode mappings (Normal, Visual, Operating-pending modes)
 noremap Y y$
 
-" Window Switching:
+" Window Switching
 nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
 nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 
-" Open File Viewer For Sibling Files:
+" Open File Viewer For Sibling Files
 nnoremap <silent> - :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
 
-" No Need For Documentation Heybinding:
+" No Need For Documentation Heybinding
 nnoremap K <nop>
 
 " Store relative line number jumps in the jumplist if they exceed a threshold.
@@ -29,23 +29,20 @@ nnoremap K <nop>
 nnoremap <expr> k (v:count > 5 ? "m'" . v:count : ') . 'k')
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : ') . 'j')
 
-" Line Movement Remaps:
+" Line Movement Remaps
 nnoremap B ^
 nnoremap E $
 " And unbind their original actions
 nnoremap ^ <nop>
 nnoremap $ <nop>
 
-" Buffers:
-nnoremap ;] <esc>:bn<cr>
-nnoremap ;[ <esc>:bN<cr>
+" Buffers
+nnoremap ;] <esc>:bn<CR>
+nnoremap ;[ <esc>:bN<CR>
 
-" Create New Lines:
-nnoremap <silent> [<space> :pu! _<cr>:']+1<cr>
-nnoremap <silent> ]<space> :pu  _<cr>:'[-1<cr>
-
-" NERDTree Sidebar:
-nnoremap <c-n> :NERDTreeToggle<cr>
+" Create New Lines
+nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
+nnoremap <silent> ]<space> :pu  _<cr>:'[-1<CR>
 
 " Command-mode, rather than <S-;>
 nnoremap ; :
@@ -54,11 +51,11 @@ vnoremap ; :
 vnoremap : ;
 noremap ;; ;
 
-" Move Between Wrapped Lines:
+" Move Between Wrapped Lines
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" Disable Arrow Key Usage:
+" Disable Arrow Key Usage
 no <down> ddp
 no <left> <nop>
 no <right> <nop>
@@ -74,8 +71,6 @@ vno <left> <nop>
 vno <right> <nop>
 vno <up> <nop>
 
-" Misc:
+" Misc
 nnoremap <space>j <nop>
 nnoremap <space>k <nop>
-
-nnoremap <C-f>c  :Commands<CR>
