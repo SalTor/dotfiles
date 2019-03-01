@@ -8,6 +8,7 @@ set rtp+=~/.fzf
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'chriskempson/base16-vim'
+    Plugin 'SirVer/ultisnips'
 
     Plugin 'tpope/vim-repeat'     " Allow repeating of more actions
     Plugin 'tpope/vim-surround'   " Easily add/change/remove surrounding characters
