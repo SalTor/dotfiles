@@ -32,7 +32,6 @@ nnoremap <Leader>cb :bd<CR>
 
 " Replace
 nnoremap <Leader>r :%s/\v//gc<Left><Left><Left>
-vnoremap <Leader>r y:%s/\v<C-R>"
 
 " Misc
 nnoremap <silent> <Leader>h :nohl

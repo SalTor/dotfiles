@@ -2,6 +2,7 @@
 nnoremap <silent> <Leader>f :call functions#GFilesWithFallback(0)<CR>
 nnoremap <silent> <Leader>g :call functions#GFilesWithFallback(1)<CR>
 nnoremap <Leader>a :Ag!<Space>
+vnoremap <Leader>a y:Ag!<Space><C-R>"<CR>
 nnoremap <silent> <Leader>m :Marks<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <C-f>c  :Commands<CR>

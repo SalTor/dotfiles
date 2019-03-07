@@ -17,7 +17,7 @@ alias please='sudo !!'
 alias ev='cd ~/dotfiles/vim/.vim && vim'
 alias ez='cd ~/dotfiles/zsh/ && vim'
 alias sz='source ~/.zshrc'
-alias et='cd ~/dotfiles/tmux/ && vim'
+alias et='cd ~/dotfiles/tmux/ && vim .tmux.conf'
 alias st='tmux source-file ~/.tmux.conf'
 
 alias g='git '
