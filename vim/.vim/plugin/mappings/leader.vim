@@ -31,11 +31,11 @@ nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>cb :bd<CR>
 
 " Replace
-nnoremap <Leader>r :%s/\v
+nnoremap <Leader>r :%s/\v//gc<Left><Left><Left>
 vnoremap <Leader>r y:%s/\v<C-R>"
 
 " Misc
-nnoremap <Leader>h :nohl
+nnoremap <silent> <Leader>h :nohl
 
 " Accelerated Vertical Scrolling
 nnoremap <Leader>k 5<C-e>

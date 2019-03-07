@@ -74,3 +74,6 @@ vno <up> <nop>
 " Misc
 nnoremap <space>j <nop>
 nnoremap <space>k <nop>
+
+" Search
+nmap / /\v
