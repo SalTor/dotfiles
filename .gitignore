@@ -1,5 +1,3 @@
 .netrwhist
 vim/.vim/bundle/*
 !vim/.vim/bundle/Vundle.vim
-zsh/.oh-my-zsh
-!zsh/.oh-my-zsh/custom
