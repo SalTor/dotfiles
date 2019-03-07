@@ -33,6 +33,11 @@ function s:CheckColorScheme()
     highlight clear VertSplit
     highlight link VertSplit LineNr
 
+    " Fix base16-vim coloring of xml for my preference. This makes it so
+    " ending tag matches color of starting tag. I came across this when
+    " editing JSX files
+    highlight link xmlEndTag Function
+
     " Resolve clashes with ColorColumn.
     " Instead of linking to Normal (which has a higher priority, link to nothing).
     highlight link vimUserFunc NONE

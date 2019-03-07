@@ -42,7 +42,6 @@ endfunction
 
 function! wincent#autocmds#blur_window() abort
     if wincent#autocmds#should_colorcolumn()
-        ownsyntax off
         set norelativenumber
         set nocursorline
         let l:hl = pinnacle#highlight(filter(pinnacle#dump('CursorLineNr'), 'v:key != "fg"'))
@@ -53,7 +52,7 @@ endfunction
 function! wincent#autocmds#focus_window() abort
     if wincent#autocmds#should_colorcolumn()
         if !empty(&ft)
-            ownsyntax on
+            syntax sync fromstart
             set relativenumber
             set cursorline
             highlight clear CursorLineNr

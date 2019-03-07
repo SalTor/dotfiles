@@ -40,3 +40,5 @@ nnoremap <silent> <Leader>h :nohl
 " Accelerated Vertical Scrolling
 nnoremap <Leader>k 5<C-e>
 nnoremap <Leader>j 5<C-y>
+
+nnoremap <silent> <Leader>B :Gbranch<CR>
