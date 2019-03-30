@@ -80,3 +80,6 @@ nmap / /\v
 
 " Open file under cursor in vertical split
 nnoremap <silent> <space>v :vsp<cr>gf
+
+" Open terminal
+    nnoremap <silent> <LocalLeader>t :vertical botright terminal<cr><C-w>l

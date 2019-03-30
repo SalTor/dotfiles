@@ -1,13 +1,68 @@
 let g:python_host_prog = '/usr/bin/python'
 let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
-set directory^=$HOME/.vim/nvim/tmp//
+" Behavior Modification ------------- {{{
+    set directory^=$HOME/.vim/nvim/tmp//
+    set autoindent                    " maintain indent of current line
+    set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode
+    set clipboard=unnamed             " Shared Clipboard
+    set splitright                    " when making a split, place it on the right
 
-set autoindent                    " maintain indent of current line
-set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode
+    " Search
+        set ignorecase       " search case-insensitively
+        set smartcase        " override 'ignorecase' if search pattern contains uppercase
+        set inccommand=split " preview search+replace in a separate split (neovim)
 
-" Shared Clipboard
-set clipboard=unnamed
+    " Tabs instead of spaces
+        set expandtab    " use the appropriate number of spaces when hitting <Tab> in insert-mode
+        set shiftround   " always indent by multiple of shiftwidth
+        set shiftwidth=4 " number of spaces per <Tab> press
+
+    " Line number
+        set number          " show line numbers
+        set relativenumber  " show relative line number
+
+    set formatoptions+=n " smart auto-intending inside numbered lists
+    set guifont=Source\ Code\ Pro\ Light:h13
+    set termguicolors " enable true colors
+    set laststatus=2 " always show status line
+    set cursorline
+    set laststatus=2                      " always show status line
+    set lazyredraw                        " don't bother updating screen during macro playback
+
+    " Custom render of certain characters
+        set list " show whitespace
+        set listchars=nbsp:⦸
+        set listchars+=extends:»
+        set listchars+=precedes:«
+        set listchars+=trail:•
+
+    set nojoinspaces " autoinsert one spaces after '.', '?', '!' for join command <Shift+j>
+    set noshowmatch  " don't jump between matching brackets
+    set scrolloff=3  " start scrolling 3 line before edge of viewport
+    set updatetime=100
+
+    set shortmess+=a " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
+" --------- }}}
+
+if !has('nvim')
+    " Sync with corresponding nvim :highlight commands in ~/.vim/plugin/autocmds.vim:
+    set highlight+=@:Conceal            " ~/@ at end of window, 'showbreak'
+    set highlight+=N:DiffText           " make current line number stand out a little
+    set highlight+=c:LineNr             " blend vertical separators with line numbers
+endif
+
+if v:version > 703 || v:version == 703 && has('patch541')
+    set formatoptions+=j " remove comment leader when joining comments
+endif
+
+if has('linebreak')
+    set linebreak " wrap long lines at characters in 'breakat'
+endif
+
+if has('syntax')
+    set synmaxcol=400                   " don't bother syntax highlighting long lines
+endif
 
 if exists('&belloff')
     set belloff=all
@@ -39,62 +94,3 @@ endif
 if has('virtualedit')
     set virtualedit=block " allow cursor to move where there is no text in visual block mode
 endif
-
-" Search Case Insensitive Until Uppercase Used
-set ignorecase
-set smartcase
-
-" Split Prioritization
-set splitbelow
-set splitright
-
-" NVIM Create Split To Preview Search And Replace Effects On Lines Out Of Sight
-set inccommand=split
-
-" Tabs Instead Of Spaces
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
-
-if v:version > 703 || v:version == 703 && has('patch541')
-    set formatoptions+=j " remove comment leader when joining comments
-endif
-
-set formatoptions+=n " smart auto-intending inside numbered lists
-set guifont=Source\ Code\ Pro\ Light:h13
-set laststatus=2 " always show status line
-set cursorline
-
-if has('linebreak')
-    set linebreak " wrap long lines at characters in 'breakat'
-endif
-
-if has('syntax')
-    set synmaxcol=400                   " don't bother syntax highlighting long lines
-endif
-
-set laststatus=2                      " always show status line
-set lazyredraw                        " don't bother updating screen during macro playback
-
-set list " show whitespace
-set listchars=nbsp:⦸
-
-set listchars+=extends:»
-set listchars+=precedes:«
-set listchars+=trail:•
-set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
-set noshowmatch " don't jump between matching brackets
-set number " show line numbers in gutter
-set relativenumber
-
-set scrolloff=3  " start scrolling 3 line before edge of viewport
-set shiftround   " always indent by multiple of shiftwidth
-set shiftwidth=4 " spaces per tab (when shifting)
-set shortmess+=a " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
-
-if !has('nvim')
-    " Sync with corresponding nvim :highlight commands in ~/.vim/plugin/autocmds.vim:
-    set highlight+=@:Conceal            " ~/@ at end of window, 'showbreak'
-    set highlight+=N:DiffText           " make current line number stand out a little
-    set highlight+=c:LineNr             " blend vertical separators with line numbers
-endif
-
-set updatetime=100
