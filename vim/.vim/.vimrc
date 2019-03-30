@@ -1,4 +1,5 @@
 if v:progname == 'vi'
+
   set noloadplugins
 endif
 

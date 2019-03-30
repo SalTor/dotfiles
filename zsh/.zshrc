@@ -34,11 +34,16 @@ export PATH=/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=/sbin:/sbin:$PATH
 export PATH=/usr/bin/npm:$PATH
+export PATH=/usr/bin/python:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.rbenv/bin:$PATH
 export PATH=$HOME/.rbenv/plugins/ruby-build/bin:$PATH
+export PATH=$HOME/Library/Python/3.6/bin:$PATH
 export PYTHONPATH=/
 eval "$(rbenv init -)"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
 
 export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -46,9 +51,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export FZF_DEFAULT_OPTS='--border'
     [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Make sure this is the last PATH variable change.
-export PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting.
 
 export ZSH=$HOME/.oh-my-zsh
 source ~/.oh-my-zsh/oh-my-zsh.sh

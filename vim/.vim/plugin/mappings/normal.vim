@@ -77,3 +77,6 @@ nnoremap <space>k <nop>
 
 " Search
 nmap / /\v
+
+" Open file under cursor in vertical split
+nnoremap <silent> <space>v :vsp<cr>gf

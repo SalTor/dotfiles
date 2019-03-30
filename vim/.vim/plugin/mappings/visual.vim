@@ -1,7 +1,7 @@
 " Search For Visually Selected Text:
-vmap // y/<c-r>"<cr>
-vnoremap <leader>s !sort<cr>
-vnoremap <Leader>r y:%s/\v<C-R>"
+vmap // y/<C-R>"<CR>
+vnoremap <Leader>s !sort<CR>
+vnoremap <Leader>r y:%s/<C-R>"//g<Left><Left>
 xnoremap @ :<C-u>call mappings#ExecuteMacroOverVisualRange()<CR>
 
 xnoremap <silent> K :call wincent#mappings#visual#move_up()<CR>

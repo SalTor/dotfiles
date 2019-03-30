@@ -68,7 +68,7 @@ if has('linebreak')
 endif
 
 if has('syntax')
-    set synmaxcol=200                   " don't bother syntax highlighting long lines
+    set synmaxcol=400                   " don't bother syntax highlighting long lines
 endif
 
 set laststatus=2                      " always show status line
@@ -96,3 +96,5 @@ if !has('nvim')
     set highlight+=N:DiffText           " make current line number stand out a little
     set highlight+=c:LineNr             " blend vertical separators with line numbers
 endif
+
+set updatetime=100
