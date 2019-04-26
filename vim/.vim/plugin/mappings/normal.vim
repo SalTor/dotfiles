@@ -82,4 +82,7 @@ nmap / /\v
 nnoremap <silent> <space>v :vsp<cr>gf
 
 " Open terminal
-    nnoremap <silent> <LocalLeader>t :vertical botright terminal<cr><C-w>l
+nnoremap <silent> <LocalLeader>t :vertical botright Ttoggle<cr><C-w>l
+
+" Replace words under cursor, globally, with confirmation
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>

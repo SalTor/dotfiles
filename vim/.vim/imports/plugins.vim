@@ -28,9 +28,11 @@ call vundle#begin()
     Plugin 'Raimondi/delimitMate'        " Auto-complete \" \' \( etc.
     Plugin 'tomtom/tcomment_vim'         " Toggle comments
     Plugin 'wincent/terminus'            " Better terminal support
-    " PLugin 'kassio/neoterm'
+    Plugin 'kassio/neoterm'
     Plugin 'airblade/vim-gitgutter'      " Git status of affected lines in the gutter
     Plugin 'mjbrownie/django_completeme' " Auto-completion for django templates
+
+    Plugin 'mhinz/vim-startify' " Start-up screen
 
     """ below - syntax
     Plugin 'posva/vim-vue'             " Syntax Highlighting for Vim Components

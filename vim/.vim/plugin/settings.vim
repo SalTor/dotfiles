@@ -6,7 +6,8 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
     set autoindent                    " maintain indent of current line
     set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode
     set clipboard=unnamed             " Shared Clipboard
-    set splitright                    " when making a split, place it on the right
+    set splitbelow                    " when making a horizontal split, place it on the bottom
+    set splitright                    " when making a vertical split, place it on the right
 
     " Search
         set ignorecase       " search case-insensitively
@@ -24,11 +25,11 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
     set formatoptions+=n " smart auto-intending inside numbered lists
     set guifont=Source\ Code\ Pro\ Light:h13
-    set termguicolors " enable true colors
-    set laststatus=2 " always show status line
-    set cursorline
-    set laststatus=2                      " always show status line
-    set lazyredraw                        " don't bother updating screen during macro playback
+    set termguicolors  " enable true colors
+    set laststatus=2   " always show status line
+    set cursorline " Hihglight line that the cursor is on
+    set laststatus=2   " always show status line
+    set lazyredraw     " don't bother updating screen during macro playback
 
     " Custom render of certain characters
         set list " show whitespace
@@ -43,6 +44,10 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
     set updatetime=100
 
     set shortmess+=a " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
+
+    set mouse=a " enable mouse (selection, resizing windows) -- Already given from terminus package, but including for succinctness
+
+    set iskeyword+=- " treat dash separated words as a word text object
 " --------- }}}
 
 if !has('nvim')
