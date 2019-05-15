@@ -20,19 +20,10 @@ alias sz='source ~/.zshrc'
 alias et='cd ~/dotfiles/tmux/ && vim .tmux.conf'
 alias st='tmux source-file ~/.tmux.conf'
 
-alias g='git '
-alias gs='git status'
-alias ga='git add'
-alias gch='git checkout'
-alias gd='git diff -w'
-alias gb='git branch'
-alias gr='git remote -v'
-alias gc='git commit'
-alias gaa='git add --all'
-
 alias gaf=fzf_git_add_changed
 alias gchb=fzf_git_checkout_branch
 alias gchf=fzf_git_checkout_changed
+alias gs='gst'
 
 alias fmuxa=fzf_tmux_attach
 

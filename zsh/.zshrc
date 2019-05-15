@@ -13,6 +13,8 @@ ZSH_THEME="aphrodite-custom"
 DEFAULT_USER="saltor"
 ENABLE_CORRECTION="true"
 
+plugins=(git)
+
 . ~/.zsh_aliases
 
 #VIM
@@ -49,7 +51,7 @@ export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export FZF_DEFAULT_OPTS='--border'
+export FZF_DEFAULT_OPTS='--cycle --border --preview="bat {2..} | head "'
     [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export ZSH=$HOME/.oh-my-zsh
