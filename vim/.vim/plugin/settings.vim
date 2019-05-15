@@ -47,7 +47,7 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
     set mouse=a " enable mouse (selection, resizing windows) -- Already given from terminus package, but including for succinctness
 
-    set iskeyword+=- " treat dash separated words as a word text object
+    set iskeyword-=_ " do not treat underscore separated words as a word text object
 " --------- }}}
 
 if !has('nvim')
