@@ -29,16 +29,11 @@ nnoremap K <nop>
 nnoremap <expr> k (v:count > 5 ? "m'" . v:count : ') . 'k')
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : ') . 'j')
 
-" Line Movement Remaps
+" Line Movement Remaps - And then unbind their original actions
 nnoremap B ^
 nnoremap E $
-" And unbind their original actions
 nnoremap ^ <nop>
 nnoremap $ <nop>
-
-" Buffers
-nnoremap ;] <esc>:bn<CR>
-nnoremap ;[ <esc>:bN<CR>
 
 " Create New Lines
 nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
@@ -55,7 +50,7 @@ noremap ;; ;
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" Disable Arrow Key Usage
+" Arrow Keys - Disable Usage
 no <down> ddp
 no <left> <nop>
 no <right> <nop>

@@ -1,5 +1,18 @@
 scriptencoding utf-8
 
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
+endfunction
+
 " cf the default statusline: %<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 if has('statusline')
   set statusline=%7*                                 " Switch to User7 highlight group

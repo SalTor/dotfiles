@@ -62,3 +62,5 @@ export ANSIBLE_NOCOWS=1
 autoload -U colors
 colors
 source $HOME/dotfiles/zsh/colors
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

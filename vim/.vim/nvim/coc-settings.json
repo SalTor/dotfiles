@@ -1,0 +1,11 @@
+{
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.messageTarget": "echo",
+    "diagnostic.refreshOnInsertMode": true,
+    "diagnostic.refreshAfterSave": true,
+    "diagnostic.infoSign": "<>",
+    "diagnostic.virtualTextLines": 1,
+    "list.limitLines": 10,
+    "suggest.maxCompleteItemCount": 8,
+    "suggest.minTriggerInputLength": 3
+}

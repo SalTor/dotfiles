@@ -45,9 +45,27 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
     set shortmess+=a " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
 
+    " Some servers have issues with backup files, see #649
+    set nobackup
+    set nowritebackup
+
+    set hidden
+
+    " always show signcolumns
+    set signcolumn=yes
+
     set mouse=a " enable mouse (selection, resizing windows) -- Already given from terminus package, but including for succinctness
 
-    set iskeyword-=_ " do not treat underscore separated words as a word text object
+    " Terminal
+    if has('nvim')
+        " use neovim-remote (pip3 install neovim-remote) allows
+        " opening a new split inside neovim instead of nesting
+        " neovim processes for git commit
+        let $VISUAL      = 'nvr -cc split --remote-wait +"setlocal bufhidden=delete"'
+        let $GIT_EDITOR  = 'nvr -cc split --remote-wait +"setlocal bufhidden=delete"'
+        let $EDITOR      = 'nvr -l'
+        let $ECTO_EDITOR = 'nvr -l'
+    endif
 " --------- }}}
 
 if !has('nvim')
