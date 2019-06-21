@@ -32,8 +32,10 @@ if [[ -a ~/.localrc ]]; then
     source ~/.localrc
 fi
 
+export PATH=/usr/local/Cellar/node/10.7.0/bin/:$PATH
 export PATH=/bin:$PATH
 export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/Cellar:$PATH
 export PATH=/sbin:/sbin:$PATH
 export PATH=/usr/bin/npm:$PATH
 export PATH=/usr/bin/python:$PATH
@@ -62,5 +64,3 @@ export ANSIBLE_NOCOWS=1
 autoload -U colors
 colors
 source $HOME/dotfiles/zsh/colors
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

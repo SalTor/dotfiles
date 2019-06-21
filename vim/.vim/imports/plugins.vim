@@ -8,7 +8,6 @@ set rtp+=~/.fzf
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim' " Package Installer
     Plugin 'chriskempson/base16-vim'
-    " Plugin 'SirVer/ultisnips'
 
     Plugin 'tpope/vim-repeat'     " Allow repeating of more actions
     Plugin 'tpope/vim-surround'   " Easily add/change/remove surrounding characters
@@ -23,7 +22,7 @@ call vundle#begin()
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
     Plugin 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
-    Plugin 'neoclide/coc.nvim', {'call': 'coc#util#install()'}           " Suggestions as you type
+    Plugin 'Valloric/YouCompleteMe'
     Plugin 'w0rp/ale'                    " Linter
     Plugin 'Raimondi/delimitMate'        " Auto-complete \" \' \( etc.
     Plugin 'tomtom/tcomment_vim'         " Toggle comments

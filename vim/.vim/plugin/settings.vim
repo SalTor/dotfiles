@@ -45,15 +45,6 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
     set shortmess+=a " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
 
-    " Some servers have issues with backup files, see #649
-    set nobackup
-    set nowritebackup
-
-    set hidden
-
-    " always show signcolumns
-    set signcolumn=yes
-
     set mouse=a " enable mouse (selection, resizing windows) -- Already given from terminus package, but including for succinctness
 
     " Terminal

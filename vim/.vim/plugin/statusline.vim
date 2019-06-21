@@ -1,18 +1,5 @@
 scriptencoding utf-8
 
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-endfunction
-
 " cf the default statusline: %<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 if has('statusline')
   set statusline=%7*                                 " Switch to User7 highlight group
@@ -23,7 +10,6 @@ if has('statusline')
   set statusline+=%*                                 " Reset highlight group.
   set statusline+=\                                  " Space.
   set statusline+=%<                                 " Truncation point, if not enough width available.
-  set statusline+=%{wincent#statusline#fileprefix()} " Relative path to file's directory.
   set statusline+=%3*                                " Switch to User3 highlight group (bold).
   set statusline+=%t                                 " Filename.
   set statusline+=%*                                 " Reset highlight group.
