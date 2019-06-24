@@ -30,6 +30,8 @@ call vundle#begin()
     Plugin 'kassio/neoterm'
     Plugin 'airblade/vim-gitgutter'      " Git status of affected lines in the gutter
     Plugin 'mjbrownie/django_completeme' " Auto-completion for django templates
+    Plugin 'vim-airline/vim-airline'     " Status line
+    Plugin 'vim-airline/vim-airline-themes' " Status line theme options
 
     Plugin 'mhinz/vim-startify' " Start-up screen
 

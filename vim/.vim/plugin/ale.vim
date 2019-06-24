@@ -7,3 +7,4 @@ let g:ale_completion_enabled=1
 let g:ale_linters_explicit=1
 let g:ale_linters = {'javascript': ['eslint']}
 let g:ale_set_balloons = 1
+let g:airline#extensions#ale#enabled = 1 " Set this. Airline will handle the rest.
