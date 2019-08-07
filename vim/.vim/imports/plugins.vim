@@ -22,6 +22,7 @@ call vundle#begin()
     Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
     Plugin 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
+    Plugin 'JamshedVesuna/vim-markdown-preview' " Preview Markdown files in browser
     Plugin 'Valloric/YouCompleteMe'
     Plugin 'w0rp/ale'                    " Linter
     Plugin 'Raimondi/delimitMate'        " Auto-complete \" \' \( etc.

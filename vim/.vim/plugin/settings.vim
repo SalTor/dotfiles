@@ -8,6 +8,7 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
     set clipboard=unnamed             " Shared Clipboard
     set splitbelow                    " when making a horizontal split, place it on the bottom
     set splitright                    " when making a vertical split, place it on the right
+    set noshowmode
 
     " Search
         set ignorecase       " search case-insensitively
@@ -26,7 +27,6 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
     set formatoptions+=n " smart auto-intending inside numbered lists
     set guifont=Source\ Code\ Pro\ Light:h13
     set termguicolors  " enable true colors
-    set laststatus=2   " always show status line
     set cursorline " Hihglight line that the cursor is on
     set laststatus=2   " always show status line
     set lazyredraw     " don't bother updating screen during macro playback
