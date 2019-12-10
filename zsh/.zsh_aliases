@@ -26,7 +26,6 @@ alias gchf=fzf_git_checkout_changed
 alias gs='gst'
 
 alias fmuxa=fzf_tmux_attach
-
-alias t='tmux'
+alias gadd=fzf_git_add
 
 alias e='exit'

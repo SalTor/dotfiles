@@ -1,83 +1,66 @@
 " Normal mode mappings
 
-" Toggle fold at current position
-nnoremap <Tab> za
+" Arrow Keys - Disable Usage
+    no <down> ddp
+    no <left> <nop>
+    no <right> <nop>
+    no <up> ddkP
 
-" Repeat last macro if in a normal buffer
-nnoremap <expr> <CR> empty(&buftype) ? '@@' : '<CR>'
+    ino <down> <esc>ddpi
+    ino <left> <nop>
+    ino <right> <nop>
+    ino <up> <esc>ddkPi
 
-" Avoid unintentional switches to Ex mode
-nmap Q q
-
-" Multi-mode mappings (Normal, Visual, Operating-pending modes)
-noremap Y y$
+    vno <down> <nop>
+    vno <left> <nop>
+    vno <right> <nop>
+    vno <up> <nop>
 
 " Window Switching
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+    nnoremap <C-h> <C-w>h
+    nnoremap <C-j> <C-w>j
+    nnoremap <C-k> <C-w>k
+    nnoremap <C-l> <C-w>l
 
-" Open File Viewer For Sibling Files
-nnoremap <silent> - :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
-
-" No Need For Documentation Heybinding
-nnoremap K <nop>
-
-" Store relative line number jumps in the jumplist if they exceed a threshold.
-" AKA Only store meaningful ones.
-nnoremap <expr> k (v:count > 5 ? "m'" . v:count : ') . 'k')
-nnoremap <expr> j (v:count > 5 ? "m'" . v:count : ') . 'j')
-
-" Line Movement Remaps - And then unbind their original actions
-nnoremap B ^
-nnoremap E $
-nnoremap ^ <nop>
-nnoremap $ <nop>
-
-" Create New Lines
-nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
-nnoremap <silent> ]<space> :pu  _<cr>:'[-1<CR>
+" Remap gT with gr to avoid using shift for gT
+    no gT <nop>
+    nnoremap gr gT
 
 " Command-mode, rather than <S-;>
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
-noremap ;; ;
+    nnoremap ; :
+    nnoremap : ;
+    vnoremap ; :
+    vnoremap : ;
+    noremap ;; ;
+
+" Horizontal Line Movement Remaps - And then unbind their original actions
+    nnoremap B ^
+    nnoremap E $
+    nnoremap ^ <nop>
+    nnoremap $ <nop>
+
+" Create New Lines
+    nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
+    nnoremap <silent> ]<space> :pu  _<cr>:'[-1<CR>
 
 " Move Between Wrapped Lines
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" Arrow Keys - Disable Usage
-no <down> ddp
-no <left> <nop>
-no <right> <nop>
-no <up> ddkP
-
-ino <down> <esc>ddpi
-ino <left> <nop>
-ino <right> <nop>
-ino <up> <esc>ddkPi
-
-vno <down> <nop>
-vno <left> <nop>
-vno <right> <nop>
-vno <up> <nop>
-
-" Misc
-nnoremap <space>j <nop>
-nnoremap <space>k <nop>
-
-" Search
-nmap / /\v
-
-" Open file under cursor in vertical split
-nnoremap <silent> <space>v :vsp<cr>gf
-
-" Open terminal
-nnoremap <silent> <LocalLeader>t :vertical botright Ttoggle<cr><C-w>l
-
 " Replace words under cursor, globally, with confirmation
-nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+    nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+
+" Toggle fold at current position
+    nnoremap <Tab> za
+
+" Multi-mode mappings (Normal, Visual, Operating-pending modes)
+    noremap Y y$
+
+" Repeat last macro if in a normal buffer
+    nnoremap <expr> <CR> empty(&buftype) ? '@@' : '<CR>'
+
+" No Need For Documentation Heybinding
+    nnoremap K <nop>
+
+" Avoid unintentional switches to Ex mode
+    nmap Q q

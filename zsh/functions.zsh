@@ -32,5 +32,12 @@ function fzf_git_add_changed() {
 }
 
 function fzf_tmux_attach() {
-    tmux a -t $(tmux list-sessions -F '#S' | fzf --no-preview)
+    tmux a -t $(tmux list-sessions -F '#S' | fzf-tmux --no-preview)
+}
+
+function fzf_git_add() {
+    local files=$(git ls-files --modified | fzf --ansi)
+    if [[ -n $files ]]; then
+        git add --verbose $files
+    fi
 }

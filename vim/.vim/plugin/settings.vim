@@ -27,7 +27,7 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
     set formatoptions+=n " smart auto-intending inside numbered lists
     set guifont=Source\ Code\ Pro\ Light:h13
     set termguicolors  " enable true colors
-    set cursorline " Hihglight line that the cursor is on
+    set cursorline " Highlight line that the cursor is on
     set laststatus=2   " always show status line
     set lazyredraw     " don't bother updating screen during macro playback
 
@@ -72,6 +72,11 @@ endif
 
 if has('linebreak')
     set linebreak " wrap long lines at characters in 'breakat'
+    set breakindent
+
+    if exists('&breakindentopt')
+        set breakindentopt=shift:4
+    endif
 endif
 
 if has('syntax')
@@ -96,13 +101,6 @@ if has('folding')
     set foldlevelstart=50
     set foldmethod=indent
     set foldtext=wincent#settings#foldtext()
-endif
-
-if has('linebreak')
-    set breakindent
-    if exists('&breakindentopt')
-        set breakindentopt=shift:4
-    endif
 endif
 
 if has('virtualedit')

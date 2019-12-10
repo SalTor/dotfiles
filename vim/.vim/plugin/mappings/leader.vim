@@ -1,43 +1,28 @@
-let mapleader = ','
+" Leader-key mappings
 
-" <Leader><Leader> -- Open last buffer
-nnoremap <Leader><Leader> <C-^>
+let mapleader="\,"
+let maplocalleader="\\"
 
-nnoremap <Leader>o :only<CR>
+" Move up and down several lines at a time
+    nnoremap <Leader>k 5<C-e>
+    nnoremap <Leader>j 5<C-y>
 
-nnoremap <Leader>q :q<CR>
+" Clear highlight
+    nnoremap <silent> <Leader>h :nohl
+
+" Close buffer
+    nnoremap <Leader>cb :bd<CR>
 
 " Show the path of the current file (mnemonic: path; useful when you have a lot
 " of splits and the status line gets truncated)
-nnoremap <Leader>p :echo expand('%')<CR>
+    nnoremap <Leader>p :echo expand('%')<CR>
+
+" Zap trailing whitespace in the current buffer
+    nnoremap <silent> <Leader>zz :call wincent#mappings#leader#zap()<CR>
 
 " Cycle through relative number + number, number (only), and no numbering
 " (mnemonic: relative)
-nnoremap <silent> <LocalLeader>r :call wincent#mappings#leader#cycle_numbering()<CR>
-
-nnoremap <Leader>w :write<CR>
-nnoremap <Leader>x :xit<CR>
-
-" Zap trailing whitespace in the current buffer
-nnoremap <silent> <Leader>zz :call wincent#mappings#leader#zap()<CR>
+    nnoremap <silent> <LocalLeader>r :call wincent#mappings#leader#cycle_numbering()<CR>
 
 " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
-nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>
-
-" Edit file, starting in same directory as current file
-nnoremap <LocalLeader>e :edit <C-R>=expand('%:p:h') . '/'<CR>
-
-" Buffers
-nnoremap <Leader>cb :bd<CR>
-
-" Replace
-nnoremap <Leader>r :%s/\v//gc<Left><Left><Left>
-
-" Misc
-nnoremap <silent> <Leader>h :nohl
-
-" Accelerated Vertical Scrolling
-nnoremap <Leader>k 5<C-e>
-nnoremap <Leader>j 5<C-y>
-
-nnoremap <silent> <Leader>B :Gbranch<CR>
+    nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>

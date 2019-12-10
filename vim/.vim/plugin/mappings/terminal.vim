@@ -1,3 +1,5 @@
+" Terminal-mode mappings
+
 " These mappings are specific to NeoVim
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
