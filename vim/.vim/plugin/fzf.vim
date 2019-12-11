@@ -5,10 +5,16 @@ let g:fzf_action = {
             \ 'ctrl-v': 'vsplit' }
 
 command! -bang -nargs=? -complete=dir GFiles
-            \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+            \ call fzf#vim#gitfiles(<q-args>, {}, <bang>0)
 
 command! -bang -nargs=? -complete=dir Files
-            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+            \ call fzf#vim#files(<q-args>, {}, <bang>0)
+
+command! -bang -nargs=? -complete=dir GFilesOnlyChanged
+            \ call fzf#vim#gitfiles(<q-args>,
+                \ {
+                \ 'source': 'git status -s | cut -c4-',
+                \ }, <bang>0)
 
 function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'

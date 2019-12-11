@@ -5,7 +5,7 @@ function! functions#GFilesWithFallback(...) abort
         if a:1 == 0
             :GFiles --exclude-standard
         else
-            :GFiles?
+            :GFilesOnlyChanged
         endif
     else
         :Files
