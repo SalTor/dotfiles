@@ -1,6 +1,3 @@
-let g:python_host_prog = '/usr/bin/python'
-let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
-
 " Behavior Modification ------------- {{{
     set directory^=$HOME/.vim/nvim/tmp//
     set autoindent                    " maintain indent of current line
@@ -11,7 +8,7 @@ let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
     set noshowmode
 
     " Search
-        set ignorecase       " search case-insensitively
+        set ignorecase
         set smartcase        " override 'ignorecase' if search pattern contains uppercase
         set inccommand=split " preview search+replace in a separate split (neovim)
 
@@ -106,3 +103,15 @@ endif
 if has('virtualedit')
     set virtualedit=block " allow cursor to move where there is no text in visual block mode
 endif
+
+let g:python_host_prog = '/usr/bin/python'
+let g:pymode_python='python3'
+let g:python3_host_prog = '/usr/local/bin/python3.8'
+let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
+
+let g:js_filetypes=[
+\   'javascript',
+\   'javascript.jsx',
+\   'javascript.jest',
+\   'javascript.jest.jsx'
+\ ]

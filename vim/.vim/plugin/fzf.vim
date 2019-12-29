@@ -1,5 +1,12 @@
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
 let g:fzf_buffers_jump = 1 " Jump to the existing window if possible
 let g:fzf_action = {
+            \ 'ctrl-q': function('s:build_quickfix_list'),
             \ 'ctrl-t': 'tab split',
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit' }
@@ -16,7 +23,7 @@ command! -bang -nargs=? -complete=dir GFilesOnlyChanged
                 \ 'source': 'git status -s | cut -c4-',
                 \ }, <bang>0)
 
-function! RipgrepFzf(query, fullscreen)
+function! DynamicRipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
@@ -25,4 +32,4 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg
-            \ call RipgrepFzf(<q-args>, <bang>0)
+            \ call DynamicRipgrepFzf(<q-args>, <bang>0)

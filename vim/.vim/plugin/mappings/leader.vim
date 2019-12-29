@@ -1,12 +1,3 @@
-" Leader-key mappings
-
-let mapleader="\,"
-let maplocalleader="\\"
-
-" Move up and down several lines at a time
-    nnoremap <Leader>k 5<C-e>
-    nnoremap <Leader>j 5<C-y>
-
 " Clear highlight
     nnoremap <silent> <Leader>h :nohl
 
@@ -15,7 +6,7 @@ let maplocalleader="\\"
 
 " Show the path of the current file (mnemonic: path; useful when you have a lot
 " of splits and the status line gets truncated)
-    nnoremap <Leader>p :echo expand('%')<CR>
+    nnoremap <LocalLeader>p :echo expand('%')<CR>
 
 " Zap trailing whitespace in the current buffer
     nnoremap <silent> <Leader>zz :call wincent#mappings#leader#zap()<CR>

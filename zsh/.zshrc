@@ -17,6 +17,13 @@ plugins=(git)
 
 . ~/.zsh_aliases
 
+# Basic auto/tab complete:
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
+
 #VIM
 alias vi='nvim'
 alias vim='nvim'
@@ -32,18 +39,23 @@ if [[ -a ~/.localrc ]]; then
     source ~/.localrc
 fi
 
-export PATH=/usr/local/Cellar/node/10.7.0/bin/:$PATH
+export PATH=/usr/local/Cellar/node/13.2.0/bin/:$PATH
 export PATH=/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/Cellar:$PATH
 export PATH=/sbin:/sbin:$PATH
 export PATH=/usr/bin/npm:$PATH
-export PATH=/usr/bin/python:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.rbenv/bin:$PATH
 export PATH=$HOME/.rbenv/plugins/ruby-build/bin:$PATH
+
+export PATH=/usr/bin/python:$PATH
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+export PYTHONPATH=$HOME/Library/Python/2.7/bin
+export PATH=$PYTHONPATH:$PATH
 export PATH=$HOME/Library/Python/3.6/bin:$PATH
-export PYTHONPATH=/
+export PATH=/usr/local/opt/mysql-client/bin:$PATH
+
 eval "$(rbenv init -)"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
@@ -66,3 +78,5 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-heading --glob "!.
 export FZF_DEFAULT_OPTS='--bind "?:toggle-preview" --border --cycle --height=40% --preview="bat --color=always --line-range :75 --style=grid,numbers,changes,header {}" --preview-window=right:60%'
 export FZF_CTRL_R_OPTS='--preview=""'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+set runtimepath+=~/.vim/bundle/LanguageClient-neovim

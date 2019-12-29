@@ -23,8 +23,9 @@
     nnoremap <C-l> <C-w>l
 
 " Remap gT with gr to avoid using shift for gT
-    no gT <nop>
-    nnoremap gr gT
+    no gt <nop>
+    nnoremap [t gT
+    nnoremap ]t gt
 
 " Command-mode, rather than <S-;>
     nnoremap ; :
@@ -46,9 +47,6 @@
 " Move Between Wrapped Lines
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
-
-" Replace words under cursor, globally, with confirmation
-    nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 
 " Toggle fold at current position
     nnoremap <Tab> za
