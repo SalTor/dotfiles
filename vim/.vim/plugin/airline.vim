@@ -1,9 +1,12 @@
 let g:airline_theme = 'bubblegum'
 
-let g:airline_section_b = airline#section#create(['filetype', 'hunks'])
-let g:airline_section_c = airline#section#create([])
-let g:airline_section_x = airline#section#create([])
-let g:airline_section_z = airline#section#create(['%l/%L:%c'])
+let g:airline_section_b = airline#section#create([])
+let g:airline_section_c = airline#section#create(['%t'])
+let g:airline_section_x = airline#section#create(['filetype'])
+let g:airline_section_y = airline#section#create(['%l/%L:%c'])
+let g:airline_section_z = airline#section#create([])
+
+let g:airline_skip_empty_sections = 1
 
 let g:airline_filetype_overrides = {
     \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', 'File Explorer'), '' ],

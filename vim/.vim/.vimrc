@@ -33,18 +33,16 @@ let g:maplocalleader = '\'
         Plugin 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
         Plugin 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
         Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
+        Plugin 'airblade/vim-gitgutter' " Show changed lines in gutter
         Plugin 'mhinz/vim-startify'   " Start-up screen
-
-        Plugin 'mhinz/vim-signify'
-        Plugin 'airblade/vim-gitgutter'
 
         Plugin 'easymotion/vim-easymotion'
 
         Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
-        " Plugin 'autozimu/LanguageClient-neovim', {
-        "             \ 'branch': 'next',
-        "             \ 'do': 'bash install.sh',
-        "             \ }
+        Plugin 'autozimu/LanguageClient-neovim', {
+                    \ 'branch': 'next',
+                    \ 'do': 'bash install.sh',
+                    \ }
 
         Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
 
