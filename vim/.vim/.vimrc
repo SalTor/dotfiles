@@ -67,12 +67,3 @@ augroup Startify
     autocmd!
     autocmd User StartifyReady let g:ale_enabled = 0
 augroup END
-
-function! AirlineInit()
-    let g:airline_section_b = ''
-    let g:airline_section_c = airline#section#create([' '])
-    let g:airline_section_x = airline#section#create(['branch'])
-    let g:airline_section_y = airline#section#create(['%l/%L : %c'])
-    let g:airline_section_z = airline#section#create(['filetype'])
-endfunction
-autocmd User AirlineAfterInit call AirlineInit()
