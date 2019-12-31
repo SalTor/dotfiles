@@ -35,8 +35,7 @@ let g:maplocalleader = '\'
         Plugin 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
         Plugin 'airblade/vim-gitgutter' " Show changed lines in gutter
         Plugin 'mhinz/vim-startify'   " Start-up screen
-
-        Plugin 'easymotion/vim-easymotion'
+        Plugin 'easymotion/vim-easymotion' " Easily navigate around a document
 
         Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
         Plugin 'autozimu/LanguageClient-neovim', {
@@ -68,3 +67,12 @@ augroup Startify
     autocmd!
     autocmd User StartifyReady let g:ale_enabled = 0
 augroup END
+
+function! AirlineInit()
+    let g:airline_section_b = ''
+    let g:airline_section_c = airline#section#create([' '])
+    let g:airline_section_x = airline#section#create(['branch'])
+    let g:airline_section_y = airline#section#create(['%l/%L : %c'])
+    let g:airline_section_z = airline#section#create(['filetype'])
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()

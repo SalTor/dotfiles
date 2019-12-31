@@ -1,5 +1,6 @@
 let g:LanguageClient_serverCommands = {
-\ 'javascript.jsx': ['javascripty-typescript-stdio'],
+\ 'javascript': ['javascript-typescript-langserver'],
+\ 'javascript.jsx': ['javascript-typescript-langserver'],
 \ 'python': ['pyls'],
 \ }
 let g:LanguageClient_changeThrottle = 0.5

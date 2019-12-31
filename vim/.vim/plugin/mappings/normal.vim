@@ -27,6 +27,10 @@
     nnoremap [t gT
     nnoremap ]t gt
 
+" Switch buffers!
+    nnoremap <silent> [b :bprevious<CR>
+    nnoremap <silent> ]b :bnext<CR>
+
 " Command-mode, rather than <S-;>
     nnoremap ; :
     nnoremap : ;
