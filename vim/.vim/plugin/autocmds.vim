@@ -1,6 +1,4 @@
 if has('autocmd')
-    autocmd TabNewEntered * Startify
-
     function! s:WincentAutocmds()
         augroup WincentAutocmds
             autocmd!

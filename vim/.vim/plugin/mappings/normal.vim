@@ -49,8 +49,8 @@
     nnoremap <silent> ]<space> :pu  _<cr>:'[-1<CR>
 
 " Move Between Wrapped Lines
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
+nnoremap <silent><expr> j v:count ? 'j' : 'gj'
+nnoremap <silent><expr> k v:count ? 'k' : 'gk'
 
 " Toggle fold at current position
     nnoremap <Tab> za

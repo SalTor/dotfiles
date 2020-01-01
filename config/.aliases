@@ -1,19 +1,23 @@
-. ~/dotfiles/zsh/functions.zsh
+source $HOME/dotfiles/zsh/functions.zsh
 
-if [[ $OSTYPE == darwin* ]]; then
-    alias lo='ls -1'
-    alias ll='lo -l'
-    alias la='lo -A'
-else
+# VIM
+alias vi='nvim'
+alias vim='nvim'
+
+# File navigation
+alias lo='ls -1'
+alias ll='lo -l'
+alias la='lo -A'
+if [[ $OSTYPE != darwin* ]]; then
+    # If not on OSX, include the --group-directories-first flag since it's only available in unix terminals
     alias lo='ls -1 --group-directories-first'
-    alias ll='lo -l'
-    alias la='lo -A'
 fi
 
+# Utils
 alias c='clear'
 alias psaux='ps aux | grep'
-alias please='sudo !!'
 
+alias please='sudo !!'
 alias ev='cd ~/dotfiles/vim/.vim && vim'
 alias ez='cd ~/dotfiles/zsh/ && vim'
 alias sz='source ~/.zshrc'

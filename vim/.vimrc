@@ -10,8 +10,9 @@ let g:maplocalleader = '\'
 
 " PLUGINS
     " set the runtime path to include Vundle and initialize
-    set rtp+=~/.vim/bundle/Vundle.vim
-    set rtp+=~/.fzf
+    set rtp+=$HOME/.vim/bundle/Vundle.vim
+    set rtp+=$HOME/.fzf
+    set rtp+=$HOME/.vim/bundle/LanguageClient-neovim
 
     filetype off
 

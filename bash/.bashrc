@@ -4,3 +4,4 @@ if [ -t 1 ]; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.aliases ] && source ~/.aliases

@@ -1,82 +1,49 @@
-#
-# Global
-#
+plugins=(git)
 
+ZSH_THEME='aphrodite-custom'
+DEFAULT_USER='saltor'
+ENABLE_CORRECTION='true'
+
+stty -ixon # Disable ctrl-s and ctrl-q.
+
+# Local config that doesn't need to get tracked in repo history
+if [[ -a $HOME/.localrc ]]; then
+    source $HOME/.localrc
+fi
+
+if [[ -f $HOME/.aliases ]]; then
+    source $HOME/.aliases
+fi
+
+export ZSH=$HOME/.oh-my-zsh
+source $HOME/.oh-my-zsh/oh-my-zsh.sh
+
+export ANSIBLE_NOCOWS=1
+
+export FZF_TMUX=1
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-heading --glob "!.git/*"'
+export FZF_DEFAULT_OPTS='--bind "?:toggle-preview" --border --cycle --height=40% --preview="bat --color=always --line-range :75 --style=grid,numbers,changes,header {}" --preview-window=right:60%'
+# export FZF_CTRL_R_OPTS='--preview=""'
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+# Run command history from <ctrlx><ctrl-r>
+fzf-history-widget-accept() {
+   fzf-history-widget
+   zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey '^X^R' fzf-history-widget-accept
+
+
+# ---- Colors ----
 # Create a hash table for globally stashing variables without polluting main
 # scope with a bunch of identifiers.
 typeset -A __WINCENT
 
+# Enable italics where applicable
 __WINCENT[ITALIC_ON]=$'\e[3m'
 __WINCENT[ITALIC_OFF]=$'\e[23m'
-
-ZSH_THEME="aphrodite-custom"
-DEFAULT_USER="saltor"
-ENABLE_CORRECTION="true"
-
-plugins=(git)
-
-. ~/.zsh_aliases
-
-# Basic auto/tab complete:
-autoload -U compinit
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit
-_comp_options+=(globdots)
-
-#VIM
-alias vi='nvim'
-alias vim='nvim'
-
-bindkey "[C" forward-word
-bindkey "[D" backward-word
-
-# Ctrl+s will not hault terminal interactions
-stty -ixon
-
-if [[ -a ~/.localrc ]]; then
-    # Local config that doesn't need to get tracked in repo history
-    source ~/.localrc
-fi
-
-export PATH=/usr/local/Cellar/node/13.2.0/bin/:$PATH
-export PATH=/bin:$PATH
-export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/Cellar:$PATH
-export PATH=/sbin:/sbin:$PATH
-export PATH=/usr/bin/npm:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
-export PATH=$HOME/.rbenv/bin:$PATH
-export PATH=$HOME/.rbenv/plugins/ruby-build/bin:$PATH
-
-export PATH=/usr/bin/python:$PATH
-export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
-export PYTHONPATH=$HOME/Library/Python/2.7/bin
-export PATH=$PYTHONPATH:$PATH
-export PATH=$HOME/Library/Python/3.6/bin:$PATH
-export PATH=/usr/local/opt/mysql-client/bin:$PATH
-
-eval "$(rbenv init -)"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export ZSH=$HOME/.oh-my-zsh
-source ~/.oh-my-zsh/oh-my-zsh.sh
-
-export ANSIBLE_NOCOWS=1
 
 autoload -U colors
 colors
 source $HOME/dotfiles/zsh/colors
-
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-heading --glob "!.git/*"'
-export FZF_DEFAULT_OPTS='--bind "?:toggle-preview" --border --cycle --height=40% --preview="bat --color=always --line-range :75 --style=grid,numbers,changes,header {}" --preview-window=right:60%'
-export FZF_CTRL_R_OPTS='--preview=""'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-set runtimepath+=~/.vim/bundle/LanguageClient-neovim

@@ -1,4 +1,5 @@
 " Behavior Modification ------------- {{{
+    set modifiable
     set directory^=$HOME/.vim/nvim/tmp//
     set autoindent                    " maintain indent of current line
     set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode

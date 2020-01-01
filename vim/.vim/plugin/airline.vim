@@ -7,7 +7,7 @@ let g:airline_filetype_overrides = {
 
 let g:airline_detect_spell=1
 
-let g:airline_inactive_collapse=0
+let g:airline_inactive_collapse=1
 let g:airline_inactive_alt_sep=0
 
 let g:airline#extensions#default#layout = [
@@ -16,10 +16,10 @@ let g:airline#extensions#default#layout = [
     \ ]
 
 function! InactiveSectionC(...)
-    let g:airline_section_c = airline#section#create(['%t'])
+    let g:airline_section_c = airline#section#create(['%f'])
 endfunction
 function! ActiveSectionC(...)
-    let g:airline_section_c = airline#section#create([' '])
+    let g:airline_section_c = airline#section#create(['%t'])
 endfunction
 call airline#add_statusline_func('ActiveSectionC')
 call airline#add_inactive_statusline_func('InactiveSectionC')
@@ -56,3 +56,5 @@ let g:airline_symbols = {
 let g:airline_extensions=['tabline', 'ale', 'branch', 'term']
 
 let g:airline_skip_empty_sections = 1
+
+autocmd ColorScheme * highlight airline_error guibg=#b20c0c guifg=#ffffff
