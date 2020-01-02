@@ -64,7 +64,17 @@ augroup Buffers
     autocmd BufNewFile,BufRead *.email set filetype=html
 augroup END
 
+augroup Spelling
+    autocmd!
+    autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
+    autocmd FileType gitcommit setlocal spell spelllang=en_us
+    set complete+=kspell
+augroup END
+
 augroup Startify
     autocmd!
     autocmd User StartifyReady let g:ale_enabled = 0
 augroup END
+
+autocmd ColorScheme * highlight clear SpellBad
+autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000

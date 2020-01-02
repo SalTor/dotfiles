@@ -7,6 +7,7 @@
     set splitbelow                    " when making a horizontal split, place it on the bottom
     set splitright                    " when making a vertical split, place it on the right
     set noshowmode
+    set spelllang=en_us
 
     " Search
         set ignorecase

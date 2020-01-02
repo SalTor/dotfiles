@@ -1,7 +1,6 @@
 let g:LanguageClient_serverCommands = {
 \ 'javascript': [exepath('typescript-language-server'), '--stdio'],
 \ 'javascript.jsx': [exepath('typescript-language-server'), '--stdio'],
-\ 'python': ['pyls'],
 \ }
 let g:LanguageClient_changeThrottle = 0.5
 let g:LanguageClient_diagnosticsList = "Location"

@@ -15,5 +15,9 @@
 " (mnemonic: relative)
     nnoremap <silent> <LocalLeader>r :call wincent#mappings#leader#cycle_numbering()<CR>
 
+" Cycle through spellcheck mode or not
+" (mnemonic: spellcheck)
+    nnoremap <silent> <LocalLeader>s :call saltor#mappings#leader#cycle_spellcheck()<CR>
+
 " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
     nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>
