@@ -15,7 +15,7 @@ function fzf_git_checkout_branch() {
 
 function fzf_git_changed_files() {
     if is_git_repo; then
-        git ls-files -d -m -o --directory --exclude-standard | fzf --multi --preview 'git status -s {+1}'
+        git status -s | cut -c4- | fzf --multi --preview 'bat --color=always --line-range :75 --style=grid,numbers,changes,header {}'
     fi
 }
 

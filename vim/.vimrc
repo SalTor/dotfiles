@@ -78,3 +78,5 @@ augroup END
 
 autocmd ColorScheme * highlight clear SpellBad
 autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+
+call saltor#autocomplete#deoplete_init()

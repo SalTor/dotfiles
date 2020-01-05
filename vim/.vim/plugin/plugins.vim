@@ -2,9 +2,6 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 0
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#max_list=25
-
 let g:ale_echo_cursor=0
 let g:ale_virtualtext_cursor=1
 let g:ale_virtualtext_delay=0
