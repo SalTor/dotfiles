@@ -42,6 +42,7 @@ call vundle#begin()
                 \ 'branch': 'next',
                 \ 'do': 'bash install.sh',
                 \ }
+    Plugin 'carlitux/deoplete-ternjs'
 
     Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
 

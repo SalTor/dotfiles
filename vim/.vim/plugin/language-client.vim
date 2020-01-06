@@ -1,6 +1,6 @@
+" \ 'javascript': [exepath('typescript-language-server'), '--stdio'],
+" \ 'javascript.jsx': [exepath('typescript-language-server'), '--stdio'],
 let g:LanguageClient_serverCommands = {
-\ 'javascript': [exepath('typescript-language-server'), '--stdio'],
-\ 'javascript.jsx': [exepath('typescript-language-server'), '--stdio'],
 \ 'css': [exepath('css-languageserver'), '--stdio'],
 \ }
 let g:LanguageClient_changeThrottle = 0.5
