@@ -51,8 +51,8 @@ bindkey '^X^R' fzf-history-widget-accept
 
 # Edit line in vim with <ctrl-e>
 autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
+bindkey '^X^E' edit-command-line
 
 # Accept autosuggestion
-bindkey '^ ' autosuggest-accept
+bindkey '^\' autosuggest-accept
 bindkey '^X^ ' autosuggest-execute
