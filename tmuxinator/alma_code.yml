@@ -1,0 +1,15 @@
+name: alma_code
+root: ~/alma/cove/
+attach: false
+
+windows:
+    - server:
+        layout: even-vertical
+        panes:
+            - rs
+            - ns
+    - ____code____:
+        - vim
+    - terminal:
+
+startup_window: ____code____
