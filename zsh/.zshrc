@@ -40,6 +40,9 @@ source $HOME/.aliases
 # FZF completions
 source $HOME/.fzf.zsh
 
+autoload -Uz compinit
+compinit
+
 # Run command history from <ctrlx><ctrl-r>
 fzf-history-widget-accept() {
    fzf-history-widget
