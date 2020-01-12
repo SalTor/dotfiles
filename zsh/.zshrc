@@ -2,7 +2,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME='aphrodite-custom'
 
-plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions vi-mode)
 
 DEFAULT_USER='saltor'
 
@@ -40,8 +40,22 @@ source $HOME/.aliases
 # FZF completions
 source $HOME/.fzf.zsh
 
+
+# ZSH SPECIFIC STUFF
+
+# Basic auto/tab complete:
 autoload -Uz compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
 compinit
+_comp_options+=(globdots)
+
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
 
 # Run command history from <ctrlx><ctrl-r>
 fzf-history-widget-accept() {
@@ -51,10 +65,8 @@ fzf-history-widget-accept() {
 zle     -N     fzf-history-widget-accept
 bindkey '^X^R' fzf-history-widget-accept
 
-# Edit line in vim with <ctrl-x><ctrl-e>
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^X^E' edit-command-line
-
 # Accept autosuggestion
 bindkey '^\' autosuggest-accept
 bindkey '^X^ ' autosuggest-execute
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
