@@ -6,6 +6,13 @@ let g:ale_linters = {
     \ 'css': ['stylelint'],
     \ 'scss': ['stylelint'],
     \ }
+let g:ale_fixers = {
+    \ 'javascript': ['prettier'],
+    \ 'javascript.jsx': ['prettier'],
+    \ 'css': ['prettier'],
+    \ 'scss': ['prettier'],
+    \ }
+let g:ale_fix_on_save=1
 
 let g:ale_lint_delay=0
 let g:ale_lint_on_enter=1

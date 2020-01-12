@@ -1,5 +1,7 @@
 source $HOME/dotfiles/zsh/functions.zsh
 
+alias e='exit'
+
 # VIM
 alias vi='nvim'
 alias vim='nvim'
@@ -22,11 +24,21 @@ alias vimconfig='cd ~/dotfiles/vim/ && vim .vimrc'
 alias zshconfig='cd ~/dotfiles/zsh/ && vim .zshrc'
 alias tmuxconfig='cd ~/dotfiles/tmux/ && vim .tmux.conf'
 
+alias gdf=fzf_git_diff_changed
 alias gaf=fzf_git_add_changed
 alias gchf=fzf_git_checkout_changed
 alias gcof=fzf_git_checkout_branch
-alias gs='gst'
 
-alias fmuxa=fzf_tmux_attach
+alias ms=fzf_tmux_switch_or_attach # mnemonic (tmux)(attach)(fzf)
+alias mux='tmuxinator'      # mnemonic (tmux)
 
-alias e='exit'
+if [[ $OSTYPE == darwin* ]]; then
+    alias asrc='cd ~/alma/cove && source venv/bin/activate'
+    alias ashell='asrc && ./cove/manage.py shell'
+
+    alias alma_start_django_server='asrc && ./cove/manage.py runserver'
+    alias alma_start_webpack_server='cd ~/alma/cove/cove/website/client && npm start'
+
+    alias alma_migrate_django='asrc && ./cove/manage.py migrate'
+    alias alma_import_sanitized_data='. ~/alma/scripts/scp.sh'
+fi

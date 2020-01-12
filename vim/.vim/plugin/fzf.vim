@@ -4,6 +4,7 @@ function! s:build_quickfix_list(lines)
   cc
 endfunction
 
+" let g:fzf_layout = { 'window': 'call saltor#buffers#CreateCenteredFloatingWindow()' }
 let g:fzf_buffers_jump = 1 " Jump to the existing window if possible
 let g:fzf_action = {
             \ 'ctrl-q': function('s:build_quickfix_list'),

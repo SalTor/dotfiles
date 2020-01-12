@@ -52,6 +52,7 @@ call vundle#begin()
     Plugin 'hail2u/vim-css3-syntax'    " CSS3 syntax highlighting
     Plugin 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
     Plugin 'wincent/pinnacle'          " Functions for manipulating highlight groups by userwincent
+    Plugin 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call vundle#end()
@@ -80,3 +81,11 @@ autocmd ColorScheme * highlight clear SpellBad
 autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
 
 call saltor#autocomplete#deoplete_init()
+
+" autocmd User ALELintPost call saltor#virtual_text#update_ale_linting()
+
+" When term starts, auto go into insert mode
+autocmd TermOpen * startinsert
+
+" Turn off line numbers etc
+autocmd TermOpen * setlocal listchars= nonumber norelativenumber

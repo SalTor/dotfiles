@@ -21,3 +21,10 @@
 
 " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
     nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>
+
+" Switch tmuxinator projects
+" (mnemonic: tmux)
+    nnoremap <silent> <Leader>t :call saltor#buffers#ToggleProject()<CR>
+
+" Open startify with leader l
+    nnoremap <silent> <Leader>l :Startify<CR>

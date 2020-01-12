@@ -29,13 +29,12 @@ stty -ixon # Disable ctrl-s and ctrl-q.
 export ANSIBLE_NOCOWS=1
 
 export FZF_TMUX=1
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-heading --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-heading --iglob "!.DS_Store" --iglob "!.git"'
 export FZF_DEFAULT_OPTS='--bind "?:toggle-preview" --border --cycle --height=40% --preview="bat --color=always --line-range :75 --style=grid,numbers,changes,header {}" --preview-window=right:60%'
 # export FZF_CTRL_R_OPTS='--preview=""'
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 
 # Load aliases and shortcuts
-source $HOME/.localrc # Local config that doesn't need to get tracked in repo history
 source $HOME/.aliases
 
 # FZF completions
@@ -49,7 +48,7 @@ fzf-history-widget-accept() {
 zle     -N     fzf-history-widget-accept
 bindkey '^X^R' fzf-history-widget-accept
 
-# Edit line in vim with <ctrl-e>
+# Edit line in vim with <ctrl-x><ctrl-e>
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 

@@ -3,7 +3,6 @@ export EDITOR="nvim"
 export LIBRARY_PATH=/usr/local/opt/openssl/lib
 export PYTHONPATH=$HOME/Library/Python/2.7/bin
 export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.8/bin
-export NVM_DIR="/Users/saltorcivia/.nvm"
 
 export PATH=$PATH:$PYTHONPATH
 export PATH=$PATH:/usr/local/Cellar/node/13.2.0/bin
