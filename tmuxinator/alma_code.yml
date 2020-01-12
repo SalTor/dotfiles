@@ -6,10 +6,11 @@ windows:
     - server:
         layout: even-vertical
         panes:
-            - rs
-            - ns
+            - alma_start_django_server
+            - alma_start_webpack_server
     - ____code____:
         - vim
     - terminal:
+        -
 
 startup_window: ____code____
