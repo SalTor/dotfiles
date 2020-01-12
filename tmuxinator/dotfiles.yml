@@ -1,6 +1,6 @@
 name: dotfiles
 root: ~/dotfiles/
-attach: true
+attach: false
 windows:
   - Config: vim
   - Lazygit: lazygit
