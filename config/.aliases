@@ -19,18 +19,21 @@ fi
 alias c='clear'
 alias psaux='ps aux | grep'
 
-alias please='sudo !!'
-alias vimconfig='cd ~/dotfiles/vim/ && vim .vimrc'
-alias zshconfig='cd ~/dotfiles/zsh/ && vim .zshrc'
-alias tmuxconfig='cd ~/dotfiles/tmux/ && vim .tmux.conf'
+alias edit_vim='cd ~/dotfiles/vim/ && vim .vimrc'
+
+alias edit_zsh='cd ~/dotfiles/zsh/ && vim .zshrc'
+alias source_zsh='source ~/.zshrc'
+
+alias edit_tmux='cd ~/dotfiles/tmux/ && vim .tmux.conf'
+alias source_tmux='tmux source ~/.tmux.conf'
+
+alias mux='tmuxinator'
+alias ms=fzf_tmux_switch_or_attach
 
 alias gdf=fzf_git_diff_changed
 alias gaf=fzf_git_add_changed
 alias gchf=fzf_git_checkout_changed
 alias gcof=fzf_git_checkout_branch
-
-alias ms=fzf_tmux_switch_or_attach # mnemonic (tmux)(attach)(fzf)
-alias mux='tmuxinator'      # mnemonic (tmux)
 
 if [[ $OSTYPE == darwin* ]]; then
     alias asrc='cd ~/alma/cove && source venv/bin/activate'
