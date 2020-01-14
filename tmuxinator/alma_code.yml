@@ -10,7 +10,7 @@ windows:
             - alma_start_webpack_server
     - ____code____:
         - vim
-    - terminal:
-        -
+    - lazygit:
+        - lazygit
 
 startup_window: ____code____
