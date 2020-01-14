@@ -14,7 +14,7 @@ let g:LanguageClient_diagnosticsDisplay = {
 \    1: {
 \        "name": "Error",
 \        "texthl": "ALEError",
-\        "signText": "✖",
+\        "signText": "✘",
 \        "signTexthl": "MyALEErrorColors",
 \        "virtualTexthl": "MyALEErrorColors",
 \    },
