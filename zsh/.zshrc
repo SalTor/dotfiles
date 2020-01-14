@@ -1,10 +1,10 @@
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME='aphrodite-custom'
+ZSH_THEME='agnoster'
 
 plugins=(git zsh-autosuggestions vi-mode)
 
-DEFAULT_USER='saltor'
+DEFAULT_USER=`whoami`
 
 ENABLE_CORRECTION='true'
 COMPLETION_WAITING_DOTS="true"
@@ -68,5 +68,18 @@ bindkey '^X^R' fzf-history-widget-accept
 # Accept autosuggestion
 bindkey '^\' autosuggest-accept
 bindkey '^X^ ' autosuggest-execute
+
+prompt_end() {
+    if [[ -n $CURRENT_BG ]]; then
+        print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+    else
+        print -n "%{%k%}"
+    fi
+
+    print -n "%{%f%}"
+    CURRENT_BG=''
+
+    printf "\n$";
+}
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
