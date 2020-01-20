@@ -38,9 +38,9 @@ alias gcof=fzf_git_checkout_branch
 
 if [[ $OSTYPE == darwin* ]]; then
     alias asrc='cd ~/alma/cove && source venv/bin/activate'
-    alias ashell='asrc && ./cove/manage.py shell'
 
-    alias alma_start_django_server='asrc && ./cove/manage.py runserver'
+    alias alma_start_django_server='docker start alma_db && asrc && ./cove/manage.py runserver'
+    alias alma_start_django_shell='asrc && ./cove/manage.py shell'
     alias alma_start_webpack_server='cd ~/alma/cove/cove/website/client && npm start'
 
     alias alma_migrate_django='asrc && ./cove/manage.py migrate'
