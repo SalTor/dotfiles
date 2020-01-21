@@ -26,7 +26,7 @@ call airline#add_inactive_statusline_func('InactiveSectionC')
 let g:airline_section_b = ''
 let g:airline_section_c = airline#section#create(['%{ActiveSectionC()}'])
 let g:airline_section_x = airline#section#create(['branch'])
-let g:airline_section_y = airline#section#create(['%l/%L : %c'])
+let g:airline_section_y = airline#section#create(['%l, %c'])
 let g:airline_section_z = airline#section#create(['filetype'])
 
 let g:airline#extensions#ale#show_line_numbers=0
