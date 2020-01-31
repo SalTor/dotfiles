@@ -1,21 +1,5 @@
 " Normal mode mappings
 
-" Arrow Keys - Disable Usage
-    no <down> ddp
-    no <left> <nop>
-    no <right> <nop>
-    no <up> ddkP
-
-    ino <down> <esc>ddpi
-    ino <left> <nop>
-    ino <right> <nop>
-    ino <up> <esc>ddkPi
-
-    vno <down> <nop>
-    vno <left> <nop>
-    vno <right> <nop>
-    vno <up> <nop>
-
 " Window Switching
     nnoremap <C-h> <C-w>h
     nnoremap <C-j> <C-w>j
