@@ -1,5 +1,5 @@
 " Clear highlight
-    nnoremap <silent> <Leader>h :nohl
+    nnoremap <silent> <LocalLeader>c :let @/ = ""<CR>
 
 " Close buffer
     nnoremap <Leader>cb :bd<CR>
@@ -20,7 +20,7 @@
     nnoremap <silent> <LocalLeader>s :call saltor#mappings#leader#cycle_spellcheck()<CR>
 
 " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
-    nnoremap <silent> <LocalLeader>c :syntax sync fromstart<CR>
+    nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
 
 " Switch tmuxinator projects
 " (mnemonic: tmux)
