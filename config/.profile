@@ -7,6 +7,7 @@ export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.8/bin
 export PATH=$PATH:$PYTHONPATH
 export PATH=$PATH:/usr/local/Cellar/node/13.2.0/bin
 export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/usr/local/bin/git
 export PATH=$PATH:/usr/local/Cellar
 export PATH=$PATH:/usr/bin/npm
 export PATH=$PATH:/usr/bin/python
