@@ -8,5 +8,5 @@
 " Select-mode mappings
     xnoremap @ :<C-u>call mappings#ExecuteMacroOverVisualRange()<CR>
 
-    xnoremap <silent> K :call wincent#mappings#visual#move_up()<CR>
-    xnoremap <silent> J :call wincent#mappings#visual#move_down()<CR>
+    xnoremap <silent> K :call saltor#mappings#visual#move_up()<CR>
+    xnoremap <silent> J :call saltor#mappings#visual#move_down()<CR>
