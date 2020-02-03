@@ -99,7 +99,7 @@ if has('folding')
 
     set foldlevelstart=50
     set foldmethod=indent
-    set foldtext=wincent#settings#foldtext()
+    set foldtext=saltor#settings#foldtext()
 endif
 
 if has('virtualedit')
