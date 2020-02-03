@@ -1,14 +1,5 @@
 if has('autocmd')
     function! s:AutoCommands()
-        augroup AutoCommands
-            autocmd!
-
-            autocmd VimResized * execute "normal! \<c-w>="
-
-            " Disable paste mode on leaving insert mode.
-            autocmd InsertLeave * set nopaste
-        augroup END
-
         augroup Buffers
             autocmd!
             autocmd BufNewFile,BufRead * let g:ale_enabled = 1
@@ -26,6 +17,17 @@ if has('autocmd')
             autocmd!
             autocmd User StartifyReady let g:ale_enabled = 0
         augroup END
+
+        augroup CheckColorScheme
+            autocmd!
+            autocmd FocusGained * call saltor#functions#CheckColorScheme()
+        augroup END
+
+        " Resize splits when vim container resizes
+        autocmd VimResized * execute "normal! \<c-w>="
+
+        " Disable paste mode on leaving insert mode.
+        autocmd InsertLeave * set nopaste
 
         autocmd ColorScheme * highlight clear SpellBad
         autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
@@ -52,12 +54,6 @@ if has('autocmd')
             let col = col('.') - 1
             return !col || getline('.')[col - 1] =~ '\s'
         endfunction"}}}
-
-        augroup CheckColorScheme
-            autocmd!
-            autocmd FocusGained * call saltor#functions#CheckColorScheme()
-        augroup END
-
     endfunction
 
     call saltor#functions#CheckColorScheme()

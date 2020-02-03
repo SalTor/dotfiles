@@ -39,6 +39,9 @@ let g:maplocalleader = '\'
     " Apply last-used macro to selected lines
     xnoremap @ :<C-u>call mappings#visual#ExecuteMacroOverVisualRange()<CR>
 
+    " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
+    nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
+
 " [/] bi-directional mappings
     " ALE diagnostics
     nnoremap <silent> [a :ALEPreviousWrap<CR>
@@ -53,13 +56,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " Neumonic
-    " Windows
-    nnoremap <silent> <Leader>wh <C-w>h
-    nnoremap <silent> <Leader>wl <C-w>l
-    nnoremap <silent> <Leader>wj <C-w>j
-    nnoremap <silent> <Leader>wk <C-w>k
-    nnoremap <silent> <Leader>wd :q<CR>
-    nnoremap <Leader>w <nop>
+    " Applications (plugins)
+    nnoremap <Leader>as :Startify<CR>
 
     " Buffer
     nnoremap <silent> <Leader>bp :bprevious<CR>
@@ -84,7 +82,7 @@ let g:maplocalleader = '\'
 
     " Lines
     vnoremap <silent> <Leader>s !sort<CR>
-    vnoremap <silent> <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
+    vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
 
     " Project
     nnoremap <Leader>p/ :Rg<space>
@@ -92,6 +90,9 @@ let g:maplocalleader = '\'
     nnoremap <Leader>p\ :DynamicRg<space>
     vnoremap <silent> <Leader>p\ y:DynamicRg<Space><C-R>"<CR>
     nnoremap <Leader>p <nop>
+
+    " Quit
+    nnoremap <Leader>qq :q<CR>
 
     " Search
     nnoremap <silent> <Leader>sc :let @/ = ""<CR>
@@ -105,3 +106,11 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
     nnoremap <Leader>t <nop>
+
+    " Windows
+    nnoremap <silent> <Leader>wh <C-w>h
+    nnoremap <silent> <Leader>wl <C-w>l
+    nnoremap <silent> <Leader>wj <C-w>j
+    nnoremap <silent> <Leader>wk <C-w>k
+    nnoremap <silent> <Leader>wd :q<CR>
+    nnoremap <Leader>w <nop>

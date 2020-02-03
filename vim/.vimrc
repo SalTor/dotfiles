@@ -5,9 +5,6 @@ endif
 filetype indent plugin on " Automatic, language-dependent indentation
 syntax on " syntax coloring
 
-let g:mapleader = ','
-let g:maplocalleader = '\'
-
 " PLUGINS
 set rtp+=$HOME/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
 set rtp+=$HOME/.fzf
