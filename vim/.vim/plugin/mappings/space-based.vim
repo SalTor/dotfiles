@@ -23,6 +23,9 @@ let g:maplocalleader = '\'
         tnoremap <A-[> <Esc>
     endif
 
+    " Search For Visually Selected Text
+    vmap // y/<C-R>"<CR>
+
     " Toggle fold at current position
     nnoremap <Tab> za
 
@@ -33,46 +36,72 @@ let g:maplocalleader = '\'
     xnoremap <silent> K :call saltor#mappings#visual#move_up()<CR>
     xnoremap <silent> J :call saltor#mappings#visual#move_down()<CR>
 
-" Bi-directional via [ and ]
+    " Apply last-used macro to selected lines
+    xnoremap @ :<C-u>call mappings#visual#ExecuteMacroOverVisualRange()<CR>
+
+" [/] bi-directional mappings
     " ALE diagnostics
-    nnoremap [a :ALEPreviousWrap<CR>
-    nnoremap ]a :ALENextWrap<CR>
+    nnoremap <silent> [a :ALEPreviousWrap<CR>
+    nnoremap <silent> ]a :ALENextWrap<CR>
+
     " Tabs
     nnoremap [t gT
     nnoremap ]t gt
+
     " Lines (whitespace) [emptyLineOnPreviousLine ]emptyLineOnNextLine
-    nnoremap [<space> :pu! _<CR>:']+1<CR>
-    nnoremap ]<space> :pu  _<CR>:'[-1<CR>
+    nnoremap <silent> [<space> :pu! _<CR>:']+1<CR>
+    nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " Neumonic
     " Windows
-    nnoremap <Leader>wh <C-w>h
-    nnoremap <Leader>wl <C-w>l
-    nnoremap <Leader>wj <C-w>j
-    nnoremap <Leader>wk <C-w>k
+    nnoremap <silent> <Leader>wh <C-w>h
+    nnoremap <silent> <Leader>wl <C-w>l
+    nnoremap <silent> <Leader>wj <C-w>j
+    nnoremap <silent> <Leader>wk <C-w>k
+    nnoremap <silent> <Leader>wd :q<CR>
+    nnoremap <Leader>w <nop>
 
     " Buffer
-    nnoremap <Leader>bp :bprevious<CR>
-    nnoremap <Leader>bn :bnext<CR>
-    nnoremap <Leader>bd :bd<CR>
-    nnoremap <Leader>bb :Buffers<CR>
+    nnoremap <silent> <Leader>bp :bprevious<CR>
+    nnoremap <silent> <Leader>bn :bnext<CR>
+    nnoremap <silent> <Leader>bd :bd<CR>
+    nnoremap <silent> <Leader>bb :Buffers<CR>
+    nnoremap <Leader>b <nop>
 
     " File
-    nnoremap <Leader>fs :w<CR>
-    nnoremap <Leader>fS :wa<CR>
-    nnoremap <Leader>ff :execute 'Files ' . getcwd()<CR>
-    nnoremap <Leader>fr :History<CR>
-    nnoremap <Leader>ft :call saltor#mappings#plugin_related#nerdtree_open()<CR>
-    nnoremap <Leader>f/ :Lines<CR>
-    nnoremap <Leader>f% :so %<CR>
-    nnoremap <Leader>fl :NERDTreeFind<CR>
+    nnoremap <silent> <Leader>fs :w<CR>
+    nnoremap <silent> <Leader>fS :wa<CR>
+    nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
+    nnoremap <silent> <Leader>fr :History<CR>
+    nnoremap <silent> <Leader>ft :call saltor#mappings#plugin_related#nerdtree_open()<CR>
+    nnoremap <silent> <Leader>f/ :Lines<CR>
+    nnoremap <silent> <Leader>f% :so %<CR>
+    nnoremap <silent> <Leader>fl :NERDTreeFind<CR>
+    nnoremap <Leader>f <nop>
+
+    nnoremap <silent> <Leader>f.f :execute 'Files ' . expand('%:p:h')<CR>
+    nnoremap <Leader>f. <nop>
+
+    " Lines
+    vnoremap <silent> <Leader>s !sort<CR>
+    vnoremap <silent> <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
 
     " Project
-    nnoremap <Leader>pf :GFiles<CR>
     nnoremap <Leader>p/ :Rg<space>
-    nnoremap <Leader>p\ :DynamidRg<space>
-    vnoremap <Leader>p/ y:Rg<Space><C-R>"<CR>
-    vnoremap <Leader>p\ y:DynamicRg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>p/ y:Rg<Space><C-R>"<CR>
+    nnoremap <Leader>p\ :DynamicRg<space>
+    vnoremap <silent> <Leader>p\ y:DynamicRg<Space><C-R>"<CR>
+    nnoremap <Leader>p <nop>
+
+    " Search
+    nnoremap <silent> <Leader>sc :let @/ = ""<CR>
+    nnoremap <Leader>s <nop>
+
+    " Spelling
+    nnoremap <silent> <Leader>Sc :call saltor#functions#FzfSpell()<CR>
+    nnoremap <Leader>S <nop>
 
     " Toggle
-    nnoremap <Leader>ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
+    nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>
+    nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
+    nnoremap <Leader>t <nop>

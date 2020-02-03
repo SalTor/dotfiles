@@ -9,11 +9,11 @@
     nnoremap <LocalLeader>p :echo expand('%')<CR>
 
 " Zap trailing whitespace in the current buffer
-    nnoremap <silent> <Leader>zz :call wincent#mappings#leader#zap()<CR>
+    nnoremap <silent> <Leader>zz :call saltor#mappings#leader#zap()<CR>
 
 " Cycle through relative number + number, number (only), and no numbering
 " (mnemonic: relative)
-    nnoremap <silent> <LocalLeader>r :call wincent#mappings#leader#cycle_numbering()<CR>
+    nnoremap <silent> <LocalLeader>r :call saltor#mappings#leader#cycle_numbering()<CR>
 
 " Cycle through spellcheck mode or not
 " (mnemonic: spellcheck)
@@ -21,10 +21,6 @@
 
 " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
     nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
-
-" Switch tmuxinator projects
-" (mnemonic: tmux)
-    nnoremap <silent> <Leader>t :call saltor#buffers#ToggleProject()<CR>
 
 " Open startify with leader l
     nnoremap <silent> <Leader>l :Startify<CR>

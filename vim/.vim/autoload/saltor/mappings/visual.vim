@@ -20,3 +20,9 @@ function! saltor#mappings#visual#move_down() abort range
     let l:at_bottom=a:lastline == line('$')
     call s:Move("'>+1", l:at_bottom)
 endfunction
+
+" Apply macro to selected lines
+function! saltor#mappings#visual#ExecuteMacroOverVisualRange() abort
+    echo "@".getcmdline()
+    execute ":'<,'>normal @".nr2char(getchar())
+endfunction
