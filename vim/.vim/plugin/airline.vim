@@ -53,8 +53,6 @@ let g:airline_symbols = {
     \ 'whitespace': '☲',
     \ }
 
-let g:airline_extensions=['tabline', 'ale', 'branch', 'term']
+let g:airline_extensions=['tabline', 'ale', 'term']
 
 let g:airline_skip_empty_sections = 1
-
-autocmd ColorScheme * highlight airline_error guibg=#b20c0c guifg=#ffffff
