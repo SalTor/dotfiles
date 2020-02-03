@@ -59,33 +59,4 @@ call vundle#end()
 
 filetype on
 
-augroup Buffers
-    autocmd!
-    autocmd BufNewFile,BufRead * let g:ale_enabled = 1
-    autocmd BufNewFile,BufRead *.email set filetype=html
-augroup END
-
-augroup Spelling
-    autocmd!
-    autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
-    autocmd FileType gitcommit setlocal spell spelllang=en_us
-    set complete+=kspell
-augroup END
-
-augroup Startify
-    autocmd!
-    autocmd User StartifyReady let g:ale_enabled = 0
-augroup END
-
-autocmd ColorScheme * highlight clear SpellBad
-autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
-
 call saltor#autocomplete#deoplete_init()
-
-" autocmd User ALELintPost call saltor#virtual_text#update_ale_linting()
-
-" When term starts, auto go into insert mode
-autocmd TermOpen * startinsert
-
-" Turn off line numbers etc
-autocmd TermOpen * setlocal listchars= nonumber norelativenumber

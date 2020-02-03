@@ -1,54 +1,65 @@
 if has('autocmd')
-    function! s:WincentAutocmds()
-        augroup WincentAutocmds
+    function! s:AutoCommands()
+        augroup AutoCommands
             autocmd!
 
             autocmd VimResized * execute "normal! \<c-w>="
 
-            " http://vim.wikia.com/wiki/Detect_window_creation_with_WinEnter
-            autocmd VimEnter * autocmd WinEnter * let w:created=1
-            autocmd VimEnter * let w:created=1
-
             " Disable paste mode on leaving insert mode.
             autocmd InsertLeave * set nopaste
-
-            " Make current window more obvious by turning off/adjusting some features in non-current
-            " windows.
-            " if exists('+winhighlight')
-            "     autocmd BufEnter,FocusGained,VimEnter,WinEnter * set winhighlight=
-            "     autocmd FocusLost,WinLeave * set winhighlight=CursorLineNr:LineNr,EndOfBuffer:ColorColumn,IncSearch:ColorColumn,Normal:ColorColumn,NormalNC:ColorColumn,SignColumn:ColorColumn
-            "     if exists('+colorcolumn')
-            "         autocmd BufEnter,FocusGained,VimEnter,WinEnter * if wincent#autocmds#should_colorcolumn() | let &l:colorcolumn='+' . join(range(1000, 1254), ',+') | endif
-            "     endif
-            " elseif exists('+colorcolumn')
-            "     autocmd BufEnter,FocusGained,VimEnter,WinEnter * if wincent#autocmds#should_colorcolumn() | let &l:colorcolumn='+' . join(range(1000, 1254), ',+') | endif
-            "     autocmd FocusLost,WinLeave * if wincent#autocmds#should_colorcolumn() | let &l:colorcolumn=join(range(1, 255), ',') | endif
-            " endif
-            " autocmd InsertLeave,VimEnter,WinEnter * if wincent#autocmds#should_cursorline() | setlocal cursorline | endif
-            " autocmd InsertEnter,WinLeave * if wincent#autocmds#should_cursorline() | setlocal nocursorline | endif
-            if has('statusline')
-                autocmd WinEnter,BufEnter,VimEnter * call wincent#autocmds#focus_statusline()
-                autocmd WinLeave * call wincent#autocmds#blur_statusline()
-            endif
-            autocmd WinEnter,BufEnter,VimEnter * call wincent#autocmds#focus_window()
-            autocmd WinLeave * call wincent#autocmds#blur_window()
-
-            " if has('mksession')
-            "     " Save/restore folds and cursor position.
-            "     autocmd BufWritePost,BufLeave,WinLeave ?* if wincent#autocmds#should_mkview() | call wincent#autocmds#mkview() | endif
-            "     if has('folding')
-            "         autocmd BufWinEnter ?* if wincent#autocmds#should_mkview() | silent! loadview | execute 'silent! ' . line('.') . 'foldopen!' | endif
-            "     else
-            "         autocmd BufWinEnter ?* if wincent#autocmds#should_mkview() | silent! loadview | endif
-            "     endif
-            " elseif has('folding')
-            "     " Like the autocmd described in `:h last-position-jump` but we add `:foldopen!`.
-            "     autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line('$') | execute "normal! g`\"" | execute 'silent! ' . line("'\"") . 'foldopen!' | endif
-            " else
-            "     autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line('$') | execute "normal! g`\"" | endif
-            " endif
         augroup END
+
+        augroup Buffers
+            autocmd!
+            autocmd BufNewFile,BufRead * let g:ale_enabled = 1
+            autocmd BufNewFile,BufRead *.email set filetype=html
+        augroup END
+
+        augroup Spelling
+            autocmd!
+            autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
+            autocmd FileType gitcommit setlocal spell spelllang=en_us
+            set complete+=kspell
+        augroup END
+
+        augroup Startify
+            autocmd!
+            autocmd User StartifyReady let g:ale_enabled = 0
+        augroup END
+
+        autocmd ColorScheme * highlight clear SpellBad
+        autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+
+        " When term starts, auto go into insert mode
+        autocmd TermOpen * startinsert
+
+        " Turn off line numbers etc
+        autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+
+        autocmd ColorScheme * highlight MyALEErrorColors guifg=#fb4934 guibg=#3c3836
+        highlight link ALEVirtualTextError MyALEErrorColors
+        highlight link ALEVirtualTextWarning Todo
+        highlight link ALEErrorSign MyALEErrorColors
+
+        " deoplete tab-complete
+        autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+        inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+        inoremap <silent><expr> <TAB>
+                    \ pumvisible() ? "\<C-n>" :
+                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ deoplete#manual_complete()
+        function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1] =~ '\s'
+        endfunction"}}}
+
+        augroup CheckColorScheme
+            autocmd!
+            autocmd FocusGained * call saltor#functions#CheckColorScheme()
+        augroup END
+
     endfunction
 
-    call s:WincentAutocmds()
+    call saltor#functions#CheckColorScheme()
+    call s:AutoCommands()
 endif
