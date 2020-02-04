@@ -43,10 +43,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
 
 " [/] bi-directional mappings
-    " ALE diagnostics
-    nnoremap <silent> [a :ALEPreviousWrap<CR>
-    nnoremap <silent> ]a :ALENextWrap<CR>
-
     " Tabs
     nnoremap [t gT
     nnoremap ]t gt
@@ -65,6 +61,13 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bb :Buffers<CR>
     nnoremap <Leader>b <nop>
+
+
+    " Errors
+    nnoremap <silent> <Leader>en :ALENextWrap<CR>
+    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
+    nnoremap <silent> <Leader>el :lopen<CR>
+    nnoremap <Leader>e <nop>
 
     " File
     nnoremap <silent> <Leader>fs :w<CR>
