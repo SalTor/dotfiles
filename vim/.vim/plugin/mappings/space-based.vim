@@ -111,6 +111,8 @@ let g:maplocalleader = '\'
     " Spelling
     nnoremap <silent> <Leader>Sc :call saltor#functions#FzfSpell()<CR>
     nnoremap <silent> <Leader>Ss :call saltor#functions#FzfSpell()<CR>
+    nnoremap <Leader>Sp [s
+    nnoremap <Leader>Sn ]s
     nnoremap <Leader>S <nop>
 
     " Toggle
