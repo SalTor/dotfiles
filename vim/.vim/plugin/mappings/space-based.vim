@@ -60,6 +60,9 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>bh :Startify<CR>
     nnoremap <Leader>b <nop>
 
+    " Comments
+    nnoremap <Leader>cl :TComment<CR>
+    vnoremap <Leader>cl :TComment<CR>
 
     " Errors
     nnoremap <silent> <Leader>en :ALENextWrap<CR>
