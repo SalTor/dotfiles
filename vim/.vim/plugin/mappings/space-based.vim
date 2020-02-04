@@ -80,7 +80,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
     nnoremap <silent> <Leader>fr :History<CR>
     nnoremap <silent> <Leader>ft :call saltor#mappings#plugin_related#nerdtree_open()<CR>
-    nnoremap <silent> <Leader>f/ :Lines<CR>
     nnoremap <silent> <Leader>f% :so %<CR>
     nnoremap <silent> <Leader>fl :NERDTreeFind<CR>
     nnoremap <Leader>f <nop>
@@ -93,16 +92,16 @@ let g:maplocalleader = '\'
     vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
 
     " Project
-    nnoremap <Leader>p/ :Rg<space>
-    vnoremap <silent> <Leader>p/ y:Rg<Space><C-R>"<CR>
-    nnoremap <Leader>p\ :DynamicRg<space>
-    vnoremap <silent> <Leader>p\ y:DynamicRg<Space><C-R>"<CR>
     nnoremap <Leader>p <nop>
 
     " Quit
     nnoremap <Leader>qq :q<CR>
 
     " Search
+    nnoremap <Leader>sp :Rg<Space>
+    nnoremap <Leader>sP :DynamicRg<Space>
+    vnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
     nnoremap <silent> <Leader>sc :let @/ = ""<CR>
     nnoremap <Leader>s <nop>
 
