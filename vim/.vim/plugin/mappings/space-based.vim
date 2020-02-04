@@ -52,14 +52,12 @@ let g:maplocalleader = '\'
     nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " Neumonic
-    " Applications (plugins)
-    nnoremap <Leader>as :Startify<CR>
-
-    " Buffer
+    " Buffer / Tabs
     nnoremap <silent> <Leader>bp :bprevious<CR>
     nnoremap <silent> <Leader>bn :bnext<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bb :Buffers<CR>
+    nnoremap <silent> <Leader>bh :Startify<CR>
     nnoremap <Leader>b <nop>
 
 
