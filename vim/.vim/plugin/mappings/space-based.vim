@@ -63,6 +63,11 @@ let g:maplocalleader = '\'
     nnoremap <Leader>cl :TComment<CR>
     vnoremap <Leader>cl :TComment<CR>
 
+    " Colors
+    nnoremap <silent> <Leader>Cl :Colors<CR>
+    nnoremap <silent> <Leader>CR :syntax sync fromstart<CR>
+    nnoremap <Leader>C <nop>
+
     " Errors
     nnoremap <silent> <Leader>en :ALENextWrap<CR>
     nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
