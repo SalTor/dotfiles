@@ -78,6 +78,7 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>fs :w<CR>
     nnoremap <silent> <Leader>fS :wa<CR>
     nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
+    nnoremap <silent> <Leader>f? :GFiles?<CR>
     nnoremap <silent> <Leader>fr :History<CR>
     nnoremap <silent> <Leader>ft :call saltor#mappings#plugin_related#nerdtree_open()<CR>
     nnoremap <silent> <Leader>f% :so %<CR>
