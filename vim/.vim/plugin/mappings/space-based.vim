@@ -43,10 +43,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
 
 " [/] bi-directional mappings
-    " Tabs
-    nnoremap [t gT
-    nnoremap ]t gt
-
     " Lines (whitespace) [emptyLineOnPreviousLine ]emptyLineOnNextLine
     nnoremap <silent> [<space> :pu! _<CR>:']+1<CR>
     nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
@@ -55,6 +51,8 @@ let g:maplocalleader = '\'
     " Buffer / Tabs
     nnoremap <silent> <Leader>bp :bprevious<CR>
     nnoremap <silent> <Leader>bn :bnext<CR>
+    nnoremap <silent> <Leader>bj :tabprevious<CR>
+    nnoremap <silent> <Leader>bk :tabnext<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bb :Buffers<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
