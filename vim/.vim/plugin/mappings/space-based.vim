@@ -96,6 +96,8 @@ let g:maplocalleader = '\'
 
     " Quit
     nnoremap <Leader>qq :q<CR>
+    nnoremap <Leader>qQ :qa<CR>
+    nnoremap <Leader>q <nop>
 
     " Search
     nnoremap <Leader>sp :Rg<Space>
