@@ -124,5 +124,10 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>wj <C-w>j
     nnoremap <silent> <Leader>wk <C-w>k
     nnoremap <silent> <Leader>w/ :vsp<CR>
+    nnoremap <silent> <Leader>w- :sp<CR>
     nnoremap <silent> <Leader>wd :q<CR>
     nnoremap <Leader>w <nop>
+    nnoremap <silent> <C-h> <C-w>h
+    nnoremap <silent> <C-l> <C-w>l
+    nnoremap <silent> <C-j> <C-w>j
+    nnoremap <silent> <C-k> <C-w>k
