@@ -131,3 +131,10 @@ let g:maplocalleader = '\'
     nnoremap <silent> <C-l> <C-w>l
     nnoremap <silent> <C-j> <C-w>j
     nnoremap <silent> <C-k> <C-w>k
+
+    " Text
+    nnoremap <Leader>xU gU
+    vnoremap <Leader>xU gU
+    nnoremap <Leader>xu gu
+    vnoremap <Leader>xu gu
+    nnoremap <Leader>x <nop>
