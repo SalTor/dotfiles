@@ -55,6 +55,7 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>bk :tabnext<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bb :Buffers<CR>
+    nnoremap <silent> <Leader>bY mkggVGY`k
     nnoremap <silent> <Leader>bh :Startify<CR>
     nnoremap <Leader>b <nop>
 
