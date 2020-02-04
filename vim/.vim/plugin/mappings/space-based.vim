@@ -138,3 +138,4 @@ let g:maplocalleader = '\'
     nnoremap <Leader>xu gu
     vnoremap <Leader>xu gu
     nnoremap <Leader>x <nop>
+    nnoremap <Leader>xt :%!column -t
