@@ -23,6 +23,17 @@ if has('autocmd')
             autocmd FocusGained * call saltor#functions#CheckColorScheme()
         augroup END
 
+        augroup NeoVimTerminalEmulator
+            autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v:servername
+                    \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
+                    \ |let g:f=fnameescape(expand('%:p'))
+                    \ |noau bwipe
+                    \ |call rpcrequest(g:r, "nvim_command", "edit ".g:f)
+                    \ |call rpcrequest(g:r, "nvim_command", "call lib#SetNumberDisplay()")
+                    \ |qa
+                    \ |endif
+        augroup END
+
         " Resize splits when vim container resizes
         autocmd VimResized * execute "normal! \<c-w>="
 
