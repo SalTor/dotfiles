@@ -114,7 +114,7 @@ let g:maplocalleader = '\'
     nnoremap <Leader>sP :DynamicRg<Space>
     vnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
     vnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
-    nnoremap <silent> <Leader>sc :let @/ = ""<CR>
+    nnoremap <silent> <Leader>sc :nohl<CR>
     nnoremap <Leader>s <nop>
 
     " Spelling
