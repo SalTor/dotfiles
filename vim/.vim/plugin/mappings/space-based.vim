@@ -97,10 +97,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>f.f :execute 'Files ' . expand('%:p:h')<CR>
     nnoremap <Leader>f. <nop>
 
-    " Lines
-    vnoremap <silent> <Leader>s !sort<CR>
-    vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
-
     " Project
     nnoremap <Leader>p <nop>
 
@@ -144,6 +140,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> <C-k> <C-w>k
 
     " Text
+    vnoremap <silent> <Leader>xs !sort<CR>
+    vnoremap <Leader>xr y :%s/<C-r>"//gc<Left><Left><Left>
     nnoremap <Leader>xU gU
     vnoremap <Leader>xU gU
     nnoremap <Leader>xu gu
