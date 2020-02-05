@@ -80,8 +80,7 @@ let g:maplocalleader = '\'
     nnoremap <Leader>e <nop>
 
     " File
-    nnoremap <silent> <Leader>fs :w<CR>
-    nnoremap <silent> <Leader>fS :wa<CR>
+    nnoremap <silent> <Leader>fs :wa<CR>
     nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
     nnoremap <silent> <Leader>f? :GFiles?<CR>
     nnoremap <silent> <Leader>fr :History<CR>
@@ -93,6 +92,7 @@ let g:maplocalleader = '\'
     nnoremap <Leader>f <nop>
 
     nnoremap <silent> <Leader>f.f :execute 'Files ' . expand('%:p:h')<CR>
+    nnoremap <silent> <Leader>f.s :w<CR>
     nnoremap <Leader>f. <nop>
 
     " Project
