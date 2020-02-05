@@ -9,12 +9,13 @@ function! saltor#autocomplete#deoplete_init() abort
     let g:deoplete#max_list=15
 
     call deoplete#enable()
-
     call deoplete#custom#option({ 'smart_case': v:true })
-    call deoplete#custom#source('member', 'rank', 300)
-    call deoplete#custom#source('around', 'rank', 0)
-    call deoplete#custom#source('buffer', 'rank', 100)
-    call deoplete#custom#source('file', 'rank', 50)
+
+    call deoplete#custom#source('ultisnips', 'rank', 1000)
+    call deoplete#custom#source('member',    'rank', 300)
+    call deoplete#custom#source('buffer',    'rank', 100)
+    call deoplete#custom#source('file',      'rank', 50)
+    call deoplete#custom#source('around',    'rank', 0)
     call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
 
     " Set bin if you have many instalations

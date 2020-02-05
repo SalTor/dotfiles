@@ -33,6 +33,7 @@ call vundle#begin()
     Plugin 'airblade/vim-gitgutter' " Show changed lines in gutter
     Plugin 'mhinz/vim-startify'   " Start-up screen
     Plugin 'easymotion/vim-easymotion' " Easily navigate around a document
+    Plugin 'sirver/UltiSnips'     " Snippets tool
 
     Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
     Plugin 'autozimu/LanguageClient-neovim', {

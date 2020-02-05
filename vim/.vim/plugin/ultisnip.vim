@@ -1,3 +1,5 @@
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
+
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsListSnippets="<C-h>"
 let g:UltiSnipsJumpForwardTrigger="<C-f>"
