@@ -39,9 +39,6 @@ let g:maplocalleader = '\'
     " Apply last-used macro to selected lines
     xnoremap @ :<C-u>call mappings#visual#ExecuteMacroOverVisualRange()<CR>
 
-    " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
-    nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
-
     " deoplete tab-complete
     inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
     inoremap <silent><expr> <TAB>
@@ -73,6 +70,7 @@ let g:maplocalleader = '\'
     " Colors
     nnoremap <silent> <Leader>Cl :Colors<CR>
     nnoremap <silent> <Leader>CR :syntax sync fromstart<CR>
+    " ^ Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
     nnoremap <Leader>C <nop>
 
     " Errors
