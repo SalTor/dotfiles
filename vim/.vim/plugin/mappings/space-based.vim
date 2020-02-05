@@ -43,7 +43,7 @@ let g:maplocalleader = '\'
     inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
     inoremap <silent><expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
-                \ saltor#functions#fheck_back_space() ? "\<TAB>" :
+                \ saltor#functions#check_back_space() ? "\<TAB>" :
                 \ deoplete#manual_complete()
 
 " [/] bi-directional mappings
