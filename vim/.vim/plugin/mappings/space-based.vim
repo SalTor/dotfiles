@@ -42,6 +42,13 @@ let g:maplocalleader = '\'
     " Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
     nnoremap <silent> <LocalLeader><LocalLeader>c :syntax sync fromstart<CR>
 
+    " deoplete tab-complete
+    inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ saltor#functions#fheck_back_space() ? "\<TAB>" :
+                \ deoplete#manual_complete()
+
 " [/] bi-directional mappings
     " Lines (whitespace) [emptyLineOnPreviousLine ]emptyLineOnNextLine
     nnoremap <silent> [<space> :pu! _<CR>:']+1<CR>
