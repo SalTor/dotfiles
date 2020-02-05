@@ -102,3 +102,9 @@ function! saltor#functions#check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1] =~ '\s'
 endfunction
+
+function! saltor#functions#build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+endfunction
