@@ -90,3 +90,10 @@ function! saltor#functions#CheckColorScheme ()
     " - `after/plugin/loupe.vim` will override Search.
     doautocmd ColorScheme
 endfunction
+
+function! saltor#functions#rename()
+    :NERDTreeFind
+    :call NERDTreeMoveNode()
+    :NERDTreeClose
+    :filetype detect
+endfunction
