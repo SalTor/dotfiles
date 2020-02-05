@@ -13,6 +13,9 @@ let g:Hexokinase_optInPatterns = [
 \     'colour_names'
 \ ]
 let g:Hexokinase_ftEnabled = ['scss', 'css', 'html', 'javascript', 'javascript.jsx']
+let g:Hexokinase_optOutPatterns = [
+    \ 'colour_names',
+    \ ]
 
 let g:ale_echo_cursor=0
 let g:ale_virtualtext_cursor=1
