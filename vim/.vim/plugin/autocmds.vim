@@ -49,11 +49,6 @@ if has('autocmd')
         " Turn off line numbers etc
         autocmd TermOpen * setlocal listchars= nonumber norelativenumber
 
-        autocmd ColorScheme * highlight MyALEErrorColors guifg=#fb4934 guibg=#3c3836
-        highlight link ALEVirtualTextError MyALEErrorColors
-        highlight link ALEVirtualTextWarning Todo
-        highlight link ALEErrorSign MyALEErrorColors
-
         " deoplete tab-complete
         autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     endfunction
