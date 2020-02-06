@@ -56,5 +56,3 @@ call vundle#begin()
 call vundle#end()
 
 filetype on
-
-call saltor#autocomplete#deoplete_init()
