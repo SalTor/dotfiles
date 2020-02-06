@@ -146,7 +146,6 @@ endfunction
 
 let s:deoplete_init_done=0
 function! saltor#autocomplete#deoplete_init() abort
-    echo 'deoplete init'
     if s:deoplete_init_done || !has('nvim')
         return
     endif
