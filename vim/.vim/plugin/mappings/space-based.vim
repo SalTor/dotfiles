@@ -105,6 +105,7 @@ let g:maplocalleader = '\'
     vnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
     vnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
     nnoremap <silent> <Leader>sc :nohl<CR>
+    nnoremap <silent> <Leader>sot :Rg TODO<CR>
     nnoremap <Leader>s <nop>
 
     " Spelling
