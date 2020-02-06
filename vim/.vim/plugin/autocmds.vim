@@ -40,6 +40,7 @@ if has('autocmd')
         " Disable paste mode on leaving insert mode.
         autocmd InsertLeave * set nopaste
 
+        " Change default spelling highlights
         autocmd ColorScheme * highlight clear SpellBad
         autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
 
