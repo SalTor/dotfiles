@@ -34,23 +34,22 @@ call vundle#begin()
     Plugin 'mhinz/vim-startify'   " Start-up screen
     Plugin 'easymotion/vim-easymotion' " Easily navigate around a document
     Plugin 'sirver/UltiSnips'     " Snippets tool
-
     Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
+    Plugin 'carlitux/deoplete-ternjs'
+    Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
+
     Plugin 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
                 \ 'do': 'bash install.sh',
                 \ }
-    Plugin 'carlitux/deoplete-ternjs'
+    Plugin 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
-    Plugin 'scrooloose/nerdtree'  " Visual tree navigation for current folder
-
-    Plugin 'posva/vim-vue'             " Syntax Highlighting for Vim Components
     Plugin 'mxw/vim-jsx'               " Syntax highlighting for JSX
     Plugin 'pangloss/vim-javascript'   " + dependency of vim-jsx (Syntax highlighting for JavaScript)
     Plugin 'hail2u/vim-css3-syntax'    " CSS3 syntax highlighting
     Plugin 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
+
     Plugin 'wincent/pinnacle'          " Functions for manipulating highlight groups by userwincent
-    Plugin 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call vundle#end()
