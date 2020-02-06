@@ -45,6 +45,9 @@ let g:maplocalleader = '\'
     nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " Neumonic
+    " Book_marks_
+    nnoremap <silent> <Leader>Bl :Marks<CR>
+
     " Buffer / Tabs
     nnoremap <silent> <Leader>bp :bprevious<CR>
     nnoremap <silent> <Leader>bn :bnext<CR>
