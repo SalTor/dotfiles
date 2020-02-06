@@ -145,7 +145,7 @@ let g:maplocalleader = '\'
     nnoremap <Leader>xt :%!column -t
 
     " Miscellaneous
-    nnoremap <silent> <Leader>! :terminal<CR>
+    nnoremap <silent> <Leader>` :terminal<CR>
     nnoremap <Leader><Leader> :
     nnoremap <Leader><Tab> <C-^>
     nnoremap <Leader> <nop>
