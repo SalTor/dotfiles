@@ -18,7 +18,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline' " Status line
     Plug 'vim-airline/vim-airline-themes' " Status line theme options
     Plug 'dense-analysis/ale' " Linter
-    Plug 'junegunn/fzf'         " FZF: A search tool that is fast AF
+    Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }         " FZF: A search tool that is fast AF
     Plug 'junegunn/fzf.vim'     " FZF: FZF for vim
     Plug 'wellle/targets.vim'   " More text objects and useful manipulations
     Plug 'tpope/vim-surround'   " Easily add/change/remove surrounding characters
@@ -36,7 +36,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'sirver/UltiSnips'     " Snippets tool
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
     Plug 'carlitux/deoplete-ternjs'
-    Plug 'scrooloose/nerdtree'  " Visual tree navigation for current folder
+    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose'] }  " Visual tree navigation for current folder
 
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
@@ -44,10 +44,10 @@ call plug#begin('~/.vim/plugged')
                 \ }
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
-    Plug 'mxw/vim-jsx'               " Syntax highlighting for JSX
-    Plug 'pangloss/vim-javascript'   " + dependency of vim-jsx (Syntax highlighting for JavaScript)
-    Plug 'hail2u/vim-css3-syntax'    " CSS3 syntax highlighting
-    Plug 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
+    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }               " Syntax highlighting for JSX
+    Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }   " + dependency of vim-jsx (Syntax highlighting for JavaScript)
+    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] }    " CSS3 syntax highlighting
+    Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] } " SCSS syntax highlighting
 
     Plug 'skywind3000/quickmenu.vim' " API for creating menus
 
