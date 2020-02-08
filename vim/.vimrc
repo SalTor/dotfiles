@@ -49,6 +49,8 @@ call vundle#begin()
     Plugin 'hail2u/vim-css3-syntax'    " CSS3 syntax highlighting
     Plugin 'cakebaker/scss-syntax.vim' " SCSS syntax highlighting
 
+    Plugin 'skywind3000/quickmenu.vim' " API for creating menus
+
     Plugin 'wincent/pinnacle'          " Functions for manipulating highlight groups by userwincent
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
