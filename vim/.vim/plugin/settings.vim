@@ -78,6 +78,7 @@ if has('linebreak')
     endif
 endif
 
+syntax on " Syntax coloring
 if has('syntax')
     set synmaxcol=400                   " don't bother syntax highlighting long lines
 endif
@@ -111,6 +112,7 @@ let g:pymode_python='python3'
 let g:python3_host_prog = '/usr/local/bin/python3.8'
 let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
+filetype indent plugin on " Automatic, language-dependent indentation
 let g:js_filetypes=[
 \   'javascript',
 \   'javascript.jsx',
