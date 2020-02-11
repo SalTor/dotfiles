@@ -5,5 +5,7 @@ function! saltor#mappings#plugin_related#nerdtree_open() abort
         else
             :NERDTreeFocus
         endif
+    else
+        :NERDTreeToggle
     endif
 endfunction
