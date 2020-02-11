@@ -3,7 +3,6 @@ if v:progname == 'vi'
 endif
 
 " PLUGINS
-set rtp+=$HOME/.fzf
 set rtp+=$HOME/.vim/bundle/LanguageClient-neovim
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -18,6 +17,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline' " Status line
     Plug 'vim-airline/vim-airline-themes' " Status line theme options
     Plug 'dense-analysis/ale' " Linter
+    Plug '~/.fzf' " Add fzf to runtimepath
     Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }         " FZF: A search tool that is fast AF
     Plug 'junegunn/fzf.vim'     " FZF: FZF for vim
     Plug 'wellle/targets.vim'   " More text objects and useful manipulations
@@ -29,29 +29,48 @@ call plug#begin('~/.vim/plugged')
     Plug 'wincent/terminus'     " Better terminal support
     Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
     Plug 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
-    Plug 'tpope/vim-fugitive'   " Awesome GIT wrapper for VIM
+    Plug 'tpope/vim-fugitive'     " Awesome GIT wrapper for VIM
     Plug 'airblade/vim-gitgutter' " Show changed lines in gutter
-    Plug 'mhinz/vim-startify'   " Start-up screen
+    Plug 'mhinz/vim-startify'     " Start-up screen
     Plug 'easymotion/vim-easymotion' " Easily navigate around a document
-    Plug 'sirver/UltiSnips'     " Snippets tool
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
-    Plug 'carlitux/deoplete-ternjs'
-    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose'] }  " Visual tree navigation for current folder
+    " Plug 'sirver/UltiSnips' " Snippets tool
 
+    " Typing completion engine
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
+
+    " Ternjs source for deoplete
+    Plug 'carlitux/deoplete-ternjs'
+
+    " Language Server Protocol plugin for connecting to code completion of
+    " various languages
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
                 \ 'do': 'bash install.sh',
                 \ }
+
+    " Visual tree navigation
+    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus'] }
+
+    " Show colors as virtual text or gutter, your choice
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
-    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }               " Syntax highlighting for JSX
-    Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }   " + dependency of vim-jsx (Syntax highlighting for JavaScript)
-    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] }    " CSS3 syntax highlighting
-    Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] } " SCSS syntax highlighting
+    " Syntax highlighting for JSX
+    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
 
-    Plug 'skywind3000/quickmenu.vim' " API for creating menus
+    " + dependency of vim-jsx (Syntax highlighting for JavaScript)
+    Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 
-    Plug 'wincent/pinnacle'          " Functions for manipulating highlight groups by userwincent
+    " CSS3 syntax highlighting
+    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] }
+
+    " SCSS syntax highlighting
+    Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] }
+
+    " API for creating menus
+    Plug 'skywind3000/quickmenu.vim'
+
+    " Functions for manipulating highlight groups by userwincent
+    Plug 'wincent/pinnacle'
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()
