@@ -19,14 +19,15 @@ endfunction
 function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview({}), a:fullscreen)
+    let spec = {'options': [ '--bind', '?:toggle-preview', '--info=inline' ]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
 function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    let spec = {'options': ['--phony', '--query', a:query, '--info=inline', '--bind', '?:toggle-preview', '--bind', 'change:reload:'.reload_command]}
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 

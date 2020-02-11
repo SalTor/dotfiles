@@ -30,8 +30,7 @@ export ANSIBLE_NOCOWS=1
 
 export FZF_TMUX=1
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-heading --iglob "!.DS_Store" --iglob "!.git"'
-export FZF_DEFAULT_OPTS='--bind "?:toggle-preview" --border --cycle --height=40% --preview="bat --color=always --line-range :75 --style=grid,numbers,changes,header {}" --preview-window=right:60%'
-# export FZF_CTRL_R_OPTS='--preview=""'
+export FZF_DEFAULT_OPTS='--bind "?:toggle-preview" --info=inline --border --cycle --height=40% --preview="bat --color=always --line-range :24 --paging=never --style=grid,numbers,changes,header {}" --preview-window=right:60%'
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 
 # Load aliases and shortcuts
