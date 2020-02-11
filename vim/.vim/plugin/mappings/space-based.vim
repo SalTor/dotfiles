@@ -90,7 +90,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
     nnoremap <silent> <Leader>f% :so %<CR>
     nnoremap <silent> <Leader>fy :echo expand('%p')<CR>
-    nnoremap <Leader>fR :call saltor#functions#rename()<CR>
+    nnoremap <Leader>fR :call saltor#functions#file_rename()<CR>
+    nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
 
     nnoremap <silent> <Leader>f.f :execute 'Files ' . expand('%:p:h')<CR>
     nnoremap <silent> <Leader>f.s :w<CR>

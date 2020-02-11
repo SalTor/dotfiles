@@ -91,11 +91,28 @@ function! saltor#functions#CheckColorScheme ()
     doautocmd ColorScheme
 endfunction
 
-function! saltor#functions#rename()
+function! saltor#functions#file_move()
     :NERDTreeFind
     :call NERDTreeMoveNode()
     :NERDTreeClose
     :filetype detect
+endfunction
+
+function! saltor#functions#file_rename()
+    let s:is_git_repo = system('git rev-parse --is-inside-work-tree')
+    if v:shell_error
+        call saltor#functions#file_move()
+    else
+        let curline = getline('.')
+        call inputsave()
+        let name = input('Rename file to: ')
+        call inputrestore()
+        if len(name) > 0
+            execute 'Grename ' . name
+        else
+            echo 'No filename provided.'
+        endif
+    endif
 endfunction
 
 function! saltor#functions#check_back_space() abort
