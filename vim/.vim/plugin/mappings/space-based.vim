@@ -109,6 +109,7 @@ let g:maplocalleader = '\'
     vnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     nnoremap <silent> <Leader>sf :Lines<CR>
+    vnoremap <silent> <Leader>sf y/<C-R>"<CR>
     nnoremap <silent> <Leader>sc :nohl<CR>
     nnoremap <silent> <Leader>sot :Rg TODO<CR>
 
