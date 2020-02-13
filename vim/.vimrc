@@ -18,13 +18,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline-themes' " Status line theme options
     Plug 'dense-analysis/ale' " Linter
     Plug '~/.fzf' " Add fzf to runtimepath
-    Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }         " FZF: A search tool that is fast AF
+    Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " FZF: A search tool that is fast AF
     Plug 'junegunn/fzf.vim'     " FZF: FZF for vim
     Plug 'wellle/targets.vim'   " More text objects and useful manipulations
     Plug 'tpope/vim-surround'   " Easily add/change/remove surrounding characters
     Plug 'tpope/vim-repeat'     " Allow repeating of more actions
     Plug 'Raimondi/delimitMate' " Auto-complete \" \' \( etc.
-    Plug 'tomtom/tcomment_vim'  " Toggle comments
+    Plug 'preservim/nerdcommenter' " Control code-comments
     Plug 'kassio/neoterm'       " Synchronized terminals
     Plug 'wincent/terminus'     " Better terminal support
     Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
@@ -32,6 +32,23 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-fugitive'     " Awesome GIT wrapper for VIM
     Plug 'airblade/vim-gitgutter' " Show changed lines in gutter
     Plug 'mhinz/vim-startify'     " Start-up screen
+    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' } " Syntax highlighting for JSX
+    Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] } " + dependency of vim-jsx (Syntax highlighting for JavaScript)
+    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] } " CSS3 syntax highlighting
+    Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] } " SCSS syntax highlighting
+    Plug 'junegunn/goyo.vim' " VIM Focus mode
+    Plug 'junegunn/limelight.vim' " Enhancement for focus mode
+
+    " Visual tree navigation
+    Plug 'scrooloose/nerdtree', {
+        \ 'on': [
+        \    'NERDTreeToggle',
+        \    'NERDTreeFind',
+        \    'NERDTreeFocus',
+        \    'NERDTreeClose',
+        \    'NERDTreeFocus'
+        \ ] }
+
     Plug 'easymotion/vim-easymotion' " Easily navigate around a document
     " Plug 'sirver/UltiSnips' " Snippets tool
 
@@ -48,23 +65,8 @@ call plug#begin('~/.vim/plugged')
                 \ 'do': 'bash install.sh',
                 \ }
 
-    " Visual tree navigation
-    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus'] }
-
     " Show colors as virtual text or gutter, your choice
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-
-    " Syntax highlighting for JSX
-    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' }
-
-    " + dependency of vim-jsx (Syntax highlighting for JavaScript)
-    Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-
-    " CSS3 syntax highlighting
-    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] }
-
-    " SCSS syntax highlighting
-    Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] }
 
     " API for creating menus
     Plug 'skywind3000/quickmenu.vim'
