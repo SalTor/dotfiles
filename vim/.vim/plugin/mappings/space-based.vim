@@ -130,6 +130,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>w/ :vsp<CR>
     nnoremap <silent> <Leader>w- :sp<CR>
     nnoremap <silent> <Leader>wd :q<CR>
+    nnoremap <silent> <Leader>wr <C-w>r
+    nnoremap <silent> <Leader>w= <C-w>=
     nnoremap <silent> <C-h> <C-w>h
     nnoremap <silent> <C-l> <C-w>l
     nnoremap <silent> <C-j> <C-w>j
@@ -145,5 +147,4 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>u :undo<CR>
     nnoremap <silent> <Leader>r :redo<CR>
     nnoremap <silent> <Leader>` :terminal<CR>
-    nnoremap <Leader><Leader> :
     nnoremap <Leader><Tab> <C-^>
