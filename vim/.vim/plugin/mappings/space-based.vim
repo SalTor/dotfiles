@@ -20,12 +20,6 @@ let g:maplocalleader = '\'
     nnoremap <expr> j v:count ? 'j' : 'gj'
     nnoremap <expr> k v:count ? 'k' : 'gk'
 
-    " Terminal mode escape remaps
-    if has('nvim')
-        tnoremap <Esc> <C-\><C-n>
-        tnoremap <A-[> <Esc>
-    endif
-
     " Search For Visually Selected Text
     vmap // y/<C-R>"<CR>
 
@@ -117,6 +111,13 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>hdS :call quickmenu#toggle('docs_spc_S')<CR>
     nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
 
+    " Terminal
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <A-[> <Esc>
+    tnoremap <C-\> <C-\><C-\>
+    nnoremap <silent> <Leader>T/ :vertical Ttoggle<CR><ESC><C-w>li
+    nnoremap <silent> <Leader>T- :belowright Ttoggle<CR><ESC><C-w>ji
+
     " Toggle
     nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
@@ -142,9 +143,8 @@ let g:maplocalleader = '\'
     vnoremap <silent> <Leader>xs !sort<CR>
     nnoremap <Leader>xt :%!column -t
 
-    " Miscellaneous
+    " * Miscellaneous
     nnoremap <silent> <Leader>hd? :call quickmenu#toggle('docs_spc_?')<CR>
     nnoremap <silent> <Leader>u :undo<CR>
     nnoremap <silent> <Leader>r :redo<CR>
-    nnoremap <silent> <Leader>` :terminal<CR>
     nnoremap <Leader><Tab> <C-^>
