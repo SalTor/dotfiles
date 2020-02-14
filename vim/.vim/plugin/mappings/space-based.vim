@@ -48,6 +48,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>Bl :Marks<CR>
 
     " Buffer / Tabs
+    nnoremap <silent> [b :bprevious<CR>
+    nnoremap <silent> ]b :bnext<CR>
     nnoremap <silent> <Leader>hdb :call quickmenu#toggle('docs_spc_b')<CR>
     nnoremap <silent> <Leader>bp :bprevious<CR>
     nnoremap <silent> <Leader>bn :bnext<CR>
