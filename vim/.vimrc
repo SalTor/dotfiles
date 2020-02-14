@@ -26,18 +26,22 @@ call plug#begin('~/.vim/plugged')
     Plug 'Raimondi/delimitMate' " Auto-complete \" \' \( etc.
     Plug 'preservim/nerdcommenter' " Control code-comments
     Plug 'kassio/neoterm'       " Synchronized terminals
-    Plug 'wincent/terminus'     " Better terminal support
-    Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
+    Plug 'wincent/terminus'     " Better os-terminal support
     Plug 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
     Plug 'tpope/vim-fugitive'     " Awesome GIT wrapper for VIM
     Plug 'airblade/vim-gitgutter' " Show changed lines in gutter
     Plug 'mhinz/vim-startify'     " Start-up screen
+    Plug 'mattn/emmet-vim'        " Enable dom-element 'tab-esque' completion
+
     Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' } " Syntax highlighting for JSX
     Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] } " + dependency of vim-jsx (Syntax highlighting for JavaScript)
     Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] } " CSS3 syntax highlighting
     Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] } " SCSS syntax highlighting
-    Plug 'junegunn/goyo.vim' " VIM Focus mode
-    Plug 'junegunn/limelight.vim' " Enhancement for focus mode
+
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' } " Typing completion engine
+    Plug 'carlitux/deoplete-ternjs' " Ternjs source for deoplete
+    Plug 'autozimu/LanguageClient-neovim', " Language Server Protocol plugin for connecting to code completion of various languages
+        \ { 'branch': 'next', 'do': 'bash install.sh' }
 
     " Visual tree navigation
     Plug 'scrooloose/nerdtree', {
@@ -52,18 +56,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'easymotion/vim-easymotion' " Easily navigate around a document
     " Plug 'sirver/UltiSnips' " Snippets tool
 
-    " Typing completion engine
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' }
+    Plug 'junegunn/goyo.vim' " VIM Focus mode
+    Plug 'junegunn/limelight.vim' " Enhancement for focus mode
 
-    " Ternjs source for deoplete
-    Plug 'carlitux/deoplete-ternjs'
-
-    " Language Server Protocol plugin for connecting to code completion of
-    " various languages
-    Plug 'autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'bash install.sh',
-                \ }
 
     " Show colors as virtual text or gutter, your choice
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
