@@ -89,6 +89,11 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>f.s :w<CR>
     nnoremap <Leader>f. <nop>
 
+
+    " Page (scrolling)
+    nnoremap [p <C-u>
+    nnoremap ]p <C-d>
+
     " Quit
     nnoremap <Leader>qq :q<CR>
     nnoremap <Leader>qQ :qa<CR>
