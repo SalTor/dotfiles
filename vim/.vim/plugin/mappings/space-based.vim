@@ -43,10 +43,6 @@ let g:maplocalleader = '\'
         " ]emptyLineOnNextLine
         nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
-    " Quickfix list
-    nnoremap <silent> [q :cprevious<CR>
-    nnoremap <silent> ]q :cnext<CR>
-
 " Neumonic
     " Book_marks_
     nnoremap <silent> <Leader>Bl :Marks<CR>
@@ -94,6 +90,12 @@ let g:maplocalleader = '\'
     " Quit
     nnoremap <Leader>qq :q<CR>
     nnoremap <Leader>qQ :qa<CR>
+
+    " Quickfix list
+    nnoremap <silent> [q :cprevious<CR>
+    nnoremap <silent> ]q :cnext<CR>
+    nnoremap <Leader>qo :copen<CR>
+    nnoremap <Leader>qc :cclose<CR>
 
     " Search
     nnoremap <silent> <Leader>hds :call quickmenu#toggle('docs_spc_s')<CR>
