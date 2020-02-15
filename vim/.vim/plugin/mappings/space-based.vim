@@ -50,6 +50,11 @@ let g:maplocalleader = '\'
         nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
 
 " Neumonic
+    " Applications
+    nnoremap <silent> <Leader>ass :SSave<CR>
+    nnoremap <silent> <Leader>asd :SDelete<CR>
+    nnoremap <silent> <Leader>asl :SLoad<CR>
+
     " Book_marks_
     nnoremap <silent> <Leader>Bl :Marks<CR>
 
