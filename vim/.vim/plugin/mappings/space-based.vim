@@ -36,6 +36,12 @@ let g:maplocalleader = '\'
     " Apply last-used macro to selected lines
     xnoremap @ :<C-u>call mappings#visual#ExecuteMacroOverVisualRange()<CR>
 
+    " Remap ; to : for easier command access
+    nnoremap ; :
+    nnoremap : ;
+    vnoremap ; :
+    vnoremap : ;
+
 " [/] bi-directional mappings
     " Lines (whitespace)
         " [emptyLineOnPreviousLine
