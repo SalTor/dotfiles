@@ -134,6 +134,12 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>Tt :tab Topen<CR>gt:startinsert!<CR>
     nnoremap <silent> <Leader>Tc :Tclose<CR>
 
+    " Text
+    nnoremap <silent> <Leader>hdx :call quickmenu#toggle('docs_sps_x')<CR>
+    vnoremap <silent> <Leader>xs !sort<CR>
+    nnoremap <silent> <Leader>xt :%!column -t<CR>
+    vnoremap <silent> <Leader>xt :!column -t<CR>
+
     " Toggle
     nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
@@ -153,11 +159,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <C-l> <C-w>l
     nnoremap <silent> <C-j> <C-w>j
     nnoremap <silent> <C-k> <C-w>k
-
-    " Text
-    nnoremap <silent> <Leader>hdx :call quickmenu#toggle('docs_sps_x')<CR>
-    vnoremap <silent> <Leader>xs !sort<CR>
-    nnoremap <Leader>xt :%!column -t
 
     " * Miscellaneous
     nnoremap <silent> <Leader>hd? :call quickmenu#toggle('docs_spc_?')<CR>
