@@ -119,8 +119,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>hds :call quickmenu#toggle('docs_spc_s')<CR>
     nnoremap <Leader>sp :Rg<Space>
     nnoremap <Leader>sP :DynamicRg<Space>
-    vnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
-    vnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>sP y/<C-R>"<CR>:DynamicRg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     nnoremap <silent> <Leader>sf :Lines<CR>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
