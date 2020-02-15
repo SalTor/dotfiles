@@ -121,11 +121,12 @@ let g:maplocalleader = '\'
     nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
 
     " Terminal
-    tnoremap <Esc> <C-\><C-n>
     tnoremap <A-[> <Esc>
     tnoremap <C-\> <C-\><C-\>
-    nnoremap <silent> <Leader>T/ :vertical Ttoggle<CR><ESC><C-w>li
-    nnoremap <silent> <Leader>T- :belowright Ttoggle<CR><ESC><C-w>ji
+    nnoremap <silent> <Leader>T/ :vertical Topen<CR><C-w>l:startinsert!<CR>
+    nnoremap <silent> <Leader>T- :belowright Topen<CR><C-w>j:startinsert!<CR>
+    nnoremap <silent> <Leader>Tt :tab Topen<CR>gt:startinsert!<CR>
+    nnoremap <silent> <Leader>Tc :Tclose<CR>
 
     " Toggle
     nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>

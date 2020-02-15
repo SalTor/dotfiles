@@ -23,6 +23,12 @@ if has('autocmd')
             autocmd FocusGained * call saltor#functions#CheckColorScheme()
         augroup END
 
+        augroup FzfAndNeoterm
+            autocmd!
+            autocmd FileType fzf tnoremap <Esc> <C-\><C-c>
+            autocmd Filetype neoterm tnoremap <Esc> <C-\><C-n>
+        augroup END
+
         augroup NeoVimTerminalEmulator
             autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v:servername
                     \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
@@ -43,9 +49,6 @@ if has('autocmd')
         " Change default spelling highlights
         autocmd ColorScheme * highlight clear SpellBad
         autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
-
-        " When term starts, auto go into insert mode
-        autocmd TermOpen * startinsert
 
         " Turn off line numbers etc
         autocmd TermOpen * setlocal listchars= nonumber norelativenumber
