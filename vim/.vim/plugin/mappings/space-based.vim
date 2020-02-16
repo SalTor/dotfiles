@@ -91,7 +91,7 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>fr :History<CR>
     nnoremap <silent> <Leader>ft :call saltor#mappings#plugin_related#nerdtree_open()<CR>
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
-    nnoremap <silent> <Leader>f% :so %<CR>
+    nnoremap <silent> <Leader>f5 :so %<CR>
     nnoremap <silent> <Leader>fy :echo expand('%p')<CR>
     nnoremap <Leader>fR :call saltor#functions#file_rename()<CR>
     nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
