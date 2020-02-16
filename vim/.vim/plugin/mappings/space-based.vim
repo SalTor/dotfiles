@@ -96,7 +96,7 @@ let g:maplocalleader = '\'
     nnoremap <Leader>fR :call saltor#functions#file_rename()<CR>
     nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
 
-    nnoremap <silent> <Leader>f.f :execute 'Files ' . expand('%:p:h')<CR>
+    nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
     nnoremap <silent> <Leader>f.s :w<CR>
     nnoremap <Leader>f. <nop>
 

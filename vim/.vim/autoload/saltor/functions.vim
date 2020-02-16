@@ -1,3 +1,12 @@
+function! saltor#functions#file_explorer(path)
+    let spec = {
+        \ 'options': [
+        \ '--prompt',
+        \ 'Folder>'
+        \ ]}
+    call fzf#vim#files(a:path, spec)
+endfunction
+
 function! saltor#functions#file_finder(...) abort
     let s:is_git_repo = system('git rev-parse --is-inside-work-tree')
     if v:shell_error

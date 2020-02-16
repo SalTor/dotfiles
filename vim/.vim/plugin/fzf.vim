@@ -1,4 +1,4 @@
-let g:fzf_layout = {'window': { 'width': 0.5, 'height': 0.4, 'highlight': 'Label' }}
+let g:fzf_layout = {'window': { 'width': 0.6, 'height': 0.75, 'highlight': 'Label' }}
 
 let g:fzf_colors = {
     \ 'fg+':    ['fg', 'Label'],
