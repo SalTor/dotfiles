@@ -24,17 +24,18 @@ function! saltor#functions#FzfSpell()
     let suggestions = spellsuggest(expand("<cword>"))
     return fzf#run({ 'source': suggestions, 'sink': function("saltor#functions#FzfSpellSink"), 'down': '25%', 'options': '--preview ""' })
 endfunction
+
 let s:bin_dir = expand('~/.vim/plugged/fzf.vim/bin/')
 let s:bin = {
-\ 'preview': s:bin_dir.'preview.sh',
-\ 'tags':    s:bin_dir.'tags.pl' }
+\ 'preview': s:bin_dir.'preview.sh' }
+
 function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let spec = {
     \ 'options': [
     \ '--info=inline',
-    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}'
+    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
     \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
@@ -49,7 +50,7 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     \ '--info=inline',
     \ '--query', a:query,
     \ '--bind', 'change:reload:'.reload_command,
-    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}'
+    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
     \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
