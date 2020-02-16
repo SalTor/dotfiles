@@ -70,6 +70,7 @@ call plug#begin('~/.vim/plugged')
     " Functions for manipulating highlight groups by userwincent
     Plug 'wincent/pinnacle'
 
+    Plug 'ryanoasis/vim-devicons' " Cool icons for filetypes
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()
