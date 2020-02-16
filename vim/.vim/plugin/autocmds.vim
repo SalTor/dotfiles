@@ -2,9 +2,9 @@ if has('autocmd')
     function! s:AutoCommands()
         augroup EscapeStuff
             autocmd!
-            autocmd FileType nerdtree nnoremap <buffer> <Esc> :NERDTreeClose<CR>
-            autocmd FileType fzf tnoremap <buffer> <Esc> <C-\><C-c>
-            autocmd FileType neoterm tnoremap <buffer> <Esc> <C-\><C-n>
+            autocmd FileType nerdtree nnoremap <silent> <buffer> <Esc> :NERDTreeClose<CR>
+            autocmd FileType fzf tnoremap <silent> <buffer> <Esc> <C-\><C-c>
+            autocmd FileType neoterm tnoremap <silent> <buffer> <Esc> <C-\><C-n>
         augroup END
 
         augroup Buffers
