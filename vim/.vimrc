@@ -61,14 +61,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/limelight.vim' " Enhancement for focus mode
 
 
-    " Show colors as virtual text or gutter, your choice
-    Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+    Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
 
-    " API for creating menus
-    Plug 'skywind3000/quickmenu.vim'
+    Plug 'skywind3000/quickmenu.vim' " API for creating menus
 
-    " Functions for manipulating highlight groups by userwincent
-    Plug 'wincent/pinnacle'
+    Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
 
     Plug 'ryanoasis/vim-devicons' " Cool icons for filetypes
 
