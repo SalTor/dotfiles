@@ -1,5 +1,10 @@
 if has('autocmd')
     function! s:AutoCommands()
+        augroup NERDTree
+            autocmd!
+            autocmd FileType nerdtree nnoremap <buffer> <Esc> :NERDTreeClose<CR>
+        augroup END
+
         augroup Buffers
             autocmd!
             autocmd BufNewFile,BufRead * let g:ale_enabled = 1

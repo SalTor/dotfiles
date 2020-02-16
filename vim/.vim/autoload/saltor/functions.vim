@@ -1,9 +1,3 @@
-function! saltor#functions#close_nerdtree()
-    if exists("g:NERDTree") && g:NERDTree.IsOpen()
-        :NERDTreeClose
-    endif
-endfunction
-
 function! saltor#functions#file_explorer(path)
     let spec = {
         \ 'options': [
