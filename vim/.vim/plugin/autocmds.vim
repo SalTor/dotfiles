@@ -25,8 +25,8 @@ if has('autocmd')
 
         augroup FzfAndNeoterm
             autocmd!
-            autocmd FileType fzf tnoremap <Esc> <C-\><C-c>
-            autocmd Filetype neoterm tnoremap <Esc> <C-\><C-n>
+            autocmd FileType fzf tnoremap <buffer> <Esc> <C-\><C-c>
+            autocmd FileType neoterm tnoremap <buffer> <Esc> <C-\><C-n>
         augroup END
 
         augroup NeoVimTerminalEmulator
