@@ -1,5 +1,5 @@
 function! saltor#functions#close_nerdtree()
-    if g:NERDTree.IsOpen()
+    if exists("g:NERDTree") && g:NERDTree.IsOpen()
         :NERDTreeClose
     endif
 endfunction
