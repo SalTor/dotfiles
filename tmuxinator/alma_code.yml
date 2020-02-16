@@ -3,14 +3,14 @@ root: ~/alma/cove/
 attach: false
 
 windows:
-    - server:
+    - SERVER:
         layout: even-vertical
         panes:
             - alma_start_django_server
             - alma_start_webpack_server
-    - ____code____:
+    - CODE:
         - vim
-    - lazygit:
+    - LAZYGIT:
         - lazygit
 
-startup_window: ____code____
+startup_window: CODE
