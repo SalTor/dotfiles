@@ -31,7 +31,11 @@ let s:bin = {
 function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
-    let spec = {'options': [ '--info=inline', '--preview', fzf#shellescape(s:bin.preview) . ' {}' ]}
+    let spec = {
+    \ 'options': [
+    \ '--info=inline',
+    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}'
+    \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
 
@@ -39,7 +43,14 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--bind', 'change:reload:'.reload_command, '--phony', '--query', a:query, '--info=inline', '--preview', fzf#shellescape(s:bin.preview) . ' {}']}
+    let spec = {
+    \ 'options': [
+    \ '--phony',
+    \ '--info=inline',
+    \ '--query', a:query,
+    \ '--bind', 'change:reload:'.reload_command,
+    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}'
+    \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
 
