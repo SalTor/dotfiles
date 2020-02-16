@@ -31,8 +31,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-fugitive'     " Awesome GIT wrapper for VIM
     Plug 'airblade/vim-gitgutter' " Show changed lines in gutter
     Plug 'mhinz/vim-startify'     " Start-up screen
-    Plug 'mattn/emmet-vim'        " Enable dom-element 'tab-esque' completion
+    Plug 'google/vim-searchindex' " Show search index on the left, not sure if vim's default right-side one can be moved
 
+    Plug 'mattn/emmet-vim'        " Enable dom-element 'tab-esque' completion
     Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' } " Syntax highlighting for JSX
     Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] } " + dependency of vim-jsx (Syntax highlighting for JavaScript)
     Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] } " CSS3 syntax highlighting
@@ -68,6 +69,7 @@ call plug#begin('~/.vim/plugged')
 
     " Functions for manipulating highlight groups by userwincent
     Plug 'wincent/pinnacle'
+
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()
