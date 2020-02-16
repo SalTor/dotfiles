@@ -23,11 +23,6 @@ if has('autocmd')
             autocmd FocusGained * call saltor#functions#CheckColorScheme()
         augroup END
 
-        augroup NERDTree
-            autocmd!
-            autocmd FileType nerdtree nnoremap <Esc> :NERDTreeToggle<CR>
-        augroup END
-
         augroup FzfAndNeoterm
             autocmd!
             autocmd FileType fzf tnoremap <Esc> <C-\><C-c>

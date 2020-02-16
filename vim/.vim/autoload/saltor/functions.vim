@@ -1,3 +1,9 @@
+function! saltor#functions#close_nerdtree()
+    if g:NERDTree.IsOpen()
+        :NERDTreeClose
+    endif
+endfunction
+
 function! saltor#functions#file_explorer(path)
     let spec = {
         \ 'options': [

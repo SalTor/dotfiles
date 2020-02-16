@@ -2,6 +2,9 @@ let g:mapleader = ' '
 let g:maplocalleader = '\'
 
 " Not neumonic. More like config.
+    " Close NERDTree if it's open
+    nnoremap <Esc> :call saltor#functions#close_nerdtree()<CR>
+
     " Disable Ex mode
     map Q <Nop>
 
