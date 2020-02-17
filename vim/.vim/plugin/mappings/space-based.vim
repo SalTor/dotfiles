@@ -125,7 +125,7 @@ let g:maplocalleader = '\'
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     nnoremap <silent> <Leader>sf :Lines<CR>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
-    nnoremap <silent> <Leader>sc :nohl<CR>
+    nnoremap <silent> <leader>sc :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
     nnoremap <silent> <Leader>sot :Rg TODO<CR>
 
     " Spelling
