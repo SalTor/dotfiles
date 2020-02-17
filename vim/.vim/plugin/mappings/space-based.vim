@@ -42,12 +42,12 @@ let g:maplocalleader = '\'
     vnoremap ; :
     vnoremap : ;
 
-" [/] bi-directional mappings
-    " Lines (whitespace)
-        " [emptyLineOnPreviousLine
-        nnoremap <silent> [<space> :pu! _<CR>:']+1<CR>
-        " ]emptyLineOnNextLine
-        nnoremap <silent> ]<space> :pu  _<CR>:'[-1<CR>
+
+    onoremap <expr> N 'nN'[v:searchforward]
+
+    " Add empty lines
+    nnoremap <silent> [<space> :<c-u>pu! =repeat(nr2char(10), v:count1)<CR>:']+=v:count1-1<CR>
+    nnoremap <silent> ]<space> :<c-u>pu  =repeat(nr2char(10), v:count1)<CR>:'[-=v:count1-1<CR>
 
 " Neumonic
     " Applications
