@@ -28,6 +28,8 @@ if has('autocmd')
         augroup CheckColorScheme
             autocmd!
             autocmd FocusGained * call saltor#functions#CheckColorScheme()
+            autocmd InsertLeave,WinEnter * set cursorline
+            autocmd InsertEnter,WinLeave * set nocursorline
         augroup END
 
         augroup NeoVimTerminalEmulator
