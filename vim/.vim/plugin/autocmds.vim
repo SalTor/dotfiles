@@ -30,10 +30,6 @@ if has('autocmd')
             autocmd FocusGained * call saltor#functions#CheckColorScheme()
         augroup END
 
-        augroup FzfAndNeoterm
-            autocmd!
-        augroup END
-
         augroup NeoVimTerminalEmulator
             autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v:servername
                     \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
