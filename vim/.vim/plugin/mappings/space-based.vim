@@ -61,7 +61,6 @@ let g:maplocalleader = '\'
     " Buffer / Tabs
     nnoremap <silent> [b :bprevious<CR>
     nnoremap <silent> ]b :bnext<CR>
-    nnoremap <silent> <Leader>hdb :call quickmenu#toggle('docs_spc_b')<CR>
     nnoremap <silent> <Leader>bp :bprevious<CR>
     nnoremap <silent> <Leader>bn :bnext<CR>
     nnoremap <silent> <Leader>bj :tabprevious<CR>
@@ -72,19 +71,16 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>bh :Startify<CR>
 
     " Colors
-    nnoremap <silent> <Leader>hdC :call quickmenu#toggle('docs_spc_C')<CR>
     nnoremap <silent> <Leader>Cl :Colors<CR>
     nnoremap <silent> <Leader>CR :syntax sync fromstart<CR>
     " ^ Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
 
     " Errors
-    nnoremap <silent> <Leader>hde :call quickmenu#toggle('docs_spc_e')<CR>
     nnoremap <silent> <Leader>en :ALENextWrap<CR>
     nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
     nnoremap <silent> <Leader>el :lopen<CR>
 
     " File
-    nnoremap <silent> <Leader>hdf :call quickmenu#toggle('docs_spc_f')<CR>
     nnoremap <silent> <Leader>fs :wa<CR>
     nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
     nnoremap <silent> <Leader>f? :GFiles?<CR>
@@ -116,7 +112,6 @@ let g:maplocalleader = '\'
     nnoremap <Leader>qc :cclose<CR>
 
     " Search
-    nnoremap <silent> <Leader>hds :call quickmenu#toggle('docs_spc_s')<CR>
     nnoremap <Leader>sp :Rg<Space>
     nnoremap <Leader>sP :DynamicRg<Space>
     vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
@@ -128,7 +123,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>sot :Rg TODO<CR>
 
     " Spelling
-    nnoremap <silent> <Leader>hdS :call quickmenu#toggle('docs_spc_S')<CR>
     nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
 
     " Terminal
@@ -140,7 +134,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>Tc :Tclose<CR>
 
     " Text
-    nnoremap <silent> <Leader>hdx :call quickmenu#toggle('docs_sps_x')<CR>
     vnoremap <silent> <Leader>xs !sort<CR>
     nnoremap <silent> <Leader>xt :%!column -t<CR>
     vnoremap <silent> <Leader>xt :!column -t<CR>
@@ -150,7 +143,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
 
     " Windows
-    nnoremap <silent> <Leader>hdw :call quickmenu#toggle('docs_spc_w')<CR>
     nnoremap <silent> <Leader>wh <C-w>h
     nnoremap <silent> <Leader>wl <C-w>l
     nnoremap <silent> <Leader>wj <C-w>j
@@ -166,7 +158,6 @@ let g:maplocalleader = '\'
     nnoremap <silent> <C-k> <C-w>k
 
     " * Miscellaneous
-    nnoremap <silent> <Leader>hd? :call quickmenu#toggle('docs_spc_?')<CR>
     nnoremap <silent> <Leader>u :undo<CR>
     nnoremap <silent> <Leader>r :redo<CR>
     nnoremap <Leader><Tab> <C-^>

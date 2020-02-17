@@ -63,8 +63,6 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
 
-    Plug 'skywind3000/quickmenu.vim' " API for creating menus
-
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
