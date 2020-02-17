@@ -17,7 +17,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline' " Status line
     Plug 'vim-airline/vim-airline-themes' " Status line theme options
     Plug 'dense-analysis/ale' " Linter
-    Plug '~/.fzf' " Add fzf to runtimepath
     Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " FZF: A search tool that is fast AF
     Plug 'junegunn/fzf.vim'     " FZF: FZF for vim
     Plug 'wellle/targets.vim'   " More text objects and useful manipulations
