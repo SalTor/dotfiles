@@ -56,10 +56,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'easymotion/vim-easymotion' " Easily navigate around a document
     " Plug 'sirver/UltiSnips' " Snippets tool
 
-    Plug 'junegunn/goyo.vim' " VIM Focus mode
-    Plug 'junegunn/limelight.vim' " Enhancement for focus mode
-
-
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
 
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
