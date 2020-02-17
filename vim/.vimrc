@@ -31,6 +31,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter' " Show changed lines in gutter
     Plug 'mhinz/vim-startify'     " Start-up screen
     Plug 'google/vim-searchindex' " Show search index on the left, not sure if vim's default right-side one can be moved
+    Plug 'TaDaa/vimade'
 
     Plug 'mattn/emmet-vim'        " Enable dom-element 'tab-esque' completion
     Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' } " Syntax highlighting for JSX
