@@ -112,8 +112,8 @@ let g:maplocalleader = '\'
     nnoremap <Leader>qc :cclose<CR>
 
     " Search
-    nnoremap <Leader>sp :Rg<Space>
-    nnoremap <Leader>sP :DynamicRg<Space>
+    nnoremap <Leader>sp :DynamicRg<CR>
+    nnoremap <Leader>sP :Rg<Space>
     vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
     vnoremap <silent> <Leader>sP y/<C-R>"<CR>:DynamicRg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>

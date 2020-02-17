@@ -36,6 +36,7 @@ function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
     \ 'options': [
     \ '--info=inline',
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
+    \ '--prompt', 'Find in Files> '
     \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
@@ -51,6 +52,7 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     \ '--query', a:query,
     \ '--bind', 'change:reload:'.reload_command,
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
+    \ '--prompt', 'Find in Files> '
     \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
