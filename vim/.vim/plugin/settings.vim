@@ -1,119 +1,116 @@
-" Behavior Modification ------------- {{{
-    set modifiable
-    set directory^=$HOME/.vim/nvim/tmp//
-    set autoindent                    " maintain indent of current line
-    set backspace=indent,start,eol    " allow unrestricted backspacing in insert mode
-    set clipboard=unnamed             " Shared Clipboard
-    set splitbelow                    " when making a horizontal split, place it on the bottom
-    set splitright                    " when making a vertical split, place it on the right
-    set noshowmode
-    set spelllang=en_us
-    set hidden
+" Syntax highlighting, and automatic, language-dependent indentation
+syntax on
+filetype indent plugin on
 
-    " Search
-        set ignorecase
-        set smartcase        " override 'ignorecase' if search pattern contains uppercase
-        set inccommand=split " preview search+replace in a separate split (neovim)
+" Enable true colors
+set termguicolors
 
-    " Tabs instead of spaces
-        set expandtab    " use the appropriate number of spaces when hitting <Tab> in insert-mode
-        set shiftround   " always indent by multiple of shiftwidth
-        set shiftwidth=4 " number of spaces per <Tab> press
+" Set GUI font
+" set guifont=Source\ Code\ Pro\ Light:h13
 
-    " Line number
-        set number          " show line numbers
-        set relativenumber  " show relative line number
+" Line number
+set number
+set relativenumber
 
-    set formatoptions+=n " smart auto-intending inside numbered lists
-    set guifont=Source\ Code\ Pro\ Light:h13
-    set termguicolors  " enable true colors
-    set cursorline " Highlight line that the cursor is on
-    set laststatus=2   " always show status line
-    set lazyredraw     " don't bother updating screen during macro playback
+" Highlight line that the cursor is on
+set cursorline
 
-    " Custom render of certain characters
-        set list " show whitespace
-        set listchars=nbsp:⦸
-        set listchars+=extends:»
-        set listchars+=precedes:«
-        set listchars+=trail:•
+" Suppress ~ at EndOfBuffer
+set fillchars+=eob:\ 
 
-    set nojoinspaces " autoinsert one spaces after '.', '?', '!' for join command <Shift+j>
-    set noshowmatch  " don't jump between matching brackets
-    set scrolloff=3  " start scrolling 3 line before edge of viewport
-    set updatetime=100
+" Interface abbreviations
+"  f: use "(3 of 5)" instead of "(file 3 of 5)"
+"  i: use "[noeol]"  instead of "[Incomplete last line]"
+"  l: use "999L, 888C" instead of "999 lines, 888 characters"
+"  m: use "[+]"   instead of "[Modified]"
+"  n: use "[New]" instead of "[New File]"
+"  r: use "[RO]"  instead of "[readonly]"
+"  w: use "[w]"   instead of "written" for file write message
+"     and "[a]"   instead of "appended" for ':w >> file' command
+"  x: use "[dos]" instead of "[dos format]", "[unix]" instead of
+"         "[unix format]" and "[mac]" instead of "[mac format]".
+"  a: use all of the above
+"  !!!! Startify includes 'I' which hides the intro message default in vim
+"  !!!! Deoplete includes 'c' which hides the default 'match 1 of 2' et al
+"  !!!! ALE      includes 'T' which truncates messages if they don't fit in the command section
+set shortmess+=a
 
-    set shortmess+=a " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
+" Don't bother syntax highlighting long lines
+set synmaxcol=400
 
-    set mouse=a " enable mouse (selection, resizing windows) -- Already given from terminus package, but including for succinctness
+" Only redraw when necessary
+set lazyredraw
 
-    " Terminal
-    if has('nvim')
-        " use neovim-remote (pip3 install neovim-remote) allows
-        " opening a new split inside neovim instead of nesting
-        " neovim processes for git commit
-        let $VISUAL      = 'nvr -cc split --remote-wait +"setlocal bufhidden=delete"'
-        let $GIT_EDITOR  = 'nvr -cc split --remote-wait +"setlocal bufhidden=delete"'
-        let $EDITOR      = 'nvr -l'
-        let $ECTO_EDITOR = 'nvr -l'
-    endif
-" --------- }}}
+" Hide current mode 'INSERT' in command section. I use statusline for displaying this
+set noshowmode
 
-if !has('nvim')
-    " Sync with corresponding nvim :highlight commands in ~/.vim/plugin/autocmds.vim:
-    set highlight+=@:Conceal            " ~/@ at end of window, 'showbreak'
-    set highlight+=N:DiffText           " make current line number stand out a little
-    set highlight+=c:LineNr             " blend vertical separators with line numbers
-endif
+" Place for swap files
+set directory^=$HOME/.vim/nvim/tmp//
 
-if v:version > 703 || v:version == 703 && has('patch541')
-    set formatoptions+=j " remove comment leader when joining comments
-endif
+" Allow unrestricted backspacing in insert mode
+set backspace=indent,start,eol
 
-if has('linebreak')
-    set linebreak " wrap long lines at characters in 'breakat'
-    set breakindent
+" Shared Clipboard
+set clipboard=unnamed
 
-    if exists('&breakindentopt')
-        set breakindentopt=shift:4
-    endif
-endif
+set spelllang=en_us
 
-syntax on " Syntax coloring
-if has('syntax')
-    set synmaxcol=400                   " don't bother syntax highlighting long lines
-endif
+" Hide buffers that aren't in a window
+set hidden
 
-if exists('&belloff')
-    set belloff=all
-endif
+" Handle splits. Below when new sp, right when new vsp
+set splitbelow
+set splitright
+
+" Search
+set ignorecase
+set smartcase
+set inccommand=split " (neovim) preview search+replace in a separate split
+
+" Tabs instead of spaces
+set shiftwidth=4
+set expandtab
+set shiftround
+
+" Smart auto-intending inside numbered lists
+set formatoptions+=n
+
+" Show whitespace, and customize render of certain characters
+set list
+set listchars=nbsp:⦸
+set listchars+=extends:»
+set listchars+=precedes:«
+set listchars+=trail:•
+
+" Autoinsert one spaces after '.', '?', '!' for join command <Shift+j>
+set nojoinspaces
+
+" Don't jump between matching brackets, and start scrolling 3 line before edge of viewport
+set noshowmatch
+set scrolloff=3
+set updatetime=100
+
+" Remove comment leader when joining comments
+set formatoptions+=j
+
+" Wrap long lines at characters in 'breakat' and when lines wrap, they're indented
+set linebreak
+set breakindent
+set breakindentopt=shift:4
 
 " Folding
-if has('folding')
-    if has('windows')
-        set fillchars=vert:┃              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
-        set fillchars+=fold:·             " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
-    endif
+set foldmethod=indent
+set foldtext=saltor#settings#foldtext()
+set foldlevelstart=50
 
-    if has('nvim-0.3.1')
-        set fillchars+=eob:\              " suppress ~ at EndOfBuffer
-    endif
-
-    set foldlevelstart=50
-    set foldmethod=indent
-    set foldtext=saltor#settings#foldtext()
-endif
-
-if has('virtualedit')
-    set virtualedit=block " allow cursor to move where there is no text in visual block mode
-endif
+" Allow cursor to move where there is no text in visual block mode
+set virtualedit=block
 
 let g:python_host_prog = '/usr/bin/python'
 let g:pymode_python='python3'
 let g:python3_host_prog = '/usr/local/bin/python3.8'
 let g:ruby_host_prog   = 'rvm system do neovim-ruby-host'
 
-filetype indent plugin on " Automatic, language-dependent indentation
 let g:js_filetypes=[
 \   'javascript',
 \   'javascript.jsx',
