@@ -42,7 +42,13 @@ let g:maplocalleader = '\'
     vnoremap ; :
     vnoremap : ;
 
-
+    " Remap n and N so that they go forward + backward respectively regardless
+    " of whether you searched with ? or /
+    nnoremap <expr> n 'Nn'[v:searchforward]
+    xnoremap <expr> n 'Nn'[v:searchforward]
+    onoremap <expr> n 'Nn'[v:searchforward]
+    nnoremap <expr> N 'nN'[v:searchforward]
+    xnoremap <expr> N 'nN'[v:searchforward]
     onoremap <expr> N 'nN'[v:searchforward]
 
     " Add empty lines
