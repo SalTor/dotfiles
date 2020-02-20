@@ -2,12 +2,6 @@
 syntax on
 filetype indent plugin on
 
-" Enable true colors
-set termguicolors
-
-" Set GUI font
-" set guifont=Source\ Code\ Pro\ Light:h13
-
 " Line number
 set number
 set relativenumber
