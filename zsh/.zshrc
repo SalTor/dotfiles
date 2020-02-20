@@ -2,12 +2,11 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME='agnoster'
 
-plugins=(git zsh-autosuggestions vi-mode)
+plugins=(git zsh-autosuggestions)
 
 DEFAULT_USER=`whoami`
 
 ENABLE_CORRECTION='true'
-COMPLETION_WAITING_DOTS="true"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -36,25 +35,12 @@ export FZF_CTRL_R_OPTS="--preview=''"
 # Load aliases and shortcuts
 source $HOME/.aliases
 
-# FZF completions
-source $HOME/.fzf.zsh
-
-
-# ZSH SPECIFIC STUFF
-
 # Basic auto/tab complete:
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
 
 # Run command history from <ctrlx><ctrl-r>
 fzf-history-widget-accept() {
