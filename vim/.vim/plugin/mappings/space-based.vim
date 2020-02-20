@@ -82,8 +82,8 @@ let g:maplocalleader = '\'
     " ^ Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
 
     " Errors
-    nnoremap <silent> <Leader>en :ALENextWrap<CR>
-    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
+    nnoremap <silent> <Leader>en :ALENextWrap<CR>zz
+    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>zz
     nnoremap <silent> <Leader>el :lopen<CR>
 
     " File
