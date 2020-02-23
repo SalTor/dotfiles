@@ -5,6 +5,7 @@ if has('autocmd')
             autocmd FileType nerdtree nnoremap <silent> <buffer> <Esc> :NERDTreeClose<CR>
             autocmd FileType fzf tnoremap <silent> <buffer> <Esc> <C-\><C-c>
             autocmd FileType neoterm tnoremap <silent> <buffer> <Esc> <C-\><C-n>
+            autocmd FileType help nnoremap <silent> <buffer> <Esc> :q<CR>
         augroup END
 
         augroup Buffers
