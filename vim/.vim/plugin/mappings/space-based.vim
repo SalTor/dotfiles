@@ -193,6 +193,8 @@ let g:maplocalleader = '\'
     nnoremap <silent> <C-k> <C-w>k
 
     " * Miscellaneous
+    nnoremap <silent> <Leader>vq :qa<CR>
     nnoremap <silent> <Leader>u :undo<CR>
     nnoremap <silent> <Leader>r :redo<CR>
+    nnoremap <silent> <C-r> :echo "Try using <SPC>r !"<CR>
     nnoremap <Leader><Tab> <C-^>
