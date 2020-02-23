@@ -5,12 +5,29 @@ let g:maplocalleader = '\'
     " Disable Ex mode
     map Q <Nop>
 
+    " Vim. Live it.
+    nnoremap <up> <Nop>
+    inoremap <up> <Nop>
+    vnoremap <up> <Nop>
+    nnoremap <down> <Nop>
+    inoremap <down> <Nop>
+    vnoremap <down> <Nop>
+    nnoremap <left> <Nop>
+    inoremap <left> <Nop>
+    vnoremap <left> <Nop>
+    nnoremap <right> <Nop>
+    inoremap <right> <Nop>
+    vnoremap <right> <Nop>
+
+    " Disable horizontal line movement -- for the challenge!
+    nmap h :echo "Don't use \|h\| for line-wise movement!"<CR>
+    nmap l :echo "Don't use \|l\| for line-wise movement!"<CR>
+
     " Command mode line-movements
     cnoremap <C-a> <Home>
     cnoremap <C-e> <End>
 
     " Ergonomic horizontal line-movements
-    nnoremap B ^
     nnoremap E $
 
     " Better yank operation
@@ -36,12 +53,6 @@ let g:maplocalleader = '\'
     " Apply last-used macro to selected lines
     xnoremap @ :<C-u>call mappings#visual#ExecuteMacroOverVisualRange()<CR>
 
-    " Remap ; to : for easier command access
-    nnoremap ; :
-    nnoremap : ;
-    vnoremap ; :
-    vnoremap : ;
-
     " Remap n and N so that they go forward + backward respectively regardless
     " of whether you searched with ? or /
     nnoremap <expr> n 'Nn'[v:searchforward]
@@ -60,37 +71,45 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>ass :SSave<CR>
     nnoremap <silent> <Leader>asd :SDelete<CR>
     nnoremap <silent> <Leader>asl :SLoad<CR>
+    nnoremap <silent> <Leader>acd :<C-u>CocList diagnostics<CR>
+    nnoremap <silent> <Leader>ace :<C-u>CocList extensions<CR>
+    nnoremap <silent> <Leader>acc :<C-u>CocList commands<CR>
+    nnoremap <silent> <Leader>aco :<C-u>CocList outline<CR>
+    nnoremap <silent> <Leader>acs :<C-u>CocList -I symbols<CR>
 
-    " Book_marks_
+    " Book marks
     nnoremap <silent> <Leader>Bl :Marks<CR>
 
     " Buffer / Tabs
     nnoremap <silent> [b :bprevious<CR>
     nnoremap <silent> ]b :bnext<CR>
-    nnoremap <silent> <Leader>bp :bprevious<CR>
-    nnoremap <silent> <Leader>bn :bnext<CR>
-    nnoremap <silent> <Leader>bj :tabprevious<CR>
-    nnoremap <silent> <Leader>bk :tabnext<CR>
+    nnoremap <silent> <Leader>; :Buffers<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
-    nnoremap <silent> <Leader>bb :Buffers<CR>
-    nnoremap <silent> <Leader>bY mkggVGY`k
     nnoremap <silent> <Leader>bh :Startify<CR>
 
     " Colors
     nnoremap <silent> <Leader>Cl :Colors<CR>
-    nnoremap <silent> <Leader>CR :syntax sync fromstart<CR>
-    " ^ Fix (most) syntax highlighting problems in current buffer (mnemonic: coloring)
+
+    " EasyMotion.vim
+    nmap S <Plug>(easymotion-s)
+    nmap W <Plug>(easymotion-w)
+    nmap B <Plug>(easymotion-b)
+    nmap F <Plug>(easymotion-bd-fl)
+    nmap T <Plug>(easymotion-bd-tl)
+    nnoremap <Leader>n <Plug>(easymotion-next)
+    nnoremap <Leader>N <Plug>(easymotion-prev)
 
     " Errors
-    nnoremap <silent> <Leader>en :ALENextWrap<CR>zz
-    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>zz
-    nnoremap <silent> <Leader>el :lopen<CR>
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    nnoremap <silent> <Leader>en :ALENextWrap<CR>
+    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
 
     " File
-    nnoremap <silent> <Leader>fs :wa<CR>
-    nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
-    nnoremap <silent> <Leader>f? :GFiles?<CR>
+    nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
+    nnoremap <silent> <Leader>fg :GFiles?<CR>
     nnoremap <silent> <Leader>fr :History<CR>
+    nnoremap <silent> <Leader>fs :wa<CR>
     nnoremap <silent> <Leader>fe :call saltor#mappings#plugin_related#nerdtree_open()<CR>
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
     nnoremap <silent> <Leader>f5 :so %<CR>
@@ -102,14 +121,15 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>f.s :w<CR>
     nnoremap <Leader>f. <nop>
 
+    " Location list
+    nnoremap <silent> [l :lprev<CR>
+    nnoremap <silent> ]l :lnext<CR>
+    nnoremap <silent> <Leader>lo :lopen<CR>
+    nnoremap <silent> <Leader>lc :lclose<CR>
 
     " Page (scrolling)
     nnoremap [p <C-u>
     nnoremap ]p <C-d>
-
-    " Quit
-    nnoremap <Leader>qq :q<CR>
-    nnoremap <Leader>qQ :qa<CR>
 
     " Quickfix list
     nnoremap <silent> [q :cprevious<CR>
@@ -148,7 +168,16 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
 
+    " Variable / method signatures
+    nmap <silent> <Leader>vd <Plug>(coc-definition)
+    nmap <silent> <Leader>vy <Plug>(coc-type-definition)
+    nmap <silent> <Leader>vi <Plug>(coc-implementation)
+    nmap <silent> <Leader>vR <Plug>(coc-references)
+    nmap <Leader>vr <Plug>(coc-rename)
+    nnoremap <silent> <Leader>vk :call saltor#functions#show_documentation()<CR>
+
     " Windows
+    nnoremap <silent> <Leader>wq :q<CR>
     nnoremap <silent> <Leader>wh <C-w>h
     nnoremap <silent> <Leader>wl <C-w>l
     nnoremap <silent> <Leader>wj <C-w>j
