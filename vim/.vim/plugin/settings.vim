@@ -24,10 +24,12 @@ set fillchars+=eob:\
 "  x: use "[dos]" instead of "[dos format]", "[unix]" instead of
 "         "[unix format]" and "[mac]" instead of "[mac format]".
 "  a: use all of the above
+"  c: don't pass messages to |ins-completion-menu'
 "  !!!! Startify includes 'I' which hides the intro message default in vim
 "  !!!! Deoplete includes 'c' which hides the default 'match 1 of 2' et al
 "  !!!! ALE      includes 'T' which truncates messages if they don't fit in the command section
 set shortmess+=a
+set shortmess+=c
 
 " Don't bother syntax highlighting long lines
 set synmaxcol=400
