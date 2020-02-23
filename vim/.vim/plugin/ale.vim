@@ -2,13 +2,14 @@ let g:ale_linters_explicit=1
 let g:ale_linters = {
     \ 'javascript': ['eslint'],
     \ 'javascript.jsx': ['eslint'],
-    \ 'python': ['pyflakes'],
+    \ 'javascriptreact': ['eslint'],
     \ 'css': ['stylelint'],
     \ 'scss': ['stylelint'],
     \ }
 let g:ale_fixers = {
     \ 'javascript': ['prettier'],
     \ 'javascript.jsx': ['prettier'],
+    \ 'javascriptreact': ['prettier'],
     \ 'css': ['prettier'],
     \ 'scss': ['prettier'],
     \ }
