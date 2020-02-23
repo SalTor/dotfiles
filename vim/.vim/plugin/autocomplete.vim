@@ -1,31 +1,32 @@
-let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-j>"
+inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ saltor#functions#check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 
-" Prevent UltiSnips from removing our carefully-crafted mappings.
-let g:UltiSnipsMappingsToIgnore = ['autocomplete']
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-if has('autocmd')
-    augroup SalTorAutocomplete
-        autocmd!
-        autocmd! User UltiSnipsEnterFirstSnippet
-        autocmd User UltiSnipsEnterFirstSnippet call saltor#autocomplete#setup_mappings()
-        autocmd! User UltiSnipsExitLastSnippet
-        autocmd User UltiSnipsExitLastSnippet call saltor#autocomplete#teardown_mappings()
-    augroup END
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if has('patch8.1.1068')
+    " Use `complete_info` if your (Neo)Vim version supports it.
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
-" Additional UltiSnips config.
-let g:UltiSnipsSnippetsDir = $HOME . '/.vim/Ultisnips'
-let g:UltiSnipsSnippetDirectories = [
-    \ $HOME . '/.vim/Ultisnips',
-    \ $HOME . '/.vim/ultisnips-private'
-    \ ]
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-if has('nvim')
-    call saltor#autocomplete#deoplete_init()
-
-    inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-    inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
-    inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-j>"
-    inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
-endif
+augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
