@@ -1,10 +1,4 @@
-if v:progname == 'vi'
-    set noloadplugins
-endif
-
 " PLUGINS
-set rtp+=$HOME/.vim/bundle/LanguageClient-neovim
-
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -31,21 +25,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter' " Show changed lines in gutter
     Plug 'mhinz/vim-startify'     " Start-up screen
     Plug 'google/vim-searchindex' " Show search index on the left, not sure if vim's default right-side one can be moved
-    Plug 'TaDaa/vimade'
-
-    Plug 'mattn/emmet-vim'        " Enable dom-element 'tab-esque' completion
-    Plug 'mxw/vim-jsx', { 'for': 'javascript.jsx' } " Syntax highlighting for JSX
-    Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] } " + dependency of vim-jsx (Syntax highlighting for JavaScript)
-    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'sass', 'scss'] } " CSS3 syntax highlighting
-    Plug 'cakebaker/scss-syntax.vim', { 'for': ['sass', 'scss'] } " SCSS syntax highlighting
-
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemovePlugins' } " Typing completion engine
-    Plug 'carlitux/deoplete-ternjs' " Ternjs source for deoplete
-    Plug 'autozimu/LanguageClient-neovim', " Language Server Protocol plugin for connecting to code completion of various languages
-        \ { 'branch': 'next', 'do': 'bash install.sh' }
-
-    " Visual tree navigation
-    Plug 'scrooloose/nerdtree', {
+    Plug 'tpope/vim-repeat'
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    Plug 'honza/vim-snippets'
+    Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
+    Plug 'sheerun/vim-polyglot' " Syntax files for most languages
+    Plug 'scrooloose/nerdtree', " Visual tree navigation
+        \ {
         \ 'on': [
         \    'NERDTreeToggle',
         \    'NERDTreeFind',
@@ -53,10 +39,7 @@ call plug#begin('~/.vim/plugged')
         \    'NERDTreeClose',
         \    'NERDTreeFocus'
         \ ] }
-
     Plug 'easymotion/vim-easymotion' " Easily navigate around a document
-    " Plug 'sirver/UltiSnips' " Snippets tool
-
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
 
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
