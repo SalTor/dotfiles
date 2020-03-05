@@ -1,6 +1,14 @@
 let g:mapleader = ' '
 let g:maplocalleader = '\'
 
+let s:local_leader_map = {}
+
+let s:leader_map = {}
+let s:leader_map['name'] = 'root'
+
+nnoremap <silent> <Leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <LocalLeader> :<c-u>WhichKey  ','<CR>
+
 " Not neumonic. More like config.
     " Disable Ex mode
     map Q <Nop>
@@ -51,7 +59,7 @@ let g:maplocalleader = '\'
     xnoremap <silent> J :call saltor#mappings#visual#move_down()<CR>
 
     " Apply last-used macro to selected lines
-    xnoremap @ :<C-u>call mappings#visual#ExecuteMacroOverVisualRange()<CR>
+    xnoremap @ :<C-u>call saltor#mappings#visual#ExecuteMacroOverVisualRange()<CR>
 
     " Remap n and N so that they go forward + backward respectively regardless
     " of whether you searched with ? or /
@@ -68,6 +76,25 @@ let g:maplocalleader = '\'
 
 " Neumonic
     " Applications
+    let s:leader_map['a'] = {
+        \ 'name': '+applications',
+        \ 's': {
+        \     'name': '+session',
+        \     's': 'save-session-as',
+        \     'd': 'delete-session',
+        \     'l': 'load-session',
+        \ },
+        \ 'c': {
+        \     'name': '+coc',
+        \     'd': 'coc-diagnostics',
+        \     'e': 'coc-extensions',
+        \     'c': 'coc-commands',
+        \     'o': 'coc-outline',
+        \     's': 'coc-symbols',
+        \     'r': 'coc-restart',
+        \ },
+        \ }
+
     nnoremap <silent> <Leader>ass :SSave<CR>
     nnoremap <silent> <Leader>asd :SDelete<CR>
     nnoremap <silent> <Leader>asl :SLoad<CR>
@@ -76,28 +103,42 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>acc :<C-u>CocList commands<CR>
     nnoremap <silent> <Leader>aco :<C-u>CocList outline<CR>
     nnoremap <silent> <Leader>acs :<C-u>CocList -I symbols<CR>
-
-    " Book marks
-    nnoremap <silent> <Leader>Bl :Marks<CR>
+    nnoremap <silent> <Leader>acr :CocRestart<CR>
 
     " Buffer / Tabs
+    let s:leader_map[';'] = 'buffer-list'
+    let s:leader_map['b'] = {
+        \ 'name': '+buffers',
+        \ ';': 'buffers-list',
+        \ 'd': 'unload-buffer',
+        \ 'h': 'home-buffer',
+        \ }
     nnoremap <silent> [b :bprevious<CR>
     nnoremap <silent> ]b :bnext<CR>
     nnoremap <silent> <Leader>; :Buffers<CR>
+    nnoremap <silent> <Leader>b; :Buffers<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
 
     " Colors
     nnoremap <silent> <Leader>Cl :Colors<CR>
 
-    " EasyMotion.vim
-    nmap S <Plug>(easymotion-s)
-    nmap W <Plug>(easymotion-w)
-    nmap B <Plug>(easymotion-b)
-    nmap F <Plug>(easymotion-bd-fl)
-    nmap T <Plug>(easymotion-bd-tl)
-    nnoremap <Leader>n <Plug>(easymotion-next)
-    nnoremap <Leader>N <Plug>(easymotion-prev)
+    " Jumps + EasyMotion.vim
+    let s:leader_map['j'] = {
+        \ 'name': '+jumps/easymotion',
+        \ 's': 'to-char',
+        \ 'w': 'to-word',
+        \ 'f': 'to-char (line-wise)',
+        \ 't': 'to-char (line-wise)',
+        \ 'n': 'next',
+        \ 'N': 'prev',
+        \ }
+    nmap <Leader>js <Plug>(easymotion-s)
+    nmap <Leader>jw <Plug>(easymotion-bd-w)
+    nmap <Leader>jf <Plug>(easymotion-bd-fl)
+    nmap <Leader>jt <Plug>(easymotion-bd-tl)
+    nmap <Leader>jn <Plug>(easymotion-next)
+    nmap <Leader>jN <Plug>(easymotion-prev)
 
     " Errors
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -106,8 +147,28 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
 
     " File
-    nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
+    let s:leader_map['f'] = {
+        \ 'name': '+file',
+        \ ',': 'which_key_ignore',
+        \ '.': {
+        \     'name': '+cwd',
+        \     'f': 'explore-files-current-dir-in-gui',
+        \     's': 'save-current-file',
+        \ },
+        \ 'f': 'file-finder',
+        \ 'g': 'git-status-list',
+        \ 'r': 'recent-files',
+        \ 's': 'save-all-files',
+        \ 'e': 'explore-files-in-gui',
+        \ 'j': 'jump-to-current-file',
+        \ '5': 'source-file',
+        \ 'y': 'echo-file-path',
+        \ 'R': 'rename-file',
+        \ 'M': 'move-file',
+        \ }
+
     nnoremap <silent> <Leader>fg :GFiles?<CR>
+    nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
     nnoremap <silent> <Leader>fr :History<CR>
     nnoremap <silent> <Leader>fs :wa<CR>
     nnoremap <silent> <Leader>fe :call saltor#mappings#plugin_related#nerdtree_open()<CR>
@@ -116,10 +177,11 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>fy :echo expand('%p')<CR>
     nnoremap <Leader>fR :call saltor#functions#file_rename()<CR>
     nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
-
     nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
     nnoremap <silent> <Leader>f.s :w<CR>
-    nnoremap <Leader>f. <nop>
+
+    let s:leader_map[','] = 'file-finder'
+    nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
 
     " Location list
     nnoremap <silent> [l :lprev<CR>
@@ -143,7 +205,6 @@ let g:maplocalleader = '\'
     vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
     vnoremap <silent> <Leader>sP y/<C-R>"<CR>:DynamicRg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
-    nnoremap <silent> <Leader>sf :Lines<CR>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
     nnoremap <silent> <leader>sc :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
     nnoremap <silent> <Leader>sot :Rg TODO<CR>
@@ -177,6 +238,7 @@ let g:maplocalleader = '\'
     nnoremap <silent> <Leader>vk :call saltor#functions#show_documentation()<CR>
 
     " Windows
+    nmap <silent> <Leader>ww <Plug>(choosewin)
     nnoremap <silent> <Leader>wq :q<CR>
     nnoremap <silent> <Leader>wh <C-w>h
     nnoremap <silent> <Leader>wl <C-w>l
@@ -193,8 +255,9 @@ let g:maplocalleader = '\'
     nnoremap <silent> <C-k> <C-w>k
 
     " * Miscellaneous
-    nnoremap <silent> <Leader>vq :qa<CR>
-    nnoremap <silent> <Leader>u :undo<CR>
-    nnoremap <silent> <Leader>r :redo<CR>
-    nnoremap <silent> <C-r> :echo "Try using <SPC>r !"<CR>
+    let s:leader_map['<Tab>'] = 'alternate-file'
+    nnoremap <silent> <Leader>qv :qa<CR>
     nnoremap <Leader><Tab> <C-^>
+
+let g:saltor#map#leader#desc = s:leader_map
+let g:saltor#map#localleader#desc = s:local_leader_map

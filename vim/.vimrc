@@ -44,5 +44,6 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
 
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " Display leader/local leader mappings
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()

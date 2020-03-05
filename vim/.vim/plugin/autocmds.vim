@@ -1,5 +1,13 @@
 if has('autocmd')
     function! s:AutoCommands()
+        augroup WhichKey
+            function! s:init_which_key()
+                call which_key#register('<Space>', 'g:saltor#map#leader#desc')
+                call which_key#register('\', 'let g:saltor#map#localleader#desc')
+            endfunction
+            autocmd! User vim-which-key call s:init_which_key()
+        augroup END
+
         augroup EscapeStuff
             autocmd!
             autocmd FileType nerdtree nnoremap <silent> <buffer> <Esc> :NERDTreeClose<CR>

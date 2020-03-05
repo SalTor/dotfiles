@@ -12,6 +12,8 @@ set cursorline
 " Suppress ~ at EndOfBuffer
 set fillchars+=eob:\ 
 
+set timeoutlen=300
+
 " Interface abbreviations
 "  f: use "(3 of 5)" instead of "(file 3 of 5)"
 "  i: use "[noeol]"  instead of "[Incomplete last line]"
