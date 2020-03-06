@@ -1,9 +1,18 @@
 if has('autocmd')
     function! s:AutoCommands()
+        augroup CommandMode
+            " Quick command mode nnoremap
+            nnoremap <CR> :
+
+            " In the quickfix window, <CR> is used to jump to the
+            " error under the cursor, so undefine the mapping there.
+            autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+        augroup END
+
         augroup WhichKey
             function! s:init_which_key()
                 call which_key#register('<Space>', 'g:saltor#map#leader#desc')
-                call which_key#register('\', 'let g:saltor#map#localleader#desc')
+                call which_key#register('\', 'g:saltor#map#localleader#desc')
             endfunction
             autocmd! User vim-which-key call s:init_which_key()
         augroup END
