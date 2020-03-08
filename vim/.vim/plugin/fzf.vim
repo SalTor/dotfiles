@@ -1,4 +1,10 @@
-let g:fzf_layout = {'window': { 'width': 0.6, 'height': 0.75, 'highlight': 'Label' }}
+let g:fzf_layout = {
+    \ 'window': {
+    \     'height': 0.5,
+    \     'width': 1,
+    \     'yoffset': 0,
+    \     'highlight': 'PreProc',
+    \ }}
 
 let g:fzf_colors =
     \ {
@@ -6,7 +12,7 @@ let g:fzf_colors =
     \ 'bg':      ['bg', 'Normal'],
     \ 'hl':      ['fg', 'Comment'],
     \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+    \ 'bg+':     ['bg', 'Normal'],
     \ 'hl+':     ['fg', 'Statement'],
     \ 'info':    ['fg', 'PreProc'],
     \ 'border':  ['fg', 'Ignore'],

@@ -35,14 +35,8 @@ cnoremap <C-e> <End>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" Search For Visually Selected Text
-vmap // y/<C-R>"<CR>
-
 " Toggle fold at current position
 nnoremap <Tab> za
-
-" Repeat last macro if in a normal buffer
-nnoremap <expr> <CR> empty(&buftype) ? '@@' : '<CR>'
 
 " Move lines around
 xnoremap <silent> K :call saltor#mappings#visual#move_up()<CR>
@@ -71,18 +65,14 @@ tnoremap <C-\> <C-\><C-\>
 " Spelling
 nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
 
-" Quickfix list
-nnoremap <silent> [q :cprevious<CR>
-nnoremap <silent> ]q :cnext<CR>
-
 " Page (scrolling)
 nnoremap [p <C-u>
 nnoremap ]p <C-d>
 
-" Location list
-nnoremap <silent> [l :lprev<CR>
-nnoremap <silent> ]l :lnext<CR>
-
 " Errors
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Buffers
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
