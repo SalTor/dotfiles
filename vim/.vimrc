@@ -41,10 +41,11 @@ call plug#begin('~/.vim/plugged')
         \ ] }
     Plug 'easymotion/vim-easymotion' " Easily navigate around a document
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " Display leader/local leader mappings
+    Plug 'junegunn/goyo.vim' " Focused writing
 
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
 
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " Display leader/local leader mappings
     Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' } " Choose window/split visually
 
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
