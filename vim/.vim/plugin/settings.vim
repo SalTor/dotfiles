@@ -12,7 +12,7 @@ set cursorline
 " Suppress ~ at EndOfBuffer
 set fillchars+=eob:\ 
 
-set timeoutlen=300
+set timeoutlen=500
 
 " Interface abbreviations
 "  f: use "(3 of 5)" instead of "(file 3 of 5)"
@@ -32,6 +32,13 @@ set timeoutlen=300
 "  !!!! ALE      includes 'T' which truncates messages if they don't fit in the command section
 set shortmess+=a
 set shortmess+=c
+
+" n: Smart auto-intending inside numbered lists
+" o: Making a comment after oO
+" j: Remove comment leader when joining comments
+set formatoptions+=n
+set formatoptions-=o
+set formatoptions+=j
 
 " Don't bother syntax highlighting long lines
 set synmaxcol=400
@@ -70,9 +77,6 @@ set shiftwidth=4
 set expandtab
 set shiftround
 
-" Smart auto-intending inside numbered lists
-set formatoptions+=n
-
 " Show whitespace, and customize render of certain characters
 set list
 set listchars=nbsp:⦸
@@ -87,9 +91,6 @@ set nojoinspaces
 set noshowmatch
 set scrolloff=3
 set updatetime=100
-
-" Remove comment leader when joining comments
-set formatoptions+=j
 
 " Wrap long lines at characters in 'breakat' and when lines wrap, they're indented
 set linebreak
