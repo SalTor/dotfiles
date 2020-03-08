@@ -9,14 +9,16 @@ nnoremap <silent> <Leader> :<c-u>WhichKey '<Space>'<CR>
 let s:leader_map['a'] = {
     \ 'name': '+applications',
     \ 'ss': 'save-session-as',
-    \ 'sd ': 'delete-session',
-    \ 'sl ': 'load-session',
-    \ 'cd ': 'coc-diagnostics',
-    \ 'ce ': 'coc-extensions',
-    \ 'cc ': 'coc-commands',
-    \ 'co ': 'coc-outline',
-    \ 'cs ': 'coc-symbols',
-    \ 'cr ': 'coc-restart',
+    \ 'sd': 'delete-session',
+    \ 'sl': 'load-session',
+    \ 'cd': 'coc-diagnostics',
+    \ 'ce': 'coc-extensions',
+    \ 'cc': 'coc-commands',
+    \ 'co': 'coc-outline',
+    \ 'cs': 'coc-symbols',
+    \ 'cr': 'coc-restart',
+    \ 'pi': 'plug-install',
+    \ 'pc': 'plug-clean',
     \ }
     nnoremap <silent> <Leader>ass :SSave<CR>
     nnoremap <silent> <Leader>asd :SDelete<CR>
@@ -27,6 +29,8 @@ let s:leader_map['a'] = {
     nnoremap <silent> <Leader>aco :<C-u>CocList outline<CR>
     nnoremap <silent> <Leader>acs :<C-u>CocList -I symbols<CR>
     nnoremap <silent> <Leader>acr :CocRestart<CR>
+    nnoremap <silent> <Leader>api :PlugInstall<CR>
+    nnoremap <silent> <Leader>apc :PlugClean<CR>
 
 " Buffer / Tabs
 let s:leader_map[';'] = 'fzf-buffers'
@@ -48,7 +52,7 @@ let s:leader_map['C'] = {
     \ 'r': 'refresh',
     \ }
     nnoremap <silent> <Leader>Cl :Colors<CR>
-    nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>
+    nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>:echo 'Syntax Refreshed'<CR>
 
 " Jumps + EasyMotion.vim
 let s:leader_map['j'] = {
@@ -67,6 +71,13 @@ let s:leader_map['j'] = {
     nmap <Leader>jn <Plug>(easymotion-next)
     nmap <Leader>jN <Plug>(easymotion-prev)
 
+    vmap <Leader>js <Plug>(easymotion-s)
+    vmap <Leader>jw <Plug>(easymotion-bd-w)
+    vmap <Leader>jf <Plug>(easymotion-bd-fl)
+    vmap <Leader>jt <Plug>(easymotion-bd-tl)
+    vmap <Leader>jn <Plug>(easymotion-next)
+    vmap <Leader>jN <Plug>(easymotion-prev)
+
 " Errors
 let s:leader_map['e'] = {
     \ 'name': '+errors',
@@ -81,7 +92,7 @@ let s:leader_map['f'] = {
     \ 'name': '+file',
     \ ',': 'which_key_ignore',
     \ '.': {
-    \     'name': '+cwd/current file',
+    \     'name': '+cwd/current-file',
     \     'f': 'fzf-cwd',
     \     's': 'save-current-file',
     \ },
@@ -98,7 +109,7 @@ let s:leader_map['f'] = {
     \ }
     nnoremap <silent> <Leader>fg :GFiles?<CR>
     nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
-    nnoremap <silent> <Leader>fr :History<CR>
+    nnoremap <silent> <Leader>fr :ProjectMru<CR>
     nnoremap <silent> <Leader>fs :wa<CR>
     nnoremap <silent> <Leader>fe :call saltor#mappings#plugin_related#nerdtree_open()<CR>
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
@@ -134,32 +145,32 @@ let s:leader_map['o'] = {
 " Search
 let s:leader_map['s'] = {
     \ 'name': '+search',
-    \ 'p (normal)': 'dynamic-ripgrep',
-    \ 'P (normal)': 'ripgrep',
-    \ 'p (visual)': 'ripgrep',
-    \ 'P (visual)': 'dynamic-ripgrep',
-    \ 'r (visual)': 'replace',
-    \ 'f (visual)': 'find-in-file',
+    \ 'p': 'ripgrep',
+    \ 'P': 'dynamic-ripgrep',
+    \ 'r': 'replace',
+    \ 'f': 'find-in-file',
     \ 'c': 'clear-highlights',
     \ 't': 'find-todos',
     \ }
+    nnoremap <silent> <Leader>sc :nohlsearch<cr>
+    nnoremap <silent> <Leader>st :Rg TODO<CR>
     nnoremap <Leader>sp :DynamicRg<CR>
     nnoremap <Leader>sP :Rg<Space>
-    vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
-    vnoremap <silent> <Leader>sP y/<C-R>"<CR>:DynamicRg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>sp y:DynamicRg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
-    nnoremap <silent> <leader>sc :nohlsearch<cr>
-    nnoremap <silent> <Leader>st :Rg TODO<CR>
 
 " Toggle
 let s:leader_map['t'] = {
     \ 'name': '+toggle',
     \ 's': 'spell-check',
     \ 'n': 'cycle-line-numbering',
+    \ 'g': 'goyo',
     \ }
     nnoremap <silent> <Leader>ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>tn :call saltor#mappings#leader#cycle_numbering()<CR>
+    nnoremap <silent> <Leader>tg :Goyo<CR>
 
 " Terminal
 let s:leader_map['T'] = {
@@ -181,10 +192,12 @@ let s:leader_map['x'] = {
     \ 't (visual)': 'make-columns',
     \ 't (normal)': 'make-columns',
     \ 't': 'which_key_ignore',
+    \ 'f': 'fold',
     \ }
     vnoremap <silent> <Leader>xs !sort<CR>
     vnoremap <silent> <Leader>xt :!column -t<CR>
     nnoremap <silent> <Leader>xt :%!column -t<CR>
+    nnoremap <silent> <Leader>xf za
 
 " Variable / method signatures
 let s:leader_map['v'] = {

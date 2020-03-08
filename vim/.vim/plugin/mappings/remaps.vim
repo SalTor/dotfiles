@@ -35,9 +35,6 @@ cnoremap <C-e> <End>
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
-" Toggle fold at current position
-nnoremap <Tab> za
-
 " Move lines around
 xnoremap <silent> K :call saltor#mappings#visual#move_up()<CR>
 xnoremap <silent> J :call saltor#mappings#visual#move_down()<CR>
