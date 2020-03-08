@@ -37,7 +37,5 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline-themes' " Status line theme options
     Plug 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
 
-    Plug 'tweekmonster/fzf-filemru' " MRU applied with fzf
-
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()
