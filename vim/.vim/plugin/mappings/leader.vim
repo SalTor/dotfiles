@@ -217,6 +217,7 @@ let s:leader_map['v'] = {
 " Windows
 let s:leader_map['w'] = {
     \ 'name': '+windows',
+    \ 'o': 'toggle-maximize-window',
     \ 'w': 'choosewin',
     \ 'q': 'quit',
     \ 'h': 'move-left',
@@ -236,6 +237,7 @@ let s:leader_map['w'] = {
     nnoremap <silent> <Leader>wk <C-w>k
     nnoremap <silent> <Leader>w/ :vsp<CR>
     nnoremap <silent> <Leader>w- :sp<CR>
+    nnoremap <silent> <Leader>wo :call saltor#functions#MaximizeToggle()<CR>
     nnoremap <silent> <Leader>wr <C-w>r
     nnoremap <silent> <Leader>w= <C-w>=
     nnoremap <silent> <C-h> <C-w>h

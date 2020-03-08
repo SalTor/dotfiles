@@ -75,3 +75,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Buffers
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
+
+nnoremap <C-W>o :call saltor#functions#MaximizeToggle()<CR>
+nnoremap <C-W>O :call saltor#functions#MaximizeToggle()<CR>
+nnoremap <C-W><C-O> :call  :call saltor#functions#MaximizeToggle()<CR>
