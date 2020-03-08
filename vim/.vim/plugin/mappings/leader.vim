@@ -1,14 +1,9 @@
 let g:mapleader = ' '
-let g:maplocalleader = '\'
-
-let s:local_leader_map = {}
-let s:local_leader_map['name'] = 'root'
 
 let s:leader_map = {}
 let s:leader_map['name'] = 'root'
 
 nnoremap <silent> <Leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <LocalLeader> :<c-u>WhichKey  '\'<CR>
 
 " Applications
 let s:leader_map['a'] = {
@@ -178,4 +173,3 @@ nnoremap <silent> <Leader>qv :qa<CR>
 nnoremap <Leader><Tab> <C-^>
 
 let g:saltor#map#leader#desc = s:leader_map
-let g:saltor#map#localleader#desc = s:local_leader_map
