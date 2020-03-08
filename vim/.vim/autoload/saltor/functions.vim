@@ -30,7 +30,12 @@ endfunction
 
 function! saltor#functions#FzfSpell()
     let suggestions = spellsuggest(expand("<cword>"))
-    return fzf#run({ 'source': suggestions, 'sink': function("saltor#functions#FzfSpellSink"), 'down': '25%', 'options': '--preview ""' })
+    return fzf#run({ 'source': suggestions, 'sink': function("saltor#functions#FzfSpellSink"), 'window': {
+        \     'height': 0.5,
+        \     'width': 1,
+        \     'yoffset': 0,
+        \     'highlight': 'PreProc',
+        \ }, 'options': '--preview ""' })
 endfunction
 
 let s:bin_dir = expand('~/.vim/plugged/fzf.vim/bin/')
