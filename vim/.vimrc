@@ -48,5 +48,7 @@ call plug#begin('~/.vim/plugged')
 
     Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' } " Choose window/split visually
 
+    Plug 'tweekmonster/fzf-filemru' " MRU applied with fzf
+
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()
