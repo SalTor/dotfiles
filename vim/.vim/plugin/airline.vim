@@ -1,5 +1,7 @@
 let g:airline_theme = 'bubblegum'
 
+let g:airline#extensions#tabline#tab_nr_type = 1
+
 let g:airline_filetype_overrides = {
     \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', 'File Explorer'), '' ],
     \ 'startify': [ get(g:, 'startify', 'Startify'), '' ],
