@@ -53,8 +53,7 @@ if has('autocmd')
         autocmd InsertLeave * set nopaste
 
         " Change default spelling highlights
-        autocmd ColorScheme * highlight clear SpellBad
-        autocmd ColorScheme * highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+        autocmd ColorScheme * call saltor#functions#tweak_colors()
 
         " Turn off line numbers etc
         autocmd TermOpen * setlocal listchars= nonumber norelativenumber

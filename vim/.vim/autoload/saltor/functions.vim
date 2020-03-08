@@ -1,3 +1,14 @@
+
+function! saltor#functions#tweak_colors()
+    highlight clear SpellBad
+    highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+    highlight LineNr guibg=NONE
+    highlight VertSplit guibg=NONE
+    highlight GitGutterAdd guibg=NONE
+    highlight GitGutterChange guibg=NONE
+    highlight GitGutterDelete guibg=NONE
+endfunction
+
 function! saltor#functions#show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
