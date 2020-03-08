@@ -29,8 +29,8 @@ let s:leader_map['a'] = {
     nnoremap <silent> <Leader>aco :<C-u>CocList outline<CR>
     nnoremap <silent> <Leader>acs :<C-u>CocList -I symbols<CR>
     nnoremap <silent> <Leader>acr :CocRestart<CR>
-    nnoremap <silent> <Leader>api :PlugInstall<CR>
-    nnoremap <silent> <Leader>apc :PlugClean<CR>
+    nnoremap <silent> <Leader>api :so ~/.vimrc<CR>:PlugInstall<CR>
+    nnoremap <silent> <Leader>apc :so ~/.vimrc<CR>:PlugClean<CR>
 
 " Buffer / Tabs
 let s:leader_map[';'] = 'fzf-buffers'
