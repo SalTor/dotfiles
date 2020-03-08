@@ -112,6 +112,16 @@ let s:leader_map['f'] = {
 let s:leader_map[','] = 'file-finder'
     nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
 
+let s:leader_map['g'] = {
+    \ 'name': '+git/fugitive',
+    \ 'd': 'git-diff',
+    \ 'b': 'git-blame',
+    \ 'c': 'git-commits',
+    \ }
+    nnoremap <silent> <Leader>gd :Gdiff<CR>
+    nnoremap <silent> <Leader>gb :Gblame<CR>
+    nnoremap <silent> <Leader>gc :Glog<CR>
+
 " Quick-fix lists
 let s:leader_map['o'] = {
     \ 'name': '+open',
