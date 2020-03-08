@@ -2,6 +2,9 @@
 syntax on
 filetype indent plugin on
 
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+
 " Line number
 set number
 set relativenumber
@@ -116,3 +119,5 @@ let g:js_filetypes=[
 \   'javascript.jest',
 \   'javascript.jest.jsx'
 \ ]
+
+highlight Comment cterm=italic gui=italic
