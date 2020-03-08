@@ -5,12 +5,14 @@ vnoremap <up> <Nop>
 nnoremap <down> <Nop>
 inoremap <down> <Nop>
 vnoremap <down> <Nop>
-nnoremap <left> <Nop>
 inoremap <left> <Nop>
-vnoremap <left> <Nop>
-nnoremap <right> <Nop>
 inoremap <right> <Nop>
-vnoremap <right> <Nop>
+
+" May as well use these for scrolling, to avoid pinky pain
+nnoremap <right> <C-d>
+nnoremap <left> <C-u>
+vnoremap <right> <C-d>
+vnoremap <left> <C-u>
 
 " Move to the start of line
 nnoremap H ^
