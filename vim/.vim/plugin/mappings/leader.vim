@@ -3,26 +3,20 @@ let g:mapleader = ' '
 let s:leader_map = {}
 let s:leader_map['name'] = 'root'
 
-nnoremap <silent> <Leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <Leader> :<c-u>WhichKey '<Space>'<CR>
 
 " Applications
 let s:leader_map['a'] = {
     \ 'name': '+applications',
-    \ 's': {
-    \     'name': '+session',
-    \     's': 'save-session-as',
-    \     'd': 'delete-session',
-    \     'l': 'load-session',
-    \ },
-    \ 'c': {
-    \     'name': '+coc',
-    \     'd': 'coc-diagnostics',
-    \     'e': 'coc-extensions',
-    \     'c': 'coc-commands',
-    \     'o': 'coc-outline',
-    \     's': 'coc-symbols',
-    \     'r': 'coc-restart',
-    \ },
+    \ 'ss': 'save-session-as',
+    \ 'sd ': 'delete-session',
+    \ 'sl ': 'load-session',
+    \ 'cd ': 'coc-diagnostics',
+    \ 'ce ': 'coc-extensions',
+    \ 'cc ': 'coc-commands',
+    \ 'co ': 'coc-outline',
+    \ 'cs ': 'coc-symbols',
+    \ 'cr ': 'coc-restart',
     \ }
     nnoremap <silent> <Leader>ass :SSave<CR>
     nnoremap <silent> <Leader>asd :SDelete<CR>
@@ -35,22 +29,26 @@ let s:leader_map['a'] = {
     nnoremap <silent> <Leader>acr :CocRestart<CR>
 
 " Buffer / Tabs
-let s:leader_map[';'] = 'buffer-list'
+let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map['b'] = {
     \ 'name': '+buffers',
-    \ ';': 'buffers-list',
+    \ ';': 'fzf-buffers',
     \ 'd': 'unload-buffer',
     \ 'h': 'home-buffer',
     \ }
-    nnoremap <silent> [b :bprevious<CR>
-    nnoremap <silent> ]b :bnext<CR>
     nnoremap <silent> <Leader>; :Buffers<CR>
     nnoremap <silent> <Leader>b; :Buffers<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
 
 " Colors
-nnoremap <silent> <Leader>Cl :Colors<CR>
+let s:leader_map['C'] = {
+    \ 'name': '+colors',
+    \ 'l': 'list',
+    \ 'r': 'refresh',
+    \ }
+    nnoremap <silent> <Leader>Cl :Colors<CR>
+    nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>
 
 " Jumps + EasyMotion.vim
 let s:leader_map['j'] = {
@@ -59,8 +57,8 @@ let s:leader_map['j'] = {
     \ 'w': 'to-word',
     \ 'f': 'to-char (line-wise)',
     \ 't': 'to-char (line-wise)',
-    \ 'n': 'next',
-    \ 'N': 'prev',
+    \ 'n': 'next-easymotion-match',
+    \ 'N': 'prev-easymotion-match',
     \ }
     nmap <Leader>js <Plug>(easymotion-s)
     nmap <Leader>jw <Plug>(easymotion-bd-w)
@@ -70,23 +68,28 @@ let s:leader_map['j'] = {
     nmap <Leader>jN <Plug>(easymotion-prev)
 
 " Errors
-nnoremap <silent> <Leader>en :ALENextWrap<CR>
-nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
+let s:leader_map['e'] = {
+    \ 'name': '+errors',
+    \ 'n': 'next-error',
+    \ 'p': 'prev-error',
+    \ }
+    nnoremap <silent> <Leader>en :ALENextWrap<CR>
+    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
 
 " File
 let s:leader_map['f'] = {
     \ 'name': '+file',
     \ ',': 'which_key_ignore',
     \ '.': {
-    \     'name': '+cwd',
-    \     'f': 'explore-files-current-dir-in-gui',
+    \     'name': '+cwd/current file',
+    \     'f': 'fzf-cwd',
     \     's': 'save-current-file',
     \ },
-    \ 'f': 'file-finder',
-    \ 'g': 'git-status-list',
-    \ 'r': 'recent-files',
+    \ 'f': 'fzf-files',
+    \ 'g': 'fzf-gfiles?',
+    \ 'r': 'fzf-recent',
     \ 's': 'save-all-files',
-    \ 'e': 'explore-files-in-gui',
+    \ 'e': 'nerdtree',
     \ 'j': 'jump-to-current-file',
     \ '5': 'source-file',
     \ 'y': 'echo-file-path',
@@ -106,70 +109,120 @@ let s:leader_map['f'] = {
     nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
     nnoremap <silent> <Leader>f.s :w<CR>
 
-    let s:leader_map[','] = 'file-finder'
+let s:leader_map[','] = 'file-finder'
     nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
 
-" Location list
-nnoremap <silent> <Leader>lo :lopen<CR>
-nnoremap <silent> <Leader>lc :lclose<CR>
-
-" Quickfix list
-nnoremap <Leader>qo :copen<CR>
-nnoremap <Leader>qc :cclose<CR>
+" Quick-fix lists
+let s:leader_map['o'] = {
+    \ 'name': '+open',
+    \ 'l': 'location-list',
+    \ 'q': 'quick-fix-list',
+    \ }
+    nnoremap <silent> <Leader>ol :lopen<CR>
+    nnoremap <silent> <Leader>oq :copen<CR>
 
 " Search
-nnoremap <Leader>sp :DynamicRg<CR>
-nnoremap <Leader>sP :Rg<Space>
-vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
-vnoremap <silent> <Leader>sP y/<C-R>"<CR>:DynamicRg<Space><C-R>"<CR>
-vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
-vnoremap <silent> <Leader>sf y/<C-R>"<CR>
-nnoremap <silent> <leader>sc :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
-nnoremap <silent> <Leader>sot :Rg TODO<CR>
-
-" Terminal
-nnoremap <silent> <Leader>T/ :vertical Topen<CR><C-w>l:startinsert!<CR>
-nnoremap <silent> <Leader>T- :belowright Topen<CR><C-w>j:startinsert!<CR>
-nnoremap <silent> <Leader>Tt :tab Topen<CR>gt:startinsert!<CR>
-nnoremap <silent> <Leader>Tc :Tclose<CR>
-
-" Text
-vnoremap <silent> <Leader>xs !sort<CR>
-nnoremap <silent> <Leader>xt :%!column -t<CR>
-vnoremap <silent> <Leader>xt :!column -t<CR>
+let s:leader_map['s'] = {
+    \ 'name': '+search',
+    \ 'p (normal)': 'dynamic-ripgrep',
+    \ 'P (normal)': 'ripgrep',
+    \ 'p (visual)': 'ripgrep',
+    \ 'P (visual)': 'dynamic-ripgrep',
+    \ 'r (visual)': 'replace',
+    \ 'f (visual)': 'find-in-file',
+    \ 'c': 'clear-highlights',
+    \ 't': 'find-todos',
+    \ }
+    nnoremap <Leader>sp :DynamicRg<CR>
+    nnoremap <Leader>sP :Rg<Space>
+    vnoremap <silent> <Leader>sp y/<C-R>"<CR>:Rg<Space><C-R>"<CR>
+    vnoremap <silent> <Leader>sP y/<C-R>"<CR>:DynamicRg<Space><C-R>"<CR>
+    vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
+    vnoremap <silent> <Leader>sf y/<C-R>"<CR>
+    nnoremap <silent> <leader>sc :nohlsearch<cr>
+    nnoremap <silent> <Leader>st :Rg TODO<CR>
 
 " Toggle
-nnoremap <silent> <Leader>tS :call saltor#mappings#leader#cycle_spellcheck()<CR>
-nnoremap <silent> <Leader>tN :call saltor#mappings#leader#cycle_numbering()<CR>
+let s:leader_map['t'] = {
+    \ 'name': '+toggle',
+    \ 's': 'spell-check',
+    \ 'n': 'cycle-line-numbering',
+    \ }
+    nnoremap <silent> <Leader>ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
+    nnoremap <silent> <Leader>tn :call saltor#mappings#leader#cycle_numbering()<CR>
+
+" Terminal
+let s:leader_map['T'] = {
+    \ 'name': '+terminal',
+    \ '/': 'term-vertical',
+    \ '-': 'term-horizontal',
+    \ 't': 'new',
+    \ 'c': 'close',
+    \ }
+    nnoremap <silent> <Leader>T/ :vertical Topen<CR><C-w>l:startinsert!<CR>
+    nnoremap <silent> <Leader>T- :belowright Topen<CR><C-w>j:startinsert!<CR>
+    nnoremap <silent> <Leader>Tt :tab Topen<CR>gt:startinsert!<CR>
+    nnoremap <silent> <Leader>Tc :Tclose<CR>
+
+" Text
+let s:leader_map['x'] = {
+    \ 'name': '+text',
+    \ 's (visual)': 'sort-lines',
+    \ 't (visual)': 'make-columns',
+    \ 't (normal)': 'make-columns',
+    \ 't': 'which_key_ignore',
+    \ }
+    vnoremap <silent> <Leader>xs !sort<CR>
+    vnoremap <silent> <Leader>xt :!column -t<CR>
+    nnoremap <silent> <Leader>xt :%!column -t<CR>
 
 " Variable / method signatures
-nmap <silent> <Leader>vd <Plug>(coc-definition)
-nmap <silent> <Leader>vy <Plug>(coc-type-definition)
-nmap <silent> <Leader>vi <Plug>(coc-implementation)
-nmap <silent> <Leader>vR <Plug>(coc-references)
-nmap <Leader>vr <Plug>(coc-rename)
-nnoremap <silent> <Leader>vk :call saltor#functions#show_documentation()<CR>
+let s:leader_map['v'] = {
+    \ 'name': '+variables',
+    \ 'd': 'coc-definition',
+    \ 'i': 'coc-implementation',
+    \ 'r': 'coc-rename',
+    \ 'R': 'coc-references',
+    \ 'k': 'documentation',
+    \ }
+    nmap <silent> <Leader>vd <Plug>(coc-definition)
+    nmap <silent> <Leader>vi <Plug>(coc-implementation)
+    nmap <silent> <Leader>vR <Plug>(coc-references)
+    nmap <Leader>vr <Plug>(coc-rename)
+    nnoremap <silent> <Leader>vk :call saltor#functions#show_documentation()<CR>
 
 " Windows
-nmap <silent> <Leader>ww <Plug>(choosewin)
-nnoremap <silent> <Leader>wq :q<CR>
-nnoremap <silent> <Leader>wh <C-w>h
-nnoremap <silent> <Leader>wl <C-w>l
-nnoremap <silent> <Leader>wj <C-w>j
-nnoremap <silent> <Leader>wk <C-w>k
-nnoremap <silent> <Leader>w/ :vsp<CR>
-nnoremap <silent> <Leader>w- :sp<CR>
-nnoremap <silent> <Leader>wd :q<CR>
-nnoremap <silent> <Leader>wr <C-w>r
-nnoremap <silent> <Leader>w= <C-w>=
-nnoremap <silent> <C-h> <C-w>h
-nnoremap <silent> <C-l> <C-w>l
-nnoremap <silent> <C-j> <C-w>j
-nnoremap <silent> <C-k> <C-w>k
+let s:leader_map['w'] = {
+    \ 'name': '+windows',
+    \ 'w': 'choosewin',
+    \ 'q': 'quit',
+    \ 'h': 'move-left',
+    \ 'l': 'move-right',
+    \ 'j': 'move-down',
+    \ 'k': 'move-up',
+    \ '/': 'split-vertical',
+    \ '-': 'split-horizontal',
+    \ 'r': 'rotate',
+    \ '=': 'equalize',
+    \ }
+    nmap <silent> <Leader>ww <Plug>(choosewin)
+    nnoremap <silent> <Leader>wq :q<CR>
+    nnoremap <silent> <Leader>wh <C-w>h
+    nnoremap <silent> <Leader>wl <C-w>l
+    nnoremap <silent> <Leader>wj <C-w>j
+    nnoremap <silent> <Leader>wk <C-w>k
+    nnoremap <silent> <Leader>w/ :vsp<CR>
+    nnoremap <silent> <Leader>w- :sp<CR>
+    nnoremap <silent> <Leader>wr <C-w>r
+    nnoremap <silent> <Leader>w= <C-w>=
+    nnoremap <silent> <C-h> <C-w>h
+    nnoremap <silent> <C-l> <C-w>l
+    nnoremap <silent> <C-j> <C-w>j
+    nnoremap <silent> <C-k> <C-w>k
 
 " * Miscellaneous
 let s:leader_map['<Tab>'] = 'alternate-file'
-nnoremap <silent> <Leader>qv :qa<CR>
-nnoremap <Leader><Tab> <C-^>
+    nnoremap <Leader><Tab> <C-^>
+    nnoremap <silent> <Leader>qv :qa<CR>
 
 let g:saltor#map#leader#desc = s:leader_map
