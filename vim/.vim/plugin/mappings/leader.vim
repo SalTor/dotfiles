@@ -5,6 +5,11 @@ let s:leader_map['name'] = 'root'
 
 nnoremap <silent> <Leader> :<c-u>WhichKey '<Space>'<CR>
 
+for s:i in range(1, 9)
+    let s:leader_map[s:i] = 'window-'.s:i
+    execute 'nnoremap <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
+endfor
+
 " Applications
 let s:leader_map['a'] = {
     \ 'name': '+applications',
