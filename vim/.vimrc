@@ -11,6 +11,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " FZF: A search tool that is fast AF
     Plug 'junegunn/fzf.vim'   " FZF: FZF for vim
     Plug 'junegunn/goyo.vim'  " Focused writing
+    Plug 'junegunn/limelight.vim' " More focused writing by fading unfocused text
     Plug 'tpope/vim-fugitive' " Awesome GIT wrapper for VIM
     Plug 'tpope/vim-surround' " Easily add/change/remove surrounding characters
     Plug 'tpope/vim-repeat'   " Allow repeating of more actions
