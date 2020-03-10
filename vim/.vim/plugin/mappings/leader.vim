@@ -50,6 +50,13 @@ let s:leader_map['b'] = {
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
 
+" comments
+let s:leader_map['c'] = {
+            \ 'name': '+comments',
+            \ ' ': 'toggle',
+            \ '$': 'to-eol',
+            \ }
+
 " Colors
 let s:leader_map['C'] = {
     \ 'name': '+colors',
