@@ -32,7 +32,13 @@ if has('autocmd')
 
         augroup AutoNumberToggle
             autocmd!
-            autocmd BufEnter,FocusGained,InsertLeave * setlocal relativenumber
+            function! s:relative_check()
+                let l:filetype = &filetype
+                if l:filetype != 'help' && l:filetype != 'neoterm' && l:filetype != 'nerdtree'
+                    setlocal relativenumber
+                endif
+            endfunction
+            autocmd BufEnter,FocusGained,InsertLeave * call <SID>relative_check()
             autocmd BufLeave,FocusLost,InsertEnter,WinLeave * setlocal norelativenumber
         augroup END
 
