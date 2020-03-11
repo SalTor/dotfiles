@@ -26,7 +26,3 @@ let g:ale_lint_on_insert_leave=1
 let g:ale_completion_enabled=0
 
 let g:ale_warn_about_trailing_whitespace=0
-
-highlight link ALEVirtualTextError DiffDelete
-highlight link ALEErrorSign DiffDelete
-highlight link ALEVirtualTextWarning Todo
