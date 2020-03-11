@@ -30,7 +30,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'honza/vim-snippets'
     Plug 'kassio/neoterm'       " Synchronized terminals
     Plug 'wincent/terminus'     " Better os-terminal support
-    Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' } " Choose window/split visually
 
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
     Plug 'chriskempson/base16-vim' " Color schemes
