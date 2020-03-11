@@ -7,7 +7,7 @@ nnoremap <silent> <Leader> :<c-u>WhichKey '<Space>'<CR>
 
 for s:i in range(1, 9)
     let s:leader_map[s:i] = 'window-'.s:i
-    execute 'nnoremap <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
+    execute 'nnoremap <silent> <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
 endfor
 
 " Applications
@@ -16,14 +16,34 @@ let s:leader_map['a'] = {
     \ 'ss': 'save-session-as',
     \ 'sd': 'delete-session',
     \ 'sl': 'load-session',
+    \ 's': {
+        \ 'name': '+sessions',
+        \ 's': 'save-session-as',
+        \ 'd': 'delete-session',
+        \ 'l': 'load-session',
+    \ },
     \ 'cd': 'coc-diagnostics',
     \ 'ce': 'coc-extensions',
     \ 'cc': 'coc-commands',
     \ 'co': 'coc-outline',
     \ 'cs': 'coc-symbols',
     \ 'cr': 'coc-restart',
+    \ 'c': {
+        \ 'name': '+coc',
+        \ 'd': 'coc-diagnostics',
+        \ 'e': 'coc-extensions',
+        \ 'c': 'coc-commands',
+        \ 'o': 'coc-outline',
+        \ 's': 'coc-symbols',
+        \ 'r': 'coc-restart',
+    \ },
     \ 'pi': 'plug-install',
     \ 'pc': 'plug-clean',
+    \ 'p': {
+        \ 'name': '+vim-plug',
+        \ 'i': 'plug-install',
+        \ 'c': 'plug-clean',
+    \ }
     \ }
     nnoremap <silent> <Leader>ass :SSave<CR>
     nnoremap <silent> <Leader>asd :SDelete<CR>
@@ -230,7 +250,6 @@ let s:leader_map['v'] = {
 let s:leader_map['w'] = {
     \ 'name': '+windows',
     \ 'o': 'toggle-maximize-window',
-    \ 'w': 'choosewin',
     \ 'q': 'quit',
     \ 'h': 'move-left',
     \ 'l': 'move-right',
@@ -241,7 +260,6 @@ let s:leader_map['w'] = {
     \ 'r': 'rotate',
     \ '=': 'equalize',
     \ }
-    nmap <silent> <Leader>ww <Plug>(choosewin)
     nnoremap <silent> <Leader>wq :q<CR>
     nnoremap <silent> <Leader>wh <C-w>h
     nnoremap <silent> <Leader>wl <C-w>l
@@ -259,7 +277,13 @@ let s:leader_map['w'] = {
 
 " * Miscellaneous
 let s:leader_map['<Tab>'] = 'alternate-file'
+let s:leader_map['q'] = {
+            \ 'name': '+quit',
+            \ 'v': 'quit-vim',
+            \ 'w': 'quit-window',
+            \ }
     nnoremap <Leader><Tab> <C-^>
     nnoremap <silent> <Leader>qv :qa<CR>
+    nnoremap <silent> <Leader>qw :q<CR>
 
 let g:saltor#map#leader#desc = s:leader_map
