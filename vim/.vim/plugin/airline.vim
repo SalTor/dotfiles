@@ -28,7 +28,6 @@ function! Inactive(...)
 endfunction
 call airline#add_statusline_func('Active')
 call airline#add_inactive_statusline_func('Inactive')
-let g:airline_section_a = airline#section#create(['mode', 'crypt', 'paste', 'spell', 'iminsert'])
 let g:airline_section_c = airline#section#create(['%t'])
 let g:airline_section_x = airline#section#create(['branch'])
 let g:airline_section_y = airline#section#create(['Ln %l, Col %c'])
