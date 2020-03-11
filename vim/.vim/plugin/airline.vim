@@ -9,25 +9,28 @@ let g:airline_filetype_overrides = {
 
 let g:airline_detect_spell=1
 
-let g:airline_inactive_collapse=1
-let g:airline_inactive_alt_sep=0
+let g:airline_focuslost_inactive=0
+let g:airline_inactive_collapse=0
+let g:airline_inactive_alt_sep=1
 
 let g:airline#extensions#default#layout = [
-    \ ['a', 'b', 'warning', 'error', 'c'],
+    \ ['b', 'a', 'warning', 'error', 'c'],
     \ ['x', 'y', 'z'],
     \ ]
 
-function! InactiveSectionC(...)
-    let g:airline_section_c = airline#section#create(['%f'])
+call airline#parts#define_function('winnr', 'winnr')
+call airline#parts#define_minwidth('winnr', 50)
+function! Active(...)
+    let g:airline_section_b = ''
 endfunction
-function! ActiveSectionC(...)
-    let g:airline_section_c = airline#section#create(['%t'])
+function! Inactive(...)
+    let g:airline_section_b = airline#section#create(['winnr'])
 endfunction
-call airline#add_statusline_func('ActiveSectionC')
-call airline#add_inactive_statusline_func('InactiveSectionC')
-let g:airline_section_b = ''
-let g:airline_section_c = airline#section#create(['%{ActiveSectionC()}'])
-let g:airline_section_x = airline#section#create(['branch', 'Wn %{winnr()}'])
+call airline#add_statusline_func('Active')
+call airline#add_inactive_statusline_func('Inactive')
+let g:airline_section_a = airline#section#create(['mode', 'crypt', 'paste', 'spell', 'iminsert'])
+let g:airline_section_c = airline#section#create(['%t'])
+let g:airline_section_x = airline#section#create(['branch'])
 let g:airline_section_y = airline#section#create(['Ln %l, Col %c'])
 let g:airline_section_z = airline#section#create(['filetype'])
 
