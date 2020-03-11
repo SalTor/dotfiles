@@ -7,7 +7,6 @@ let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 
 " Line number
 set number
-set relativenumber
 
 " Highlight line that the cursor is on
 set cursorline

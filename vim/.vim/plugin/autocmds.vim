@@ -29,6 +29,13 @@ if has('autocmd')
             nnoremap <CR> :
         augroup END
 
+
+        augroup AutoNumberToggle
+            autocmd!
+            autocmd BufEnter,FocusGained,InsertLeave * setlocal relativenumber
+            autocmd BufLeave,FocusLost,InsertEnter,WinLeave * setlocal norelativenumber
+        augroup END
+
         augroup WhichKey
             function! s:init_which_key()
                 call which_key#register('<Space>', 'g:saltor#map#leader#desc')
