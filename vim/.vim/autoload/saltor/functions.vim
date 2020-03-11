@@ -21,7 +21,15 @@ function! saltor#functions#tweak_colors()
     highlight VertSplit guibg=NONE
     highlight GitGutterAdd guibg=NONE
     highlight GitGutterChange guibg=NONE
+    highlight GitGutterChangeDelete guibg=NONE
     highlight GitGutterDelete guibg=NONE
+    highlight CocInfoSign guifg=#fabd2f guibg=NONE
+    highlight CocWarningSign guifg=#fabd2f guibg=NONE
+    highlight CocErrorSign guifg=#fb4934 guibg=NONE
+    highlight ALEErrorSign guifg=#fb4934 guibg=NONE
+    highlight ALEWarningSign guifg=#fabd2f guibg=NONE
+    highlight ALEVirtualTextWarning guifg=#fabd2f guibg=NONE
+    highlight link ALEVirtualTextError DiffDelete
 endfunction
 
 function! saltor#functions#show_documentation()
