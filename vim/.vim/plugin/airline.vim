@@ -28,14 +28,8 @@ endfunction
 
 call airline#parts#define_function('winnr', 'GetWinnrSymbol')
 call airline#parts#define_minwidth('winnr', 50)
-function! Active(...)
-    let g:airline_section_b = ''
-endfunction
-function! Inactive(...)
-    let g:airline_section_b = airline#section#create(['winnr'])
-endfunction
-call airline#add_statusline_func('Active')
-call airline#add_inactive_statusline_func('Inactive')
+
+let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['%t'])
 let g:airline_section_x = airline#section#create(['branch'])
 let g:airline_section_y = airline#section#create(['Ln %l, Col %c'])
