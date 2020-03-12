@@ -18,7 +18,15 @@ let g:airline#extensions#default#layout = [
     \ ['x', 'y', 'z'],
     \ ]
 
-call airline#parts#define_function('winnr', 'winnr')
+function! GetWinnrSymbol(...)
+    let l:small = ['➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑', '➒', '➓']
+    let l:med   = ['➀', '➁', '➂', '➃', '➄', '➅', '➆', '➇', '➈', '➉']
+    let l:large = ['⓵', '⓶', '⓷', '⓸', '⓹', '⓺', '⓻', '⓼', '⓽', '⓾']
+    let l:chinese = ['一', '二', '三', '四', '五', '六', '七', '八', '九']
+    return l:chinese[winnr()-1]
+endfunction
+
+call airline#parts#define_function('winnr', 'GetWinnrSymbol')
 call airline#parts#define_minwidth('winnr', 50)
 function! Active(...)
     let g:airline_section_b = ''
