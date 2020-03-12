@@ -6,12 +6,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] } " Display leader/local leader mappings
-    Plug 'junegunn/vim-plug' " Package Installer
-    Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " FZF: A search tool that is fast AF
-    Plug 'junegunn/fzf.vim'   " FZF: FZF for vim
-    Plug 'junegunn/goyo.vim'  " Focused writing
-    Plug 'junegunn/limelight.vim' " More focused writing by fading unfocused text
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    Plug 'junegunn/vim-plug'
+    Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/goyo.vim' " Focused writing followed by more focused writing by fading unfocused text
+    Plug 'junegunn/limelight.vim'
     Plug 'tpope/vim-fugitive' " Awesome GIT wrapper for VIM
     Plug 'tpope/vim-surround' " Easily add/change/remove surrounding characters
     Plug 'tpope/vim-repeat'   " Allow repeating of more actions
@@ -27,9 +27,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
     Plug 'dense-analysis/ale' " Linter
-    Plug 'honza/vim-snippets'
-    Plug 'kassio/neoterm'       " Synchronized terminals
-    Plug 'wincent/terminus'     " Better os-terminal support
+    Plug 'honza/vim-snippets' " Snippets solution that works better with coc.nvim
+    Plug 'kassio/neoterm'     " Synchronized terminals
+    Plug 'wincent/terminus'   " Better os-terminal support
 
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
     Plug 'chriskempson/base16-vim' " Color schemes
