@@ -1,1 +1,1 @@
-nnoremap <buffer> q :helpclose<CR>
+nnoremap <silent> <buffer> q :helpclose<CR>

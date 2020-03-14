@@ -105,6 +105,8 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
 endfunction
 
 function! saltor#functions#CheckColorScheme ()
+    highlight Comment cterm=italic gui=italic
+
     if !has('termguicolors')
         let g:base16colorspace=256
     endif
@@ -125,7 +127,7 @@ function! saltor#functions#CheckColorScheme ()
         else
             echoerr 'Bad scheme ' . s:config[0] . ' in ' . s:config_file
         endif
-    else " default
+    else
         set background=dark
         color base16-default-dark
     endif

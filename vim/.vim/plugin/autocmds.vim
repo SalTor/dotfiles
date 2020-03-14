@@ -35,10 +35,10 @@ if has('autocmd')
                     \ 'startify': 1,
                     \ }
                 if !has_key(l:ignored_buffers, &filetype)
-                    setlocal relativenumber
+                    set relativenumber
                 endif
             endfunction
-            autocmd BufEnter,FocusGained,InsertLeave * call <SID>relative_check()
+            autocmd BufEnter,FocusGained,InsertLeave,WinEnter * call <SID>relative_check()
             autocmd BufLeave,FocusLost,InsertEnter,WinLeave * setlocal norelativenumber
         augroup END
 
