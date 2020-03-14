@@ -10,6 +10,14 @@ for s:i in range(1, 9)
     execute 'nnoremap <silent> <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
 endfor
 
+" Misc / one character
+let s:leader_map['<Tab>'] = 'alternate-file'
+let s:leader_map[';'] = 'fzf-buffers'
+let s:leader_map[','] = 'file-finder'
+nnoremap <Leader><Tab> <C-^>
+nnoremap <silent> <Leader>; :Buffers<CR>
+nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
+
 " Applications
 let s:leader_map['a'] = {
     \ 'name': '+applications',
@@ -58,14 +66,12 @@ let s:leader_map['a'] = {
     nnoremap <silent> <Leader>apc :so ~/.vimrc<CR>:PlugClean<CR>
 
 " Buffer / Tabs
-let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map['b'] = {
     \ 'name': '+buffers',
     \ ';': 'fzf-buffers',
     \ 'd': 'unload-buffer',
     \ 'h': 'home-buffer',
     \ }
-    nnoremap <silent> <Leader>; :Buffers<CR>
     nnoremap <silent> <Leader>b; :Buffers<CR>
     nnoremap <silent> <Leader>bd :bd<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
@@ -85,30 +91,6 @@ let s:leader_map['C'] = {
     \ }
     nnoremap <silent> <Leader>Cl :Colors<CR>
     nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>:echo 'Syntax Refreshed'<CR>
-
-" Jumps + EasyMotion.vim
-let s:leader_map['j'] = {
-    \ 'name': '+jumps/easymotion',
-    \ 's': 'to-char',
-    \ 'w': 'to-word',
-    \ 'f': 'to-char (line-wise)',
-    \ 't': 'to-char (line-wise)',
-    \ 'n': 'next-easymotion-match',
-    \ 'N': 'prev-easymotion-match',
-    \ }
-    nmap <Leader>js <Plug>(easymotion-s)
-    nmap <Leader>jw <Plug>(easymotion-bd-w)
-    nmap <Leader>jf <Plug>(easymotion-bd-fl)
-    nmap <Leader>jt <Plug>(easymotion-bd-tl)
-    nmap <Leader>jn <Plug>(easymotion-next)
-    nmap <Leader>jN <Plug>(easymotion-prev)
-
-    vmap <Leader>js <Plug>(easymotion-s)
-    vmap <Leader>jw <Plug>(easymotion-bd-w)
-    vmap <Leader>jf <Plug>(easymotion-bd-fl)
-    vmap <Leader>jt <Plug>(easymotion-bd-tl)
-    vmap <Leader>jn <Plug>(easymotion-next)
-    vmap <Leader>jN <Plug>(easymotion-prev)
 
 " Errors
 let s:leader_map['e'] = {
@@ -152,9 +134,6 @@ let s:leader_map['f'] = {
     nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
     nnoremap <silent> <Leader>f.s :w<CR>
 
-let s:leader_map[','] = 'file-finder'
-    nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
-
 let s:leader_map['g'] = {
     \ 'name': '+git/fugitive',
     \ 'd': 'git-diff',
@@ -164,6 +143,34 @@ let s:leader_map['g'] = {
     nnoremap <silent> <Leader>gd :Gdiff<CR>
     nnoremap <silent> <Leader>gb :Gblame<CR>
     nnoremap <silent> <Leader>gc :Glog<CR>
+
+" Jumps + EasyMotion.vim
+let s:leader_map['j'] = {
+    \ 'name': '+jumps/easymoion',
+    \ 's': 'to-char',
+    \ 'w': 'to-word',
+    \ 'f': 'to-char (line-wise)',
+    \ 't': 'to-char (line-wise)',
+    \ 'n': 'next-easymotion-match',
+    \ 'N': 'prev-easymotion-match',
+    \ }
+    nmap <Leader>js <Plug>(easymotion-s)
+    nmap <Leader>jw <Plug>(easymotion-bd-w)
+    nmap <Leader>jf <Plug>(easymotion-bd-fl)
+    nmap <Leader>jt <Plug>(easymotion-bd-tl)
+    nmap <Leader>jk <Plug>(easymotion-k)
+    nmap <Leader>jj <Plug>(easymotion-j)
+    nmap <Leader>jn <Plug>(easymotion-next)
+    nmap <Leader>jN <Plug>(easymotion-prev)
+
+    vmap <Leader>js <Plug>(easymotion-s)
+    vmap <Leader>jw <Plug>(easymotion-bd-w)
+    vmap <Leader>jf <Plug>(easymotion-bd-fl)
+    vmap <Leader>jt <Plug>(easymotion-bd-tl)
+    vmap <Leader>jk <Plug>(easymotion-k)
+    vmap <Leader>jj <Plug>(easymotion-j)
+    vmap <Leader>jn <Plug>(easymotion-next)
+    vmap <Leader>jN <Plug>(easymotion-prev)
 
 " Quick-fix lists
 let s:leader_map['o'] = {
@@ -192,6 +199,7 @@ let s:leader_map['s'] = {
     vnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
+    nnoremap <silent> <Leader>sf *
 
 " Toggle
 let s:leader_map['t'] = {
@@ -276,13 +284,11 @@ let s:leader_map['w'] = {
     nnoremap <silent> <C-k> <C-w>k
 
 " * Miscellaneous
-let s:leader_map['<Tab>'] = 'alternate-file'
 let s:leader_map['q'] = {
             \ 'name': '+quit',
             \ 'v': 'quit-vim',
             \ 'w': 'quit-window',
             \ }
-    nnoremap <Leader><Tab> <C-^>
     nnoremap <silent> <Leader>qv :qa<CR>
     nnoremap <silent> <Leader>qw :q<CR>
 
