@@ -9,16 +9,17 @@ inoremap <left> <Nop>
 inoremap <right> <Nop>
 
 " May as well use these for scrolling, to avoid pinky pain
-nnoremap <right> <C-d>
-nnoremap <left> <C-u>
-vnoremap <right> <C-d>
-vnoremap <left> <C-u>
+nnoremap <down> <C-d>
+nnoremap <up> <C-u>
+vnoremap <down> <C-d>
+vnoremap <up> <C-u>
 
 " Move to the start of line
 nnoremap H ^
 
 " Move to the end of line
 nnoremap L $
+nnoremap A<ESC> <Nop>
 
 " Redo
 nnoremap U <C-r>
@@ -44,6 +45,10 @@ xnoremap <silent> J :call saltor#mappings#visual#move_down()<CR>
 " Apply last-used macro to selected lines
 xnoremap @ :<C-u>call saltor#mappings#visual#ExecuteMacroOverVisualRange()<CR>
 
+" Use sane regexes
+nnoremap / /\v
+vnoremap / /\v
+
 " Remap n and N so that they go forward + backward respectively regardless
 " of whether you searched with ? or /
 nnoremap <expr> n 'Nn'[v:searchforward]
@@ -52,6 +57,21 @@ onoremap <expr> n 'Nn'[v:searchforward]
 nnoremap <expr> N 'nN'[v:searchforward]
 xnoremap <expr> N 'nN'[v:searchforward]
 onoremap <expr> N 'nN'[v:searchforward]
+
+" Don't move on *
+nnoremap * *<C-o>
+
+" Heresy
+inoremap <C-a> <ESC>I
+inoremap <C-e> <ESC>A
+
+" Keep search matches in the middle of the window and pule the line when moving to them.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Same when jumping around
+nnoremap g; g;zz
+nnoremap g, g,zz
 
 " Add empty lines
 nnoremap <silent> [<space> :<c-u>pu! =repeat(nr2char(10), v:count1)<CR>:']+=v:count1-1<CR>
