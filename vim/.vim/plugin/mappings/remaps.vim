@@ -26,6 +26,8 @@ nnoremap <up> <C-u>
 vnoremap <down> <C-d>
 vnoremap <up> <C-u>
 
+nnoremap <S-Tab> za
+
 " Move to the start of line
 nnoremap H ^
 
@@ -39,7 +41,7 @@ nnoremap U <C-r>
 " Better yank operation
 noremap Y y$
 
-" Disable Ex mode
+" Avoid unintentional switches to Ex mode
 map Q <Nop>
 
 " Command mode line-movements
@@ -60,15 +62,6 @@ xnoremap @ :<C-u>call saltor#mappings#visual#ExecuteMacroOverVisualRange()<CR>
 " Use sane regexes
 nnoremap / /\v
 vnoremap / /\v
-
-" Remap n and N so that they go forward + backward respectively regardless
-" of whether you searched with ? or /
-nnoremap <expr> n 'Nn'[v:searchforward]
-xnoremap <expr> n 'Nn'[v:searchforward]
-onoremap <expr> n 'Nn'[v:searchforward]
-nnoremap <expr> N 'nN'[v:searchforward]
-xnoremap <expr> N 'nN'[v:searchforward]
-onoremap <expr> N 'nN'[v:searchforward]
 
 " Don't move on *
 nnoremap * *<C-o>
