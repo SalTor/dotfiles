@@ -8,6 +8,12 @@ vnoremap <down> <Nop>
 inoremap <left> <Nop>
 inoremap <right> <Nop>
 
+" Increment / decrement numerical values (Accepts counts)
+nnoremap + <C-a>
+nnoremap - <C-x>
+vnoremap + <C-a>
+vnoremap - <C-x>
+
 " May as well use these for scrolling, to avoid pinky pain
 nnoremap <down> <C-d>
 nnoremap <up> <C-u>
