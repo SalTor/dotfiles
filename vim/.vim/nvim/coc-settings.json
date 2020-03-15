@@ -1,9 +1,6 @@
 {
     "suggest.echodocSupport": true,
     "suggest.maxCompleteItemCount": 20,
-    "diagnostic.errorSign": "",
-    "diagnostic.warningSign": "",
-    "diagnostic.infoSign": "",
     "snippets.userSnippetsDirectory": "~/.vim/UltiSnips/",
     "snippets.priority": 1000,
     "snippets.extends": {
@@ -12,5 +9,6 @@
     },
     "snippets.ultisnips.enable": true,
     "snippets.ultisnips.directories": ["~/.vim/UltiSnips/","UltiSnips"],
-    "python.linting.pylintEnabled": true
+    "python.linting.pylintEnabled": true,
+    "diagnostic.enable": false
 }
