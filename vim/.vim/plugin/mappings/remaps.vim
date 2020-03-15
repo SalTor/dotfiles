@@ -14,6 +14,12 @@ nnoremap - <C-x>
 vnoremap + <C-a>
 vnoremap - <C-x>
 
+" Make toggling upper/lower case easier
+nmap gu g~
+nmap gU g~
+vmap gu g~
+vmap gU g~
+
 " May as well use these for scrolling, to avoid pinky pain
 nnoremap <down> <C-d>
 nnoremap <up> <C-u>
