@@ -64,3 +64,5 @@ let g:js_filetypes=[
 \   'javascript.jest',
 \   'javascript.jest.jsx'
 \ ]
+
+highlight Comment cterm=italic gui=italic

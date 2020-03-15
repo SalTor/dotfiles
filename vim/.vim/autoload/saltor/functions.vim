@@ -105,8 +105,6 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
 endfunction
 
 function! saltor#functions#CheckColorScheme ()
-    highlight Comment cterm=italic gui=italic
-
     if !has('termguicolors')
         let g:base16colorspace=256
     endif
