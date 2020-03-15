@@ -48,9 +48,9 @@ set fillchars+=eob:\
 set breakindent
 set breakindentopt=shift:4
 
+set foldopen-=block
 set foldmethod=indent
 set foldtext=saltor#settings#foldtext()
-set foldlevelstart=5
 set virtualedit=block
 
 let g:python_host_prog = '/usr/bin/python'
