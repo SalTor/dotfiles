@@ -1,5 +1,10 @@
 if has('autocmd')
     function! s:AutoCommands()
+        augroup BufferCursorPosition
+            autocmd BufLeave * let b:winview = winsaveview()
+            autocmd BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+        augroup END
+
         augroup Goyo
             function! s:goyo_enter()
                 silent !tmux set status off
