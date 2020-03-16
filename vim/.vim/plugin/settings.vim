@@ -48,6 +48,7 @@ set fillchars+=eob:\
 set breakindent
 set breakindentopt=shift:4
 
+set foldlevelstart=50
 set foldopen-=block
 set foldmethod=indent
 set foldtext=saltor#settings#foldtext()
