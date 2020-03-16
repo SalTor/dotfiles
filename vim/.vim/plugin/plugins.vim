@@ -1,6 +1,9 @@
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#hunks#enabled = 1
-let g:airline#extensions#hunks#non_zero_only = 0
+let g:airline_detect_spell = 1
+let g:airline_skip_empty_sections = 1
+let g:airline_inactive_alt_sep=1
+let g:airline_focuslost_inactive=1
+let g:airline_inactive_collapse=1
 
 let g:Hexokinase_highlighters = ['virtual']
 let g:Hexokinase_optInPatterns = [
@@ -16,8 +19,3 @@ let g:Hexokinase_ftEnabled = ['scss', 'css', 'html', 'javascript', 'javascript.j
 let g:Hexokinase_optOutPatterns = [
     \ 'colour_names',
     \ ]
-
-let g:ale_echo_cursor=0
-let g:ale_virtualtext_cursor=1
-let g:ale_virtualtext_delay=0
-let g:ale_set_highlights=1

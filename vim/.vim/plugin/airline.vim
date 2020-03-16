@@ -1,23 +1,5 @@
 let g:airline_theme = 'bubblegum'
 
-let g:airline_filetype_overrides = {
-    \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', 'File Explorer'), '' ],
-    \ 'startify': [ get(g:, 'startify', 'Startify'), '' ],
-    \ 'help': ['Help', '%f'],
-    \ }
-
-let g:airline#extensions#term#enabled = 0
-
-let g:airline_detect_spell=1
-
-let g:airline_focuslost_inactive=0
-let g:airline_inactive_collapse=0
-let g:airline_inactive_alt_sep=1
-let g:airline#extensions#tabline#tab_nr_type = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-
 let g:airline#extensions#default#layout = [
     \ ['b', 'a', 'warning', 'error', 'c'],
     \ ['x', 'y', 'z'],
@@ -40,11 +22,6 @@ let g:airline_section_x = airline#section#create(['branch'])
 let g:airline_section_y = airline#section#create(['Ln %l, Col %c'])
 let g:airline_section_z = airline#section#create(['filetype'])
 
-let g:airline#extensions#ale#show_line_numbers=0
-
-let g:airline#extensions#ale#error_symbol = 'E:'
-let g:airline#extensions#ale#warning_symbol = 'W:'
-
 let g:airline_symbols = {
     \ 'space': ' ',
     \ 'paste': 'PASTE',
@@ -62,6 +39,21 @@ let g:airline_symbols = {
     \ 'whitespace': '☲',
     \ }
 
-let g:airline_extensions=['tabline', 'ale']
+let g:airline_filetype_overrides = {
+    \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', 'File Explorer'), '' ],
+    \ 'startify': [ get(g:, 'startify', 'Startify'), '' ],
+    \ 'help': ['Help', '%f'],
+    \ }
 
-let g:airline_skip_empty_sections = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#coc#enabled = 1
+
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+let g:airline#extensions#coc#warning_symbol = 'W:'
+let g:airline#extensions#coc#error_symbol = 'E:'
+let g:airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
+let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'

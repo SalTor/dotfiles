@@ -98,8 +98,8 @@ let s:leader_map['e'] = {
     \ 'n': 'next-error',
     \ 'p': 'prev-error',
     \ }
-    nnoremap <silent> <Leader>en :ALENextWrap<CR>
-    nnoremap <silent> <Leader>ep :ALEPreviousWrap<CR>
+    nmap <silent> <Leader>en <Plug>(coc-diagnostic-next)
+    nmap <silent> <Leader>ep <Plug>(coc-diagnostic-prev)
 
 " File
 let s:leader_map['f'] = {
@@ -135,7 +135,7 @@ let s:leader_map['f'] = {
     nnoremap <silent> <Leader>f.s :w<CR>
 
 let s:leader_map['g'] = {
-    \ 'name': '+git/fugitive',
+    \ 'name': '+git',
     \ 'd': 'git-diff',
     \ 'b': 'git-blame',
     \ 'c': 'git-commits',
@@ -242,12 +242,14 @@ let s:leader_map['x'] = {
 " Variable / method signatures
 let s:leader_map['v'] = {
     \ 'name': '+variables',
+    \ 'a': 'coc-code-action',
     \ 'd': 'coc-definition',
     \ 'i': 'coc-implementation',
     \ 'r': 'coc-rename',
     \ 'R': 'coc-references',
     \ 'k': 'documentation',
     \ }
+    nmap <silent> <Leader>va <Plug>(coc-codeaction)
     nmap <silent> <Leader>vd <Plug>(coc-definition)
     nmap <silent> <Leader>vi <Plug>(coc-implementation)
     nmap <silent> <Leader>vR <Plug>(coc-references)

@@ -8,6 +8,9 @@ vnoremap <down> <Nop>
 inoremap <left> <Nop>
 inoremap <right> <Nop>
 
+" CoC.nvim
+nmap <silent> gd <Plug>(coc-definition)
+
 " Increment / decrement numerical values (Accepts counts)
 nnoremap + <C-a>
 nnoremap - <C-x>

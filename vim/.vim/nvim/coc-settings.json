@@ -9,6 +9,5 @@
     },
     "snippets.ultisnips.enable": true,
     "snippets.ultisnips.directories": ["~/.vim/UltiSnips/","UltiSnips"],
-    "python.linting.pylintEnabled": true,
-    "diagnostic.enable": false
+    "python.linting.pylintEnabled": true
 }
