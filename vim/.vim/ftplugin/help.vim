@@ -1,1 +1,2 @@
-nnoremap <silent> <buffer> q :helpclose<CR>
+setlocal nomodifiable nonumber signcolumn=no
+nnoremap <silent> <buffer> q :q<CR>

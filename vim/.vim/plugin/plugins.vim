@@ -3,7 +3,7 @@ let g:airline_detect_spell = 1
 let g:airline_skip_empty_sections = 1
 let g:airline_inactive_alt_sep=1
 let g:airline_focuslost_inactive=1
-let g:airline_inactive_collapse=1
+let g:airline_inactive_collapse=0
 
 let g:Hexokinase_highlighters = ['virtual']
 let g:Hexokinase_optInPatterns = [
