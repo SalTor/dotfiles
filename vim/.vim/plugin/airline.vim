@@ -9,8 +9,15 @@ function! GetWinnrSymbol(...)
     let l:small = ['➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑', '➒', '➓']
     let l:med   = ['➀', '➁', '➂', '➃', '➄', '➅', '➆', '➇', '➈', '➉']
     let l:large = ['⓵', '⓶', '⓷', '⓸', '⓹', '⓺', '⓻', '⓼', '⓽', '⓾']
-    let l:chinese = ['一', '二', '三', '四', '五', '六', '七', '八', '九']
-    return l:chinese[winnr()-1]
+    let l:chinese = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+    let l:not_found = 'NOT_FOUND'
+    let l:winnr = winnr()
+    let l:val = get(l:chinese, l:winnr - 1, l:not_found)
+    if l:val == l:not_found
+        return l:winnr
+    else
+        return l:val
+    endif
 endfunction
 
 call airline#parts#define_function('winnr', 'GetWinnrSymbol')
@@ -40,10 +47,14 @@ let g:airline_symbols = {
     \ }
 
 let g:airline_filetype_overrides = {
-    \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', 'File Explorer'), '' ],
+    \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', GetWinnrSymbol()), 'File Explorer' ],
     \ 'startify': [ get(g:, 'startify', 'Startify'), '' ],
-    \ 'help': ['Help', '%f'],
+    \ 'help': [
+        \ airline#section#create_left(['Help', '%f']),
+        \ airline#section#create(['winnr']),
+    \ ],
     \ }
+" \ 'help': [airline#section#create_left(['Help', '%f']), get(g:, 'NerdTreeStatusline', GetWinnrSymbol())],
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#coc#enabled = 1
