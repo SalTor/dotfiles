@@ -36,7 +36,6 @@ nnoremap H ^
 
 " Move to the end of line
 nnoremap L $
-nnoremap A<ESC> <Nop>
 
 " Redo
 nnoremap U <C-r>
