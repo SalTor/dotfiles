@@ -1,4 +1,3 @@
-hi illuminatedWord guibg=#504945
 let s:js_whitelist = [
             \ 'jsModuleKeyword',
             \ 'jsDestructuringBlock',
@@ -14,10 +13,13 @@ let s:js_whitelist = [
             \ 'jsFuncBlock',
             \ ]
 
-let g:Illuminate_ftblacklist = ['nerdtree', 'startify']
+let g:Illuminate_ftwhitelist = [
+    \ 'vim', 'javascript', 'javascriptreact',
+    \ 'python', 'css', 'scss',
+    \ ]
 let g:Illuminate_ftHighlightGroups = {
-      \ 'vim': ['vimVar', 'vimString', 'vimLineComment',
-      \         'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc'],
-      \ 'javascript': s:js_whitelist,
-      \ 'javascriptreact': s:js_whitelist,
-      \ }
+    \ 'vim': ['vimVar', 'vimString', 'vimLineComment',
+    \         'vimFuncName', 'vimFunction', 'vimUserFunc', 'vimFunc'],
+    \ 'javascript': s:js_whitelist,
+    \ 'javascriptreact': s:js_whitelist,
+    \ }

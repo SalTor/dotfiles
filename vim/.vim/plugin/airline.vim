@@ -1,4 +1,8 @@
 let g:airline_theme = 'bubblegum'
+let g:airline_powerline_fonts = 1
+let g:airline_detect_spell = 1
+let g:airline_skip_empty_sections = 1
+let g:airline_inactive_collapse=0
 
 let g:airline#extensions#default#layout = [
     \ ['b', 'a', 'warning', 'error', 'c'],
@@ -54,7 +58,6 @@ let g:airline_filetype_overrides = {
         \ airline#section#create(['winnr']),
     \ ],
     \ }
-" \ 'help': [airline#section#create_left(['Help', '%f']), get(g:, 'NerdTreeStatusline', GetWinnrSymbol())],
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#coc#enabled = 1

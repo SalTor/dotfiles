@@ -87,8 +87,12 @@ if has('autocmd')
             autocmd InsertEnter,WinLeave * set nocursorline
         augroup END
 
+        function! s:handle_resize(...)
+            execute "normal! \<c-w>="
+            AirlineRefresh!
+        endfunction
         " Resize splits when vim container resizes
-        autocmd VimResized * execute "normal! \<c-w>="
+        autocmd VimResized * call s:handle_resive()
 
         " Disable paste mode on leaving insert mode.
         autocmd InsertLeave * set nopaste

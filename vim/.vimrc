@@ -26,7 +26,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'sheerun/vim-polyglot'    " Syntax files for most languages
 
     Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
-    Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " Show colors as virtual text or gutter, your choice
     Plug 'dense-analysis/ale' " Linter
     Plug 'honza/vim-snippets' " Snippets solution that works better with coc.nvim
     Plug 'kassio/neoterm'     " Synchronized terminals
@@ -42,6 +41,4 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'RRethy/vim-illuminate'
     Plug 'norcalli/nvim-colorizer.lua'
-
-    source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()

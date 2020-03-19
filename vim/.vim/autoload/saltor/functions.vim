@@ -19,17 +19,31 @@ function! saltor#functions#tweak_colors()
     highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
     highlight LineNr guibg=NONE
     highlight VertSplit guibg=NONE
+
     highlight GitGutterAdd guibg=NONE
     highlight GitGutterChange guibg=NONE
     highlight GitGutterChangeDelete guibg=NONE
     highlight GitGutterDelete guibg=NONE
+
+    " coc.nvim
     highlight CocInfoSign guifg=#fabd2f guibg=NONE
     highlight CocWarningSign guifg=#fabd2f guibg=NONE
     highlight CocErrorSign guifg=#fb4934 guibg=NONE
+
+    " ALE
     highlight ALEErrorSign guifg=#fb4934 guibg=NONE
     highlight ALEWarningSign guifg=#fabd2f guibg=NONE
     highlight ALEVirtualTextWarning guifg=#fabd2f guibg=NONE
     highlight link ALEVirtualTextError DiffDelete
+
+    " vim-illuminate
+    highlight illuminatedWord guibg=#504945
+
+    " vim-which-key
+    highlight default WhichKey          guifg=#CEB37E gui=bold
+    highlight default WhichKeySeperator guifg=#67B21D
+    highlight default WhichKeyGroup     guifg=#A5AEBD gui=italic
+    highlight default WhichKeyDesc      guifg=#E38639
 endfunction
 
 function! saltor#functions#show_documentation()
