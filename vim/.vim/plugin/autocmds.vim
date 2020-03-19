@@ -29,7 +29,6 @@ if has('autocmd')
             nnoremap <CR> :
         augroup END
 
-
         augroup AutoNumberToggle
             autocmd!
             function! s:relative_check()

@@ -40,5 +40,8 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'jpalardy/vim-slime'
 
+    Plug 'RRethy/vim-illuminate'
+    Plug 'norcalli/nvim-colorizer.lua'
+
     source $HOME/dotfiles/vim/.vim/plugin/plugins.vim
 call plug#end()
