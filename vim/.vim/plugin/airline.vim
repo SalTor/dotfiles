@@ -50,17 +50,18 @@ let g:airline_symbols = {
     \ 'whitespace': '☲',
     \ }
 
+let g:airline#extensions#nerdtree_status = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#coc#enabled = 1
+
 let g:airline_filetype_overrides = {
-    \ 'nerdtree': [ get(g:, 'NerdTreeStatusline', GetWinnrSymbol()), 'File Explorer' ],
-    \ 'startify': [ get(g:, 'startify', 'Startify'), '' ],
+    \ 'nerdtree': [ get(g:, 'NERDTreeStatusline', 'File Explorer'), '' ],
+    \ 'startify': [ 'Startify', '' ],
     \ 'help': [
         \ airline#section#create_left(['Help', '%f']),
         \ airline#section#create(['winnr']),
     \ ],
     \ }
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#coc#enabled = 1
 
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
