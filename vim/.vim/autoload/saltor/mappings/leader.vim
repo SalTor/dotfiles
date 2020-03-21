@@ -19,3 +19,12 @@ function! saltor#mappings#leader#cycle_numbering() abort
         set number!<CR>
     endif
 endfunction
+
+" Cycle through highlighting keywords beneath cursor
+function! saltor#mappings#leader#cycle_cursor_highlight() abort
+    if exists('g:loaded_illuminate')
+        IlluminationToggle
+    else
+        IlluminationEnable
+    endif
+endfunction

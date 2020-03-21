@@ -39,6 +39,6 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'jpalardy/vim-slime'
 
-    Plug 'RRethy/vim-illuminate'
+    Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] }
     Plug 'norcalli/nvim-colorizer.lua'
 call plug#end()
