@@ -36,9 +36,6 @@ function! saltor#functions#tweak_colors()
     highlight ALEVirtualTextWarning guifg=#fabd2f guibg=NONE
     highlight link ALEVirtualTextError DiffDelete
 
-    " vim-illuminate
-    highlight illuminatedWord guibg=#504945
-
     " vim-which-key
     highlight default WhichKey          guifg=#CEB37E gui=bold
     highlight default WhichKeySeperator guifg=#67B21D
