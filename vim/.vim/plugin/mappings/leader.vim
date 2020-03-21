@@ -201,29 +201,31 @@ let s:leader_map['s'] = {
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
     nnoremap <silent> <Leader>sf *
 
-" Toggle
-let s:leader_map['t'] = {
-    \ 'name': '+toggle',
-    \ 's': 'spell-check',
-    \ 'n': 'cycle-line-numbering',
-    \ 'g': 'goyo',
-    \ }
-    nnoremap <silent> <Leader>ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
-    nnoremap <silent> <Leader>tn :call saltor#mappings#leader#cycle_numbering()<CR>
-    nnoremap <silent> <Leader>tg :Goyo<CR>
-
 " Terminal
-let s:leader_map['T'] = {
+let s:leader_map['t'] = {
     \ 'name': '+terminal',
     \ '/': 'term-vertical',
     \ '-': 'term-horizontal',
     \ 't': 'new',
     \ 'c': 'close',
     \ }
-    nnoremap <silent> <Leader>T/ :vertical Topen<CR><C-w>l:startinsert!<CR>
-    nnoremap <silent> <Leader>T- :belowright Topen<CR><C-w>j:startinsert!<CR>
-    nnoremap <silent> <Leader>Tt :tab Topen<CR>gt:startinsert!<CR>
-    nnoremap <silent> <Leader>Tc :Tclose<CR>
+    nnoremap <silent> <Leader>t/ :vertical Topen<CR><C-w>l:startinsert!<CR>
+    nnoremap <silent> <Leader>t- :belowright Topen<CR><C-w>j:startinsert!<CR>
+    nnoremap <silent> <Leader>tt :tab Topen<CR>gt:startinsert!<CR>
+    nnoremap <silent> <Leader>tc :Tclose<CR>
+
+" Toggle
+let s:leader_map['T'] = {
+    \ 'name': '+toggle',
+    \ 's': 'spell-check',
+    \ 'n': 'cycle-line-numbering',
+    \ 'g': 'goyo',
+    \ 'h': 'highlight',
+    \ }
+    nnoremap <silent> <Leader>Ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
+    nnoremap <silent> <Leader>Tn :call saltor#mappings#leader#cycle_numbering()<CR>
+    nnoremap <silent> <Leader>Tg :Goyo<CR>
+    nnoremap <silent> <Leader>Th :call saltor#mappings#leader#cycle_cursor_highlight()<CR>
 
 " Text
 let s:leader_map['x'] = {
