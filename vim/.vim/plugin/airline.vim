@@ -24,14 +24,26 @@ function! GetWinnrSymbol(...)
     endif
 endfunction
 
+function! GetParentDirWithFile(...) abort
+    let l:cwd = split(expand('%:h'), '/')
+    if len(l:cwd) > 0
+        let l:parent = l:cwd[-1]
+        return l:parent . '/' . expand('%:t')
+    else
+        return '[No Name]'
+    endif
+endfunction
+
 call airline#parts#define_function('winnr', 'GetWinnrSymbol')
 call airline#parts#define_minwidth('winnr', 50)
+call airline#parts#define_function('saltor_file', 'GetParentDirWithFile')
+call airline#parts#define_minwidth('saltor_file', 50)
 
 let g:airline_section_b = airline#section#create(['winnr'])
-let g:airline_section_c = airline#section#create(['%t'])
-let g:airline_section_x = airline#section#create(['branch'])
-let g:airline_section_y = airline#section#create(['Ln %l, Col %c'])
-let g:airline_section_z = airline#section#create(['filetype'])
+let g:airline_section_c = airline#section#create(['saltor_file'])
+let g:airline_section_x = airline#section#create_right(['filetype'])
+let g:airline_section_y = '%{airline#extensions#branch#head()}'
+let g:airline_section_z = ''
 
 let g:airline_symbols = {
     \ 'space': ' ',
@@ -50,6 +62,8 @@ let g:airline_symbols = {
     \ 'whitespace': '☲',
     \ }
 
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#nerdtree_status = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#coc#enabled = 1
