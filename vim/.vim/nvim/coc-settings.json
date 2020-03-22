@@ -23,11 +23,11 @@
 
     "tsserver.npm": "which npm",
 
-    "typescript.showUnused": false,
-
     "suggest.enablePreview": true,
 
     "python.linting.pylintEnabled": true,
 
-    "javascript.suggest.enabled": false
+    "typescript.showUnused": false,
+    "javascript.suggestionActions.enabled": false,
+    "typescript.suggestionActions.enabled": false
 }
