@@ -95,15 +95,6 @@ let s:leader_map['C'] = {
     nnoremap <silent> <Leader>Cl :Colors<CR>
     nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>:echo 'Syntax Refreshed'<CR>
 
-" Errors
-let s:leader_map['e'] = {
-    \ 'name': '+errors',
-    \ 'n': 'next-error',
-    \ 'p': 'prev-error',
-    \ }
-    nmap <silent> <Leader>en <Plug>(coc-diagnostic-next)
-    nmap <silent> <Leader>ep <Plug>(coc-diagnostic-prev)
-
 " File
 let s:leader_map['f'] = {
     \ 'name': '+file',
