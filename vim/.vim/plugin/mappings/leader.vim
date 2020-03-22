@@ -200,12 +200,12 @@ let s:leader_map['t'] = {
     \ 'name': '+terminal',
     \ '/': 'term-vertical',
     \ '-': 'term-horizontal',
-    \ 't': 'new',
+    \ 'n': 'new',
     \ 'c': 'close',
     \ }
     nnoremap <silent> <Leader>t/ :vertical Topen<CR><C-w>l:startinsert!<CR>
     nnoremap <silent> <Leader>t- :belowright Topen<CR><C-w>j:startinsert!<CR>
-    nnoremap <silent> <Leader>tt :tab Topen<CR>gt:startinsert!<CR>
+    nnoremap <silent> <Leader>tn :tab Topen<CR>gt:startinsert!<CR>
     nnoremap <silent> <Leader>tc :Tclose<CR>
 
 " Toggle

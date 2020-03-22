@@ -29,6 +29,25 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeySeperator guifg=#67B21D
     highlight default WhichKeyGroup     guifg=#A5AEBD gui=italic
     highlight default WhichKeyDesc      guifg=#E38639
+
+    " Sync with corresponding non-nvim 'highlight' settings in
+    " ~/.vim/plugin/settings.vim:
+    highlight clear NonText
+    highlight link NonText Conceal
+    highlight clear CursorLineNr
+    highlight link CursorLineNr DiffText
+    highlight clear VertSplit
+    highlight link VertSplit LineNr
+
+    " Fix base16-vim coloring of xml for my preference. This makes it so
+    " ending tag matches color of starting tag. I came across this when
+    " editing JSX files
+    highlight link xmlEndTag Function
+
+    " Resolve clashes with ColorColumn.
+    " Instead of linking to Normal (which has a higher priority, link to nothing).
+    highlight link vimUserFunc NONE
+    highlight link NERDTreeFile NONE
 endfunction
 
 function! saltor#functions#MaximizeToggle()
@@ -73,13 +92,13 @@ function! saltor#functions#file_finder(...) abort
     endif
 endfunction
 
-function! saltor#functions#FzfSpellSink(word)
-    exe 'normal! "_ciw'.a:word
-endfunction
-
 function! saltor#functions#FzfSpell()
+    function! s:FzfSpellSink(word)
+        exe 'normal! "_ciw'.a:word
+    endfunction
+
     let suggestions = spellsuggest(expand("<cword>"))
-    return fzf#run({ 'source': suggestions, 'sink': function("saltor#functions#FzfSpellSink"), 'window': {
+    return fzf#run({ 'source': suggestions, 'sink': function("s:FzfSpellSink"), 'window': {
         \     'height': 0.5,
         \     'width': 1,
         \     'yoffset': 0,
@@ -144,25 +163,6 @@ function! saltor#functions#CheckColorScheme ()
         set background=dark
         color base16-default-dark
     endif
-
-    " Sync with corresponding non-nvim 'highlight' settings in
-    " ~/.vim/plugin/settings.vim:
-    highlight clear NonText
-    highlight link NonText Conceal
-    highlight clear CursorLineNr
-    highlight link CursorLineNr DiffText
-    highlight clear VertSplit
-    highlight link VertSplit LineNr
-
-    " Fix base16-vim coloring of xml for my preference. This makes it so
-    " ending tag matches color of starting tag. I came across this when
-    " editing JSX files
-    highlight link xmlEndTag Function
-
-    " Resolve clashes with ColorColumn.
-    " Instead of linking to Normal (which has a higher priority, link to nothing).
-    highlight link vimUserFunc NONE
-    highlight link NERDTreeFile NONE
 
     " For Git commits, suppress the background of these groups:
     for l:group in ['DiffAdded', 'DiffFile', 'DiffNewFile', 'DiffLine', 'DiffRemoved']
