@@ -1,19 +1,33 @@
 {
+    "coc.source.word.shortcut": "SP",
+    "coc.source.buffer.disableSyntaxes": ["comment"],
+    "coc.source.around.disableSyntaxes": ["comment"],
+    "coc.source.file.disableSyntaxes": ["comment"],
+    "coc.source.word.filetypes": ["comment", "markdown", "gitcommit"],
+
+    "diagnostic.errorSign": "",
+    "diagnostic.warningSign": "",
+    "diagnostic.enableHighlightLineNumber": false,
+
     "suggest.echodocSupport": true,
     "suggest.maxCompleteItemCount": 20,
+
     "snippets.userSnippetsDirectory": "~/.vim/UltiSnips/",
     "snippets.priority": 1000,
-    "suggest.enablePreview": true,
     "snippets.extends": {
         "javascript.jsx": ["javascript"],
         "javascriptreact": ["javascript"]
     },
     "snippets.ultisnips.enable": true,
-    "snippets.ultisnips.directories": ["~/.vim/UltiSnips/","UltiSnips"],
-    "python.linting.pylintEnabled": true,
+    "snippets.ultisnips.directories": ["~/.vim/UltiSnips/", "UltiSnips"],
+
     "tsserver.npm": "which npm",
+
     "typescript.showUnused": false,
-    "javascript.suggest.enabled": false,
-    "diagnostic.errorSign": "",
-    "diagnostic.warningSign": ""
+
+    "suggest.enablePreview": true,
+
+    "python.linting.pylintEnabled": true,
+
+    "javascript.suggest.enabled": false
 }

@@ -1,3 +1,11 @@
+function! saltor#mappings#leader#cycle_color_column() abort
+    if &colorcolumn == 80
+        set colorcolumn=""
+    else
+        set colorcolumn=80
+    endif
+endfunction
+
 " Cycle through spell-check mode
 function! saltor#mappings#leader#cycle_spellcheck() abort
     execute {
@@ -26,5 +34,14 @@ function! saltor#mappings#leader#cycle_cursor_highlight() abort
         IlluminationToggle
     else
         IlluminationEnable
+    endif
+endfunction
+
+" Cycle through showing git gutter highlights
+function! saltor#mappings#leader#cycle_git_gutter() abort
+    if exists('g:loaded_gitgutter')
+        GitGutterToggle
+    else
+        GitGutterEnable
     endif
 endfunction

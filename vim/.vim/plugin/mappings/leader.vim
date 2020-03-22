@@ -36,6 +36,7 @@ let s:leader_map['a'] = {
     \ 'co': 'coc-outline',
     \ 'cs': 'coc-symbols',
     \ 'cr': 'coc-restart',
+    \ 'cl': 'coc-list',
     \ 'c': {
         \ 'name': '+coc',
         \ 'd': 'coc-diagnostics',
@@ -44,6 +45,7 @@ let s:leader_map['a'] = {
         \ 'o': 'coc-outline',
         \ 's': 'coc-symbols',
         \ 'r': 'coc-restart',
+        \ 'l': 'coc-list',
     \ },
     \ 'pi': 'plug-install',
     \ 'pc': 'plug-clean',
@@ -62,6 +64,7 @@ let s:leader_map['a'] = {
     nnoremap <silent> <Leader>aco :<C-u>CocList outline<CR>
     nnoremap <silent> <Leader>acs :<C-u>CocList -I symbols<CR>
     nnoremap <silent> <Leader>acr :CocRestart<CR>
+    nnoremap <silent> <Leader>acl :CocList --normal<CR>
     nnoremap <silent> <Leader>api :so ~/.vimrc<CR>:PlugInstall<CR>
     nnoremap <silent> <Leader>apc :so ~/.vimrc<CR>:PlugClean<CR>
 
@@ -219,13 +222,17 @@ let s:leader_map['T'] = {
     \ 'name': '+toggle',
     \ 's': 'spell-check',
     \ 'n': 'cycle-line-numbering',
-    \ 'g': 'goyo',
+    \ 'f': 'focus-goyo',
     \ 'h': 'highlight',
+    \ 'c': 'colorcolumn',
+    \ 'g': 'git-gutter',
     \ }
     nnoremap <silent> <Leader>Ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>Tn :call saltor#mappings#leader#cycle_numbering()<CR>
-    nnoremap <silent> <Leader>Tg :Goyo<CR>
+    nnoremap <silent> <Leader>Tf :Goyo<CR>
     nnoremap <silent> <Leader>Th :call saltor#mappings#leader#cycle_cursor_highlight()<CR>
+    nnoremap <silent> <Leader>Tc :call saltor#mappings#leader#cycle_color_column()<CR>
+    nnoremap <silent> <Leader>Tg :call saltor#mappings#leader#cycle_git_gutter()<CR>
 
 " Text
 let s:leader_map['x'] = {
@@ -245,14 +252,12 @@ let s:leader_map['x'] = {
 let s:leader_map['v'] = {
     \ 'name': '+variables',
     \ 'a': 'coc-code-action',
-    \ 'd': 'coc-definition',
     \ 'i': 'coc-implementation',
     \ 'r': 'coc-rename',
     \ 'R': 'coc-references',
     \ 'k': 'documentation',
     \ }
     nmap <silent> <Leader>va <Plug>(coc-codeaction)
-    nmap <silent> <Leader>vd <Plug>(coc-definition)
     nmap <silent> <Leader>vi <Plug>(coc-implementation)
     nmap <silent> <Leader>vR <Plug>(coc-references)
     nmap <Leader>vr <Plug>(coc-rename)

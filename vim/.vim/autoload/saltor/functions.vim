@@ -1,24 +1,12 @@
-function! saltor#functions#MaximizeToggle()
-    if exists("s:maximize_session")
-        exec "source " . s:maximize_session
-        call delete(s:maximize_session)
-        unlet s:maximize_session
-        let &hidden=s:maximize_hidden_save
-        unlet s:maximize_hidden_save
-    else
-        let s:maximize_hidden_save = &hidden
-        let s:maximize_session = tempname()
-        set hidden
-        exec "mksession! " . s:maximize_session
-        only
-    endif
-endfunction
-
 function! saltor#functions#tweak_colors()
     highlight clear SpellBad
     highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+    highlight Comment cterm=italic gui=italic
     highlight LineNr guibg=NONE
     highlight VertSplit guibg=NONE
+    highlight Colorcolumn ctermbg=0 guibg=lightgrey
+    highlight EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
+    highlight SignColumn ctermbg=bg ctermfg=bg guibg=bg guifg=bg
 
     highlight GitGutterAdd guibg=NONE
     highlight GitGutterChange guibg=NONE
@@ -41,6 +29,22 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeySeperator guifg=#67B21D
     highlight default WhichKeyGroup     guifg=#A5AEBD gui=italic
     highlight default WhichKeyDesc      guifg=#E38639
+endfunction
+
+function! saltor#functions#MaximizeToggle()
+    if exists("s:maximize_session")
+        exec "source " . s:maximize_session
+        call delete(s:maximize_session)
+        unlet s:maximize_session
+        let &hidden=s:maximize_hidden_save
+        unlet s:maximize_hidden_save
+    else
+        let s:maximize_hidden_save = &hidden
+        let s:maximize_session = tempname()
+        set hidden
+        exec "mksession! " . s:maximize_session
+        only
+    endif
 endfunction
 
 function! saltor#functions#show_documentation()

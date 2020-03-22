@@ -1,3 +1,4 @@
 .netrwhist
 vim/.vim/autoload/plug.vim
 vim/.vim/plugged/*
+vim/.vim/undodir/
