@@ -193,7 +193,7 @@ let s:leader_map['s'] = {
     vnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
-    nnoremap <silent> <Leader>sf *
+    nnoremap <silent> <Leader>sf *<C-o>
 
 " Terminal
 let s:leader_map['t'] = {
