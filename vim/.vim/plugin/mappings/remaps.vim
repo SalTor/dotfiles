@@ -65,6 +65,10 @@ nnoremap <silent> <C-W>o :call saltor#functions#MaximizeToggle()<CR>
 nnoremap <silent> <C-W>O :call saltor#functions#MaximizeToggle()<CR>
 nnoremap <silent> <C-W><C-O> :call saltor#functions#MaximizeToggle()<CR>
 
+" I don't use the default behavior of gm and felt this made more sense.
+" mnemonic: Go (to) Match
+nnoremap gm *
+
 " Add empty lines
 nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
 nnoremap <silent> ]<space> :pu _<cr>:'[-1<CR>
