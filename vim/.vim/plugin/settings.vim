@@ -4,7 +4,7 @@ filetype indent plugin on
 set spelllang=en_us
 set noshowmode
 set noshowmatch
-set noswapfile nobackup
+set noswapfile nobackup nowritebackup
 set undofile undodir=~/.vim/undodir
 set nojoinspaces
 set noerrorbells
