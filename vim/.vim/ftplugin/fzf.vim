@@ -1,2 +1,2 @@
-setlocal signcolumn=no
+setlocal signcolumn=no nonumber norelativenumber
 echo "\r"

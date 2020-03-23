@@ -38,6 +38,7 @@ if has('autocmd')
                     \ 'neoterm': 1,
                     \ 'nerdtree': 1,
                     \ 'startify': 1,
+                    \ 'fzf': 1,
                     \ }
                 if !has_key(l:ignored_buffers, &filetype)
                     set relativenumber
