@@ -43,7 +43,7 @@ call airline#parts#define_minwidth('saltor_file', 50)
 let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['saltor_file'])
 let g:airline_section_x = airline#section#create_right(['filetype'])
-let g:airline_section_y = '%{airline#extensions#branch#head()}'
+let g:airline_section_y = ''
 let g:airline_section_z = ''
 
 let g:airline_symbols = {
