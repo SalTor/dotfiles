@@ -99,8 +99,8 @@ function! saltor#functions#FzfSpell()
         exe 'normal! "_ciw'.a:word
     endfunction
 
-    let suggestions = spellsuggest(expand("<cword>"))
-    return fzf#run({ 'source': suggestions, 'sink': function("s:FzfSpellSink"), 'window': {
+    let l:suggestions = spellsuggest(expand("<cword>"))
+    return fzf#run({ 'source': l:suggestions, 'sink': function("s:FzfSpellSink"), 'window': {
         \     'height': 0.5,
         \     'width': 1,
         \     'yoffset': 0,
