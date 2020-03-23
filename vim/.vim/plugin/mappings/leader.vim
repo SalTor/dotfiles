@@ -178,12 +178,12 @@ let s:leader_map['o'] = {
 " Search
 let s:leader_map['s'] = {
     \ 'name': '+search',
-    \ 'p': 'ripgrep',
-    \ 'P': 'dynamic-ripgrep',
-    \ 'r': 'replace',
-    \ 'f': 'find-in-file',
-    \ 'c': 'clear-highlights',
-    \ 't': 'find-todos',
+    \ 'p': '[NV] ripgrep',
+    \ 'P': '[NV] dynamic-ripgrep',
+    \ 'r': '[-V] replace',
+    \ 'c': '[N-] clear-highlights',
+    \ 't': '[N-] find-todos',
+    \ 'f': '[-V] find-in-file',
     \ }
     nnoremap <silent> <Leader>sc :nohlsearch<cr>
     nnoremap <silent> <Leader>st :Rg TODO<CR>
@@ -193,7 +193,6 @@ let s:leader_map['s'] = {
     vnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
     vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
     vnoremap <silent> <Leader>sf y/<C-R>"<CR>
-    nnoremap <silent> <Leader>sf *<C-o>
 
 " Terminal
 let s:leader_map['t'] = {
