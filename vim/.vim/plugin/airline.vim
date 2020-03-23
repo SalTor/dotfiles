@@ -26,11 +26,12 @@ endfunction
 
 function! GetParentDirWithFile(...) abort
     let l:cwd = split(expand('%:h'), '/')
-    if len(l:cwd) > 0
+    let l:cfl = expand('%:t')
+    if l:cfl == ''
+        return '[No Name]'
+    else
         let l:parent = l:cwd[-1]
         return l:parent . '/' . expand('%:t')
-    else
-        return '[No Name]'
     endif
 endfunction
 
