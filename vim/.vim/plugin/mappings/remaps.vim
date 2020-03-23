@@ -69,6 +69,10 @@ nnoremap <silent> <C-W><C-O> :call saltor#functions#MaximizeToggle()<CR>
 nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
 nnoremap <silent> ]<space> :pu _<cr>:'[-1<CR>
 
+" Buffer navigation
+nnoremap <silent> [b :bNext<CR>
+nnoremap <silent> ]b :bnext<CR>
+
 nmap <silent> [c <Plug>(GitGutterPrevHunk)
 nmap <silent> ]c <Plug>(GitGutterNextHunk)
 
