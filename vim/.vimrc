@@ -10,8 +10,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/vim-plug'
     Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
     Plug 'junegunn/fzf.vim'
-    Plug 'junegunn/goyo.vim', { 'on': ['Goyo'] } " Focused writing followed by more focused writing by fading unfocused text
-    Plug 'junegunn/limelight.vim', { 'on': ['Goyo', 'Limelight'] }
     Plug 'tpope/vim-fugitive' " Awesome GIT wrapper for VIM
     Plug 'tpope/vim-surround' " Easily add/change/remove surrounding characters
     Plug 'tpope/vim-repeat'   " Allow repeating of more actions

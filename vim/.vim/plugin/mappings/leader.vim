@@ -213,14 +213,12 @@ let s:leader_map['T'] = {
     \ 'name': '+toggle',
     \ 's': 'spell-check',
     \ 'n': 'cycle-line-numbering',
-    \ 'f': 'focus-goyo',
     \ 'h': 'highlight',
     \ 'c': 'colorcolumn',
     \ 'g': 'git-gutter',
     \ }
     nnoremap <silent> <Leader>Ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>Tn :call saltor#mappings#leader#cycle_numbering()<CR>
-    nnoremap <silent> <Leader>Tf :Goyo<CR>
     nnoremap <silent> <Leader>Th :call saltor#mappings#leader#cycle_cursor_highlight()<CR>
     nnoremap <silent> <Leader>Tc :call saltor#mappings#leader#cycle_color_column()<CR>
     nnoremap <silent> <Leader>Tg :call saltor#mappings#leader#cycle_git_gutter()<CR>

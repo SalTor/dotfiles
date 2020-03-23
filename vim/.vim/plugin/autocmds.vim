@@ -6,25 +6,6 @@ if has('autocmd')
                 \| autocmd BufLeave <buffer> let g:ale_enabled = 1
         augroup END
 
-        augroup Goyo
-            function! s:goyo_enter()
-                silent !tmux set status off
-                silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-                set noshowmode noshowcmd scrolloff=999
-                Limelight
-            endfunction
-
-            function! s:goyo_leave()
-                silent !tmux set status on
-                silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-                set showmode showcmd scrolloff=3
-                Limelight!
-            endfunction
-
-            autocmd! User GoyoEnter nested call <SID>goyo_enter()
-            autocmd! User GoyoLeave nested call <SID>goyo_leave()
-        augroup END
-
         augroup CommandMode
             " Quick command mode nnoremap, this is unbound in ftplugin/qf.vim
             nnoremap <CR> :
