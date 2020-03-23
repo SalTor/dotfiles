@@ -48,6 +48,8 @@ function! saltor#functions#tweak_colors()
     " Instead of linking to Normal (which has a higher priority, link to nothing).
     highlight link vimUserFunc NONE
     highlight link NERDTreeFile NONE
+
+    highlight illuminatedWord guibg=#414141
 endfunction
 
 function! saltor#functions#MaximizeToggle()
