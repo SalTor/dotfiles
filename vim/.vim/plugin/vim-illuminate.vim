@@ -1,4 +1,7 @@
 let s:js_whitelist = [
+            \ 'jsIfElseBlock',
+            \ 'jsParenIfElse',
+            \ 'jsBracket',
             \ 'jsModuleKeyword',
             \ 'jsDestructuringBlock',
             \ 'jsDestructuringPropertyValue',
