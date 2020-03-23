@@ -30,6 +30,7 @@ alias source_tmux='tmux source ~/.tmux.conf'
 
 alias mux='tmuxinator'
 alias ms=fzf_tmux_switch_or_attach
+alias mux_restart_all='mux stop alma_code && mux stop dotfiles && source ~/.zshrc && mux start alma_code && mux start dotfiles'
 
 alias gdf=fzf_git_diff_changed
 alias gaf=fzf_git_add_changed
