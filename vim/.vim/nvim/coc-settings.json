@@ -8,6 +8,8 @@
     "diagnostic.errorSign": "",
     "diagnostic.warningSign": "",
     "diagnostic.enableHighlightLineNumber": false,
+    "diagnostic.refreshOnInsertMode": false,
+    "diagnostic.refreshAfterSave": true,
 
     "suggest.echodocSupport": true,
     "suggest.maxCompleteItemCount": 20,
