@@ -61,9 +61,9 @@ tnoremap <C-\> <C-\><C-\>
 nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
 
 " Nicer 'only window' operation
-nnoremap <C-W>o :call saltor#functions#MaximizeToggle()<CR>
-nnoremap <C-W>O :call saltor#functions#MaximizeToggle()<CR>
-nnoremap <C-W><C-O> :call saltor#functions#MaximizeToggle()<CR>
+nnoremap <silent> <C-W>o :call saltor#functions#MaximizeToggle()<CR>
+nnoremap <silent> <C-W>O :call saltor#functions#MaximizeToggle()<CR>
+nnoremap <silent> <C-W><C-O> :call saltor#functions#MaximizeToggle()<CR>
 
 " Add empty lines
 nnoremap <silent> [<space> :pu! _<cr>:']+1<CR>
