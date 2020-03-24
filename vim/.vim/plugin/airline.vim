@@ -63,8 +63,7 @@ let g:airline_symbols = {
     \ 'whitespace': '☲',
     \ }
 
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#term#enabled = 0
 let g:airline#extensions#nerdtree_status = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#coc#enabled = 1
