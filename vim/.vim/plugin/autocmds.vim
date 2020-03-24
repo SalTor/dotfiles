@@ -29,12 +29,6 @@ if has('autocmd')
             autocmd BufLeave,FocusLost,InsertEnter,WinLeave * setlocal norelativenumber
         augroup END
 
-        augroup EscapeStuff
-            autocmd!
-            autocmd FileType fzf tnoremap <silent> <buffer> <Esc> <C-\><C-c>
-            autocmd FileType neoterm tnoremap <silent> <buffer> <Esc> <C-\><C-n>
-        augroup END
-
         augroup WhichKey
             function! s:init_which_key()
                 call which_key#register('<Space>', 'g:saltor#map#leader#desc')
