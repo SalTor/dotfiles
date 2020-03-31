@@ -23,16 +23,18 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdcommenter' " Control code-comments
     Plug 'sheerun/vim-polyglot'    " Syntax files for most languages
     Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
-    Plug 'dense-analysis/ale'   " Linter
+    Plug 'dense-analysis/ale'   " Async update linting warnings inside VIM
     Plug 'honza/vim-snippets'   " Snippets solution that works better with coc.nvim
     Plug 'kassio/neoterm'       " Synchronized terminals
     Plug 'wincent/terminus'     " Better os-terminal support
     Plug 'chriskempson/base16-vim' " Color schemes
     Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
-    Plug 'vim-airline/vim-airline' " Status line
-    Plug 'vim-airline/vim-airline-themes' " Status line theme options
+    Plug 'vim-airline/vim-airline' " Status line toolset
+    Plug 'vim-airline/vim-airline-themes' " Airline theme options
     Plug 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
     Plug 'jpalardy/vim-slime' " REPL integration
-    Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] } " Highlight variable under cursor
-    Plug 'norcalli/nvim-colorizer.lua' " Give color definition a guibg of that color
+    Plug 'RRethy/vim-illuminate' ", { 'on': ['IlluminationToggle', 'IlluminationEnable'] } Highlight variable under cursor
+    Plug 'norcalli/nvim-colorizer.lua' " Give 'red' a guibg of red, etc.
+
+    Plug 'unblevable/quick-scope'
 call plug#end()
