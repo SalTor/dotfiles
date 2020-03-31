@@ -86,3 +86,6 @@ nmap <silent> gd <Plug>(coc-definition)
 " coc - Diagnostics
 nmap <silent> [e <Plug>(coc-diagnostic-prev)
 nmap <silent> ]e <Plug>(coc-diagnostic-next)
+
+" Local remaps
+iabbrev almashell alma_start_django_shell
