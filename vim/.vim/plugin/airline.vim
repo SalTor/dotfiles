@@ -35,16 +35,22 @@ function! GetParentDirWithFile(...) abort
     endif
 endfunction
 
+function! GetTermJobId(...) abort
+    return b:terminal_job_id
+endfunction
+
 call airline#parts#define_function('winnr', 'GetWinnrSymbol')
 call airline#parts#define_minwidth('winnr', 50)
 call airline#parts#define_function('saltor_file', 'GetParentDirWithFile')
 call airline#parts#define_minwidth('saltor_file', 50)
+call airline#parts#define_function('term_job_id', 'GetTermJobId')
+call airline#parts#define_minwidth('term_job_id', 50)
 
 let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['saltor_file'])
-let g:airline_section_x = airline#section#create_right(['filetype'])
+let g:airline_section_x = ''
 let g:airline_section_y = ''
-let g:airline_section_z = ''
+let g:airline_section_z = airline#section#create_right(['filetype'])
 
 let g:airline_symbols = {
     \ 'space': ' ',
@@ -73,6 +79,10 @@ let g:airline_filetype_overrides = {
     \ 'startify': [ 'Startify', '' ],
     \ 'help': [
         \ airline#section#create_left(['Help', '%f']),
+        \ airline#section#create(['winnr']),
+    \ ],
+    \ 'neoterm': [
+        \ airline#section#create_left(['mode', 'term_job_id']),
         \ airline#section#create(['winnr']),
     \ ],
     \ }

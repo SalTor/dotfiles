@@ -142,16 +142,16 @@ let s:leader_map['g'] = {
 let s:leader_map['j'] = {
     \ 'name': '+jumps/easymoion',
     \ 's': 'to-char',
-    \ 'w': 'to-word',
-    \ 'f': 'to-char (line-wise)',
-    \ 't': 'to-char (line-wise)',
+    \ 'w': 'to-word-forward',
+    \ 'b': 'to-word-backward',
+    \ 'j': 'to-line-down',
+    \ 'k': 'to-word-up',
     \ 'n': 'next-easymotion-match',
     \ 'N': 'prev-easymotion-match',
     \ }
     nmap <Leader>js <Plug>(easymotion-s)
-    nmap <Leader>jw <Plug>(easymotion-bd-w)
-    nmap <Leader>jf <Plug>(easymotion-bd-fl)
-    nmap <Leader>jt <Plug>(easymotion-bd-tl)
+    nmap <Leader>jw <Plug>(easymotion-w)
+    nmap <Leader>jb <Plug>(easymotion-b)
     nmap <Leader>jk <Plug>(easymotion-k)
     nmap <Leader>jj <Plug>(easymotion-j)
     nmap <Leader>jn <Plug>(easymotion-next)
@@ -174,6 +174,18 @@ let s:leader_map['o'] = {
     \ }
     nnoremap <silent> <Leader>ol :lopen<CR>
     nnoremap <silent> <Leader>oq :copen<CR>
+
+let s:leader_map['r'] = {
+    \ 'name': '+repl',
+    \ 'c': 'slime-config',
+    \ 's': 'slime-send-paragraph',
+    \ 'S': 'slime-send-region',
+    \ 'l': 'slime-send-line',
+    \ }
+    nnoremap <silent> <Leader>rc :SlimeConfig<CR>
+    nmap <silent> <Leader>rs <Plug>SlimeParagraphSend
+    xmap <silent> <Leader>rS <Plug>SlimeRegionSend
+    nmap <silent> <Leader>rl <Plug>SlimeLineSend
 
 " Search
 let s:leader_map['s'] = {
@@ -221,20 +233,6 @@ let s:leader_map['T'] = {
     nnoremap <silent> <Leader>Th :call saltor#mappings#leader#cycle_cursor_highlight()<CR>
     nnoremap <silent> <Leader>Tc :call saltor#mappings#leader#cycle_color_column()<CR>
     nnoremap <silent> <Leader>Tg :call saltor#mappings#leader#cycle_git_gutter()<CR>
-
-" Text
-let s:leader_map['x'] = {
-    \ 'name': '+text',
-    \ 's (visual)': 'sort-lines',
-    \ 't (visual)': 'make-columns',
-    \ 't (normal)': 'make-columns',
-    \ 't': 'which_key_ignore',
-    \ 'f': 'fold',
-    \ }
-    vnoremap <silent> <Leader>xs !sort<CR>
-    vnoremap <silent> <Leader>xt :!column -t<CR>
-    nnoremap <silent> <Leader>xt :%!column -t<CR>
-    nnoremap <silent> <Leader>xf za
 
 " Variable / method signatures
 let s:leader_map['v'] = {
@@ -288,5 +286,19 @@ let s:leader_map['q'] = {
             \ }
     nnoremap <silent> <Leader>qv :qa<CR>
     nnoremap <silent> <Leader>qw :q<CR>
+
+" Text
+let s:leader_map['x'] = {
+    \ 'name': '+text',
+    \ 's (visual)': 'sort-lines',
+    \ 't (visual)': 'make-columns',
+    \ 't (normal)': 'make-columns',
+    \ 't': 'which_key_ignore',
+    \ 'f': 'fold',
+    \ }
+    vnoremap <silent> <Leader>xs !sort<CR>
+    vnoremap <silent> <Leader>xt :!column -t<CR>
+    nnoremap <silent> <Leader>xt :%!column -t<CR>
+    nnoremap <silent> <Leader>xf za
 
 let g:saltor#map#leader#desc = s:leader_map
