@@ -30,6 +30,13 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeyGroup     guifg=#A5AEBD gui=italic
     highlight default WhichKeyDesc      guifg=#E38639
 
+    " quick-scope
+    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+    highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
+    " illuminated-word
+    highlight illuminatedWord guibg=#414141
+
     " Sync with corresponding non-nvim 'highlight' settings in
     " ~/.vim/plugin/settings.vim:
     highlight clear NonText
@@ -48,8 +55,6 @@ function! saltor#functions#tweak_colors()
     " Instead of linking to Normal (which has a higher priority, link to nothing).
     highlight link vimUserFunc NONE
     highlight link NERDTreeFile NONE
-
-    highlight illuminatedWord guibg=#414141
 endfunction
 
 function! saltor#functions#MaximizeToggle()
