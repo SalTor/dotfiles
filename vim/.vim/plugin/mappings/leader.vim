@@ -72,11 +72,11 @@ let s:leader_map['a'] = {
 let s:leader_map['b'] = {
     \ 'name': '+buffers',
     \ ';': 'fzf-buffers',
-    \ 'd': 'unload-buffer',
+    \ 'd': 'close-buffer',
     \ 'h': 'home-buffer',
     \ }
     nnoremap <silent> <Leader>b; :Buffers<CR>
-    nnoremap <silent> <Leader>bd :bd<CR>
+    nnoremap <silent> <Leader>bd :Bclose<CR>:tabclose<CR>gT<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
 
 " comments

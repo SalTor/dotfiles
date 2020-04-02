@@ -1,5 +1,10 @@
 if has('autocmd')
     function! s:AutoCommands()
+        augroup BufPosOfLastEdit
+            autocmd!
+            autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+        augroup END
+
         augroup Startify
             autocmd!
             autocmd User StartifyReady let g:ale_enabled = 0

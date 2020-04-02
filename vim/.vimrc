@@ -37,4 +37,5 @@ call plug#begin('~/.vim/plugged')
     Plug 'norcalli/nvim-colorizer.lua' " Give 'red' a guibg of red, etc.
 
     Plug 'unblevable/quick-scope'
+    Plug 'AndrewRadev/splitjoin.vim'
 call plug#end()

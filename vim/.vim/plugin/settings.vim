@@ -1,22 +1,29 @@
 syntax on
 filetype indent plugin on
 
-set spelllang=en_us
-set noshowmode
-set noshowmatch
 set noswapfile nobackup nowritebackup
 set undofile undodir=~/.vim/undodir
-set nojoinspaces
-set noerrorbells
+set noerrorbells novisualbell
 set clipboard=unnamed
+set lazyredraw
+set showmatch matchtime=2
+set nojoinspaces
+set wildmenu
 
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab shiftround
+set spelllang=en_us
+set noshowmode
+set noruler
+
+set expandtab smarttab shiftwidth=4 tabstop=4 softtabstop=4 shiftround
 set number
 set cursorline
 set scrolloff=3
+set backspace=start,eol,indent
+set whichwrap+=<,>,h,l
 
 set list listchars=tab:>-,nbsp:⦸,extends:»,precedes:«,trail:•
 
+set autoindent smartindent wrap
 set breakindent breakindentopt=shift:4
 set foldtext=saltor#settings#foldtext() foldlevelstart=50 foldopen-=block foldmethod=indent
 set virtualedit=block
