@@ -1,42 +1,8 @@
 function! s:AutoCommands()
-    function! GoYCM()
-        " if exists('g:coc_enabled')
-            " CocDisable
-            " let g:airline#extensions#coc#enabled = 0
-        " endif
-        let g:airline#extensions#coc#enabled = 0
-        let g:airline#extensions#ycm#enabled = 1
-        setlocal completeopt-=preview
-        nnoremap <buffer> <silent> gd :YcmCompleter GoTo<CR>
-        nnoremap <buffer> <silent> gr :YcmCompleter GoToReferences<CR>
-        nnoremap <buffer> <Leader>vr :YcmCompleter RefactorRename<space>
-        nmap <buffer> <silent> [e <Plug>(ale_previous_wrap)
-        nmap <buffer> <silent> ]e <Plug>(ale_next_wrap)
-    endfunction
-
-    function! GoCoC()
-        CocEnable
-        let g:airline#extensions#ycm#enabled = 0
-        let g:airline#extensions#coc#enabled = 1
-        inoremap <buffer> <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ saltor#functions#check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-
-        " Use <c-space> to trigger completion.
-        inoremap <buffer> <silent><expr> <c-space> coc#refresh()
-        inoremap <buffer> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-        nmap <buffer> <silent> [e <Plug>(coc-diagnostic-previous)
-        nmap <buffer> <silent> ]e <Plug>(coc-diagnostic-next)
-
-        nmap <buffer> <silent> gd <Plug>(coc-definition)
-    endfunction
-
     augroup YCMOrCOC
         autocmd!
-        autocmd FileType javascript :call GoYCM()
-        autocmd FileType scss,sass,css,json :call GoCoC()
+        autocmd FileType javascript :call saltor#functions#tools_use_ycm()
+        autocmd FileType scss,sass,css,json :call saltor#functions#tools_use_coc()
     augroup END
 
     augroup BufPosOfLastEdit
