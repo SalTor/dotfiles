@@ -70,13 +70,14 @@ let g:airline_symbols = {
     \ }
 
 let g:airline#extensions#term#enabled = 0
-let g:airline#extensions#nerdtree_status = 1
+let g:airline#extensions#nerdtree_status = 0
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ycm#error_symbol = 'E:'
+let g:airline#extensions#ycm#warning_symbol = 'W:'
 
 let g:airline_filetype_overrides = {
-    \ 'nerdtree': [ get(g:, 'NERDTreeStatusline', 'File Explorer'), '' ],
-    \ 'startify': [ 'Startify', '' ],
+    \ 'startify': [ '', '' ],
     \ 'help': [
         \ airline#section#create_left(['Help', '%f']),
         \ airline#section#create(['winnr']),

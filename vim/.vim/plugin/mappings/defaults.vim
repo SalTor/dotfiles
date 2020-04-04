@@ -17,6 +17,9 @@ nnoremap <up> <C-u>
 vnoremap <down> <C-d>
 vnoremap <up> <C-u>
 
+" Quick command mode nnoremap, this is unbound in ftplugin/qf.vim
+nnoremap <CR> :
+
 " Increment / decrement numerical values (Accepts counts)
 nnoremap + <C-a>
 nnoremap - <C-x>

@@ -1,12 +1,12 @@
 syntax on
 filetype indent plugin on
 
-set noswapfile nobackup nowritebackup
+set nobackup nowritebackup
 set undofile undodir=~/.vim/undodir
 set noerrorbells novisualbell
 set clipboard=unnamed
 set lazyredraw
-set showmatch matchtime=2
+set noshowmatch matchtime=2
 set nojoinspaces
 set wildmenu
 
@@ -35,7 +35,7 @@ set splitbelow splitright
 set hidden
 
 set timeoutlen=500
-set updatetime=100
+set updatetime=300
 
 set shortmess+=a
 set formatoptions+=jn
@@ -46,7 +46,6 @@ let g:pymode_python = 'python3'
 let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
 
 let g:js_filetypes=[
-\   'javascriptreact',
 \   'javascript',
 \   'javascript.jsx',
 \   'javascript.jest',
