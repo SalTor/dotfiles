@@ -41,7 +41,9 @@ endfunction
 function! saltor#mappings#leader#cycle_git_gutter() abort
     if exists('g:loaded_gitgutter')
         GitGutterToggle
+        echo '[GitGutter] Toggled'
     else
         GitGutterEnable
+        echo '[GitGutter] Enabled'
     endif
 endfunction

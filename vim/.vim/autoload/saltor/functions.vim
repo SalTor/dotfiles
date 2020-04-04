@@ -1,12 +1,32 @@
 function! saltor#functions#tweak_colors()
+    " Sync with corresponding non-nvim 'highlight' settings in
+    " ~/.vim/plugin/settings.vim:
+    highlight clear NonText
+    highlight link NonText Conceal
+    highlight clear CursorLineNr
+    highlight link CursorLineNr DiffText
+    highlight clear VertSplit
+    highlight link VertSplit LineNr
+
+    " Fix base16-vim coloring of xml for my preference. This makes it so
+    " ending tag matches color of starting tag. I came across this when
+    " editing JSX files
+    highlight link xmlEndTag Function
+
+    " Resolve clashes with ColorColumn.
+    " Instead of linking to Normal (which has a higher priority, link to nothing).
+    highlight link vimUserFunc NONE
+    highlight link NERDTreeFile NONE
     highlight clear SpellBad
     highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
     highlight Comment cterm=italic gui=italic
     highlight LineNr guibg=NONE
     highlight VertSplit guibg=NONE
-    highlight Colorcolumn ctermbg=0 guibg=lightgrey
     highlight EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
     highlight SignColumn ctermbg=bg ctermfg=bg guibg=bg guifg=bg
+    highlight InactiveEndOfBuffer guibg=#3c3836 guifg=#3c3836
+    highlight NonText guifg=#83a598
+    highlight Whitespace guifg=#83a598
 
     highlight GitGutterAdd guibg=NONE
     highlight GitGutterChange guibg=NONE
@@ -31,30 +51,11 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeyDesc      guifg=#E38639
 
     " quick-scope
-    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-    highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+    highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=155 cterm=underline
+    highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=81 cterm=underline
 
     " illuminated-word
     highlight illuminatedWord guibg=#414141
-
-    " Sync with corresponding non-nvim 'highlight' settings in
-    " ~/.vim/plugin/settings.vim:
-    highlight clear NonText
-    highlight link NonText Conceal
-    highlight clear CursorLineNr
-    highlight link CursorLineNr DiffText
-    highlight clear VertSplit
-    highlight link VertSplit LineNr
-
-    " Fix base16-vim coloring of xml for my preference. This makes it so
-    " ending tag matches color of starting tag. I came across this when
-    " editing JSX files
-    highlight link xmlEndTag Function
-
-    " Resolve clashes with ColorColumn.
-    " Instead of linking to Normal (which has a higher priority, link to nothing).
-    highlight link vimUserFunc NONE
-    highlight link NERDTreeFile NONE
 endfunction
 
 function! saltor#functions#MaximizeToggle()
@@ -220,4 +221,27 @@ function! saltor#functions#build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
     copen
     cc
+endfunction
+
+function! saltor#functions#CreateFloatingWindow()
+    let width = &columns
+    let height = &lines / 2
+    let top = 0
+    let left = 0
+    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
+
+    let top = "╭" . repeat("─", width - 2) . "╮"
+    let mid = "│" . repeat(" ", width - 2) . "│"
+    let bot = "╰" . repeat("─", width - 2) . "╯"
+    let lines = [top] + repeat([mid], height - 2) + [bot]
+    let s:buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+    call nvim_open_win(s:buf, v:true, opts)
+    set winhl=Normal:Floating
+    let opts.row += 1
+    let opts.height -= 2
+    let opts.col += 2
+    let opts.width -= 4
+    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+    au BufWipeout <buffer> exe 'bw '.s:buf
 endfunction

@@ -4,7 +4,9 @@ xmap K :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Simpler defaults / replacements
 nnoremap H ^
+xnoremap H ^
 nnoremap L $
+xnoremap L $
 nnoremap Y y$
 nnoremap U <C-r>
 
