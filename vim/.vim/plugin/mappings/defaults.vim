@@ -17,26 +17,6 @@ nnoremap <up> <C-u>
 vnoremap <down> <C-d>
 vnoremap <up> <C-u>
 
-" Quick command mode nnoremap, this is unbound in ftplugin/qf.vim
-nnoremap <CR> :
-
-" Increment / decrement numerical values (Accepts counts)
-nnoremap + <C-a>
-nnoremap - <C-x>
-vnoremap + <C-a>
-vnoremap - <C-x>
-
 " Use sane regexes
 nnoremap / /\v
 vnoremap / /\v
-
-" Spelling
-nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
-
-" Don't move on *
-nnoremap * *<C-o>
-
-" Nicer 'only window' operation
-nnoremap <silent> <C-W>o :call saltor#functions#MaximizeToggle()<CR>
-nnoremap <silent> <C-W>O :call saltor#functions#MaximizeToggle()<CR>
-nnoremap <silent> <C-W><C-O> :call saltor#functions#MaximizeToggle()<CR>
