@@ -22,4 +22,4 @@ nnoremap / /\v
 vnoremap / /\v
 
 " Documentation
-nnoremap K :call saltor#functions#show_documentation()<CR>
+nnoremap <silent> K :call saltor#functions#show_documentation()<CR>
