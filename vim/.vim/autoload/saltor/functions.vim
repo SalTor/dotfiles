@@ -64,16 +64,20 @@ function! saltor#functions#MaximizeToggle()
     endif
 endfunction
 
-function! saltor#functions#show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        if b:coc_enabled
-            call CocAction('doHover')
+function! saltor#functions#show_documentation() abort
+    try
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
         else
-            YcmCompleter GetDoc
+            if b:coc_enabled
+                call CocAction('doHover')
+            else
+                YcmCompleter GetDoc
+            endif
         endif
-    endif
+    catch
+        echo 'No docs found for that.'
+    endtry
 endfunction
 
 function! saltor#functions#file_explorer(path)
@@ -118,13 +122,6 @@ function! saltor#functions#tools_use_coc(...) abort
 
     " Use <c-space> to trigger completion.
     inoremap <buffer> <silent><expr> <c-space> coc#refresh()
-    inoremap <buffer> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    nmap <buffer> gd <Plug>(coc-definition)
-    nmap <buffer> gr <Plug>(coc-references)
-    nmap <buffer> <Leader>vr <Plug>(coc-rename)
-    nmap <buffer> [e <Plug>(coc-diagnostic-previous)
-    nmap <buffer> ]e <Plug>(coc-diagnostic-next)
 endfunction
 
 function! saltor#functions#FzfSpell()
