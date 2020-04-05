@@ -1,11 +1,11 @@
 function! saltor#functions#tweak_colors()
     highlight clear SpellBad
-    highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+    highlight SpellBad cterm=underline gui=undercurl guifg=#fb4934
 
     highlight LineNr    guibg=bg
     highlight VertSplit guibg=bg
 
-    highlight Comment cterm=italic gui=italic
+    highlight Comment cterm=italic gui=italic guifg=#7F7F73
 
     highlight EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
     highlight SignColumn  ctermbg=bg ctermfg=bg guibg=bg guifg=bg

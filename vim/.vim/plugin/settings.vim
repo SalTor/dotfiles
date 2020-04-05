@@ -1,13 +1,16 @@
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3.8'
+let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
+
 syntax on
 filetype indent plugin on
 
 set nobackup nowritebackup
 set undofile undodir=~/.vim/undodir
-set noerrorbells novisualbell
+set noerrorbells novisualbell belloff=all
+set noshowmatch
 set clipboard=unnamed
 set lazyredraw
-set noshowmatch matchtime=2
-set nojoinspaces
 set wildmenu
 
 set spelllang=en_us
@@ -18,11 +21,11 @@ set number
 set cursorline
 set scrolloff=3
 set backspace=start,eol,indent
-set whichwrap+=<,>,h,l
+set whichwrap+=~,h,l,s,b,[,],<,>
 
 set list listchars=tab:>-,nbsp:⦸,extends:»,precedes:«,trail:•
 
-let &showbreak='↳ '
+let &showbreak='⤷ '
 set breakindent breakindentopt=shift:2
 set autoindent smartindent wrap
 set foldtext=saltor#settings#foldtext() foldlevelstart=50 foldopen-=block foldmethod=indent
@@ -31,26 +34,24 @@ set virtualedit=block
 set ignorecase smartcase incsearch hlsearch
 set inccommand=split
 
-set splitbelow splitright
-set hidden
+set splitbelow splitright           " :vsp puts you on right; :sp puts you below
+set hidden                          " change buffer even if has unsaved changes
+set switchbuf=usetab                " try to reuse windows/tabs when switching buffers
 
-set timeoutlen=500
-set updatetime=300
+set timeoutlen=500                  " time in milliseconds to wait for a mapped sequence to complete
+set updatetime=300                  " duration for CursorHold autocmd
 
-set shortmess+=a
-set formatoptions+=jn
+set shortmess+=A                    " ignore annoying swapfile messages
+set shortmess+=I                    " hide splash screen
+set shortmess+=O                    " file-read message overwrites previous
+set shortmess+=T                    " truncate non-file messages in middle
+set shortmess+=W                    " don't echo [written] when writing
+set shortmess+=a                    " use abbreciations eg `[RO] instead of `[readonly]`
+set shortmess+=o                    " overwrite file-written messages
+set shortmess+=t                    " truncate file messages at start
 
-set completeopt-=preview
+set formatoptions+=n                " when formatting text, recognize numbered lists
+set formatoptions+=j                " remove comment leader when joining
+set nojoinspaces                    " remove duplicate space when joining
 
-
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3.8'
-let g:pymode_python = 'python3'
-let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
-
-let g:js_filetypes=[
-\   'javascript',
-\   'javascript.jsx',
-\   'javascript.jest',
-\   'javascript.jest.jsx'
-\ ]
+set completeopt-=preview            " don't use split preview for completion
