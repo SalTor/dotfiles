@@ -11,8 +11,7 @@ set nojoinspaces
 set wildmenu
 
 set spelllang=en_us
-set noshowmode
-set noruler
+set noshowmode noshowcmd noruler
 
 set expandtab smarttab shiftwidth=4 tabstop=4 softtabstop=4 shiftround
 set number
@@ -23,8 +22,9 @@ set whichwrap+=<,>,h,l
 
 set list listchars=tab:>-,nbsp:⦸,extends:»,precedes:«,trail:•
 
+let &showbreak='↳ '
+set breakindent breakindentopt=shift:2
 set autoindent smartindent wrap
-set breakindent breakindentopt=shift:4
 set foldtext=saltor#settings#foldtext() foldlevelstart=50 foldopen-=block foldmethod=indent
 set virtualedit=block
 
@@ -41,6 +41,7 @@ set shortmess+=a
 set formatoptions+=jn
 
 set completeopt-=preview
+
 
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3.8'

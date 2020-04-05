@@ -141,13 +141,15 @@ let s:leader_map['g'] = {
 " Jumps + EasyMotion.vim
 let s:leader_map['j'] = {
     \ 'name': '+jumps/easymoion',
-    \ 's': 'to-char',
-    \ 'w': 'to-word-forward',
-    \ 'b': 'to-word-backward',
-    \ 'j': 'to-line-down',
-    \ 'k': 'to-word-up',
-    \ 'n': 'next-easymotion-match',
-    \ 'N': 'prev-easymotion-match',
+    \ 's': '[NV] to-char',
+    \ 'w': '[NV] to-word-forward',
+    \ 'b': '[NV] to-word-backward',
+    \ 'j': '[NV] to-line-down',
+    \ 'k': '[NV] to-word-up',
+    \ 'f': '[NV] to-char',
+    \ 't': '[NV] to-char',
+    \ 'n': '[NV] next-easymotion-match',
+    \ 'N': '[NV] prev-easymotion-match',
     \ }
     nmap <Leader>js <Plug>(easymotion-s)
     nmap <Leader>jw <Plug>(easymotion-w)
@@ -157,14 +159,14 @@ let s:leader_map['j'] = {
     nmap <Leader>jn <Plug>(easymotion-next)
     nmap <Leader>jN <Plug>(easymotion-prev)
 
-    vmap <Leader>js <Plug>(easymotion-s)
-    vmap <Leader>jw <Plug>(easymotion-bd-w)
-    vmap <Leader>jf <Plug>(easymotion-bd-fl)
-    vmap <Leader>jt <Plug>(easymotion-bd-tl)
-    vmap <Leader>jk <Plug>(easymotion-k)
-    vmap <Leader>jj <Plug>(easymotion-j)
-    vmap <Leader>jn <Plug>(easymotion-next)
-    vmap <Leader>jN <Plug>(easymotion-prev)
+    xmap <Leader>js <Plug>(easymotion-s)
+    xmap <Leader>jw <Plug>(easymotion-bd-w)
+    xmap <Leader>jf <Plug>(easymotion-bd-fl)
+    xmap <Leader>jt <Plug>(easymotion-bd-tl)
+    xmap <Leader>jk <Plug>(easymotion-k)
+    xmap <Leader>jj <Plug>(easymotion-j)
+    xmap <Leader>jn <Plug>(easymotion-next)
+    xmap <Leader>jN <Plug>(easymotion-prev)
 
 " Quick-fix lists
 let s:leader_map['o'] = {
@@ -201,10 +203,11 @@ let s:leader_map['s'] = {
     nnoremap <silent> <Leader>st :Rg TODO<CR>
     nnoremap <Leader>sp :DynamicRg<CR>
     nnoremap <Leader>sP :Rg<Space>
-    vnoremap <silent> <Leader>sp y:DynamicRg<Space><C-R>"<CR>
-    vnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
-    vnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
-    vnoremap <silent> <Leader>sf y/<C-R>"<CR>
+
+    xnoremap <silent> <Leader>sp y:DynamicRg<Space><C-R>"<CR>
+    xnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
+    xnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
+    xnoremap <silent> <Leader>sf y/<C-R>"<CR>
 
 " Terminal
 let s:leader_map['t'] = {
@@ -288,14 +291,14 @@ let s:leader_map['q'] = {
 " Text
 let s:leader_map['x'] = {
     \ 'name': '+text',
-    \ 's (visual)': 'sort-lines',
-    \ 't (visual)': 'make-columns',
-    \ 't (normal)': 'make-columns',
+    \ 's [-V]': 'sort-lines',
+    \ 't [-V]': 'make-columns',
+    \ 't [N-]': 'make-columns',
     \ 't': 'which_key_ignore',
     \ 'f': 'fold',
     \ }
-    vnoremap <silent> <Leader>xs !sort<CR>
-    vnoremap <silent> <Leader>xt :!column -t<CR>
+    xnoremap <silent> <Leader>xs !sort<CR>
+    xnoremap <silent> <Leader>xt :!column -t<CR>
     nnoremap <silent> <Leader>xt :%!column -t<CR>
     nnoremap <silent> <Leader>xf za
 
