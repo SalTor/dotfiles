@@ -40,6 +40,8 @@ set updatetime=300
 set shortmess+=a
 set formatoptions+=jn
 
+set completeopt-=preview
+
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3.8'
 let g:pymode_python = 'python3'

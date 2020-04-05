@@ -241,13 +241,11 @@ let s:leader_map['v'] = {
     \ 'i': 'coc-implementation',
     \ 'r': 'coc-rename',
     \ 'R': 'coc-references',
-    \ 'k': 'documentation',
     \ }
     nmap <silent> <Leader>va <Plug>(coc-codeaction)
     nmap <silent> <Leader>vi <Plug>(coc-implementation)
     nmap <silent> <Leader>vR <Plug>(coc-references)
     nmap <Leader>vr <Plug>(coc-rename)
-    nnoremap <silent> <Leader>vk :call saltor#functions#show_documentation()<CR>
 
 " Windows
 let s:leader_map['w'] = {

@@ -1,8 +1,9 @@
 function! s:AutoCommands()
     augroup YCMOrCOC
         autocmd!
-        autocmd FileType javascript :call saltor#functions#tools_use_ycm()
-        autocmd FileType scss,sass,css,json :call saltor#functions#tools_use_coc()
+        autocmd FileType javascript,javascript.jsx,javascriptreact call saltor#functions#tools_use_ycm()
+        autocmd FileType vim,scss,sass,css,json call saltor#functions#tools_use_coc()
+        autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     augroup END
 
     augroup BufPosOfLastEdit
@@ -18,7 +19,7 @@ function! s:AutoCommands()
 
     augroup AutoNumberToggle
         autocmd!
-        function! s:relative_check()
+        function! s:RelativeCheck()
             let l:ignored_buffers = {
                 \ 'help': 1,
                 \ 'neoterm': 1,
@@ -30,7 +31,7 @@ function! s:AutoCommands()
                 set relativenumber
             endif
         endfunction
-        autocmd BufEnter,FocusGained,InsertLeave,WinEnter * call <SID>relative_check()
+        autocmd BufEnter,FocusGained,InsertLeave,WinEnter * call <SID>RelativeCheck()
         autocmd BufLeave,FocusLost,InsertEnter,WinLeave * setlocal norelativenumber
     augroup END
 
@@ -51,12 +52,12 @@ function! s:AutoCommands()
         autocmd InsertEnter,WinLeave * set nocursorline
     augroup END
 
-    function! s:handle_resize(...)
+    function! s:HandleResize(...) abort
         execute "normal! \<c-w>="
         AirlineRefresh!
     endfunction
     " Resize splits when vim container resizes
-    autocmd VimResized * call s:handle_resive()
+    autocmd VimResized * call <SID>HandleResize()
 
     " Disable paste mode on leaving insert mode.
     autocmd InsertLeave * set nopaste
@@ -67,15 +68,12 @@ function! s:AutoCommands()
     " Turn off line numbers etc
     autocmd TermOpen * setlocal listchars= nonumber norelativenumber
 
-    " deoplete tab-complete
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
     function! s:TrimWhitespace() abort
         let l:save = winsaveview()
         keeppatterns %s/\s\+$//e
         call winrestview(l:save)
     endfunction
-    autocmd BufWritePre * :call <SID>TrimWhitespace()
+    autocmd BufWritePre * call <SID>TrimWhitespace()
 endfunction
 
 call saltor#functions#CheckColorScheme()

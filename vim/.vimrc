@@ -34,7 +34,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline-themes' " Airline theme options
     Plug 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
     Plug 'jpalardy/vim-slime' " REPL integration
-    Plug 'RRethy/vim-illuminate' ", { 'on': ['IlluminationToggle', 'IlluminationEnable'] } Highlight variable under cursor
+    Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] } " Highlight variable under cursor
     Plug 'norcalli/nvim-colorizer.lua' " Give 'red' a guibg of red, etc.
 
     Plug 'unblevable/quick-scope'

@@ -20,3 +20,6 @@ vnoremap <up> <C-u>
 " Use sane regexes
 nnoremap / /\v
 vnoremap / /\v
+
+" Documentation
+nnoremap <silent> K :call saltor#functions#show_documentation()<CR>

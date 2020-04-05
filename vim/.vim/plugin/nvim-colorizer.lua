@@ -14,4 +14,5 @@ DEFAULT_OPTIONS = {
 require 'colorizer'.setup {
     'css';
     'scss';
+    'vim';
 }

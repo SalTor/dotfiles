@@ -1,30 +1,15 @@
 function! saltor#functions#tweak_colors()
-    " Sync with corresponding non-nvim 'highlight' settings in
-    " ~/.vim/plugin/settings.vim:
-    highlight clear NonText
-    highlight link NonText Conceal
-    highlight clear CursorLineNr
-    highlight link CursorLineNr DiffText
-    highlight clear VertSplit
-    highlight link VertSplit LineNr
-
-    " Fix base16-vim coloring of xml for my preference. This makes it so
-    " ending tag matches color of starting tag. I came across this when
-    " editing JSX files
-    highlight link xmlEndTag Function
-
-    " Resolve clashes with ColorColumn.
-    " Instead of linking to Normal (which has a higher priority, link to nothing).
-    highlight link vimUserFunc NONE
-    highlight link NERDTreeFile NONE
     highlight clear SpellBad
     highlight SpellBad cterm=underline gui=undercurl guibg=#fb4934 guifg=#000000
+
+    highlight LineNr    guibg=bg
+    highlight VertSplit guibg=bg
+
     highlight Comment cterm=italic gui=italic
-    highlight LineNr guibg=NONE
-    highlight VertSplit guibg=NONE
+
     highlight EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
-    highlight SignColumn ctermbg=bg ctermfg=bg guibg=bg guifg=bg
-    highlight InactiveEndOfBuffer guibg=#3c3836 guifg=#3c3836
+    highlight SignColumn  ctermbg=bg ctermfg=bg guibg=bg guifg=bg
+
     highlight NonText guifg=#83a598
     highlight Whitespace guifg=#83a598
 
@@ -34,13 +19,13 @@ function! saltor#functions#tweak_colors()
     highlight GitGutterDelete guibg=NONE
 
     " coc.nvim
-    highlight CocInfoSign guifg=#fabd2f guibg=NONE
+    highlight CocInfoSign    guifg=#fabd2f guibg=NONE
     highlight CocWarningSign guifg=#fabd2f guibg=NONE
-    highlight CocErrorSign guifg=#fb4934 guibg=NONE
+    highlight CocErrorSign   guifg=#fb4934 guibg=NONE
 
     " ALE
-    highlight ALEErrorSign guifg=#fb4934 guibg=NONE
-    highlight ALEWarningSign guifg=#fabd2f guibg=NONE
+    highlight ALEErrorSign          guifg=#fb4934 guibg=NONE
+    highlight ALEWarningSign        guifg=#fabd2f guibg=NONE
     highlight ALEVirtualTextWarning guifg=#fabd2f guibg=NONE
     highlight link ALEVirtualTextError DiffDelete
 
@@ -51,11 +36,16 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeyDesc      guifg=#E38639
 
     " quick-scope
-    highlight QuickScopePrimary guifg=#afff5f gui=underline ctermfg=155 cterm=underline
-    highlight QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=81 cterm=underline
+    highlight QuickScopePrimary   guifg=#afff5f gui=underline cterm=underline ctermfg=155
+    highlight QuickScopeSecondary guifg=#5fffff gui=underline cterm=underline ctermfg=81
 
     " illuminated-word
     highlight illuminatedWord guibg=#414141
+
+    " Resolve clashes with ColorColumn.
+    " Instead of linking to Normal (which has a higher priority, link to nothing).
+    highlight link vimUserFunc NONE
+    highlight link NERDTreeFile NONE
 endfunction
 
 function! saltor#functions#MaximizeToggle()
@@ -78,7 +68,11 @@ function! saltor#functions#show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
     else
-        call CocAction('doHover')
+        if b:coc_enabled
+            call CocAction('doHover')
+        else
+            YcmCompleter GetDoc
+        endif
     endif
 endfunction
 
@@ -105,13 +99,11 @@ function! saltor#functions#tools_use_ycm(...) abort
     let g:airline#extensions#coc#enabled = 0
     let g:airline#extensions#ycm#enabled = 1
 
-    setlocal completeopt-=preview
-
-    nnoremap <buffer> <silent> gd :YcmCompleter GoTo<CR>
-    nnoremap <buffer> <silent> gr :YcmCompleter GoToReferences<CR>
+    nnoremap <buffer> gd :YcmCompleter GoTo<CR>
+    nnoremap <buffer> gr :YcmCompleter GoToReferences<CR>
     nnoremap <buffer> <Leader>vr :YcmCompleter RefactorRename<space>
-    nmap <buffer> <silent> [e <Plug>(ale_previous_wrap)
-    nmap <buffer> <silent> ]e <Plug>(ale_next_wrap)
+    nmap <buffer> [e :echo 'hello'
+    nmap <buffer> ]e <Plug>(ale_next_wrap)
 endfunction
 
 function! saltor#functions#tools_use_coc(...) abort
@@ -128,10 +120,11 @@ function! saltor#functions#tools_use_coc(...) abort
     inoremap <buffer> <silent><expr> <c-space> coc#refresh()
     inoremap <buffer> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    nmap <buffer> <silent> [e <Plug>(coc-diagnostic-previous)
-    nmap <buffer> <silent> ]e <Plug>(coc-diagnostic-next)
-
-    nmap <buffer> <silent> gd <Plug>(coc-definition)
+    nmap <buffer> gd <Plug>(coc-definition)
+    nmap <buffer> gr <Plug>(coc-references)
+    nmap <buffer> <Leader>vr <Plug>(coc-rename)
+    nmap <buffer> [e <Plug>(coc-diagnostic-previous)
+    nmap <buffer> ]e <Plug>(coc-diagnostic-next)
 endfunction
 
 function! saltor#functions#FzfSpell()
@@ -216,9 +209,6 @@ function! saltor#functions#CheckColorScheme ()
     let l:highlight=pinnacle#italicize('ModeMsg')
     execute 'highlight User8 ' . l:highlight
 
-    " Allow for overrides:
-    " - `statusline.vim` will re-set User1, User2 etc.
-    " - `after/plugin/loupe.vim` will override Search.
     doautocmd ColorScheme
 endfunction
 
