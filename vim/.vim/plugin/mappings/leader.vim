@@ -114,6 +114,7 @@ let s:leader_map['f'] = {
     \ 'y': 'echo-file-path',
     \ 'R': 'rename-file',
     \ 'M': 'move-file',
+    \ 'Y': 'copy-contents',
     \ }
     nnoremap <silent> <Leader>fg :GFiles?<CR>
     nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
@@ -123,6 +124,7 @@ let s:leader_map['f'] = {
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
     nnoremap <silent> <Leader>f5 :so %<CR>
     nnoremap <silent> <Leader>fy :echo expand('%p')<CR>
+    nnoremap <silent> <Leader>fY mzggVGy`z
     nnoremap <Leader>fR :call saltor#functions#file_rename()<CR>
     nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
     nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
