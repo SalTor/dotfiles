@@ -213,16 +213,18 @@ let s:leader_map['s'] = {
 
 " Terminal
 let s:leader_map['t'] = {
-    \ 'name': '+terminal',
-    \ '/': 'term-vertical',
-    \ '-': 'term-horizontal',
-    \ 'n': 'new',
-    \ 'c': 'close',
+    \ 'name': '+terminal/tmux',
+    \ '/': 'new-terminal-vertical',
+    \ '-': 'new-terminal-horizontal',
+    \ 'n': 'new-tmux-window',
+    \ 's': 'new-tmux-split-vertical',
+    \ 'v': 'new-tmux-split-horizontal',
     \ }
     nnoremap <silent> <Leader>t/ :vertical Topen<CR><C-w>l:startinsert!<CR>
     nnoremap <silent> <Leader>t- :belowright Topen<CR><C-w>j:startinsert!<CR>
-    nnoremap <silent> <Leader>tn :tab Topen<CR>gt:startinsert!<CR>
-    nnoremap <silent> <Leader>tc :Tclose<CR>
+    nnoremap <silent> <Leader>tn :!tmux new-window<CR><CR>
+    nnoremap <Leader>ts :!tmux split-window -v<CR><CR>
+    nnoremap <Leader>tv :!tmux split-window -h<CR><CR>
 
 " Toggle
 let s:leader_map['T'] = {
