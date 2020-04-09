@@ -244,15 +244,9 @@ let s:leader_map['T'] = {
 " Variable / method signatures
 let s:leader_map['v'] = {
     \ 'name': '+variables',
-    \ 'a': 'coc-code-action',
-    \ 'i': 'coc-implementation',
-    \ 'r': 'coc-rename',
-    \ 'R': 'coc-references',
+    \ 'r': 'rename-variable',
+    \ 'R': 'find-references',
     \ }
-    nmap <silent> <Leader>va <Plug>(coc-codeaction)
-    nmap <silent> <Leader>vi <Plug>(coc-implementation)
-    nmap <silent> <Leader>vR <Plug>(coc-references)
-    nmap <Leader>vr <Plug>(coc-rename)
 
 " Windows
 let s:leader_map['w'] = {

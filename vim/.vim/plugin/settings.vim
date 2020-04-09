@@ -10,8 +10,9 @@ set undofile undodir=~/.vim/undodir
 set noerrorbells novisualbell belloff=all
 set noshowmatch
 set clipboard=unnamed
-set lazyredraw
 set wildmenu
+
+set lazyredraw
 
 set spelllang=en_us
 set noshowmode noshowcmd noruler
