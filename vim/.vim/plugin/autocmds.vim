@@ -1,11 +1,5 @@
 function! s:AutoCommands()
-    augroup YCMOrCOC
-        autocmd!
-        autocmd FileType * let b:coc_enabled = 1
-        autocmd FileType javascript,javascript.jsx,javascriptreact call saltor#functions#tools_use_ycm()
-        autocmd BufEnter * if exists('b:coc_enabled') && b:coc_enabled == 1 | call saltor#functions#tools_use_coc() | endif
-        autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    augroup END
+    autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
     augroup BufPosOfLastEdit
         autocmd!

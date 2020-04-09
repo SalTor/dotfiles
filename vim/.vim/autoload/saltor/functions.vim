@@ -24,10 +24,12 @@ function! saltor#functions#tweak_colors()
     highlight CocErrorSign   guifg=#fb4934 guibg=NONE
 
     " ALE
-    highlight ALEErrorSign          guifg=#fb4934 guibg=NONE
     highlight ALEWarningSign        guifg=#fabd2f guibg=NONE
+    highlight ALEErrorSign          guifg=#fb4934 guibg=NONE
     highlight ALEVirtualTextWarning guifg=#fabd2f guibg=NONE
     highlight link ALEVirtualTextError DiffDelete
+    highlight link YcmWarningSign ALEWarningSign
+    highlight link YcmErrorSign ALEErrorSign
 
     " vim-which-key
     highlight default WhichKey          guifg=#CEB37E gui=bold
@@ -69,11 +71,7 @@ function! saltor#functions#show_documentation() abort
         if (index(['vim','help'], &filetype) >= 0)
             execute 'h '.expand('<cword>')
         else
-            if b:coc_enabled
-                call CocAction('doHover')
-            else
-                YcmCompleter GetDoc
-            endif
+            call CocAction('doHover')
         endif
     catch
         echo 'No docs found for that.'
@@ -96,32 +94,6 @@ function! saltor#functions#file_finder(...) abort
     else
         :GFiles
     endif
-endfunction
-
-function! saltor#functions#tools_use_ycm(...) abort
-    let b:coc_enabled = 0
-    let g:airline#extensions#coc#enabled = 0
-    let g:airline#extensions#ycm#enabled = 1
-
-    nnoremap <buffer> gd :YcmCompleter GoTo<CR>
-    nnoremap <buffer> gr :YcmCompleter GoToReferences<CR>
-    nnoremap <buffer> <Leader>vr :YcmCompleter RefactorRename<space>
-    nmap <buffer> [e :echo 'hello'
-    nmap <buffer> ]e <Plug>(ale_next_wrap)
-endfunction
-
-function! saltor#functions#tools_use_coc(...) abort
-    let b:coc_enabled = 1
-    let g:airline#extensions#ycm#enabled = 0
-    let g:airline#extensions#coc#enabled = 1
-
-    inoremap <buffer> <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ saltor#functions#check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-
-    " Use <c-space> to trigger completion.
-    inoremap <buffer> <silent><expr> <c-space> coc#refresh()
 endfunction
 
 function! saltor#functions#FzfSpell()

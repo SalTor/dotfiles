@@ -10,11 +10,27 @@
     "diagnostic.enableHighlightLineNumber": false,
     "diagnostic.refreshOnInsertMode": false,
     "diagnostic.refreshAfterSave": true,
+    "diagnostic.displayByAle": true,
 
     "suggest.echodocSupport": true,
     "suggest.maxCompleteItemCount": 20,
 
+    "snippets.userSnippetsDirectory": "~/.vim/UltiSnips/",
+    "snippets.priority": 1000,
+    "snippets.extends": {
+        "javascript.jsx": ["javascript"],
+        "javascriptreact": ["javascript"]
+    },
+    "snippets.ultisnips.enable": true,
+    "snippets.ultisnips.directories": ["~/.vim/UltiSnips/", "UltiSnips"],
+
+    "tsserver.npm": "which npm",
+
     "suggest.enablePreview": true,
 
-    "python.linting.pylintEnabled": true
+    "python.linting.pylintEnabled": true,
+
+    "typescript.showUnused": false,
+    "javascript.suggestionActions.enabled": false,
+    "typescript.suggestionActions.enabled": false
 }

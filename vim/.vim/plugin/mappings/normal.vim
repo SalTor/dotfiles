@@ -40,10 +40,3 @@ nnoremap <silent> z= :call saltor#functions#FzfSpell()<CR>
 nnoremap <silent> <C-W>o :call saltor#functions#MaximizeToggle()<CR>
 nnoremap <silent> <C-W>O :call saltor#functions#MaximizeToggle()<CR>
 nnoremap <silent> <C-W><C-O> :call saltor#functions#MaximizeToggle()<CR>
-
-" coc.nvim
-nmap gd <Plug>(coc-definition)
-nmap gr <Plug>(coc-references)
-nmap <Leader>vr <Plug>(coc-rename)
-nmap [e <Plug>(coc-diagnostic-previous)
-nmap ]e <Plug>(coc-diagnostic-next)

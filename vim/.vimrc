@@ -14,7 +14,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-repeat'   " Allow repeating of more actions
     Plug 'wellle/targets.vim' " Additional text objects
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    Plug 'ycm-core/YouCompleteMe'
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
     Plug 'mhinz/vim-startify' " Start-up screen
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus' ] }
