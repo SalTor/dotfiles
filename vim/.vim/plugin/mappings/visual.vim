@@ -1,6 +1,6 @@
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
-xmap J :m'>+<cr>`<my`>mzgv`yo`z
-xmap K :m'<-2<cr>`>my`<mzgv`yo`z
+" Move VISUAL LINE selection within buffer
+xnoremap <silent> K :call saltor#mappings#visual#move_up()<CR>
+xnoremap <silent> J :call saltor#mappings#visual#move_down()<CR>
 
 " Make toggling upper/lower case easier
 xmap gu g~
