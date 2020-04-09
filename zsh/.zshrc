@@ -42,6 +42,10 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^X^X' edit-command-line
+
 # Run command history from <ctrlx><ctrl-r>
 fzf-history-widget-accept() {
    fzf-history-widget
