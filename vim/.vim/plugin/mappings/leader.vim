@@ -247,6 +247,7 @@ let s:leader_map['v'] = {
     \ 'r': 'rename-variable',
     \ 'R': 'find-references',
     \ }
+    nmap <Leader>vr <Plug>(coc-rename)
 
 " Windows
 let s:leader_map['w'] = {
