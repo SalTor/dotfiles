@@ -19,9 +19,9 @@ let g:ale_fixers = {
 
 let g:ale_lint_delay=0
 let g:ale_lint_on_enter=1
-let g:ale_lint_on_save=1
-let g:ale_lint_on_insert_leave=0
-let g:ale_lint_on_text_changed=0
+let g:ale_lint_on_save=0
+let g:ale_lint_on_insert_leave=1
+let g:ale_lint_on_text_changed=1
 
 let g:ale_echo_cursor=0
 let g:ale_virtualtext_cursor=1

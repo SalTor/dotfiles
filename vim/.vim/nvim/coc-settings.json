@@ -8,7 +8,7 @@
     "diagnostic.errorSign": "",
     "diagnostic.warningSign": "",
     "diagnostic.enableHighlightLineNumber": false,
-    "diagnostic.refreshOnInsertMode": false,
+    "diagnostic.refreshOnInsertMode": true,
     "diagnostic.refreshAfterSave": true,
     "diagnostic.displayByAle": true,
 
@@ -31,6 +31,7 @@
     "python.linting.pylintEnabled": true,
 
     "typescript.showUnused": false,
-    "javascript.suggestionActions.enabled": false,
-    "typescript.suggestionActions.enabled": false
+    "typescript.suggestionActions.enabled": false,
+
+    "javascript.suggestionActions.enabled": false
 }
