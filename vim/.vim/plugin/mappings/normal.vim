@@ -18,8 +18,8 @@ nmap gu g~
 nmap gU g~
 
 " Simpler defaults / replacements
-nnoremap H ^
-nnoremap L $
+map gh ^
+map gl $
 nnoremap Y y$
 nnoremap U <C-r>
 
