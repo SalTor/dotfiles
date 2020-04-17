@@ -31,7 +31,7 @@ function! GetParentDirWithFile(...) abort
         return '[No Name]'
     else
         let l:parent = l:cwd[-1]
-        return l:parent . '/' . expand('%:t')
+        return l:parent . '/' . expand('%:t') . ' [' . &filetype . ']'
     endif
 endfunction
 
@@ -50,7 +50,7 @@ let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['saltor_file'])
 let g:airline_section_x = ''
 let g:airline_section_y = ''
-let g:airline_section_z = airline#section#create_right(['filetype'])
+let g:airline_section_z = ''
 
 let g:airline_symbols = {
     \ 'space': ' ',
