@@ -49,7 +49,7 @@ let s:leader_map['a'] = {
     \ },
     \ 'pi': 'plug-install',
     \ 'pc': 'plug-clean',
-    \ 'pu': 'plug-update'
+    \ 'pu': 'plug-update',
     \ 'p': {
         \ 'name': '+vim-plug',
         \ 'i': 'plug-install',
