@@ -78,3 +78,5 @@ autoload kp bip bup bcp fp
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/Users/saltorcivia/elasticsearch/bin:$PATH" # Add elasticsearch to path
+export PATH="/Users/saltorcivia/logstash/bin:$PATH" # Add logstash to path
