@@ -9,7 +9,6 @@ set nobackup nowritebackup
 set undofile undodir=~/.vim/undodir
 set noerrorbells novisualbell belloff=all
 set noshowmatch
-set clipboard=unnamed
 set wildmenu
 
 set lazyredraw
@@ -50,6 +49,7 @@ set shortmess+=W                    " don't echo [written] when writing
 set shortmess+=a                    " use abbreciations eg `[RO] instead of `[readonly]`
 set shortmess+=o                    " overwrite file-written messages
 set shortmess+=t                    " truncate file messages at start
+set shortmess+=c                    " don't give ins-completion-menu messages
 
 set formatoptions+=n                " when formatting text, recognize numbered lists
 set formatoptions+=j                " remove comment leader when joining
