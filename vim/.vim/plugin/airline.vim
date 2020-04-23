@@ -36,15 +36,19 @@ function! GetParentDirWithFile(...) abort
 endfunction
 
 function! GetTermJobId(...) abort
-    return b:terminal_job_id
+    if exists('b:terminal_job_id')
+        return b:terminal_job_id
+    else
+        return ''
+    endif
 endfunction
 
 call airline#parts#define_function('winnr', 'GetWinnrSymbol')
-call airline#parts#define_minwidth('winnr', 50)
+call airline#parts#define_minwidth('winnr', 10)
 call airline#parts#define_function('saltor_file', 'GetParentDirWithFile')
 call airline#parts#define_minwidth('saltor_file', 50)
 call airline#parts#define_function('term_job_id', 'GetTermJobId')
-call airline#parts#define_minwidth('term_job_id', 50)
+call airline#parts#define_minwidth('term_job_id', 25)
 
 let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['saltor_file'])
