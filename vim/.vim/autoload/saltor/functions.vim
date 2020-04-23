@@ -5,7 +5,7 @@ function! saltor#functions#tweak_colors()
     highlight LineNr    guibg=bg
     highlight VertSplit guibg=bg
 
-    highlight Comment cterm=italic gui=italic guifg=#7F7F73
+    highlight Comment cterm=italic gui=italic
 
     highlight EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
     highlight SignColumn  ctermbg=bg ctermfg=bg guibg=bg guifg=bg
@@ -36,10 +36,6 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeySeperator guifg=#67B21D
     highlight default WhichKeyGroup     guifg=#A5AEBD gui=italic
     highlight default WhichKeyDesc      guifg=#E38639
-
-    " quick-scope
-    highlight QuickScopePrimary   guifg=#afff5f gui=underline cterm=underline ctermfg=155
-    highlight QuickScopeSecondary guifg=#5fffff gui=underline cterm=underline ctermfg=81
 
     " illuminated-word
     highlight illuminatedWord guibg=#414141

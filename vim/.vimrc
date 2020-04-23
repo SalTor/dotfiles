@@ -6,36 +6,52 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+    " Plugin manager
     Plug 'junegunn/vim-plug'
     Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
     Plug 'junegunn/fzf.vim'
-    Plug 'tpope/vim-fugitive', { 'on': ['Gdiff', 'Gblame', 'Glog'] } " Awesome GIT wrapper for VIM
-    Plug 'tpope/vim-surround' " Easily add/change/remove surrounding characters
-    Plug 'tpope/vim-repeat'   " Allow repeating of more actions
-    Plug 'wellle/targets.vim' " Additional text objects
-    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-    Plug 'mhinz/vim-startify' " Start-up screen
-    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus' ] }
-    Plug 'Raimondi/delimitMate' " Auto-complete opening and closing braces and the like
-    Plug 'easymotion/vim-easymotion' " Easily navigate around a document
-    Plug 'airblade/vim-gitgutter', { 'on': ['GitGutterToggle','GitGutterEnable'] } " Show changed lines in gutter
-    Plug 'preservim/nerdcommenter' " Control code-comments
-    Plug 'sheerun/vim-polyglot'    " Syntax files for most languages
-    Plug 'mattn/emmet-vim'      " Enable dom-element 'tab-esque' completion
-    Plug 'dense-analysis/ale'   " Async update linting warnings inside VIM
-    Plug 'honza/vim-snippets'   " Snippets solution that works better with coc.nvim
-    Plug 'kassio/neoterm'       " Synchronized terminals
-    Plug 'wincent/terminus'     " Better os-terminal support
-    Plug 'chriskempson/base16-vim' " Color schemes
-    Plug 'wincent/pinnacle' " Functions for manipulating highlight groups by userwincent
-    Plug 'vim-airline/vim-airline' " Status line toolset
-    Plug 'vim-airline/vim-airline-themes' " Airline theme options
-    Plug 'machakann/vim-highlightedyank' " Temporarily highlight yanked text, to show what was yanked
-    Plug 'jpalardy/vim-slime' " REPL integration
-    Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] } " Highlight variable under cursor
-    Plug 'norcalli/nvim-colorizer.lua' " Give 'red' a guibg of red, etc.
 
-    Plug 'unblevable/quick-scope'
-    Plug 'AndrewRadev/splitjoin.vim'
+    " Motions and text objects
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-repeat'
+    Plug 'wellle/targets.vim'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'christoomey/vim-system-copy'
+    Plug 'christoomey/vim-sort-motion'
+
+    " Linting, LSP, git
+    Plug 'dense-analysis/ale'
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    Plug 'tpope/vim-fugitive', { 'on': ['Gdiff', 'Gblame', 'Glog'] }
+
+    " Snippets
+    Plug 'honza/vim-snippets'
+    Plug 'Raimondi/delimitMate'
+    Plug 'mattn/emmet-vim'
+    Plug 'preservim/nerdcommenter'
+
+    " Terminal aide
+    Plug 'kassio/neoterm'
+    Plug 'wincent/terminus'
+
+    " REPL
+    Plug 'jpalardy/vim-slime'
+
+    " Navigation aide / visualization
+    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus' ] }
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+
+    Plug 'airblade/vim-gitgutter', { 'on': ['GitGutterToggle','GitGutterEnable'] }
+
+    " Visuals
+    Plug 'sheerun/vim-polyglot'
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    Plug 'mhinz/vim-startify'
+    Plug 'chriskempson/base16-vim'
+    Plug 'wincent/pinnacle'
+    Plug 'machakann/vim-highlightedyank'
+    Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] }
+    Plug 'mhartington/oceanic-next'
+    Plug 'othree/yajs.vim'
 call plug#end()
