@@ -35,11 +35,17 @@ export FZF_CTRL_R_OPTS="--preview=''"
 # Load aliases and shortcuts
 source $HOME/.aliases
 
-# Basic auto/tab complete:
 autoload -Uz compinit
+
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+    compinit
+else
+    compinit -C
+fi
+
+# Basic auto/tab complete:
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-compinit
 _comp_options+=(globdots)
 
 autoload edit-command-line
