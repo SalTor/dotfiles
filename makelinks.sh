@@ -1,5 +1,6 @@
 #!/bin/bash
 
+brew install lazygit
 brew install fzf
 $(brew --prefix)/opt/fzf/install
 
