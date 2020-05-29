@@ -5,8 +5,8 @@ let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
 syntax on
 filetype indent plugin on
 
-set nobackup nowritebackup
-set undofile undodir=~/.vim/undodir
+set nobackup nowritebackup noswapfile
+set undofile undodir=$HOME/.vim/undodir
 set noerrorbells novisualbell belloff=all
 set noshowmatch
 set wildmenu

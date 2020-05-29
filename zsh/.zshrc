@@ -1,6 +1,6 @@
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME='agnoster'
+ZSH_THEME='amuse'
 
 plugins=(git zsh-autosuggestions)
 
@@ -84,5 +84,3 @@ autoload kp bip bup bcp fp
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH="/Users/saltorcivia/elasticsearch/bin:$PATH" # Add elasticsearch to path
-export PATH="/Users/saltorcivia/logstash/bin:$PATH" # Add logstash to path
