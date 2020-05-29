@@ -36,12 +36,11 @@ export FZF_CTRL_R_OPTS="--preview=''"
 source $HOME/.aliases
 
 autoload -Uz compinit
-
-if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
-    compinit
+if [[ -n ${ZDOTDIR:-${HOME}}/$ZSH_COMPDUMP(#qN.mh+24) ]]; then
+	compinit -d $ZSH_COMPDUMP;
 else
-    compinit -C
-fi
+	compinit -C;
+fi;
 
 # Basic auto/tab complete:
 zstyle ':completion:*' menu select
@@ -63,19 +62,6 @@ bindkey '^X^R' fzf-history-widget-accept
 # Accept autosuggestion
 bindkey '^\' autosuggest-accept
 bindkey '^X^ ' autosuggest-execute
-
-prompt_end() {
-    if [[ -n $CURRENT_BG ]]; then
-        print -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
-    else
-        print -n "%{%k%}"
-    fi
-
-    print -n "%{%f%}"
-    CURRENT_BG=''
-
-    printf "\n$";
-}
 
 # set autoload path
 fpath=(~/dotfiles/zsh/scripts "${fpath[@]}")
