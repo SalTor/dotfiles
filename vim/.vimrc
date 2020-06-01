@@ -53,4 +53,5 @@ call plug#begin('~/.vim/plugged')
     Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] }
     Plug 'mhartington/oceanic-next'
     Plug 'othree/yajs.vim'
+    Plug 'machakann/vim-highlightedyank'
 call plug#end()

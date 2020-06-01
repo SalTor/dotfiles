@@ -1,6 +1,11 @@
 function! s:AutoCommands()
     if exists('##TextYankPost')
-        autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank('Substitute', 200)
+        " TODO: Use this to replace machakann/vim-highlightedyank once 0.5.0
+        " is more stable!
+        " augroup highlight_yank
+            " autocmd!
+            " autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("Substitute", 500)
+        " augroup END
     endif
 
     autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
