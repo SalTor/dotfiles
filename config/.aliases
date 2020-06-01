@@ -30,20 +30,9 @@ alias source_tmux='tmux source ~/.tmux.conf'
 
 alias mux='tmuxinator'
 alias ms=fzf_tmux_switch_or_attach
-alias mux_restart_all='mux stop alma_code && mux stop dotfiles && source ~/.zshrc && mux start alma_code && mux start dotfiles'
+alias mux_restart_all='mux stop dotfiles && source ~/.zshrc && mux start dotfiles'
 
 alias gdf=fzf_git_diff_changed
 alias gaf=fzf_git_add_changed
 alias gchf=fzf_git_checkout_changed
 alias gcof=fzf_git_checkout_branch
-
-if [[ $OSTYPE == darwin* ]]; then
-    alias asrc='cd ~/alma/cove && source venv/bin/activate'
-
-    alias alma_start_django_server='docker stop alma_db && docker start alma_db && asrc && ./cove/manage.py runserver'
-    alias alma_start_django_shell='asrc && ./cove/manage.py shell'
-    alias alma_start_webpack_server='cd ~/alma/cove/cove/website/client && npm start'
-
-    alias alma_migrate_django='asrc && ./cove/manage.py migrate'
-    alias alma_import_sanitized_data='. ~/alma/scripts/scp.sh'
-fi
