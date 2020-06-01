@@ -1,22 +1,21 @@
 #!/bin/bash
 
-echo 'Installing Neovim...'
+brew install cowsay
+brew install fortune
+brew install tig
+brew install bat
 brew install neovim
-
-echo 'Installing ripgrep...'
+brew install lazygit
+brew install tmuxinator
+brew install zsh-syntax-highlighting
 brew install ripgrep
-
-echo 'Installing fzf...'
+brew install the_silver_searcher
 brew install fzf
 $(brew --prefix)/opt/fzf/install
 
-echo 'Installing lazygit...'
-brew install lazygit
+echo 'Installing nvm (node version manager)...'
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 
-echo 'Installing tmuxinator...'
-brew install tmuxinator
-
-echo 'Installing OhMyZsh...'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 echo 'Be sure to change shell to zsh by using "chsh -s $(which zsh)"'
 
