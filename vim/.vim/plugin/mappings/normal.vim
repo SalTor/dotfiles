@@ -17,17 +17,18 @@ nmap <silent> ]c <Plug>(GitGutterNextHunk)
 nmap gu g~
 nmap gU g~
 
-" Simpler defaults / replacements
-map gh ^
-map gl $
+" Easier matching / line navigation
+nnoremap gm *
+nnoremap g5 %
+nnoremap gh ^
+nnoremap gl $
+
+" I think Y should behave like D or C
 nnoremap Y y$
 nnoremap U <C-r>
 
 " Folding
 nnoremap <S-Tab> za
-
-" mnemonic: Go (to) Match
-nnoremap gm *
 
 " Increment / decrement numerical values (Accepts counts)
 nnoremap + <C-a>
