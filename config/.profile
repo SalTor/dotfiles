@@ -4,6 +4,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export LIBRARY_PATH=/usr/local/opt/openssl/lib
 export PYTHONPATH=$HOME/Library/Python/2.7/bin
+export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.7/bin
 export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.8/bin
 export NVM_DIR=$HOME/.nvm
 
