@@ -1,6 +1,6 @@
-set runtimepath=$HOME/.vim,$HOME/.vim/after,$VIM,$VIMRUNTIME
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath=&runtimepath
 
 set termguicolors
 
-source $MYVIMRC
+source ~/.vimrc

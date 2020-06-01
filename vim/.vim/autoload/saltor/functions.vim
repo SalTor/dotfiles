@@ -103,7 +103,7 @@ function! saltor#functions#FzfSpell()
         \     'width': 1,
         \     'yoffset': 0,
         \     'highlight': 'PreProc',
-        \ }, 'options': '--preview ""' })
+        \ }, 'options': '--preview "" --prompt="Spell> " --info=inline' })
 endfunction
 
 let s:bin_dir = expand('~/.vim/plugged/fzf.vim/bin/')

@@ -6,7 +6,7 @@ syntax on
 filetype indent plugin on
 
 set nobackup nowritebackup noswapfile
-set undofile undodir=$HOME/.vim/undodir
+set undofile undodir=~/.vim/undodir
 set noerrorbells novisualbell belloff=all
 set noshowmatch
 set wildmenu
