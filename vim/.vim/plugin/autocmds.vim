@@ -1,4 +1,8 @@
 function! s:AutoCommands()
+    if exists('##TextYankPost')
+        autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank('Substitute', 200)
+    endif
+
     autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
     augroup BufPosOfLastEdit

@@ -50,7 +50,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'mhinz/vim-startify'
     Plug 'chriskempson/base16-vim'
     Plug 'wincent/pinnacle'
-    Plug 'machakann/vim-highlightedyank'
     Plug 'RRethy/vim-illuminate', { 'on': ['IlluminationToggle', 'IlluminationEnable'] }
     Plug 'mhartington/oceanic-next'
     Plug 'othree/yajs.vim'
