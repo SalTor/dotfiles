@@ -28,6 +28,14 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+pip install --user pynvim neovim
+python3 -m pip install --user pynvim
+
+curl -sSL https://get.rvm.io | bash -s stable
+
+sudo gem install neovim trash
+
 echo 'Creating sym links to common config files'
 ln -s $HOME/dotfiles/config/.aliases
 ln -s $HOME/dotfiles/config/.profile

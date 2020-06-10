@@ -1,5 +1,5 @@
 let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3.8'
+let g:python3_host_prog = '/usr/bin/python3'
 let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
 
 syntax on

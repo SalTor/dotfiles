@@ -7,6 +7,7 @@ export PYTHONPATH=$HOME/Library/Python/2.7/bin
 export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.7/bin
 export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.8/bin
 export NVM_DIR=$HOME/.nvm
+export BASE16_SHELL=$HOME/.config/base16-shell/
 
 export PATH=$PATH:$PYTHONPATH
 export PATH=$PATH:/usr/local/Cellar/node/13.2.0/bin

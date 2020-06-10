@@ -7,8 +7,8 @@ xmap gu g~
 xmap gU g~
 
 " Simpler defaults / replacements
-xnoremap H ^
-xnoremap L $
+xnoremap gh ^
+xnoremap gl $
 
 " Increment / decrement numerical values (Accepts counts)
 xnoremap + <C-a>
