@@ -52,6 +52,6 @@ group_lazy_load() {
     done
 }
 group_lazy_load $HOME/.rvm/scripts/rvm
-group_lazy_load $NVM_DIR/nvm.sh nvm node nvim
+group_lazy_load $NVM_DIR/nvm.sh npm nvm node nvim _avn avn avn-nvm avn-n
 # group_lazy_load $NVM_DIR/bash_completion
 unset -f group_lazy_load
