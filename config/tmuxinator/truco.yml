@@ -1,0 +1,7 @@
+name: truco
+root: ~/capsule/truco/
+attach: true
+windows:
+  - SERVERS: echo "Hello world"
+  - CODE: vim
+  - LAZYGIT: lazygit
