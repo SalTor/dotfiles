@@ -31,7 +31,12 @@ function! GetParentDirWithFile(...) abort
         return '[No Name]'
     else
         let l:parent = l:cwd[-1]
-        return l:parent . '/' . expand('%:t') . ' [' . &filetype . ']'
+        let l:fname = l:parent . '/' . expand('%:t')
+        if strlen(&filetype) > 0
+            return l:fname . ' [' . &filetype . ']'
+        else
+            return l:fname . ' [N/A]'
+        endif
     endif
 endfunction
 
