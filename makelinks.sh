@@ -17,6 +17,8 @@ brew install the_silver_searcher
 brew install fzf
 $(brew --prefix)/opt/fzf/install
 
+brew tap homebrew/cask-fonts
+
 echo 'Installing nvm (node version manager)...'
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 
