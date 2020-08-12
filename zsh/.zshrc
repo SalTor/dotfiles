@@ -35,11 +35,13 @@ export FZF_CTRL_R_OPTS="--preview=''"
 # Load aliases and shortcuts
 source $HOME/.aliases
 
+[ -f $HOME/capsule/configs/env ] && source $HOME/capsule/configs/env
+
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR:-${HOME}}/$ZSH_COMPDUMP(#qN.mh+24) ]]; then
-	compinit -d $ZSH_COMPDUMP;
+    compinit -d $ZSH_COMPDUMP;
 else
-	compinit -C;
+    compinit -C;
 fi;
 
 # Basic auto/tab complete:
@@ -47,9 +49,8 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 _comp_options+=(globdots)
 
-autoload edit-command-line
-zle -N edit-command-line
 bindkey '^X^X' edit-command-line
+autoload edit-command-line; zle -N edit-command-line
 
 # Run command history from <ctrlx><ctrl-r>
 fzf-history-widget-accept() {
