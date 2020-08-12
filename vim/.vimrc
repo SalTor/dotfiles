@@ -45,6 +45,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter', { 'on': ['GitGutterToggle','GitGutterEnable'] }
 
     " Visuals
+    Plug 'godlygeek/tabular'
     Plug 'sheerun/vim-polyglot'
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
     Plug 'mhinz/vim-startify'
