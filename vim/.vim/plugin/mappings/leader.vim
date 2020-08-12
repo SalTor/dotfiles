@@ -14,9 +14,11 @@ endfor
 let s:leader_map['<Tab>'] = 'alternate-file'
 let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map[','] = 'file-finder'
+let s:leader_map['h'] = 'Helptags'
 nnoremap <Leader><Tab> <C-^>
 nnoremap <silent> <Leader>; :Buffers<CR>
 nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
+nnoremap <silent> <Leader>h :Helptags<CR>
 
 " Applications
 let s:leader_map['a'] = {
