@@ -1,9 +1,9 @@
 {
-    "coc.source.word.shortcut": "SP",
     "coc.source.buffer.disableSyntaxes": ["comment"],
     "coc.source.around.disableSyntaxes": ["comment"],
     "coc.source.file.disableSyntaxes": ["comment"],
     "coc.source.word.filetypes": ["comment", "markdown", "gitcommit"],
+    "coc.source.word.shortcut": "SP",
 
     "diagnostic.errorSign": "",
     "diagnostic.warningSign": "",
@@ -13,25 +13,18 @@
     "diagnostic.displayByAle": true,
 
     "suggest.echodocSupport": true,
+    "suggest.enablePreview": true,
     "suggest.maxCompleteItemCount": 20,
 
-    "snippets.userSnippetsDirectory": "~/.vim/UltiSnips/",
-    "snippets.priority": 1000,
-    "snippets.extends": {
-        "javascript.jsx": ["javascript"],
-        "javascriptreact": ["javascript"]
-    },
-    "snippets.ultisnips.enable": true,
-    "snippets.ultisnips.directories": ["~/.vim/UltiSnips/", "UltiSnips"],
-
-    "tsserver.npm": "which npm",
-
-    "suggest.enablePreview": true,
-
-    "python.linting.pylintEnabled": true,
+    "tsserver.npm": "/Users/sal/.nvm/versions/node/v14.4.0/bin/npm",
+    "tsserver.tsdk": "/Users/sal/.nvm/versions/node/v14.4.0/lib/node_modules/typescript/lib/",
 
     "typescript.showUnused": false,
     "typescript.suggestionActions.enabled": false,
 
-    "javascript.suggestionActions.enabled": false
+    "javascript.suggestionActions.enabled": false,
+
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
 }
