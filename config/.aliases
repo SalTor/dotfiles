@@ -27,6 +27,8 @@ alias source_zsh='source ~/.zshrc'
 alias edit_tmux='cd ~/dotfiles/tmux/ && vim .tmux.conf'
 alias source_tmux='tmux source ~/.tmux.conf'
 
+alias gbx='git checkout $(gb | fzf)'
+
 alias tx='tmuxinator'
 alias tx_restart_all='tx stop dotfiles && source ~/.zshrc && tx start dotfiles'
 alias ms=fzf_tmux_switch_or_attach
