@@ -1,0 +1,7 @@
+name: vesto
+root: ~/capsule/vesto/
+attach: true
+windows:
+  - SERVERS:
+  - CODE: vim
+  - LAZYGIT: lazygit
