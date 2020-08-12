@@ -19,6 +19,7 @@ nmap gU g~
 
 " Easier matching / line navigation
 nnoremap gm *
+nnoremap gM #
 nnoremap g5 %
 nnoremap gh ^
 nnoremap gl $
