@@ -11,10 +11,10 @@ let g:fzf_layout = {
 let g:fzf_colors =
     \ {
     \ 'fg':      ['fg', 'Normal'],
-    \ 'bg':      ['bg', 'Normal'],
-    \ 'hl':      ['fg', 'Comment'],
     \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \ 'bg+':     ['bg', 'Normal'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'bg+':     ['bg', 'StatusLine'],
+    \ 'hl':      ['fg', 'Statement'],
     \ 'hl+':     ['fg', 'Statement'],
     \ 'info':    ['fg', 'PreProc'],
     \ 'border':  ['fg', 'Ignore'],
@@ -22,7 +22,8 @@ let g:fzf_colors =
     \ 'pointer': ['fg', 'Exception'],
     \ 'marker':  ['fg', 'Keyword'],
     \ 'spinner': ['fg', 'Label'],
-    \ 'header':  ['fg', 'Comment']
+    \ 'header':  ['fg', 'Comment'],
+    \ 'gutter':  ['bg', 'Normal'],
     \ }
 
 let g:fzf_action = {
