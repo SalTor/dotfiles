@@ -77,7 +77,6 @@ let s:leader_map['a'] = {
 " Buffer / Tabs
 let s:leader_map['b'] = {
     \ 'name': '+buffers',
-    \ ';': 'fzf-buffers',
     \ 'd': 'close-buffer',
     \ 'h': 'home-buffer',
     \ }
@@ -104,13 +103,11 @@ let s:leader_map['C'] = {
 " File
 let s:leader_map['f'] = {
     \ 'name': '+file',
-    \ ',': 'which_key_ignore',
     \ '.': {
     \     'name': '+cwd/current-file',
     \     'f': 'fzf-cwd',
     \     's': 'save-current-file',
     \ },
-    \ 'f': 'fzf-files',
     \ 'g': 'fzf-gfiles?',
     \ 'r': 'fzf-recent',
     \ 's': 'save-all-files',
@@ -123,9 +120,8 @@ let s:leader_map['f'] = {
     \ 'Y': 'copy-contents',
     \ }
     nnoremap <silent> <Leader>fg :GFiles?<CR>
-    nnoremap <silent> <Leader>ff :call saltor#functions#file_finder()<CR>
     nnoremap <silent> <Leader>fr :ProjectMru<CR>
-    nnoremap <silent> <Leader>fs :wa<CR>
+    nnoremap <silent> <Leader>fs :w<CR>:wa<CR>
     nnoremap <silent> <Leader>fe :call saltor#mappings#plugin_related#nerdtree_open()<CR>
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
     nnoremap <silent> <Leader>f5 :so %<CR>
