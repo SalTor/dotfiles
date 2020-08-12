@@ -3,13 +3,16 @@
 " } === B
 " ] === r
 " > === a
+function! MotionTargets()
+    echo '[!] Run cs with bBra instead of )}]>'
+endfunction
 
-nnoremap cs) <Nop>
-nnoremap cs} <Nop>
-nnoremap cs] <Nop>
-nnoremap cs> <Nop>
+nnoremap cs) :call MotionTargets()<CR>
+nnoremap cs} :call MotionTargets()<CR>
+nnoremap cs] :call MotionTargets()<CR>
+nnoremap cs> :call MotionTargets()<CR>
 
-xnoremap cs} <Nop>
-xnoremap cs) <Nop>
-xnoremap cs] <Nop>
-xnoremap cs> <Nop>
+xnoremap cs} :call MotionTargets()<CR>
+xnoremap cs) :call MotionTargets()<CR>
+xnoremap cs] :call MotionTargets()<CR>
+xnoremap cs> :call MotionTargets()<CR>
