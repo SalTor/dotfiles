@@ -54,5 +54,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'mhartington/oceanic-next'
     Plug 'othree/yajs.vim'
     Plug 'machakann/vim-highlightedyank'
+    Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 call plug#end()
