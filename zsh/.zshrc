@@ -28,9 +28,10 @@ stty -ixon # Disable ctrl-s and ctrl-q.
 export ANSIBLE_NOCOWS=1
 
 export BAT_THEME="zenburn"
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --no-heading --iglob "!.DS_Store" --iglob "!.git"'
-export FZF_DEFAULT_OPTS='--bind "esc:abort,\\:toggle-preview,[:up,]:down,ctrl-a:select-all,ctrl-d:deselect-all" --layout=reverse --info=inline --cycle --height=40% --preview-window bottom:25:hidden --preview="bat --theme="zenburn" --color=always --paging=never --style=grid,numbers,changes,header {}"'
-export FZF_CTRL_R_OPTS="--preview=''"
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --heading --iglob=!.DS_Store --iglob=!.git'
+# slow but cool to pipe default command ..  | xargs -L1 file_then_path
+# might want this: --delimiter / --nth -2..
+export FZF_DEFAULT_OPTS='--bind "esc:abort,ctrl-\\:toggle-preview,ctrl-x:select-all,ctrl-d:deselect-all" --layout=reverse --info=inline --cycle --height=40% --preview="bat --theme="zenburn" --color=always --paging=never --style=grid,numbers,changes,header {}"'
 
 # Load aliases and shortcuts
 source $HOME/.aliases
