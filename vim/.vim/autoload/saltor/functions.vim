@@ -74,24 +74,6 @@ function! saltor#functions#show_documentation() abort
     endtry
 endfunction
 
-function! saltor#functions#file_explorer(path)
-    let spec = {
-        \ 'options': [
-        \ '--prompt',
-        \ 'Folder>'
-        \ ]}
-    call fzf#vim#files(a:path, spec)
-endfunction
-
-function! saltor#functions#file_finder(...) abort
-    let s:is_git_repo = system('git rev-parse --is-inside-work-tree')
-    if v:shell_error
-        :execute 'Files ' . getcwd()
-    else
-        :GFiles
-    endif
-endfunction
-
 function! saltor#functions#FzfSpell()
     function! s:FzfSpellSink(word)
         exe 'normal! "_ciw'.a:word
@@ -106,16 +88,35 @@ function! saltor#functions#FzfSpell()
         \ }, 'options': '--preview "" --prompt="Spell> " --info=inline' })
 endfunction
 
+function! saltor#functions#file_finder(...) abort
+    let s:is_git_repo = system('git rev-parse --is-inside-work-tree')
+    if v:shell_error
+        :execute 'Files ' . getcwd()
+    else
+        :GFiles
+    endif
+endfunction
+
 let s:bin_dir = expand('~/.vim/plugged/fzf.vim/bin/')
-let s:bin = {
-\ 'preview': s:bin_dir.'preview.sh' }
+let s:bin = { 'preview': s:bin_dir.'preview.sh' }
+
+function! saltor#functions#file_explorer(path)
+    let spec = {
+    \ 'options': [
+    \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
+    \ '--prompt', 'Folder> ',
+    \ ],
+    \ }
+    call fzf#vim#files(a:path, spec)
+endfunction
 
 function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
+    let command_fmt = 'rg --colors "match:bg:yellow" --colors "match:fg:black" --hidden --line-number --column --no-heading --color=always --iglob=!.DS_Store --iglob=!.git --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let spec = {
     \ 'options': [
     \ '--info=inline',
+    \ '--preview-window=right:hidden',
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
     \ '--prompt', 'Find in Files> '
     \ ]}
@@ -123,7 +124,7 @@ function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
 endfunction
 
 function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --iglob "!.DS_Store" --iglob "!.git" --smart-case %s || true'
+    let command_fmt = 'rg --colors "match:bg:yellow" --colors "match:fg:black" --hidden --line-number --column --no-heading --color=always --iglob=!.DS_Store --iglob=!.git --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
     let spec = {
@@ -132,6 +133,7 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     \ '--info=inline',
     \ '--query', a:query,
     \ '--bind', 'change:reload:'.reload_command,
+    \ '--preview-window=right:hidden',
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
     \ '--prompt', 'Find in Files> '
     \ ]}
