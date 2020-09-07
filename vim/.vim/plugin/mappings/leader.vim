@@ -196,21 +196,27 @@ let s:leader_map['r'] = {
 " Search
 let s:leader_map['s'] = {
     \ 'name': '+search',
-    \ 'p': '[NV] ripgrep',
-    \ 'P': '[NV] dynamic-ripgrep',
-    \ 'r': '[-V] replace',
+    \ 'p': '[NV] dynamic::project-search',
+    \ 'P': '[NV] static::project-search',
+    \ 'r': '[-V] replace-cword',
     \ 'c': '[N-] clear-highlights',
     \ 't': '[N-] find-todos',
-    \ 'f': '[-V] find-in-file',
+    \ 'f': {
+        \ 'name': '+file',
+        \ 'r': '[N-] replace cword',
+    \ },
     \ }
     nnoremap <silent> <Leader>sc :nohlsearch<cr>
     nnoremap <silent> <Leader>st :Rg TODO<CR>
-    nnoremap <Leader>sp :DynamicRg<CR>
+    nnoremap <silent> <Leader>sp :DynamicRg <CR>
     nnoremap <Leader>sP :Rg<Space>
+    nnoremap <silent> <Leader>sr :CocSearch <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <Leader>sfr y:%s/<C-R>=expand("<cword>")<CR>//gc<Left><Left><Left>
 
-    xnoremap <silent> <Leader>sp y:DynamicRg<Space><C-R>"<CR>
-    xnoremap <silent> <Leader>sP y:Rg<Space><C-R>"<CR>
-    xnoremap <Leader>sr y :%s/<C-r>"//gc<Left><Left><Left>
+    xnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
+    xnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
+    xnoremap <Leader>sr y:CocSearch <C-R>"<CR>
+    xnoremap <Leader>sfr y:%s/<C-R>"//gc<Left><Left><Left>
     xnoremap <silent> <Leader>sf y/<C-R>"<CR>
 
 " Terminal
@@ -246,10 +252,13 @@ let s:leader_map['T'] = {
 " Variable / method signatures
 let s:leader_map['v'] = {
     \ 'name': '+variables',
-    \ 'r': 'rename-variable',
-    \ 'R': 'find-references',
+    \ 'r': 'rename (local)',
+    \ 'p': {
+        \ 'r': 'rename (project)',
+    \ },
     \ }
     nmap <Leader>vr <Plug>(coc-rename)
+    nnoremap <leader>vpr :CocSearch <C-R>=expand("<cword>")<CR><CR>
 
 " Windows
 let s:leader_map['w'] = {
@@ -264,8 +273,10 @@ let s:leader_map['w'] = {
     \ '-': 'split-horizontal',
     \ 'r': 'rotate',
     \ '=': 'equalize',
+    \ 'w': 'last-window',
     \ }
     nnoremap <silent> <Leader>wq :q<CR>
+    nnoremap <silent> <Leader>ww <C-w>w
     nnoremap <silent> <Leader>wh <C-w>h
     nnoremap <silent> <Leader>wl <C-w>l
     nnoremap <silent> <Leader>wj <C-w>j
@@ -286,21 +297,23 @@ let s:leader_map['q'] = {
             \ 'v': 'quit-vim',
             \ 'w': 'quit-window',
             \ }
-    nnoremap <silent> <Leader>qv :qa<CR>
-    nnoremap <silent> <Leader>qw :q<CR>
+    nnoremap <Leader>qv :qa<CR>
+    nnoremap <Leader>qw :q<CR>
 
 " Text
 let s:leader_map['x'] = {
     \ 'name': '+text',
-    \ 's [-V]': 'sort-lines',
-    \ 't [-V]': 'make-columns',
-    \ 't [N-]': 'make-columns',
-    \ 't': 'which_key_ignore',
+    \ 's': 'sort-lines [v]',
+    \ 't': 'make-columns [nv]',
+    \ 'j': 'format-json',
     \ 'f': 'fold',
+    \ 'mp': 'markdown-preview',
     \ }
     xnoremap <silent> <Leader>xs !sort<CR>
     xnoremap <silent> <Leader>xt :!column -t<CR>
     nnoremap <silent> <Leader>xt :%!column -t<CR>
+    nnoremap <silent> <Leader>xj :%!python -m json.tool<CR>
+    nnoremap <silent> <Leader>xmp :InstantMarkdownPreview<CR>
     nnoremap <silent> <Leader>xf za
 
 let g:saltor#map#leader#desc = s:leader_map
