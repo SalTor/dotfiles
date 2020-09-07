@@ -8,6 +8,36 @@ function! s:AutoCommands()
         " augroup END
     endif
 
+    function! CapsuleSetup()
+        setlocal tabstop=2 shiftwidth=2
+        let g:vim_markdown_new_list_item_indent = 2
+    endfunction
+    function! CapsuleWhitespace()
+        let b:notrim_whitespace = 1
+    endfunction
+    autocmd BufNewFile,BufRead ~/capsule/consumer-web/{*.ts,*.js,*.tsx,*.jsx} call CapsuleSetup()
+    autocmd BufNewFile,BufRead ~/capsule/** call CapsuleWhitespace()
+    au BufEnter github.com_*.txt set filetype=markdown
+
+    function! s:IsFirenvimActive(event) abort
+        if !exists('*nvim_get_chan_info')
+            return 0
+        endif
+        let l:ui = nvim_get_chan_info(a:event.chan)
+        return has_key(l:ui, 'client') && has_key(l:ui.client, 'name') &&
+            \ l:ui.client.name =~? 'Firenvim'
+    endfunction
+
+    function! OnUIEnter(event) abort
+        if s:IsFirenvimActive(a:event)
+            :AirlineToggle
+            nnoremap j gj
+            nnoremap k gk
+        endif
+    endfunction
+
+    autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
+
     autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
     augroup BufPosOfLastEdit
@@ -73,9 +103,11 @@ function! s:AutoCommands()
     autocmd TermOpen * setlocal listchars= nonumber norelativenumber
 
     function! s:TrimWhitespace() abort
-        let l:save = winsaveview()
-        keeppatterns %s/\s\+$//e
-        call winrestview(l:save)
+        if !exists('b:notrim_whitespace')
+            let l:save = winsaveview()
+            keeppatterns %s/\s\+$//e
+            call winrestview(l:save)
+        endif
     endfunction
     autocmd BufWritePre * call <SID>TrimWhitespace()
 endfunction
