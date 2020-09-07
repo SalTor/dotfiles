@@ -15,6 +15,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/Cellar
 export PATH=$PATH:/usr/bin/npm
 export PATH=$PATH:/usr/bin/python
+export PATH=$PATH:/usr/local/bin/pipenv
 export PATH=$PATH:/usr/local/opt/mysql-client/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.rbenv/bin
@@ -52,6 +53,6 @@ group_lazy_load() {
     done
 }
 group_lazy_load $HOME/.rvm/scripts/rvm
-group_lazy_load $NVM_DIR/nvm.sh npm nvm node nvim _avn avn avn-nvm avn-n
+group_lazy_load $NVM_DIR/nvm.sh node nvm nvim _avn avn avn-nvm avn-n npm
 # group_lazy_load $NVM_DIR/bash_completion
 unset -f group_lazy_load
