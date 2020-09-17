@@ -6,6 +6,7 @@ export LIBRARY_PATH=/usr/local/opt/openssl/lib
 export PYTHONPATH=$HOME/Library/Python/2.7/bin
 export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.7/bin
 export PYTHONPATH=$PYTHONPATH:$HOME/Library/Python/3.8/bin
+export PIPENV_IGNORE_VIRTUALENVS=1
 export NVM_DIR=$HOME/.nvm
 export BASE16_SHELL=$HOME/.config/base16-shell/
 
