@@ -4,3 +4,4 @@ vim/.vim/plugged/*
 vim/.vim/undodir/
 config/lazygit/*
 !config/lazygit/config.yml
+config/.secrets
