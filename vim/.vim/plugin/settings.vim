@@ -26,7 +26,7 @@ set number
 set cursorline
 set scrolloff=3
 set backspace=start,eol,indent
-set whichwrap+=~,h,l,s,b,[,],<,>
+set whichwrap=""
 
 set list listchars=tab:>-,nbsp:⦸,extends:»,precedes:«,trail:•
 
