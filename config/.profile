@@ -18,6 +18,7 @@ export PATH=$PATH:/usr/bin/npm
 export PATH=$PATH:/usr/bin/python
 export PATH=$PATH:/usr/local/bin/pipenv
 export PATH=$PATH:/usr/local/opt/mysql-client/bin
+export PATH=$PATH:$HOME/dotfiles/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.rbenv/bin
 export PATH=$PATH:$HOME/.rbenv/plugins/ruby-build/bin
