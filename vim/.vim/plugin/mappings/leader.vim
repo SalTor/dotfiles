@@ -183,15 +183,13 @@ let s:leader_map['o'] = {
 
 let s:leader_map['r'] = {
     \ 'name': '+repl',
-    \ 'c': 'slime-config',
-    \ 's': 'slime-send-paragraph',
-    \ 'S': 'slime-send-region',
-    \ 'l': 'slime-send-line',
+    \ 'f': 'repl-send-file',
+    \ 's': 'repl-send-region',
+    \ 'l': 'repl-send-line',
     \ }
-    nnoremap <silent> <Leader>rc :SlimeConfig<CR>
-    nmap <silent> <Leader>rs <Plug>SlimeParagraphSend
-    xmap <silent> <Leader>rS <Plug>SlimeRegionSend
-    nmap <silent> <Leader>rl <Plug>SlimeLineSend
+    nnoremap <Leader>rf :TREPLSendFile<CR>
+    xnoremap <Leader>rs :TREPLSendSelection<CR>
+    nnoremap <Leader>rl :TREPLSendLine<CR>
 
 " Search
 let s:leader_map['s'] = {

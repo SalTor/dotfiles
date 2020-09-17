@@ -19,12 +19,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'christoomey/vim-system-copy'
     Plug 'christoomey/vim-sort-motion'
 
-    " Linting, LSP, git
+    " git, linting, intellisense
+    Plug 'tpope/vim-fugitive', { 'on': ['Gdiff', 'Gblame', 'Glog'] }
     Plug 'dense-analysis/ale'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    Plug 'tpope/vim-fugitive', { 'on': ['Gdiff', 'Gblame', 'Glog'] }
 
-    " Snippets
+    " Snippets, comments
     Plug 'honza/vim-snippets'
     Plug 'Raimondi/delimitMate'
     Plug 'mattn/emmet-vim'
@@ -33,9 +33,6 @@ call plug#begin('~/.vim/plugged')
     " Terminal aide
     Plug 'kassio/neoterm'
     Plug 'wincent/terminus'
-
-    " REPL
-    Plug 'jpalardy/vim-slime'
 
     " Navigation aide / visualization
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus' ] }
@@ -59,4 +56,5 @@ call plug#begin('~/.vim/plugged')
     Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
     Plug 'kshenoy/vim-signature'
+    " Plug 'leafgarland/typescript-vim'
 call plug#end()
