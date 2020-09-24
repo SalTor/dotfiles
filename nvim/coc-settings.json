@@ -9,8 +9,8 @@
     "diagnostic.warningSign": "",
     "diagnostic.enableHighlightLineNumber": false,
     "diagnostic.refreshOnInsertMode": true,
-    "diagnostic.refreshAfterSave": true,
     "diagnostic.displayByAle": true,
+    "diagnostic.separateRelatedInformationAsDiagnostics": true,
 
     "suggest.echodocSupport": true,
     "suggest.enablePreview": true,
