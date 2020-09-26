@@ -194,28 +194,25 @@ let s:leader_map['r'] = {
 " Search
 let s:leader_map['s'] = {
     \ 'name': '+search',
-    \ 'p': '[NV] dynamic::project-search',
-    \ 'P': '[NV] static::project-search',
-    \ 'r': '[-V] replace-cword',
+    \ 'p': '[NV] project-search dynamic',
+    \ 'P': '[NV] project-search static',
+    \ 'r': '[NV] replace-cword global ',
+    \ 'f': '[NV] replace-cword local ',
     \ 'c': '[N-] clear-highlights',
     \ 't': '[N-] find-todos',
-    \ 'f': {
-        \ 'name': '+file',
-        \ 'r': '[N-] replace cword',
-    \ },
     \ }
+    nnoremap <silent> <Leader>sp :DynamicRg <CR>
+    xnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
+    nnoremap <Leader>sP :Rg<Space>
+    xnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
+
     nnoremap <silent> <Leader>sc :nohlsearch<cr>
     nnoremap <silent> <Leader>st :Rg TODO<CR>
-    nnoremap <silent> <Leader>sp :DynamicRg <CR>
-    nnoremap <Leader>sP :Rg<Space>
-    nnoremap <silent> <Leader>sr :CocSearch <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <Leader>sfr y:%s/<C-R>=expand("<cword>")<CR>//gc<Left><Left><Left>
 
-    xnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
-    xnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
+    nnoremap <silent> <Leader>sr :CocSearch <C-R>=expand("<cword>")<CR><CR>
     xnoremap <Leader>sr y:CocSearch <C-R>"<CR>
-    xnoremap <Leader>sfr y:%s/<C-R>"//gc<Left><Left><Left>
-    xnoremap <silent> <Leader>sf y/<C-R>"<CR>
+    nnoremap <Leader>sf y:%s/<C-R>=expand("<cword>")<CR>//gc<Left><Left><Left>
+    xnoremap <Leader>sf y:%s/<C-R>"//gc<Left><Left><Left>
 
 " Terminal
 let s:leader_map['t'] = {
