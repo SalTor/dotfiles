@@ -86,10 +86,10 @@ let s:leader_map['b'] = {
 
 " comments
 let s:leader_map['c'] = {
-            \ 'name': '+comments',
-            \ ' ': 'toggle',
-            \ '$': 'to-eol',
-            \ }
+    \ 'name': '+comments',
+    \ ' ': 'toggle',
+    \ '$': 'to-eol',
+    \ }
 
 " Colors
 let s:leader_map['C'] = {
