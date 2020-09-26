@@ -16,6 +16,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-repeat'
     Plug 'wellle/targets.vim'
     Plug 'easymotion/vim-easymotion'
+    Plug 'justinmk/vim-sneak'
     Plug 'christoomey/vim-system-copy'
     Plug 'christoomey/vim-sort-motion'
 
