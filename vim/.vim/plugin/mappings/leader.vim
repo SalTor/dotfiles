@@ -81,7 +81,7 @@ let s:leader_map['b'] = {
     \ 'h': 'home-buffer',
     \ }
     nnoremap <silent> <Leader>b; :Buffers<CR>
-    nnoremap <silent> <Leader>bd :Bclose<CR>:tabclose<CR>gT<CR>
+    nnoremap <silent> <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
     nnoremap <silent> <Leader>bh :Startify<CR>
 
 " comments
