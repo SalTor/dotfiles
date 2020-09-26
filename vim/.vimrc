@@ -55,6 +55,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'psliwka/vim-smoothie'
     Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-    Plug 'kshenoy/vim-signature'
-    " Plug 'leafgarland/typescript-vim'
+    Plug 'kshenoy/vim-signature' " display marks in gutter
+    Plug 'norcalli/nvim-colorizer.lua'
 call plug#end()

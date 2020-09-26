@@ -16,6 +16,7 @@ set noerrorbells novisualbell belloff=all
 set noshowmatch
 set wildmenu
 
+set termguicolors
 set lazyredraw
 
 set spelllang=en_us
