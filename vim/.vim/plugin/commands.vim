@@ -25,3 +25,20 @@ function! <SID>BufcloseCloseIt()
         echo 'Trouble closing buffer. Check :messages'
     endtry
 endfunction
+
+command! Wclose call <SID>WinClose()
+function! <SID>WinClose()
+    try
+        let l:open_windows = len(nvim_list_wins())
+
+        if &filetype == 'NERDTree'
+            :NERDTreeClose
+        elseif l:open_windows > 1
+            close
+        else
+            echo 'Not a split.'
+        endif
+    catch
+        echo 'Could not close any further. Check :messages'
+    endtry
+endfunction

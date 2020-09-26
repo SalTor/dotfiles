@@ -291,12 +291,12 @@ let s:leader_map['w'] = {
 
 " * Miscellaneous
 let s:leader_map['q'] = {
-            \ 'name': '+quit',
-            \ 'v': 'quit-vim',
-            \ 'w': 'quit-window',
-            \ }
-    nnoremap <Leader>qv :qa<CR>
-    nnoremap <Leader>qw :q<CR>
+    \ 'name': '+quit',
+    \ 'w': 'quit-window',
+    \ 'q': 'quit-all',
+    \ }
+    nnoremap <Leader>qw :Wclose<CR>
+    nnoremap <Leader>qq :qa<CR>
 
 " Text
 let s:leader_map['x'] = {
