@@ -62,7 +62,7 @@ function! s:AutoCommands()
                 \ 'fzf': 1,
                 \ }
             if !has_key(l:ignored_buffers, &filetype)
-                set relativenumber
+                setlocal relativenumber
             endif
         endfunction
         autocmd BufEnter,FocusGained,InsertLeave,WinEnter * call <SID>RelativeCheck()
