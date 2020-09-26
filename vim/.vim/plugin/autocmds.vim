@@ -31,8 +31,8 @@ function! s:AutoCommands()
     function! OnUIEnter(event) abort
         if s:IsFirenvimActive(a:event)
             :AirlineToggle
-            nnoremap j gj
-            nnoremap k gk
+            nnoremap <buffer> j gj
+            nnoremap <buffer> k gk
         endif
     endfunction
 
