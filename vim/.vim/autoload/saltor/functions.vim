@@ -2,6 +2,9 @@ function! saltor#functions#tweak_colors()
     highlight clear SpellBad
     highlight SpellBad cterm=underline gui=undercurl guifg=#fb4934
 
+    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+    highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
     highlight LineNr    guibg=bg
     highlight VertSplit guibg=bg
 
