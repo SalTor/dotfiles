@@ -314,3 +314,4 @@ let s:leader_map['x'] = {
     nnoremap <silent> <Leader>xf za
 
 let g:saltor#map#leader#desc = s:leader_map
+call which_key#register('<Space>', 'g:saltor#map#leader#desc')

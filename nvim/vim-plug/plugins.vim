@@ -31,7 +31,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Visuals
     Plug 'chriskempson/base16-vim'
     Plug 'sheerun/vim-polyglot'
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    Plug 'liuchengxu/vim-which-key'
     Plug 'mhinz/vim-startify'
     Plug 'machakann/vim-highlightedyank' " I want to replac ethis with lua, waiting for neovim v0.5.x
     Plug 'psliwka/vim-smoothie'

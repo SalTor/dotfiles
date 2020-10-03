@@ -26,8 +26,3 @@ source $NVIM/keys/terminal.vim
 source $NVIM/keys/visual.vim
 source $NVIM/keys/leader.vim
 source $NVIM/keys/local-leader.vim
-
-call saltor#functions#CheckColorScheme()
-call saltor#autocmds#setup()
-
-colorscheme base16-gruvbox-dark-soft
