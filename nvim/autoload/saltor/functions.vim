@@ -97,7 +97,7 @@ function! saltor#functions#file_finder(...) abort
     endif
 endfunction
 
-let s:bin_dir = expand('~/.vim/plugged/fzf.vim/bin/')
+let s:bin_dir = expand('~/.config/nvim/autoload/plugged/fzf.vim/bin/')
 let s:bin = { 'preview': s:bin_dir.'preview.sh' }
 
 let g:fzf_rg_fmt=join([

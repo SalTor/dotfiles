@@ -1,4 +1,4 @@
-function! s:AutoCommands()
+function! saltor#autocmds#setup()
     if exists('##TextYankPost')
         " TODO: Use this to replace machakann/vim-highlightedyank once 0.5.0
         " is more stable!
@@ -110,6 +110,3 @@ function! s:AutoCommands()
     endfunction
     autocmd BufWritePre * call <SID>TrimWhitespace()
 endfunction
-
-call saltor#functions#CheckColorScheme()
-call s:AutoCommands()
