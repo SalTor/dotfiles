@@ -27,11 +27,37 @@ stty -ixon # Disable ctrl-s and ctrl-q.
 
 export ANSIBLE_NOCOWS=1
 
-export BAT_THEME="zenburn"
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --heading --iglob=!.DS_Store --iglob=!.git'
-# slow but cool to pipe default command ..  | xargs -L1 file_then_path
-# might want this: --delimiter / --nth -2..
-export FZF_DEFAULT_OPTS='--bind "esc:abort,ctrl-\\:toggle-preview,ctrl-x:select-all,ctrl-d:deselect-all" --layout=reverse --info=inline --cycle --height=40% --preview="bat --theme="zenburn" --color=always --paging=never --style=grid,numbers,changes,header {}"'
+export BAT_THEME='TwoDark'
+export BAT_STYLE="grid,numbers,header"
+
+fzf_bat="bat --color=always --paging=never {}"
+fzf_file="([[ -f {} ]] && (${fzf_bat} || cat {}))"
+fzf_dir="([[ -d {} ]] && (tree -C {} | less))"
+fzf_neither="echo {} 2> /dev/null | head -200"
+
+export FZF_DEFAULT_COMMAND="rg --files
+--heading
+--color always
+--colors 'match:bg:yellow'
+--colors 'match:fg:black'
+--no-ignore
+--hidden
+--follow
+--smart-case
+--sort path
+--iglob '!.DS_Store'
+--iglob '!.git/*'"
+
+export FZF_DEFAULT_OPTS="--layout=reverse
+--bind 'esc:abort'
+--bind 'ctrl-\\:toggle-preview'
+--bind 'ctrl-x:select-all'
+--bind 'ctrl-d:deselect-all'
+--info inline
+--cycle
+--height 40%
+--preview '${fzf_file} || ${fzf_dir} || ${fzf_neither}'
+--preview-window right:50%:hidden"
 
 # Load aliases and shortcuts
 source $HOME/.aliases

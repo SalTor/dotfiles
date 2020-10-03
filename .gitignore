@@ -1,7 +1,7 @@
 .netrwhist
-vim/.vim/autoload/plug.vim
-vim/.vim/plugged/*
-vim/.vim/undodir/
+nvim/autoload/plug.vim
+nvim/autoload/plugged/*
+nvim/undodir/
 config/lazygit/*
 !config/lazygit/config.yml
 config/.secrets

@@ -11,12 +11,11 @@ syntax on
 filetype indent plugin on
 
 set nobackup nowritebackup noswapfile
-set undofile undodir=~/.vim/undodir
+set undofile undodir=~/.config/nvim/undodir
 set noerrorbells novisualbell belloff=all
 set noshowmatch
 set wildmenu
 
-set termguicolors
 set lazyredraw
 
 set spelllang=en_us

@@ -3,5 +3,12 @@ root: ~/capsule/vesto/
 attach: true
 windows:
   - SERVERS:
-  - CODE: vim
+      layout: even-horizontal
+      panes:
+        - DJANGO:
+          - make up
+        - WEBPACK:
+          - cd vesto/frontend
+          - npm run dev
+  - CODE: nvim
   - LAZYGIT: lazygit

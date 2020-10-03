@@ -70,7 +70,7 @@ let s:leader_map['a'] = {
     nnoremap <silent> <Leader>acr :CocRestart<CR>:ALEReset<CR>
     nnoremap <silent> <Leader>aar :ALEReset<CR>
     nnoremap <silent> <Leader>acl :CocList --normal<CR>
-    nnoremap <silent> <Leader>api :so ~/.vimrc<CR>:PlugInstall<CR>
+    nnoremap <silent> <Leader>api :source $MYVIMRC<CR>:PlugInstall<CR>
     nnoremap <silent> <Leader>apu :PlugUpdate<CR>
     nnoremap <silent> <Leader>apc :so ~/.vimrc<CR>:PlugClean<CR>
 

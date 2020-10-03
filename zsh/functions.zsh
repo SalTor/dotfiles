@@ -39,12 +39,12 @@ function fzf_git_diff_changed() {
 
 function fzf_tmux_switch_or_attach() {
     if [ -n "$TMUX" ]; then
-        TMUX_SESSION=$(tmux list-sessions -F "#S" | fzf-tmux --prompt="Session: " -m -1 -q "$1" --reverse --height 50% --preview=""%)
+        TMUX_SESSION=$(tmux list-sessions -F "#S" | fzf-tmux --prompt="Session: " -m -1 -q "$1" --reverse --exit-0 --height 50% --preview=""%)
         if [ -n "$TMUX_SESSION" ]; then
             tmux switch-client -t "$TMUX_SESSION"
         fi
     else
-        TMUX_PROJECT=$(tmux list-sessions -F "#S" | fzf-tmux --prompt="Project: " -m -1 -q "$1" --reverse --height 50% --preview=""%)
+        TMUX_PROJECT=$(tmux list-sessions -F "#S" | fzf-tmux --prompt="Project: " -m -1 -q "$1" --reverse --exit-0 --height 50% --preview=""%)
         if [ -n "$TMUX_PROJECT" ]; then
             tmux attach-session -t "$TMUX_PROJECT"
         fi

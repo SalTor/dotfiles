@@ -40,9 +40,6 @@ function! saltor#functions#tweak_colors()
     highlight default WhichKeyGroup     guifg=#A5AEBD gui=italic
     highlight default WhichKeyDesc      guifg=#E38639
 
-    " illuminated-word
-    highlight illuminatedWord guibg=#414141
-
     " Resolve clashes with ColorColumn.
     " Instead of linking to Normal (which has a higher priority, link to nothing).
     highlight link vimUserFunc NONE
@@ -103,6 +100,16 @@ endfunction
 let s:bin_dir = expand('~/.vim/plugged/fzf.vim/bin/')
 let s:bin = { 'preview': s:bin_dir.'preview.sh' }
 
+let g:fzf_rg_fmt=join([
+    \ "rg --color always",
+    \ "--colors 'match:bg:yellow' --colors 'match:fg:black'",
+    \ "--hidden",
+    \ "--sort path",
+    \ "--line-number --column",
+    \ "--iglob !.DS_Store --iglob !.git",
+    \ "--smart-case %s || true",
+\ ], ' ')
+
 function! saltor#functions#file_explorer(path)
     let spec = {
     \ 'options': [
@@ -114,12 +121,9 @@ function! saltor#functions#file_explorer(path)
 endfunction
 
 function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --colors "match:bg:yellow" --colors "match:fg:black" --hidden --line-number --column --no-heading --color=always --iglob=!.DS_Store --iglob=!.git --smart-case %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
+    let initial_command = printf(g:fzf_rg_fmt, shellescape(a:query))
     let spec = {
     \ 'options': [
-    \ '--info=inline',
-    \ '--preview-window=right:hidden',
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
     \ '--prompt', 'Find in Files> '
     \ ]}
@@ -127,16 +131,12 @@ function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
 endfunction
 
 function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --colors "match:bg:yellow" --colors "match:fg:black" --hidden --line-number --column --no-heading --color=always --iglob=!.DS_Store --iglob=!.git --smart-case %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
-    let reload_command = printf(command_fmt, '{q}')
+    let initial_command = printf(g:fzf_rg_fmt, shellescape(a:query))
+    let reload_command = printf(g:fzf_rg_fmt, '{q}')
     let spec = {
     \ 'options': [
-    \ '--phony',
-    \ '--info=inline',
     \ '--query', a:query,
     \ '--bind', 'change:reload:'.reload_command,
-    \ '--preview-window=right:hidden',
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
     \ '--prompt', 'Find in Files> '
     \ ]}
@@ -148,7 +148,7 @@ function! saltor#functions#CheckColorScheme ()
         let g:base16colorspace=256
     endif
 
-    let s:config_file = expand('$HOME/.vim/.base16')
+    let s:config_file = expand('$NVIM/.base16')
 
     if filereadable(s:config_file)
         let s:config = readfile(s:config_file, '', 2)
@@ -159,7 +159,7 @@ function! saltor#functions#CheckColorScheme ()
             echoerr 'Bad background ' . s:config[1] . ' in ' . s:config_file
         endif
 
-        if filereadable(expand('$HOME/.vim/plugged/base16-vim/colors/base16-' . s:config[0] . '.vim'))
+        if filereadable(expand('$NVIM/autoload/plugged/base16-vim/colors/base16-' . s:config[0] . '.vim'))
             execute 'color base16-' . s:config[0]
         else
             echoerr 'Bad scheme ' . s:config[0] . ' in ' . s:config_file
@@ -167,6 +167,7 @@ function! saltor#functions#CheckColorScheme ()
     else
         set background=dark
         color base16-default-dark
+        echo "Config file not found" . s:config
     endif
 
     " For Git commits, suppress the background of these groups:

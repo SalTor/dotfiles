@@ -2,9 +2,16 @@ source $HOME/dotfiles/zsh/functions.zsh
 
 alias e='exit'
 
-# VIM
-alias vi='nvim'
-alias vim='nvim'
+confirm() {
+    read "reply?How about nvim? [y|n] "
+    case $reply in
+    [Yy]) nvim ;;
+    [Nn]) vim ;;
+    *) exit ;;
+    esac
+}
+
+alias vim='confirm'
 
 # File navigation
 alias lo='ls -1'
@@ -29,9 +36,9 @@ alias source_tmux='tmux source ~/.tmux.conf'
 
 alias gbx='git checkout $(gb | fzf)'
 
-alias tx='tmuxinator'
-alias tx_restart_all='tx stop dotfiles && source ~/.zshrc && tx start dotfiles'
-alias ms=fzf_tmux_switch_or_attach
+alias ta='tmuxinator start'
+alias ts='tmuxinator stop'
+alias tS=fzf_tmux_switch_or_attach
 
 alias gdf=fzf_git_diff_changed
 alias gaf=fzf_git_add_changed

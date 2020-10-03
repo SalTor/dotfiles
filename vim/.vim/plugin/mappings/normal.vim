@@ -9,6 +9,11 @@ nnoremap <silent> ]<space> :put=nr2char(10)<CR>k
 nnoremap <silent> [b :bNext<CR>
 nnoremap <silent> ]b :bnext<CR>
 
+" TAB in general mode will move to text buffer
+nnoremap <silent> <TAB> :bnext<CR>
+" SHIFT-TAB will go back
+nnoremap <silent> <S-TAB> :bprevious<CR>
+
 " Git chunk navigation
 nmap <silent> [c <Plug>(GitGutterPrevHunk)
 nmap <silent> ]c <Plug>(GitGutterNextHunk)
@@ -26,10 +31,9 @@ nnoremap gl $
 
 " I think Y should behave like D or C
 nnoremap Y y$
-nnoremap U <C-r>
 
-" Folding
-nnoremap <S-Tab> za
+" Undo and redo are easier together
+nnoremap U <C-r>
 
 " Increment / decrement numerical values (Accepts counts)
 nnoremap + <C-a>

@@ -2,7 +2,7 @@
     "coc.source.buffer.disableSyntaxes": ["comment"],
     "coc.source.around.disableSyntaxes": ["comment"],
     "coc.source.file.disableSyntaxes": ["comment"],
-    "coc.source.word.filetypes": ["comment", "markdown", "gitcommit"],
+    "coc.source.word.filetypes": ["comment", "markdown"],
     "coc.source.word.shortcut": "SP",
 
     "diagnostic.errorSign": "",

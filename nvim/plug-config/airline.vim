@@ -4,6 +4,7 @@ let g:airline_detect_spell = 1
 let g:airline_skip_empty_sections = 1
 let g:airline_inactive_collapse=0
 
+let g:airline#extensions#default#section_use_groupitems = 1
 let g:airline#extensions#default#layout = [
     \ ['b', 'a', 'warning', 'error', 'c'],
     \ ['x', 'y', 'z'],
@@ -59,12 +60,11 @@ let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['saltor_file'])
 let g:airline_section_x = ''
 let g:airline_section_y = ''
-let g:airline_section_z = ''
 
 let g:airline_symbols = {
     \ 'space': ' ',
     \ 'paste': 'PASTE',
-    \ 'maxlinenr': ' ',
+    \ 'maxlinenr': '',
     \ 'dirty': ' [!]',
     \ 'crypt': '🔒',
     \ 'linenr': '☰ ',

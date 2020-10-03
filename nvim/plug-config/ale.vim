@@ -21,7 +21,7 @@ let g:ale_fixers = {
     \ }
 
 let g:ale_lint_delay=0
-let g:ale_lint_on_enter=1
+let g:ale_lint_on_enter=0
 let g:ale_lint_on_save=1
 let g:ale_lint_on_insert_leave=1
 let g:ale_lint_on_text_changed='normal'
