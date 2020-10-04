@@ -1,4 +1,5 @@
 function! saltor#colors#tweak_colors()
+    " Called when autocmd ColorScheme is run on VimEnter which calls saltor#colors#CheckColorScheme
     highlight clear SpellBad
     highlight SpellBad cterm=underline gui=undercurl guifg=#fb4934
 

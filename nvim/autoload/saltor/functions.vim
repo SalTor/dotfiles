@@ -52,16 +52,6 @@ endfunction
 let s:bin_dir = expand('~/.config/nvim/autoload/plugged/fzf.vim/bin/')
 let s:bin = { 'preview': s:bin_dir.'preview.sh' }
 
-let g:fzf_rg_fmt=join([
-    \ "rg --color always",
-    \ "--colors 'match:bg:yellow' --colors 'match:fg:black'",
-    \ "--hidden",
-    \ "--sort path",
-    \ "--line-number --column",
-    \ "--iglob !.DS_Store --iglob !.git",
-    \ "--smart-case %s || true",
-\ ], ' ')
-
 function! saltor#functions#file_explorer(path)
     let spec = {
     \ 'options': [
@@ -71,6 +61,16 @@ function! saltor#functions#file_explorer(path)
     \ }
     call fzf#vim#files(a:path, spec)
 endfunction
+
+let g:fzf_rg_fmt=join([
+    \ "rg --color always",
+    \ "--colors 'match:bg:yellow' --colors 'match:fg:black'",
+    \ "--hidden",
+    \ "--sort path",
+    \ "--line-number --column",
+    \ "--iglob !.DS_Store --iglob !.git",
+    \ "--smart-case %s || true",
+\ ], ' ')
 
 function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
     let initial_command = printf(g:fzf_rg_fmt, shellescape(a:query))

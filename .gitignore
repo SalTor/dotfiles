@@ -2,6 +2,8 @@
 nvim/autoload/plug.vim
 nvim/autoload/plugged/*
 nvim/undodir/
-config/lazygit/*
+config/lazygit/
 !config/lazygit/config.yml
 config/.secrets
+.DS_Store
+.git/*

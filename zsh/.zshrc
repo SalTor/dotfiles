@@ -27,37 +27,28 @@ stty -ixon # Disable ctrl-s and ctrl-q.
 
 export ANSIBLE_NOCOWS=1
 
-export BAT_THEME='TwoDark'
-export BAT_STYLE="grid,numbers,header"
+export BAT_THEME='Dracula'
+export BAT_STYLE='grid,numbers'
+
+export FZF_DEFAULT_COMMAND="rg --files --heading --hidden --follow --smart-case --sort path"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --no-ignore --iglob '!.git/*'"
 
 fzf_bat="bat --color=always --paging=never {}"
 fzf_file="([[ -f {} ]] && (${fzf_bat} || cat {}))"
 fzf_dir="([[ -d {} ]] && (tree -C {} | less))"
 fzf_neither="echo {} 2> /dev/null | head -200"
-
-export FZF_DEFAULT_COMMAND="rg --files
---heading
---color always
---colors 'match:bg:yellow'
---colors 'match:fg:black'
---no-ignore
---hidden
---follow
---smart-case
---sort path
---iglob '!.DS_Store'
---iglob '!.git/*'"
-
-export FZF_DEFAULT_OPTS="--layout=reverse
+export FZF_DEFAULT_OPTS="
+--color='preview-bg:#72ea8a'
+--layout=reverse
 --bind 'esc:abort'
 --bind 'ctrl-\\:toggle-preview'
---bind 'ctrl-x:select-all'
+--bind 'ctrl-s:select-all'
 --bind 'ctrl-d:deselect-all'
 --info inline
 --cycle
 --height 40%
---preview '${fzf_file} || ${fzf_dir} || ${fzf_neither}'
---preview-window right:50%:hidden"
+--preview-window right:50%:hidden
+--preview '${fzf_file} || ${fzf_dir} || ${fzf_neither}'"
 
 # Load aliases and shortcuts
 source $HOME/.aliases
@@ -97,7 +88,5 @@ autoload kp bip bup bcp fp
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 [[ -s $HOME/.avn/bin/avn.sh ]] && source $HOME/.avn/bin/avn.sh # load avn
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
