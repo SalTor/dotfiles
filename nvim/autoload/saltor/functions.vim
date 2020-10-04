@@ -63,12 +63,9 @@ function! saltor#functions#file_explorer(path)
 endfunction
 
 let g:fzf_rg_fmt=join([
-    \ "rg --color always",
-    \ "--colors 'match:bg:yellow' --colors 'match:fg:black'",
+    \ "rg",
     \ "--hidden",
-    \ "--sort path",
     \ "--line-number --column",
-    \ "--iglob !.DS_Store --iglob !.git",
     \ "--smart-case %s || true",
 \ ], ' ')
 
