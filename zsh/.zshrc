@@ -84,7 +84,7 @@ bindkey '^X^ ' autosuggest-execute
 
 # set autoload path
 fpath=(~/dotfiles/zsh/scripts "${fpath[@]}")
-autoload kp bip bup bcp fp
+autoload kp bip bup bcp fp prompt_confirm
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

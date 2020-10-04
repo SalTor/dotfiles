@@ -2,16 +2,7 @@ source $HOME/dotfiles/zsh/functions.zsh
 
 alias e='exit'
 
-confirm() {
-    read "reply?How about nvim? [y|n] "
-    case $reply in
-    [Yy]) nvim ;;
-    [Nn]) vim ;;
-    *) exit ;;
-    esac
-}
-
-alias vim='confirm'
+alias vim='prompt_confirm && vim'
 
 # File navigation
 alias lo='ls -1'
