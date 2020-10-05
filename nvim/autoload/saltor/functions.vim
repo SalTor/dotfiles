@@ -73,8 +73,9 @@ function! saltor#functions#FormatRipgrepFzf(query, fullscreen)
     let initial_command = printf(g:fzf_rg_fmt, shellescape(a:query))
     let spec = {
     \ 'options': [
+    \ '--color', 'hl:#fb4934,hl+:#fb4934',
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',
-    \ '--prompt', 'Find in Files> '
+    \ '--prompt', 'Find in Files> ',
     \ ]}
     call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
 endfunction
@@ -84,6 +85,7 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     let reload_command = printf(g:fzf_rg_fmt, '{q}')
     let spec = {
     \ 'options': [
+    \ '--color', 'hl:#fb4934,hl+:#fb4934',
     \ '--query', a:query,
     \ '--bind', 'change:reload:'.reload_command,
     \ '--preview', fzf#shellescape(s:bin.preview) . ' {}',

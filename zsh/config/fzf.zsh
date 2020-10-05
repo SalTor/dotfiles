@@ -6,6 +6,7 @@ fzf_file="([[ -f {} ]] && (${fzf_bat} || cat {}))"
 fzf_dir="([[ -d {} ]] && (tree -C {} | less))"
 fzf_neither="echo {} 2> /dev/null | head -200"
 export FZF_DEFAULT_OPTS="
+--color='hl:#fb4934,hl+:#fb4934'
 --layout=reverse
 --bind 'esc:abort'
 --bind 'ctrl-\\:toggle-preview'
