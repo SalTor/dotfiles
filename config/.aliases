@@ -2,7 +2,7 @@ source $HOME/dotfiles/zsh/functions.zsh
 
 alias e='exit'
 
-alias vim='prompt_confirm && vim'
+alias vim='prompt_confirm "Use nvim instead?" && nvim || vim'
 
 # File navigation
 alias lo='ls -1'
