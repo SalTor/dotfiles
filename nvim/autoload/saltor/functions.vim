@@ -66,6 +66,8 @@ let g:fzf_rg_fmt=join([
     \ "rg",
     \ "--hidden",
     \ "--line-number --column",
+    \ "--iglob '!.DS_Store'",
+    \ "--iglob '!.git/*'",
     \ "--smart-case %s || true",
 \ ], ' ')
 
