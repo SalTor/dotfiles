@@ -16,12 +16,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
     " Motions and text objects
-    Plug 'tpope/vim-surround'
     Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'easymotion/vim-easymotion'
     Plug 'justinmk/vim-sneak'
-    Plug 'unblevable/quick-scope'
 
     " Auto-complete ([{, auto-complete markup, comments
     Plug 'Raimondi/delimitMate'
@@ -33,10 +31,11 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'sheerun/vim-polyglot'
     Plug 'liuchengxu/vim-which-key'
     Plug 'mhinz/vim-startify'
-    Plug 'machakann/vim-highlightedyank' " I want to replac ethis with lua, waiting for neovim v0.5.x
+    Plug 'machakann/vim-highlightedyank' " I want to replace this with lua, waiting for neovim v0.5.x
     Plug 'psliwka/vim-smoothie'
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'wincent/pinnacle' " I wonder if I can get rid of this by reducing the complexity of my color scheme method
+    Plug 'sheerun/vim-wombat-scheme'
 
     " Navigation aide / visualization
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus' ] }
@@ -55,5 +54,4 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'christoomey/vim-system-copy'
     Plug 'christoomey/vim-sort-motion'
     Plug 'godlygeek/tabular'
-    Plug 'sheerun/vim-wombat-scheme'
 call plug#end()

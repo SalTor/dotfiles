@@ -109,7 +109,6 @@ let s:leader_map['f'] = {
     \     's': 'save-current-file',
     \ },
     \ 'g': 'fzf-gfiles?',
-    \ 'r': 'fzf-recent',
     \ 's': 'save-all-files',
     \ 'e': 'nerdtree',
     \ 'j': 'jump-to-current-file',
@@ -120,7 +119,6 @@ let s:leader_map['f'] = {
     \ 'Y': 'copy-contents',
     \ }
     nnoremap <silent> <Leader>fg :GFiles?<CR>
-    nnoremap <silent> <Leader>fr :ProjectMru<CR>
     nnoremap <silent> <Leader>fs :w<CR>:wa<CR>
     nnoremap <silent> <Leader>fe :call saltor#mappings#plugin_related#nerdtree_open()<CR>
     nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
@@ -131,46 +129,6 @@ let s:leader_map['f'] = {
     nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
     nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
     nnoremap <silent> <Leader>f.s :w<CR>
-
-let s:leader_map['g'] = {
-    \ 'name': '+git',
-    \ 'd': 'git-diff',
-    \ 'b': 'git-blame',
-    \ 'c': 'git-commits',
-    \ }
-    nnoremap <silent> <Leader>gd :Gdiff<CR>
-    nnoremap <silent> <Leader>gb :Gblame<CR>
-    nnoremap <silent> <Leader>gc :Glog<CR>
-
-" Jumps + EasyMotion.vim
-let s:leader_map['j'] = {
-    \ 'name': '+jumps/easymoion',
-    \ 's': '[NV] to-char',
-    \ 'w': '[NV] to-word-forward',
-    \ 'b': '[NV] to-word-backward',
-    \ 'j': '[NV] to-line-down',
-    \ 'k': '[NV] to-word-up',
-    \ 'f': '[NV] to-char',
-    \ 't': '[NV] to-char',
-    \ 'n': '[NV] next-easymotion-match',
-    \ 'N': '[NV] prev-easymotion-match',
-    \ }
-    nmap <Leader>js <Plug>(easymotion-s)
-    nmap <Leader>jw <Plug>(easymotion-w)
-    nmap <Leader>jb <Plug>(easymotion-b)
-    nmap <Leader>jk <Plug>(easymotion-k)
-    nmap <Leader>jj <Plug>(easymotion-j)
-    nmap <Leader>jn <Plug>(easymotion-next)
-    nmap <Leader>jN <Plug>(easymotion-prev)
-
-    xmap <Leader>js <Plug>(easymotion-s)
-    xmap <Leader>jw <Plug>(easymotion-bd-w)
-    xmap <Leader>jf <Plug>(easymotion-bd-fl)
-    xmap <Leader>jt <Plug>(easymotion-bd-tl)
-    xmap <Leader>jk <Plug>(easymotion-k)
-    xmap <Leader>jj <Plug>(easymotion-j)
-    xmap <Leader>jn <Plug>(easymotion-next)
-    xmap <Leader>jN <Plug>(easymotion-prev)
 
 " Quick-fix lists
 let s:leader_map['o'] = {
