@@ -14,11 +14,21 @@ endfor
 let s:leader_map['<Tab>'] = 'alternate-file'
 let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map[','] = 'file-finder'
-let s:leader_map['h'] = 'Helptags'
 nnoremap <Leader><Tab> <C-^>
 nnoremap <silent> <Leader>; :Buffers<CR>
 nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
-nnoremap <silent> <Leader>h :Helptags<CR>
+
+let s:leader_map['h'] = {
+    \ 'name': '+help',
+    \ 'i': '<Plug>(fzf-maps-i)',
+    \ 'x': '<Plug>(fzf-maps-x)',
+    \ 'o': '<Plug>(fzf-maps-o)',
+    \ }
+nnoremap <silent> <Leader>hh :Helptags<CR>
+nmap <Leader>hn <Plug>(fzf-maps-n)
+nnoremap <Leader>hi :call fzf#vim#maps('i', 0)<CR>
+nnoremap <Leader>hx :call fzf#vim#maps('x', 0)<CR>
+nnoremap <Leader>ho :call fzf#vim#maps('o', 0)<CR>
 
 " Applications
 let s:leader_map['a'] = {
@@ -273,3 +283,4 @@ let s:leader_map['x'] = {
 
 let g:saltor#map#leader#desc = s:leader_map
 call which_key#register('<Space>', 'g:saltor#map#leader#desc')
+" Using <Leader> here instead of <Space> renders the menu diferently
