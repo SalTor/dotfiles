@@ -33,11 +33,7 @@ function! GetParentDirWithFile(...) abort
     else
         let l:parent = l:cwd[-1]
         let l:fname = l:parent . '/' . expand('%:t')
-        if strlen(&filetype) > 0
-            return l:fname . ' [' . &filetype . ']'
-        else
-            return l:fname . ' [N/A]'
-        endif
+        return l:fname
     endif
 endfunction
 
@@ -52,14 +48,14 @@ endfunction
 call airline#parts#define_function('winnr', 'GetWinnrSymbol')
 call airline#parts#define_minwidth('winnr', 10)
 call airline#parts#define_function('saltor_file', 'GetParentDirWithFile')
-call airline#parts#define_minwidth('saltor_file', 50)
+" call airline#parts#define_minwidth('saltor_file', 50)
 call airline#parts#define_function('term_job_id', 'GetTermJobId')
-call airline#parts#define_minwidth('term_job_id', 25)
+call airline#parts#define_minwidth('term_job_id', 1)
 
 let g:airline_section_b = airline#section#create(['winnr'])
 let g:airline_section_c = airline#section#create(['saltor_file'])
-let g:airline_section_x = ''
-let g:airline_section_y = ''
+" let g:airline_section_x = ''
+" let g:airline_section_y = ''
 
 let g:airline_symbols = {
     \ 'space': ' ',
@@ -78,7 +74,7 @@ let g:airline_symbols = {
     \ 'whitespace': '☲',
     \ }
 
-let g:airline#extensions#term#enabled = 0
+let g:airline#extensions#term#enabled = 1
 let g:airline#extensions#nerdtree_status = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
@@ -89,10 +85,6 @@ let g:airline_filetype_overrides = {
     \ 'startify': [ '', '' ],
     \ 'help': [
         \ airline#section#create_left(['Help', '%f']),
-        \ airline#section#create(['winnr']),
-    \ ],
-    \ 'neoterm': [
-        \ airline#section#create_left(['mode', 'term_job_id']),
         \ airline#section#create(['winnr']),
     \ ],
     \ }
