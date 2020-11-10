@@ -1,10 +1,10 @@
 let g:sneak#label=1
-let g:sneak#s_next=1
-let g:sneak#f_reset=1
-let g:sneak#t_reset=1
+let g:sneak#s_next=0
 
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
+nmap <expr> x sneak#is_sneaking() ? '<Plug>Sneak_;' : '<Plug>Sneak_s'
+nmap <expr> X sneak#is_sneaking() ? '<Plug>Sneak_,' : '<Plug>Sneak_S'
 
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
+xmap <expr> x sneak#is_sneaking() ? '<Plug>Sneak_;' : '<Plug>Sneak_s'
+xmap <expr> X sneak#is_sneaking() ? '<Plug>Sneak_,' : '<Plug>Sneak_S'
+
+xmap s s

@@ -52,6 +52,4 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Nice to have, don't really need
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
     Plug 'christoomey/vim-system-copy'
-    Plug 'christoomey/vim-sort-motion'
-    Plug 'godlygeek/tabular'
 call plug#end()
