@@ -6,7 +6,7 @@ windows:
       layout: even-horizontal
       panes:
         - DJANGO:
-          - make up
+          - pipenv shell "make up"
         - WEBPACK:
           - cd vesto/frontend
           - npm run dev
