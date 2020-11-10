@@ -2,6 +2,7 @@
 nvim/autoload/plug.vim
 nvim/autoload/plugged/*
 nvim/undodir/
+nvim/session/
 config/lazygit/
 !config/lazygit/config.yml
 config/.secrets
