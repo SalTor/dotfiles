@@ -31,6 +31,11 @@ augroup Windows
     autocmd VimResized * call saltor#autocmds#HandleResize()
 augroup END
 
+augroup Terminal
+    autocmd!
+    autocmd BufEnter * if &buftype == 'terminal' | setlocal signcolumn=no nonumber norelativenumber | endif
+augroup END
+
 augroup CheckColorScheme
     autocmd!
 
