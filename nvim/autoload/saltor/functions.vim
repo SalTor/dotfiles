@@ -66,6 +66,7 @@ let g:fzf_rg_fmt=join([
     \ "rg",
     \ "--hidden",
     \ "--line-number --column",
+    \ "--color=always",
     \ "--iglob '!.DS_Store'",
     \ "--iglob '!.git/*'",
     \ "--smart-case %s || true",
@@ -87,6 +88,7 @@ function! saltor#functions#DynamicRipgrepFzf(query, fullscreen)
     let reload_command = printf(g:fzf_rg_fmt, '{q}')
     let spec = {
     \ 'options': [
+    \ '--phony',
     \ '--color', 'hl:#fb4934,hl+:#fb4934',
     \ '--query', a:query,
     \ '--bind', 'change:reload:'.reload_command,
