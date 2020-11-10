@@ -16,8 +16,8 @@
     "suggest.enablePreview": true,
     "suggest.maxCompleteItemCount": 20,
 
-    "tsserver.npm": "/Users/sal/.nvm/versions/node/v14.4.0/bin/npm",
-    "tsserver.tsdk": "/Users/sal/.nvm/versions/node/v14.4.0/lib/node_modules/typescript/lib/",
+    "tsserver.npm": "/Users/sal/.config/nvm/versions/node/v14.4.0/bin/npm",
+    "tsserver.tsdk": "/Users/sal/.config/nvm/versions/node/v14.4.0/lib/node_modules/typescript/lib/",
 
     "typescript.showUnused": false,
     "typescript.suggestionActions.enabled": false,
