@@ -13,8 +13,11 @@ source $HOME/.aliases
 source $HOME/dotfiles/zsh/config/colors.zsh
 source $HOME/dotfiles/zsh/config/misc.zsh
 source $HOME/dotfiles/zsh/config/fzf.zsh
-source $HOME/dotfiles/zsh/config/capsule.zsh
 source $HOME/dotfiles/zsh/config/zsh.zsh
 source $HOME/dotfiles/zsh/config/custom_scripts.zsh
 
+source $HOME/dotfiles/zsh/config/capsule.zsh
+
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
