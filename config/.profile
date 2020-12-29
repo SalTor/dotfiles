@@ -28,7 +28,7 @@ export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting. Make sure this
 export NVM_DIR=$XDG_CONFIG_HOME/nvm
 [[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 export PATH="$NVM_DIR/versions/node/v$(<$NVM_DIR/alias/default)/bin:$PATH"
-alias nvm="unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm $@"
+[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh
 
 ### {{{ CAPSULE
 # aws cli v1
