@@ -4,12 +4,13 @@ let g:ale_completion_enabled=0
 
 let g:ale_linters_explicit=1
 let g:aliases={
-    \ 'javascript': ['javascript', 'javascript.jsx', 'javascriptreact'],
+    \ 'javascript': ['javascript', 'javascript.jsx', 'javascriptreact', 'typescriptreact'],
     \ 'css': ['css', 'scss', 'sass'],
     \ }
 let g:ale_linters = {
     \ 'javascript': ['eslint'],
     \ 'typescript': ['eslint'],
+    \ 'typescriptreact': ['eslint'],
     \ }
 
 let g:ale_fix_on_save=1
@@ -17,7 +18,9 @@ let g:ale_fixers = {
     \ 'javascript': ['prettier'],
     \ 'javascriptreact': ['prettier'],
     \ 'typescript': ['prettier'],
+    \ 'typescriptreact': ['prettier'],
     \ 'css': ['prettier'],
+    \ 'scss': ['prettier'],
     \ }
 
 let g:ale_lint_delay=0
