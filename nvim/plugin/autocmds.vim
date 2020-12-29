@@ -23,6 +23,7 @@ augroup Buffers
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave * setlocal norelativenumber
 
     autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+    autocmd BufRead,BufNewFile tsconfig.json set filetype=jsonc
 augroup END
 
 augroup Windows
@@ -54,4 +55,10 @@ augroup WhichKey
     autocmd!
     autocmd FileType which_key echo "\r"
         \| autocmd BufLeave <buffer> echo "\r"
+augroup END
+
+augroup EasyMotionWithCoC
+    autocmd!
+    autocmd User EasyMotionPromptBegin silent! CocDisable
+    autocmd User EasyMotionPromptEnd silent! CocEnable
 augroup END

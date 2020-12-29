@@ -10,7 +10,7 @@ source $VIM_PLUG_CONFIG/fzf.vim
 source $VIM_PLUG_CONFIG/neoterm.vim
 source $VIM_PLUG_CONFIG/nerdcommenter.vim
 source $VIM_PLUG_CONFIG/nerdtree.vim
-source $VIM_PLUG_CONFIG/sneak.vim
+source $VIM_PLUG_CONFIG/easymotion.vim
 source $VIM_PLUG_CONFIG/start-screen.vim
 source $VIM_PLUG_CONFIG/which-key.vim
 luafile $VIM_PLUG_CONFIG/nvim-colorizer.lua

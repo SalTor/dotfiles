@@ -19,7 +19,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'justinmk/vim-sneak'
+    Plug 'easymotion/vim-easymotion'
 
     " Auto-complete ([{, auto-complete markup, comments
     Plug 'Raimondi/delimitMate'
@@ -29,6 +29,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Visuals
     Plug 'chriskempson/base16-vim'
     Plug 'sheerun/vim-polyglot'
+    Plug 'neoclide/jsonc.vim'
     Plug 'liuchengxu/vim-which-key'
     Plug 'mhinz/vim-startify'
     Plug 'machakann/vim-highlightedyank' " I want to replace this with lua, waiting for neovim v0.5.x
