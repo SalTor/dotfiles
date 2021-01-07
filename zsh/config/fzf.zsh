@@ -1,5 +1,5 @@
-export FZF_DEFAULT_COMMAND="rg --files --heading --hidden --follow --smart-case --color=always --sort path"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --no-ignore --iglob '!.git/*' --iglob '!.DS_Store'"
+export FZF_DEFAULT_COMMAND="rg --files --heading --hidden --follow --smart-case --sort path"
 
 export FZF_COMPLETION_TRIGGER='``'
 
