@@ -33,56 +33,29 @@ nnoremap <Leader>ho :call fzf#vim#maps('o', 0)<CR>
 " Applications
 let s:leader_map['a'] = {
     \ 'name': '+applications',
-    \ 'ss': 'save-session-as',
-    \ 'sd': 'delete-session',
-    \ 'sl': 'load-session',
-    \ 's': {
-        \ 'name': '+sessions',
-        \ 's': 'save-session-as',
-        \ 'd': 'delete-session',
-        \ 'l': 'load-session',
-    \ },
-    \ 'cd': 'coc-diagnostics',
-    \ 'ce': 'coc-extensions',
-    \ 'cc': 'coc-commands',
-    \ 'co': 'coc-outline',
-    \ 'cs': 'coc-symbols',
-    \ 'cr': 'coc-restart',
-    \ 'cl': 'coc-list',
     \ 'c': {
         \ 'name': '+coc',
-        \ 'd': 'coc-diagnostics',
-        \ 'e': 'coc-extensions',
-        \ 'c': 'coc-commands',
-        \ 'o': 'coc-outline',
-        \ 's': 'coc-symbols',
-        \ 'r': 'coc-restart',
-        \ 'l': 'coc-list',
-    \ },
-    \ 'pi': 'plug-install',
-    \ 'pc': 'plug-clean',
-    \ 'pu': 'plug-update',
+        \ 'd': [':CocList diagnostics'   , 'diagnostics'],
+        \ 'e': [':CocList extensions'    , 'extensions'],
+        \ 'c': [':CocList commands'      , 'commands'],
+        \ 'o': [':CocList outline'       , 'outline'],
+        \ 's': [':CocList -I symbols'    , 'symbols'],
+        \ },
     \ 'p': {
         \ 'name': '+vim-plug',
-        \ 'i': 'plug-install',
         \ 'c': 'plug-clean',
-        \ 'u': 'plug-update',
+        \ 'i': 'plug-install',
+        \ 'u': [':PlugUpdate', 'plug-update'],
+        \ },
+    \ 's': {
+        \ 'name': '+sessions',
+        \ 's': [':SSave'         , 'save-session-as'],
+        \ 'd': [':SDelete'       , 'delete-session'],
+        \ 'l': [':SLoad'         , 'load-session'],
+        \ },
     \ }
-    \ }
-    nnoremap <silent> <Leader>ass :SSave<CR>
-    nnoremap <silent> <Leader>asd :SDelete<CR>
-    nnoremap <silent> <Leader>asl :SLoad<CR>
-    nnoremap <silent> <Leader>acd :<C-u>CocList diagnostics<CR>
-    nnoremap <silent> <Leader>ace :<C-u>CocList extensions<CR>
-    nnoremap <silent> <Leader>acc :<C-u>CocList commands<CR>
-    nnoremap <silent> <Leader>aco :<C-u>CocList outline<CR>
-    nnoremap <silent> <Leader>acs :<C-u>CocList -I symbols<CR>
-    nnoremap <silent> <Leader>acr :CocRestart<CR>:ALEReset<CR>
-    nnoremap <silent> <Leader>aar :ALEReset<CR>
-    nnoremap <silent> <Leader>acl :CocList --normal<CR>
-    nnoremap <silent> <Leader>api :source $MYVIMRC<CR>:PlugInstall<CR>
-    nnoremap <silent> <Leader>apu :PlugUpdate<CR>
-    nnoremap <silent> <Leader>apc :so ~/.vimrc<CR>:PlugClean<CR>
+    nnoremap <silent> <Leader>api :so $MYVIMRC<CR>:PlugInstall<CR>
+    nnoremap <silent> <Leader>apc :so $MYVIMRC<CR>:PlugClean<CR>
 
 " Buffer / Tabs
 let s:leader_map['b'] = {
