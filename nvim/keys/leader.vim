@@ -61,26 +61,17 @@ let s:leader_map['a'] = {
 let s:leader_map['b'] = {
     \ 'name': '+buffers',
     \ 'd': 'close-buffer',
-    \ 'h': 'home-buffer',
+    \ 'h': [':Startify'      , 'home-buffer'],
+    \ ';': [':Buffers'       , 'list-buffers']
     \ }
-    nnoremap <silent> <Leader>b; :Buffers<CR>
     nnoremap <silent> <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-    nnoremap <silent> <Leader>bh :Startify<CR>
-
-" comments
-let s:leader_map['c'] = {
-    \ 'name': '+comments',
-    \ ' ': 'toggle',
-    \ '$': 'to-eol',
-    \ }
 
 " Colors
 let s:leader_map['C'] = {
     \ 'name': '+colors',
-    \ 'l': 'list',
+    \ 'l': [':Colors', 'list'],
     \ 'r': 'refresh',
     \ }
-    nnoremap <silent> <Leader>Cl :Colors<CR>
     nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>:echo 'Syntax Refreshed'<CR>
 
 " File
