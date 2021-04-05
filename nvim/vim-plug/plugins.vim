@@ -32,7 +32,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'neoclide/jsonc.vim'
     Plug 'liuchengxu/vim-which-key'
     Plug 'mhinz/vim-startify'
-    Plug 'machakann/vim-highlightedyank' " I want to replace this with lua, waiting for neovim v0.5.x
     Plug 'psliwka/vim-smoothie'
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'wincent/pinnacle' " I wonder if I can get rid of this by reducing the complexity of my color scheme method
