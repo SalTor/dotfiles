@@ -14,6 +14,8 @@ source $VIM_PLUG_CONFIG/easymotion.vim
 source $VIM_PLUG_CONFIG/start-screen.vim
 source $VIM_PLUG_CONFIG/which-key.vim
 luafile $VIM_PLUG_CONFIG/nvim-colorizer.lua
+luafile $VIM_PLUG_CONFIG/telescope.lua
+luafile $VIM_PLUG_CONFIG/treesitter.lua
 
 source $NVIM/keys/default-overrides.vim
 source $NVIM/keys/modes/index.vim

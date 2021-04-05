@@ -33,7 +33,7 @@ set list listchars=tab:>-,nbsp:⦸,extends:»,precedes:«,trail:•
 let &showbreak='⤷ '
 set breakindent breakindentopt=shift:2
 set autoindent smartindent wrap
-set foldtext=saltor#settings#foldtext() foldlevelstart=50 foldopen-=block foldmethod=indent
+set foldtext=saltor#settings#foldtext() foldlevelstart=50 foldopen-=block foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
 set virtualedit=block
 
 set ignorecase smartcase incsearch hlsearch
