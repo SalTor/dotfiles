@@ -1,6 +1,6 @@
 let g:airline_theme = 'bubblegum'
 let g:airline_solarized_bg = 'light'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline_detect_spell = 1
 let g:airline_skip_empty_sections = 1
 let g:airline_inactive_collapse=0
