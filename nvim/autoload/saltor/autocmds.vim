@@ -21,7 +21,8 @@ function! saltor#autocmds#userelativenumber()
         \ 'startify': 1,
         \ 'fzf': 1,
         \ }
-    if !has_key(l:ignored_buffers, &filetype)
+    let l:stop = exists('g:sal_norelativenumber') && g:sal_norelativenumber == 1
+    if !has_key(l:ignored_buffers, &filetype) && !l:stop
         setlocal relativenumber
     endif
 endfunction

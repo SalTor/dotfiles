@@ -13,15 +13,16 @@ function! saltor#mappings#leader#cycle_spellcheck() abort
         \ 'en_us0': 'setlocal spell' }[&spelllang . &spell]
 endfunction
 
-" Cycle through relativenumber + number, number (only), and no numbering
+" Cycle through relativenumber + norelativenumber
 function! saltor#mappings#leader#cycle_numbering() abort
-    " Borrowed from wincent
     if exists('+relativenumber')
-        execute {
-            \ '00': 'set relativenumber   | set number',
-            \ '01': 'set norelativenumber | set number',
-            \ '10': 'set norelativenumber | set nonumber',
-            \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
+        if &relativenumber == '0'
+            let g:sal_norelativenumber = 0
+            set relativenumber
+        else
+            let g:sal_norelativenumber = 1
+            set norelativenumber
+        end
     else
         " No relative numbering, just toggle numbers on and off
         set number!<CR>
