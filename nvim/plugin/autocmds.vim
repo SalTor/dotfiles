@@ -1,7 +1,7 @@
 augroup Vim
     autocmd!
 
-    autocmd VimEnter * call saltor#colors#CheckColorScheme()
+    " autocmd VimEnter * call saltor#colors#CheckColorScheme()
 augroup END
 
 augroup highlight_yank
@@ -47,7 +47,7 @@ augroup CheckColorScheme
 
     autocmd InsertLeave,WinEnter * set cursorline
     autocmd InsertEnter,WinLeave * set nocursorline
-    autocmd ColorScheme * call saltor#colors#tweak_colors()
+    autocmd VimEnter * call saltor#colors#tweak_colors()
 augroup END
 
 augroup Startify

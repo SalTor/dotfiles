@@ -1,4 +1,6 @@
 function! saltor#colors#tweak_colors()
+    luafile $VIM_PLUG_CONFIG/colors.lua
+
     " Called when autocmd ColorScheme is run on VimEnter which calls saltor#colors#CheckColorScheme
     highlight clear SpellBad
     highlight SpellBad cterm=underline gui=undercurl guifg=#fb4934
@@ -9,12 +11,16 @@ function! saltor#colors#tweak_colors()
     highlight LineNr    guibg=bg
     highlight VertSplit guibg=bg
 
+    highlight LineNr    guibg=bg guifg=#665c54
+    highlight VertSplit guibg=bg guifg=#665c54
+    highlight IconNameDevicon guifg=#afff5f
+
     highlight Comment cterm=italic gui=italic
 
-    highlight EndOfBuffer ctermbg=bg ctermfg=bg guibg=bg guifg=bg
-    highlight SignColumn  ctermbg=bg ctermfg=bg guibg=bg guifg=bg
+    highlight EndOfBuffer guibg=bg guifg=bg
+    highlight SignColumn  guibg=bg guifg=bg
 
-    highlight NonText guifg=#83a598
+    highlight NonText    guifg=#83a598
     highlight Whitespace guifg=#83a598
 
     highlight GitGutterAdd guibg=NONE
