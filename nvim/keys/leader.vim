@@ -16,7 +16,7 @@ let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map[','] = 'file-finder'
 nnoremap <Leader><Tab> <C-^>
 nnoremap <silent> <Leader>; :Buffers<CR>
-nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
+nnoremap <silent> <Leader>, :Telescope git_files<CR>
 
 let s:leader_map['h'] = {
     \ 'name': '+help',
@@ -79,30 +79,22 @@ let s:leader_map['f'] = {
     \ 'name': '+file',
     \ '.': {
     \     'name': '+cwd/current-file',
-    \     'f': 'fzf-cwd',
-    \     's': 'save-current-file',
+    \     'f': [':call saltor#functions#file_explorer(expand("%:p:h"))', 'fzf-cwd'],
+    \     's': [':w', 'save-current-file'],
     \ },
-    \ 'g': 'fzf-gfiles?',
+    \ 'g': [':GFiles?', 'fzf-gfiles?'],
+    \ 'e': [':call saltor#mappings#plugin_related#nerdtree_open()', 'nerdtree'],
+    \ 'j': [':NERDTreeFind', 'jump-to-current-file'],
+    \ '5': [':so %', 'source-file'],
+    \ 'R': [':call saltor#functions#file_rename()', 'rename-file'],
+    \ 'M': [':call saltor#functions#file_move()', 'move-file'],
+    \ 'Y': ['mzggVGy`z', 'copy-contents'],
+    \ 't': [':Telescope builtin', 'telescope-commands'],
     \ 's': 'save-all-files',
-    \ 'e': 'nerdtree',
-    \ 'j': 'jump-to-current-file',
-    \ '5': 'source-file',
     \ 'y': 'echo-file-path',
-    \ 'R': 'rename-file',
-    \ 'M': 'move-file',
-    \ 'Y': 'copy-contents',
     \ }
-    nnoremap <silent> <Leader>fg :GFiles?<CR>
     nnoremap <silent> <Leader>fs :w<CR>:wa<CR>
-    nnoremap <silent> <Leader>fe :call saltor#mappings#plugin_related#nerdtree_open()<CR>
-    nnoremap <silent> <Leader>fj :NERDTreeFind<CR>
-    nnoremap <silent> <Leader>f5 :so %<CR>
     nnoremap <silent> <Leader>fy :echo expand('%p')<CR>
-    nnoremap <silent> <Leader>fY mzggVGy`z
-    nnoremap <Leader>fR :call saltor#functions#file_rename()<CR>
-    nnoremap <Leader>fM :call saltor#functions#file_move()<CR>
-    nnoremap <silent> <Leader>f.f :call saltor#functions#file_explorer(expand('%:p:h'))<CR>
-    nnoremap <silent> <Leader>f.s :w<CR>
 
 " Quick-fix lists
 let s:leader_map['o'] = {
