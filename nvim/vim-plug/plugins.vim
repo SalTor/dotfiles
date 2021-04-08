@@ -11,10 +11,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
     Plug 'junegunn/fzf.vim'
 
-    " linting, intellisense
-    Plug 'dense-analysis/ale'
-    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-
     " Motions and text objects
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
@@ -36,6 +32,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'wincent/pinnacle' " I wonder if I can get rid of this by reducing the complexity of my color scheme method
     Plug 'sheerun/vim-wombat-scheme'
     Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'kosayoda/nvim-lightbulb'
 
     " Navigation aide / visualization
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind', 'NERDTreeFocus', 'NERDTreeClose', 'NERDTreeFocus' ] }
@@ -59,4 +56,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-compe'
 call plug#end()
