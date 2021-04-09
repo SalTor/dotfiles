@@ -109,8 +109,13 @@ let s:leader_map['o'] = {
     \ 'l': 'location-list',
     \ 'q': 'quick-fix-list',
     \ }
-    nnoremap <silent> <Leader>ol :lopen<CR>
+    nnoremap <silent> <Leader>ol :call OpenDiagnostics()<CR>
     nnoremap <silent> <Leader>oq :copen<CR>
+
+function OpenDiagnostics()
+    lua vim.lsp.diagnostic.set_loclist()
+    lopen
+endfunction
 
 let s:leader_map['r'] = {
     \ 'name': '+repl',
