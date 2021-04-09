@@ -66,6 +66,13 @@ let s:leader_map['b'] = {
     \ }
     nnoremap <silent> <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 
+let s:leader_map['c'] = {
+    \ 'name': '+comments',
+    \ 'c': 'toggle-comment'
+    \ }
+    nmap <leader>cc <plug>NERDCommenterToggle
+    xmap <leader>cc <plug>NERDCommenterToggle
+
 " Colors
 let s:leader_map['C'] = {
     \ 'name': '+colors',
