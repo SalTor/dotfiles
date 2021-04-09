@@ -59,4 +59,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     Plug 'neovim/nvim-lspconfig'
     Plug 'hrsh7th/nvim-compe'
+    Plug 'glepnir/lspsaga.nvim'
+    Plug 'mattn/efm-langserver'
 call plug#end()
