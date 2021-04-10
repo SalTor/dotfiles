@@ -245,10 +245,30 @@ local on_attach = function(client)
     map("n", "<C-p>", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>")
 end
 
+function _G.activeLSP()
+    local servers = {}
+    for _, lsp in pairs(vim.lsp.get_active_clients()) do
+        table.insert(servers, {name = lsp.name, id = lsp.id})
+    end
+    _G.P(servers)
+end
+function _G.bufferActiveLSP()
+    local servers = {}
+    for _, lsp in pairs(vim.lsp.buf_get_clients()) do
+        table.insert(servers, {name = lsp.name, id = lsp.id})
+    end
+    _G.P(servers)
+end
+
 lspconfig.pyright.setup {on_attach = on_attach}
 
 -- https://github.com/theia-ide/typescript-language-server
-lspconfig.tsserver.setup {on_attach = on_attach}
+lspconfig.tsserver.setup {
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end
+}
 
 -- https://github.com/iamcco/vim-language-server
 lspconfig.vimls.setup {on_attach = on_attach}
