@@ -52,6 +52,7 @@ o.autoindent = true
 o.smartindent = true
 
 o.foldtext = 'saltor#settings#foldtext()'
+o.foldlevelstart = 50
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
 cmd('set foldopen-=block')
