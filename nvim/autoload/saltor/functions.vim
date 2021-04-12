@@ -49,7 +49,7 @@ function! saltor#functions#file_finder(...) abort
     endif
 endfunction
 
-let s:bin_dir = expand('~/.config/nvim/autoload/plugged/fzf.vim/bin/')
+let s:bin_dir = expand('~/.local/share/nvim/site/pack/packer/start/fzf.vim/bin/')
 let s:bin = { 'preview': s:bin_dir.'preview.sh' }
 
 function! saltor#functions#file_explorer(path)

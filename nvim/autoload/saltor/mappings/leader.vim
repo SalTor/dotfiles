@@ -9,8 +9,8 @@ endfunction
 " Cycle through spell-check mode
 function! saltor#mappings#leader#cycle_spellcheck() abort
     execute {
-        \ 'en_us1': 'setlocal nospell',
-        \ 'en_us0': 'setlocal spell' }[&spelllang . &spell]
+        \ 'en1': 'setlocal nospell',
+        \ 'en0': 'setlocal spell' }[&spelllang . &spell]
 endfunction
 
 " Cycle through relativenumber + norelativenumber
