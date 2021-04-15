@@ -80,15 +80,7 @@ require'nvim-lightbulb'.update_lightbulb {
 }
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
 
-local lspconfig = require "lspconfig"
-local saga = require "lspsaga"
-
-saga.init_lsp_saga {
-    code_action_prompt = {
-        sign = false
-    },
-    code_action_keys = {quit = "<ESC>", exec = "<CR>"}
-}
+local lspconfig = require 'lspconfig'
 
 local map = function(mode, key, result, noremap, expr)
     if noremap == nil then
@@ -101,34 +93,34 @@ local map = function(mode, key, result, noremap, expr)
 end
 
 vim.lsp.protocol.CompletionItemKind = {
-    " [text]",
-    " [method]",
-    " [function]",
-    " [constructor]",
-    "ﰠ [field]",
-    " [variable]",
-    " [class]",
-    " [interface]",
-    " [module]",
-    " [property]",
-    " [unit]",
-    " [value]",
-    " [enum]",
-    " [key]",
-    "﬌ [snippet]",
-    " [color]",
-    " [file]",
-    " [reference]",
-    " [folder]",
-    " [enum member]",
-    " [constant]",
-    " [struct]",
-    "⌘ [event]",
-    " [operator]",
-    "♛ [type]"
+    ' [text]',
+    ' [method]',
+    ' [function]',
+    ' [constructor]',
+    'ﰠ [field]',
+    ' [variable]',
+    ' [class]',
+    ' [interface]',
+    ' [module]',
+    ' [property]',
+    ' [unit]',
+    ' [value]',
+    ' [enum]',
+    ' [key]',
+    '﬌ [snippet]',
+    ' [color]',
+    ' [file]',
+    ' [reference]',
+    ' [folder]',
+    ' [enum member]',
+    ' [constant]',
+    ' [struct]',
+    '⌘ [event]',
+    ' [operator]',
+    '♛ [type]'
 }
 
-require "compe".setup {
+require 'compe'.setup {
     enabled = true,
     debug = false,
     autocomplete = true,
@@ -272,7 +264,7 @@ lspconfig.vimls.setup {on_attach = on_attach}
 -- https://github.com/vscode-langservers/vscode-json-languageserver
 lspconfig.jsonls.setup {
     on_attach = on_attach,
-    cmd = {"json-languageserver", "--stdio"},
+    cmd = {"vscode-json-languageserver", "--stdio"},
     commands = {
       Format = {
         function()
