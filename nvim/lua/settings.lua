@@ -51,7 +51,7 @@ o.showbreak = '⤷ '
 o.autoindent = true
 o.smartindent = true
 
-o.foldtext = 'saltor#settings#foldtext()'
+-- o.foldtext = 'saltor#settings#foldtext()'
 o.foldlevelstart = 50
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
@@ -75,22 +75,9 @@ o.switchbuf = 'usetab'
 o.timeoutlen = 500
 o.updatetime = 300
 
-o.shortmess = table.concat({
-    'A', -- ignore annoying swapfile messages
-    'I', -- hide splash screen
-    'O', -- file-read message overwrites previous
-    'T', -- truncate non-file messages in middle
-    'W', -- don't echo [written] when writing
-    'a', -- use abbreciations eg `[RO] instead of `[readonly]`
-    'o', -- overwrite file-written messages
-    't', -- truncate file messages at start
-    'c', -- don't give ins-completion-menu messages
-}, '')
+o.shortmess = 'AIOTWotcla'
 
-o.formatoptions = table.concat({
-    'n', -- when formatting text, recognize numbered lists
-    'j', -- remove comment leader when joining
-}, '')
+o.formatoptions = 'nj'
 o.joinspaces = false
 
 o.completeopt = 'menu'
