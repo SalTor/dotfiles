@@ -10,6 +10,3 @@ vim.g.fzf_layout = {
 vim.cmd [[
     let g:fzf_action = { 'ctrl-q': function('saltor#functions#build_quickfix_list'), 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
 ]]
--- vim.g.fzf_action = {
-    -- ["ctrl-q"] = "function('saltor#functions#build_quickfix_list')"
--- }
