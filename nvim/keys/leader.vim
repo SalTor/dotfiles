@@ -130,23 +130,19 @@ let s:leader_map['r'] = {
 " Search
 let s:leader_map['s'] = {
     \ 'name': '+search',
-    \ 'p': '[NV] project-search dynamic',
-    \ 'P': '[NV] project-search static',
-    \ 'r': '[NV] replace-cword global ',
-    \ 'f': '[NV] replace-cword local ',
-    \ 'c': '[N-] clear-highlights',
-    \ 't': '[N-] find-todos',
+    \ 'p': 'project-search dynamic',
+    \ 'P': 'project-search static',
+    \ 'r': 'replace-cword global ',
+    \ 'f': 'replace-cword local ',
+    \ 'c': 'clear-highlights',
+    \ 't': 'find-todos',
     \ }
-    nnoremap <silent> <Leader>sp :DynamicRg <CR>
-    xnoremap <silent> <Leader>sp y:Rg<Space><C-R>"<CR>
-    nnoremap <Leader>sP :Rg<Space>
-    xnoremap <silent> <Leader>sP y:DynamicRg<Space><C-R>"<CR>
+    nnoremap <silent> <Leader>sp :Telescope live_grep<CR>
+    xnoremap <silent> <Leader>sp :lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })<CR>
 
     nnoremap <silent> <Leader>sc :nohlsearch<cr>
     nnoremap <silent> <Leader>st :Rg TODO<CR>
 
-    nnoremap <silent> <Leader>sr :CocSearch <C-R>=expand("<cword>")<CR><CR>
-    xnoremap <Leader>sr y:CocSearch <C-R>"<CR>
     nnoremap <Leader>sf y:%s/<C-R>=expand("<cword>")<CR>//gc<Left><Left><Left>
     xnoremap <Leader>sf y:%s/<C-R>"//gc<Left><Left><Left>
 
@@ -156,52 +152,27 @@ let s:leader_map['t'] = {
     \ '/': 'new-terminal-vertical',
     \ '-': 'new-terminal-horizontal',
     \ 't': 'new-terminal-window',
-    \ 'n': 'new-tmux-window',
-    \ 's': 'new-tmux-split-vertical',
-    \ 'v': 'new-tmux-split-horizontal',
     \ }
     nnoremap <silent> <Leader>t/ :vertical Topen<CR><C-w>l:startinsert!<CR>
     nnoremap <silent> <Leader>t- :belowright Topen<CR><C-w>j:startinsert!<CR>
     nnoremap <silent> <Leader>tt :Topen<CR>i
-    nnoremap <Leader>tn :!tmux new-window<CR><CR>
-    nnoremap <Leader>ts :!tmux split-window -v<CR><CR>
-    nnoremap <Leader>tv :!tmux split-window -h<CR><CR>
 
 " Toggle
 let s:leader_map['T'] = {
     \ 'name': '+toggle',
     \ 's': 'spell-check',
     \ 'n': 'cycle-line-numbering',
-    \ 'h': 'highlight',
     \ 'c': 'colorcolumn',
-    \ 'g': 'git-gutter',
     \ }
     nnoremap <silent> <Leader>Ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
     nnoremap <silent> <Leader>Tn :call saltor#mappings#leader#cycle_numbering()<CR>
-    nnoremap <silent> <Leader>Th :call saltor#mappings#leader#cycle_cursor_highlight()<CR>
     nnoremap <silent> <Leader>Tc :call saltor#mappings#leader#cycle_color_column()<CR>
-    nnoremap <silent> <Leader>Tg :call saltor#mappings#leader#cycle_git_gutter()<CR>
-
-" Variable / method signatures
-let s:leader_map['v'] = {
-    \ 'name': '+variables',
-    \ 'r': 'rename (local)',
-    \ 'p': {
-        \ 'r': 'rename (project)',
-    \ },
-    \ }
-    nmap <Leader>vr <Plug>(coc-rename)
-    nnoremap <leader>vpr :CocSearch <C-R>=expand("<cword>")<CR><CR>
 
 " Windows
 let s:leader_map['w'] = {
     \ 'name': '+windows',
     \ 'o': 'toggle-maximize-window',
     \ 'q': 'quit',
-    \ 'h': 'move-left',
-    \ 'l': 'move-right',
-    \ 'j': 'move-down',
-    \ 'k': 'move-up',
     \ '/': 'split-vertical',
     \ '-': 'split-horizontal',
     \ 'r': 'rotate',
@@ -210,10 +181,6 @@ let s:leader_map['w'] = {
     \ }
     nnoremap <silent> <Leader>wq :q<CR>
     nnoremap <silent> <Leader>ww <C-w>w
-    nnoremap <silent> <Leader>wh <C-w>h
-    nnoremap <silent> <Leader>wl <C-w>l
-    nnoremap <silent> <Leader>wj <C-w>j
-    nnoremap <silent> <Leader>wk <C-w>k
     nnoremap <silent> <Leader>w/ :vsp<CR>
     nnoremap <silent> <Leader>w- :sp<CR>
     nnoremap <silent> <Leader>wo :call saltor#functions#MaximizeToggle()<CR>
@@ -236,18 +203,14 @@ let s:leader_map['q'] = {
 " Text
 let s:leader_map['x'] = {
     \ 'name': '+text',
-    \ 's': 'sort-lines [v]',
-    \ 't': 'make-columns [nv]',
+    \ 's': 'sort-lines',
+    \ 't': 'make-columns',
     \ 'j': 'format-json',
-    \ 'f': 'fold',
-    \ 'mp': 'markdown-preview',
     \ }
     xnoremap <silent> <Leader>xs !sort<CR>
     xnoremap <silent> <Leader>xt :!column -t<CR>
     nnoremap <silent> <Leader>xt :%!column -t<CR>
     nnoremap <silent> <Leader>xj :%!python -m json.tool<CR>
-    nnoremap <silent> <Leader>xmp :InstantMarkdownPreview<CR>
-    nnoremap <silent> <Leader>xf za
 
 let g:saltor#map#leader#desc = s:leader_map
 call which_key#register('<Space>', 'g:saltor#map#leader#desc')
