@@ -1,5 +1,6 @@
 set termguicolors
 
+source $NVIM/general/settings.vim
 source $NVIM/vim-plug/plugins.vim
 
 source $NVIM/keys/default-overrides.vim

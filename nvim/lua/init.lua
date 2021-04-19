@@ -1,5 +1,3 @@
-require 'settings'
-
 require('colorizer').setup()
 
 require('lspsaga').init_lsp_saga {
