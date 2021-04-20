@@ -72,6 +72,8 @@ let s:leader_map['c'] = {
     \ }
     nmap <leader>cc <plug>NERDCommenterToggle
     xmap <leader>cc <plug>NERDCommenterToggle
+    nmap <leader>ci <plug>NERDCommenterInvert
+    xmap <leader>ci <plug>NERDCommenterInvert
 
 " Colors
 let s:leader_map['C'] = {
