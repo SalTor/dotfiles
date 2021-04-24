@@ -10,19 +10,28 @@
    '("83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default))
  '(evil-undo-system 'undo-tree)
  '(evil-want-C-u-scroll t)
+ '(evil-want-Y-yank-to-eol t)
  '(flycheck-locate-config-file-functions
    '(flycheck-locate-config-file-ancestor-directories flycheck-locate-config-file-by-path))
  '(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
  '(package-selected-packages
-   '(drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal ace-jump-mode rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company)))
+   '(evil-goggles evil-leader drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal ace-jump-mode rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ace-jump-face-background ((t (:background "#32302f" :foreground "#32302f"))))
- '(ace-jump-face-foreground ((t (:background "Magenta" :foreground "White")))))
+ '(ace-jump-face-foreground ((t (:background "Magenta" :foreground "White"))))
+ '(evil-goggles-change-face ((t (:inherit diff-removed))))
+ '(evil-goggles-default-face ((t (:inherit 'helm-header-line-left-margin))))
+ '(evil-goggles-delete-face ((t (:inherit diff-removed))))
+ '(evil-goggles-paste-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+ '(evil-goggles-yank-face ((t (:inherit tool-bar)))))
 
 (require 'package)
 
@@ -40,6 +49,11 @@
 (use-package undo-tree
   :ensure t)
 
+(use-package evil-leader
+  :ensure t)
+
+(global-evil-leader-mode)
+
 (use-package evil
   :ensure t
   :init
@@ -47,12 +61,47 @@
 (define-key evil-normal-state-map (kbd "U") 'evil-redo)
 (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
 (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
+(define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
+(define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
+(define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
+(define-key evil-normal-state-map (kbd "] e") 'next-error)
+(define-key evil-normal-state-map (kbd "[ e") 'previous-error)
+(evil-leader/set-leader "SPC")
+
+(define-key key-translation-map (kbd "SPC x") (kbd "M-x"))
+
+;; Comments
+(evil-leader/set-key
+  "cc" 'comment-line)
+(evil-leader/set-key-for-mode
+  'evil-visual-state "cc" 'comment-region)
+
+;; File
+(evil-leader/set-key
+  "fr" 'rename-file
+  "fj" 'treemacs-find-file
+  "f5" 'load-file
+  "fs" 'save-buffer)
+
+;; Buffer
+(evil-leader/set-key
+  "bd" 'kill-buffer
+  "," 'projectile-find-file
+  ";" 'projectile-switch-to-buffer
+  "TAB" 'evil-switch-to-windows-last-buffer)
 
 (use-package web-mode
   :ensure t)
 
 (use-package helm
   :ensure t)
+
+(use-package evil-goggles
+  :ensure t
+  :config
+  (evil-goggles-mode))
+(setq evil-goggles-duration 0.500)
+
 
 (use-package company
   :ensure t

@@ -35,6 +35,20 @@
     (defvar ace-jump-current-mode 'ace-jump-char-mode)
     (ace-jump-do (regexp-quote query-string))))
 
+(defun insert-line-below ()
+  "Insert an empty line below the current line."
+  (interactive)
+  (save-excursion
+    (end-of-line)
+    (open-line 1)))
+
+(defun insert-line-above ()
+  "Insert an empty line above the current line."
+  (interactive)
+  (save-excursion
+    (end-of-line 0)
+    (open-line 1)))
+
 ;; https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly
     ; (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
         ; gc-cons-percentage 0.6)
