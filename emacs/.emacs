@@ -1,3 +1,6 @@
+;;; package --- Summary
+;;; Code:
+;;; Commentary:
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -5,18 +8,21 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default))
+ '(evil-undo-system 'undo-tree)
+ '(evil-want-C-u-scroll t)
  '(flycheck-locate-config-file-functions
    '(flycheck-locate-config-file-ancestor-directories flycheck-locate-config-file-by-path))
+ '(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
  '(package-selected-packages
-   '(ace-jump-mode rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company)))
+   '(drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal ace-jump-mode rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ace-jump-face-background ((t (:background "#32302f" :foreground "#32302f"))))
- '(ace-jump-face-foreground ((t nil))))
+ '(ace-jump-face-foreground ((t (:background "Magenta" :foreground "White")))))
 
 (require 'package)
 
@@ -25,28 +31,46 @@
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
 (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (eval-when-compile
-    (require 'use-package))
+  (require 'use-package))
 
 (use-package undo-tree
-    :ensure t)
+  :ensure t)
 
 (use-package evil
-    :ensure t)
+  :ensure t
+  :init
+  (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode))
+(define-key evil-normal-state-map (kbd "U") 'evil-redo)
+(define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
+(define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
 
 (use-package web-mode
-    :ensure t)
+  :ensure t)
 
 (use-package helm
-    :ensure t)
+  :ensure t)
 
 (use-package company
   :ensure t
   :init
   (add-hook 'after-init-hook 'global-company-mode))
+
+(company-tng-mode)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 1)
+(setq company-selection-wrap-around t)
+
+(use-package company-quickhelp
+    :ensure t)
+
+(company-quickhelp-mode)
+
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
 (use-package pos-tip
     :ensure t)
@@ -57,22 +81,22 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-(require 'evil)
-    (evil-mode t)
+(require 'evil
+	 :init
+	 '(define-key evil-redo (kbd) "U"))
+(evil-mode t)
 (require 'web-mode)
 
 (use-package telephone-line
     :ensure t)
 (telephone-line-mode 1)
 
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-13"))
-
 (use-package doom-themes
     :ensure t
     :config
     (load-theme 'doom-one t)
     (doom-themes-visual-bell-config) ;; Enable flashing mode-line on errors
-    (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+    (defvar doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
     (doom-themes-treemacs-config) ;; Enable flashing mode-line on errors
     (doom-themes-org-config)) ;; Corrects (and improves) org-mode's native fontification.
 
@@ -107,7 +131,12 @@
     :ensure t
     :config
     (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+    (projectile-mode)
     (projectile-mode +1))
+
+(use-package helm-projectile
+             :ensure t
+             :config (helm-projectile-on))
 
 (use-package treemacs
     :ensure t
@@ -128,11 +157,17 @@
 (setq ace-jump-mode-gray-background nil)
 
 (autoload
-    'ace-jump-mode
+    'ace-jump-mode-pop-mark
     "ace-jump-mode"
-    "Emacs quick move minor mode"
+    "Ace jump back:-)"
     t)
-(define-key evil-normal-state-map (kbd "s") 'ace-jump-mode)
+(eval-after-load "ace-jump-mode"
+    '(ace-jump-mode-enable-mark-sync))
+(setq ace-jump-mode-submode-list
+      '(ace-jump-char-mode              ;; the first one always map to : C-c SPC
+        ace-jump-word-mode              ;; the second one always map to: C-u C-c SPC
+        ace-jump-line-mode) )           ;; the third one always map to ：C-u C-u C-c SPC
+(define-key evil-normal-state-map (kbd "s") 'ace-jump-two-chars-mode)
 
 (use-package rjsx-mode
     :ensure t
@@ -180,12 +215,7 @@
 (use-package tide
     :ensure t
     :after (rjsx-mode company flycheck)
-    :hook (rjsx-mode . setup-tide-mode))
-
-(use-package company-quickhelp
-    :ensure t)
-
-(company-quickhelp-mode)
+    :hook (rjsx-mode .  setup-tide-mode))
 
 (eval-after-load 'company
     '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
@@ -199,3 +229,4 @@
     :hook (rjsx-mode . prettier-js-mode))
 
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+;;; .emacs ends here
