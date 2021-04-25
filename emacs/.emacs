@@ -19,8 +19,7 @@
  '(js2-strict-inconsistent-return-warning nil)
  '(package-selected-packages
    '(markdown-mode helm-rg yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter smooth-scroll ## evil-goggles evil-leader drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company))
- '(treemacs-fringe-indicator-mode nil)
- '(treemacs-tag-follow-mode nil))
+ '(treemacs-no-png-images t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -94,6 +93,7 @@
 
 ;; File
 (evil-leader/set-key
+  "fe" 'treemacs
   "fr" 'rename-file
   "fj" 'treemacs-find-file
   "f5" 'load-file
@@ -171,10 +171,10 @@
 (use-package doom-themes
   :ensure t
   :config
+  ;; (setq doom-themes-treemacs-theme "doom-colors")
   (load-theme 'doom-one t)
   (doom-themes-visual-bell-config) ;; Enable flashing mode-line on errors
-  (defvar doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-  (doom-themes-treemacs-config) ;; Enable flashing mode-line on errors
+  ;; (doom-themes-treemacs-config) ;; Enable flashing mode-line on errors
   (doom-themes-org-config)) ;; Corrects (and improves) org-mode's native fontification.
 
 (use-package all-the-icons :ensure t)
@@ -227,9 +227,10 @@
   :ensure t
   :config
   (setq treemacs-follow-mode nil
-        treemacs-tag-follow-mode nil))
-(use-package treemacs-projectile :ensure t)
-(use-package treemacs-evil :ensure t)
+        treemacs-tag-follow-mode nil
+	treemacs-is-never-other-window t))
+;; (use-package treemacs-projectile :ensure t)
+;; (use-package treemacs-evil :ensure t)
 
 (use-package which-key :ensure t :config (which-key-mode))
 
