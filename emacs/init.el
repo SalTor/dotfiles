@@ -107,10 +107,10 @@
     (evil-leader/set-key
         "wr" 'evil-window-rotate-upwards
         "w/" 'evil-window-vsplit
-        "w-" 'evil-window-split,
-        "wh" 'evil-window-left,
-        "wj" 'evil-window-down,
-        "wk" 'evil-window-up,
+        "w-" 'evil-window-split
+        "wh" 'evil-window-left
+        "wj" 'evil-window-down
+        "wk" 'evil-window-up
         "wl" 'evil-window-right)
 
     ;; Comments
