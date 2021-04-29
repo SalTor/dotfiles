@@ -1,0 +1,52 @@
+#+title: The glories of Org
+#+author: A. Org Writer
+
+* Terminology / good to know
+- C-x C-c to quit emacs
+- C-h i m transient RET
+- M-x execute extended command
+- C-g to escape
+- C-h ? about help
+- C-h t opens the emacs tutorial
+- C-h k [key or chord] opens help about that key or string of keys
+- C-v scroll down one screen
+- M-v scroll up one screen
+- C-s start incremental search / go to next match
+- C-x 0 kill current window
+** when in `package-list-packages`
+- C-h m to see all keybindings in package mode
+- i mark a package as to be installed
+- d mark a package to be deleted
+- u remove mark from package
+- x will operate on all marks (run all installs / deletes)
+- q will quit the package interface
+
+* Editor configuration
+- `M-x customize RET`
+
+* Line navigation
+- marks equivalent
+- vim-sneak equivalent
+- vim-surround equivalent
+- wellle/targets.vim equivalent
+- How to toggle comments
+
+* File navigation
+- File finder?
+
+* Package manager
+
+* Code editing
+- emmet?
+- Intellisense / LSP capabilities?
+
+* Visuals
+- statusline?
+- icons?
+- Syntax highlighting
+    - Colorscheme
+- Hex/RGBA/HSL color previews
+- Whichkey equivalent?
+
+* How to close
+- C-x C-c

@@ -16,7 +16,7 @@ let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map[','] = 'file-finder'
 nnoremap <Leader><Tab> <C-^>
 nnoremap <silent> <Leader>; :Buffers<CR>
-nnoremap <silent> <Leader>, :Telescope git_files<CR>
+nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
 
 let s:leader_map['h'] = {
     \ 'name': '+help',
@@ -139,7 +139,7 @@ let s:leader_map['s'] = {
     \ 'c': 'clear-highlights',
     \ 't': 'find-todos',
     \ }
-    nnoremap <silent> <Leader>sp :Telescope live_grep<CR>
+    nnoremap <silent> <Leader>sp :DynamicRg<CR>
     xnoremap <silent> <Leader>sp :lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })<CR>
 
     nnoremap <silent> <Leader>sc :nohlsearch<cr>
