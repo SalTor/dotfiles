@@ -7,6 +7,8 @@
 (setq inhibit-startup-message t)
 (setq backup-directory-alist '(("." . "~/.config/emacs/.saves"))) ;; Backup files in ~/.saves
 
+(save-place-mode 1)
+(electric-pair-mode 1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)

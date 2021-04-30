@@ -19,10 +19,11 @@
  '(helm-autoresize-max-height 50)
  '(helm-autoresize-min-height 50)
  '(helm-autoresize-mode t)
+ '(helm-completion-style 'emacs)
  '(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
  '(package-selected-packages
-   '(flycheck-inline general org org-bullets orgit origami markdown-mode helm-rg yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter smooth-scroll ## evil-goggles evil-leader drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company))
+   '(json-mode flycheck-inline general org org-bullets orgit origami markdown-mode helm-rg yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company))
  '(savehist-mode t)
  '(treemacs-no-png-images t))
 (custom-set-faces
@@ -72,77 +73,78 @@
   :ensure t
   :init
   (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode))
+(evil-set-initial-state 'Custom-mode 'normal)
 
 (use-package evil-leader
   :ensure t
   :config (global-evil-leader-mode))
 
-;; Keybindings
-    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
-    (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+(define-key evil-normal-state-map (kbd "U") 'evil-redo)
 
-    (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
-    (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
+(define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
+(define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
 
-    (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
+(define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
 
-    (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
-    (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
-    (define-key evil-normal-state-map (kbd "] e") 'next-error)
-    (define-key evil-normal-state-map (kbd "[ e") 'previous-error)
-    (define-key evil-normal-state-map (kbd "] b") 'centaur-tabs-forward)
-    (define-key evil-normal-state-map (kbd "[ b") 'centaur-tabs-backward)
+(define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
+(define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
+(define-key evil-normal-state-map (kbd "C-n") 'next-error)
+(define-key evil-normal-state-map (kbd "C-p") 'previous-error)
+(define-key evil-normal-state-map (kbd "] b") 'centaur-tabs-forward)
+(define-key evil-normal-state-map (kbd "[ b") 'centaur-tabs-backward)
 
-    (define-key key-translation-map (kbd "SPC x") 'helm-M-x)
-    (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+(define-key key-translation-map (kbd "SPC x") 'helm-M-x)
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
-    ;; Leader key
-    (evil-leader/set-leader "SPC")
+;; Leader key
+(evil-leader/set-leader "SPC")
 
-    ;; Window
-    (evil-leader/set-key
-        "wr" 'evil-window-rotate-upwards
-        "w/" 'evil-window-vsplit
-        "w-" 'evil-window-split
-        "wh" 'evil-window-left
-        "wj" 'evil-window-down
-        "wk" 'evil-window-up
-        "wl" 'evil-window-right)
+;; Window
+(evil-leader/set-key
+    "wr" 'evil-window-rotate-upwards
+    "w/" 'evil-window-vsplit
+    "w-" 'evil-window-split
+    "wh" 'evil-window-left
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wl" 'evil-window-right)
 
-    ;; Comments
-    (evil-leader/set-key
-        "cc" 'comment-line)
-    (evil-leader/set-key-for-mode
-        'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
+;; Comments
+(evil-leader/set-key
+    "cc" 'comment-line)
+(evil-leader/set-key-for-mode
+    'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
 
-    ;; Project
-    (evil-leader/set-key
-        "ps" 'projectile-switch-project)
+;; Project
+(evil-leader/set-key
+  "ps" 'centaur-tabs-switch-group
+  "po" 'projectile-switch-project)
 
-    ;; Search
-    (evil-leader/set-key
-        "sp" 'projectile-ripgrep "")
+;; Search
+(evil-leader/set-key
+    "sp" 'projectile-ripgrep "")
 
-    ;; File
-    (evil-leader/set-key
-        "fe" 'treemacs
-        "fj" 'treemacs-find-file
-        "fr" 'rename-file
-        "f5" 'load-file
-        "fs" 'save-buffer)
+;; File
+(evil-leader/set-key
+    "fe" 'treemacs
+    "fj" 'treemacs-find-file
+    "fr" 'rename-file
+    "f5" 'load-file
+    "fs" 'save-buffer)
 
-    ;; Buffer
-    (evil-leader/set-key
-        "wq" 'delete-window
-        "h" 'help-command
-        "bd" 'kill-this-buffer
-        "," 'projectile-find-file
-        ";" 'projectile-switch-to-buffer
-        "TAB" 'evil-switch-to-windows-last-buffer)
+;; Buffer
+(evil-leader/set-key
+    "wq" 'delete-window
+    "h" 'help-command
+    "bd" 'kill-this-buffer
+    "," 'projectile-find-file
+    ";" 'projectile-switch-to-buffer
+    "TAB" 'evil-switch-to-windows-last-buffer)
 
 (use-package evil-nerd-commenter :ensure t)
 
@@ -158,11 +160,11 @@
           evil-goggles-enable-paste nil
           evil-goggles-enable-delete nil))
 
-(use-package undo-tree :ensure t)
+(use-package undo-tree
+    :ensure t)
 
-(use-package web-mode :ensure t)
-
-(use-package smooth-scroll :ensure t :config (smooth-scroll-mode t))
+(use-package web-mode
+    :ensure t)
 
 (use-package company
   :ensure t
@@ -174,7 +176,8 @@
           company-minimum-prefix-length 1
           company-selection-wrap-around t))
 
-(use-package pos-tip :ensure t)
+(use-package pos-tip
+    :ensure t)
 (use-package company-quickhelp
   :ensure t
   :config (company-quickhelp-mode))
@@ -236,8 +239,8 @@
   :ensure t
   :config
   (setq dashboard-set-heading-icons t
-	dashboard-projects-switch-function 'projectile-persp-switch-project
-	dashboard-startup-banner "~/dotfiles/emacs/hxh.jpeg"
+	;; dashboard-projects-switch-function 'projectile-switch-project
+	dashboard-startup-banner 'logo
 	dashboard-center-content nil
 	dashboard-set-navigator t
         dashboard-set-file-icons t)
