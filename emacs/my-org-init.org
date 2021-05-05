@@ -1,52 +1,694 @@
-#+title: The glories of Org
-#+author: A. Org Writer
+#+title: My emacs configuration via org mode!
+#+author: Me. Your friendly neighborhood web developer
 
-* Terminology / good to know
-- C-x C-c to quit emacs
-- C-h i m transient RET
-- M-x execute extended command
-- C-g to escape
-- C-h ? about help
-- C-h t opens the emacs tutorial
-- C-h k [key or chord] opens help about that key or string of keys
-- C-v scroll down one screen
-- M-v scroll up one screen
-- C-s start incremental search / go to next match
-- C-x 0 kill current window
-** when in `package-list-packages`
-- C-h m to see all keybindings in package mode
-- i mark a package as to be installed
-- d mark a package to be deleted
-- u remove mark from package
-- x will operate on all marks (run all installs / deletes)
-- q will quit the package interface
+* Learnings
 
-* Editor configuration
-- `M-x customize RET`
+Here is a list of stuff I set out to learn as I began using emacs
+after using vim for three years
 
-* Line navigation
-- marks equivalent
-- vim-sneak equivalent
-- vim-surround equivalent
-- wellle/targets.vim equivalent
-- How to toggle comments
+** Terminology / good to know
+1) =C-x C-c= to quit emacs
+2) =C-h i m= transient RET
+3) =M-x= execute extended command
+4) =C-g= to escape
+5) =C-h ?= about help
+6) =C-h t= opens the emacs tutorial
+7) =C-h k= [key or chord] opens help about that key or string of keys
+8) =C-v= scroll down one screen
+9) =M-v= scroll up one screen
+10) =C-s= start incremental search / go to next match
+11) =C-x 0= kill current window
 
-* File navigation
-- File finder?
+** Editor configuration
+1) =M-x customize RET=
 
-* Package manager
+** Line navigation
+1) marks equivalent
+2) vim-sneak equivalent
+3) vim-surround equivalent
+4) wellle/targets.vim equivalent
+5) How to toggle comments
 
-* Code editing
-- emmet?
-- Intellisense / LSP capabilities?
+** File navigation
+1) File finder?
 
-* Visuals
-- statusline?
-- icons?
-- Syntax highlighting
-    - Colorscheme
-- Hex/RGBA/HSL color previews
-- Whichkey equivalent?
+** Package manager
+1) =M-x package-install RET=
 
-* How to close
-- C-x C-c
+** Code editing
+1) emmet?
+2) Intellisense / LSP capabilities?
+   - Depends. There's stuff like lsp-mode and you can also use something like tide for javascript
+
+** Visuals
+1) statusline?
+2) doom-modeline
+3) icons?
+4) Syntax highlighting
+   * Colorscheme
+5) Hex/RGBA/HSL color previews
+6) Whichkey equivalent?
+
+** How to close
+1) =C-x C-c=
+
+
+* Config
+
+My configurations!
+
+** Some basic level stuff
+
+#+begin_src emacs-lisp
+  (setq byte-compile-warnings '(cl-functions))
+  (setq backup-directory-alist '(("." . "~/.config/emacs/.saves"))) ;; Backup files in ~/.saves
+  (setq evil-want-keybinding nil) ;; Evil collection requirement
+  (save-place-mode 1)     ;; Remember where you were last in a file
+  (electric-pair-mode 1)  ;; Match brackets and other stuff when typing
+  (tool-bar-mode -1)      ;; Hide toolbar
+  (menu-bar-mode -1)      ;; Hide menubar
+  (scroll-bar-mode -1)    ;; Hide scrollbar
+  (column-number-mode)    ;; Show column number in addition to line number
+  (show-paren-mode 1)     ;; When on a bracket, highlight its matching one
+  (setq inhibit-startup-message t) ;; Hide start message
+  (setq-default indent-tabs-mode nil) ;; Don't use tabs
+  (setq-default tab-width 4) ;; Tab key should generate 4 spaces
+  (setq indent-line-function 'insert-tab)
+#+end_src
+
+Some utility functions used later on functions
+
+#+begin_src emacs-lisp
+  (defun insert-line-below ()
+    "Insert an empty line below the current line."
+    (interactive)
+    (save-excursion
+      (end-of-line)
+      (open-line 1)))
+
+  (defun insert-line-above ()
+    "Insert an empty line above the current line."
+    (interactive)
+    (save-excursion
+      (end-of-line 0)
+      (open-line 1)))
+#+end_src
+
+** Fonts!
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+#+end_src
+
+** Line numbers + highlight current line
+
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+(global-hl-line-mode 1) ;; Highlight the current line
+(set-face-background 'hl-line (face-attribute 'mode-line :background))
+#+end_src
+
+** Full screen
+
+#+begin_src emacs-lisp
+(custom-set-variables
+    '(initial-frame-alist (quote ((fullscreen . maximized)))))
+#+end_src
+
+** Garbage collection + startup time report
+
+#+begin_src emacs-lisp
+;; The default is 800 kilobytes.  Measured in bytes.
+(setq gc-cons-threshold (* 50 1000 1000))
+
+(defun display-startup-time ()
+    "Display startup time."
+    (message "Emacs loaded in %s with %d garbage collections."
+            (format "%.2f seconds"
+                    (float-time
+                    (time-subtract after-init-time before-init-time)))
+            gcs-done))
+
+(add-hook 'emacs-startup-hook #'display-startup-time)
+#+end_src
+** Package Management
+
+Set up ELPA, MELPA, and Org package repositories and load =use-package= to manage package configuration.
+
+*NOTE:* I'm keeping this section in but disabling tangling for now because I'm trying out =straight.el= as an alternative.
+
+#+begin_src emacs-lisp :tangle no
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                        ("melpa-stable" . "https://stable.melpa.org/packages/")
+                        ("org" . "https://orgmode.org/elpa/")
+                        ("elpa" . "https://elpa.gnu.org/packages/")))
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
+
+(eval-when-compile
+    (require 'use-package))
+
+(setq use-package-always-ensure t)
+#+end_src
+** Keybinding utils
+
+#+begin_src emacs-lisp
+(use-package general)
+#+end_src
+** Whichkey for showing keybindings
+
+#+begin_src emacs-lisp
+(use-package which-key :config (which-key-mode))
+#+end_src
+** Org mode setup
+
+#+begin_src emacs-lisp
+(defun sal/org-mode-setup ()
+    "Org mode setup."
+    (org-indent-mode)
+    (auto-fill-mode)
+    (visual-line-mode 1))
+
+(use-package org
+  :hook (org-mode . sal/org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾"))
+
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+end_src
+** Terminal buffer goodness
+
+Sync up the path used with what's from my default shell .. I think
+
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+#+end_src
+** Web mode
+
+For files like HTML and stuff .. I think
+
+#+begin_src emacs-lisp
+(use-package web-mode)
+(require 'web-mode)
+#+end_src
+
+** Helm: List fuzzy filtering
+
+#+begin_src emacs-lisp
+  (use-package helm-projectile
+      :config (helm-projectile-on))
+
+  (use-package helm
+    :config
+    (helm-mode 1)
+    ;; ... some other stuff
+    ;; Enable opening helm results in splits
+    (cl-macrolet
+        ((make-splitter-fn (name open-fn split-fn)
+                           `(defun ,name (_candidate)
+                              ;; Display buffers in new windows
+                              (dolist (cand (helm-marked-candidates))
+                                (select-window (,split-fn))
+                                (,open-fn cand))
+                              ;; Adjust size of windows
+                              (balance-windows)))
+         (generate-helm-splitter-funcs
+          (op-type open-fn)
+          (let* ((prefix (concat "helm-" op-type "-switch-"))
+                 (vert-split (intern (concat prefix "vert-window")))
+                 (horiz-split (intern (concat prefix "horiz-window"))))
+            `(progn
+               (make-splitter-fn ,vert-split ,open-fn split-window-right)
+
+               (make-splitter-fn ,horiz-split ,open-fn split-window-below)
+
+               (defun ,(intern (concat "helm-" op-type "-switch-vert-window-command"))
+                   ()
+                 (interactive)
+                 (with-helm-alive-p
+                   (helm-exit-and-execute-action (quote ,vert-split))))
+
+               (defun ,(intern (concat "helm-" op-type "-switch-horiz-window-command"))
+                   ()
+                 (interactive)
+                 (with-helm-alive-p
+                   (helm-exit-and-execute-action (quote ,horiz-split))))))))
+
+      (generate-helm-splitter-funcs "buffer" switch-to-buffer)
+      (generate-helm-splitter-funcs "file" find-file)
+
+      ;; install the actions for helm-find-files after that source is
+      ;; inited, which fortunately has a hook
+      (add-hook
+       'helm-find-files-after-init-hook
+       (lambda ()
+         (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
+                                    #'helm-file-switch-vert-window
+                                    helm-source-find-files)
+         (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
+                                    #'helm-file-switch-horiz-window
+                                    helm-source-find-files)))
+
+      ;; ditto for helm-projectile; that defines the source when loaded, so we can
+      ;; just eval-after-load
+      (with-eval-after-load "helm-projectile"
+        (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
+                                   #'helm-file-switch-vert-window
+                                   helm-source-projectile-files-list)
+        (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
+                                   #'helm-file-switch-horiz-window
+                                   helm-source-projectile-files-list))
+
+      ;; ...but helm-buffers defines the source by calling an init function, but doesn't
+      ;; have a hook, so we use advice to add the actions after that init function
+      ;; is called
+      (defun cogent/add-helm-buffer-actions (&rest _args)
+        (helm-add-action-to-source "Display buffer(s) in new vertical split(s) `C-v'"
+                                   #'helm-buffer-switch-vert-window
+                                   helm-source-buffers-list)
+        (helm-add-action-to-source "Display buffer(s) in new horizontal split(s) `C-s'"
+                                   #'helm-buffer-switch-horiz-window
+                                   helm-source-buffers-list))
+      (advice-add 'helm-buffers-list--init :after #'cogent/add-helm-buffer-actions))
+    :general
+      (:keymaps 'helm-buffer-map
+          "C-v" #'helm-buffer-switch-vert-window-command
+          "C-s" #'helm-buffer-switch-horiz-window-command)
+      (:keymaps 'helm-projectile-find-file-map
+          "C-v" #'helm-file-switch-vert-window-command
+          "C-s" #'helm-file-switch-horiz-window-command)
+      (:keymaps 'helm-find-files-map
+          "C-v" #'helm-file-switch-vert-window-command
+          "C-s" #'helm-file-switch-horiz-window-command))
+
+  (use-package helm-rg
+    :config
+    (defun cogent/switch-to-buffer-split-vert (name)
+      (select-window (split-window-right))
+      (switch-to-buffer name))
+    (defun cogent/switch-to-buffer-split-horiz (name)
+      (select-window (split-window-below))
+      (switch-to-buffer name))
+
+    (defun cogent/helm-rg-switch-vert (parsed-output &optional highlight-matches)
+      (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-vert))
+        (helm-rg--async-action parsed-output highlight-matches)))
+    (defun cogent/helm-rg-switch-horiz (parsed-output &optional highlight-matches)
+      (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-horiz))
+        (helm-rg--async-action parsed-output highlight-matches)))
+
+    ;; helm-rg defines the source when it's loaded, so we can add the action
+    ;; right away
+    (helm-add-action-to-source
+     "Open in horizontal split `C-s'" #'cogent/helm-rg-switch-horiz
+     helm-rg-process-source)
+    (helm-add-action-to-source
+     "Open in vertical split `C-v'" #'cogent/helm-rg-switch-vert
+     helm-rg-process-source)
+
+    (defun cogent/helm-rg-switch-vert-command ()
+      (interactive)
+      (with-helm-alive-p
+        (helm-exit-and-execute-action #'cogent/helm-rg-switch-vert)))
+    (defun cogent/helm-rg-switch-horiz-command ()
+      (interactive)
+      (with-helm-alive-p
+        (helm-exit-and-execute-action #'cogent/helm-rg-switch-horiz)))
+
+    (general-def helm-rg-map
+      "C-s" #'cogent/helm-rg-switch-horiz-command
+      "C-v" #'cogent/helm-rg-switch-vert-command))
+#+end_src
+
+** Flycheck syntax checker tool
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+
+(setq flycheck-javascript-eslint-executable "eslint_d")
+
+;; Disable jshint in favour of eslint
+(setq-default flycheck-disabled-checkers
+    (append flycheck-disabled-checkers
+        '(javascript-jshint)))
+
+;; use eslint with rjsx-mode for jsx files
+(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+
+;; customize flycheck temp file prefix
+(setq-default flycheck-temp-prefix ".flycheck")
+
+;; disable json-jsonlist checking for json files
+(setq-default flycheck-disabled-checkers
+    (append flycheck-disabled-checkers
+        '(json-jsonlist)))
+#+end_src
+
+** Projectile: File finder
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+  (projectile-mode +1))
+#+end_src
+
+** Treemacs: Sidebar project explorer
+
+#+begin_src emacs-lisp
+(use-package treemacs
+  :config
+  (setq treemacs-follow-mode nil
+        treemacs-tag-follow-mode nil))
+(use-package treemacs-projectile)
+(use-package treemacs-evil)
+#+end_src
+
+** Visual goodness
+*** Color support
+
+#+begin_src emacs-lisp
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
+#+end_src
+*** Theme: DOOM
+The doom themes are pretty cool
+
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+
+(use-package doom-themes
+  :config
+  (defvar doom-themes-treemacs-theme "doom-colors")
+  (load-theme 'doom-one t)
+  (doom-themes-visual-bell-config))
+
+(use-package doom-modeline :init (doom-modeline-mode 1))
+#+end_src
+*** Show open buffers as tabs!
+
+#+begin_src emacs-lisp
+(use-package centaur-tabs
+  :demand
+  :config
+  (setq centaur-tabs-set-bar 'under
+        x-underline-at-descent-line t
+        centaur-tabs-set-icons t
+        centaur-tabs-gray-out-icons 'buffer
+        centaur-tabs-height 24
+        centaur-tabs-style 'wave
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-modified-marker "•")
+  (centaur-tabs-headline-match)
+  (centaur-tabs-group-by-projectile-project)
+  (centaur-tabs-mode t))
+#+end_src
+
+** Dashboard for opening projects / bookmarks / MRU
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :config
+  (setq dashboard-set-heading-icons t
+	;; dashboard-projects-switch-function 'projectile-switch-project
+	dashboard-startup-banner 'logo
+	dashboard-center-content nil
+	dashboard-set-navigator t
+        dashboard-set-file-icons t)
+  (setq dashboard-items '((recents  . 5)
+                        (bookmarks . 5)
+                        (projects . 5)))
+  (dashboard-setup-startup-hook))
+#+end_src
+
+** Preparation for evil mode
+
+[[https://github.com/apchamberlain/undo-tree.el][Undo tree]] is for evil mode's `U` and `C-r` history
+
+[[https://github.com/gregsexton/origami.el][Origami]] is for evil mode's folding capabilities
+
+#+begin_src emacs-lisp
+(use-package undo-tree)
+(use-package origami :config (global-origami-mode))
+#+end_src
+
+** EVIL mode ! >:)
+
+#+begin_src emacs-lisp
+    (use-package evil
+        :init
+        (setq evil-want-keybinding nil)
+        (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
+        (custom-set-variables
+            '(evil-want-Y-yank-to-eol t)
+            '(evil-undo-system 'undo-tree)) 
+        :config
+        (evil-set-initial-state 'Custom-mode 'normal)
+        (evil-set-initial-state 'messages-buffer-mode 'normal)
+        (evil-set-initial-state 'dashboard-mode 'normal)
+        (evil-mode 1))
+
+    ;; Make sure evil bindings work in all emacs windows
+    (use-package evil-collection :after evil)
+    (when (require 'evil-collection nil t)
+        (evil-collection-init))
+
+    (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+
+    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+    (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+
+    (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
+    (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
+
+    (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
+
+    (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
+    (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
+    (define-key evil-normal-state-map (kbd "C-n") 'next-error)
+    (define-key evil-normal-state-map (kbd "C-p") 'previous-error)
+    (define-key evil-normal-state-map (kbd "] b") 'centaur-tabs-forward)
+    (define-key evil-normal-state-map (kbd "[ b") 'centaur-tabs-backward)
+
+    (define-key key-translation-map (kbd "SPC x") 'helm-M-x)
+    (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+
+    (use-package evil-leader
+        :config (global-evil-leader-mode))
+
+    ;; Leader key
+    (evil-leader/set-leader "SPC")
+
+    (evil-leader/set-key
+        "u" 'universal-argument)
+
+    ;; Window
+    (evil-leader/set-key
+        "wr" 'evil-window-rotate-upwards
+        "w/" 'evil-window-vsplit
+        "w-" 'evil-window-split
+        "wh" 'evil-window-left
+        "wj" 'evil-window-down
+        "wk" 'evil-window-up
+        "wl" 'evil-window-right)
+
+    ;; Comments
+    (evil-leader/set-key
+        "cc" 'comment-line)
+    (evil-leader/set-key-for-mode
+        'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
+
+    ;; Project
+    (evil-leader/set-key
+        "ps" 'centaur-tabs-switch-group
+        "po" 'projectile-switch-project)
+
+    ;; Search
+    (evil-leader/set-key
+        "sp" 'projectile-ripgrep "")
+
+    ;; File
+    (evil-leader/set-key
+        "fe" 'treemacs
+        "fj" 'treemacs-find-file
+        "fr" 'rename-file
+        "f5" 'load-file
+        "fs" 'save-buffer)
+
+    ;; Buffer
+    (evil-leader/set-key
+        "wq" 'delete-window
+        "h" 'help-command
+        "bd" 'kill-this-buffer
+        "," 'helm-projectile
+        ";" 'helm-buffers-list
+        "TAB" 'evil-switch-to-windows-last-buffer)
+
+    (use-package evil-nerd-commenter)
+
+    (use-package evil-surround :config (global-evil-surround-mode 1))
+
+    (use-package evil-goggles
+      :config
+        (evil-goggles-mode)
+        (setq evil-goggles-duration 0.500
+              evil-goggles-blocking-duration 0.001
+              evil-goggles-async-duration 0.900
+              evil-goggles-enable-paste nil
+              evil-goggles-enable-delete nil))
+#+end_src
+
+** Avy: vim-sneak equivalent
+
+Quickly navigate anywhere in the visible file with 2 character
+filtering followed by RET to go there
+
+#+begin_src emacs-lisp
+(use-package avy)
+(define-key evil-normal-state-map (kbd "s") 'avy-goto-char-2)
+#+end_src
+
+** Company: Auto-complete goodness
+
+[[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
+
+[[https://github.com/sebastiencs/company-box][Company box]] adds some cool icons
+
+[[https://github.com/company-mode/company-quickhelp][Company quickhelp]] adds overlay documentation for the options company provides
+
+#+begin_src emacs-lisp
+(use-package company
+    :hook (lsp-mode . company-mode)
+    :init
+    (add-hook 'after-init-hook 'global-company-mode)
+    :config
+        (company-tng-mode)
+        (setq company-idle-delay 0
+            company-minimum-prefix-length 1
+            company-selection-wrap-around t))
+
+(use-package company-box :hook (company-mode . company-box-mode))
+
+(use-package pos-tip)
+(use-package company-quickhelp :config (company-quickhelp-mode))
+
+(eval-after-load 'company
+'(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+#+end_src
+
+** Tide: Typescript Interactive Development Environment
+
+#+begin_src emacs-lisp
+(defun setup-tide-mode ()
+  "Set up tide."
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (defvar flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (company-mode +1))
+
+(use-package tide
+  :after (rjsx-mode company flycheck)
+  :hook
+  (rjsx-mode .  setup-tide-mode)
+  (typecript-mode . setup-tide-mode))
+#+end_src
+
+** Support for .jsx/.tsx files
+
+#+begin_src emacs-lisp
+(use-package rjsx-mode
+    :mode ("\\.jsx$" . rjsx-mode)
+    :mode ("\\.tsx$" . rjsx-mode)
+    :hook (rjsx-mode . tide-setup))
+#+end_src
+
+** Javascript/Typescript setup
+
+#+begin_src emacs-lisp
+(use-package typescript-mode
+  :hook (typescript-mode . tide-setup))
+
+(setq js2-mode-show-parse-errors nil)
+(setq js2-mode-show-strict-warnings nil)
+
+(use-package prettier-js
+  :after (rjsx-mode)
+  :hook (rjsx-mode . prettier-js-mode))
+#+end_src
+
+** Python setup
+
+If you open a file in a project that has a python virtual environment
+made available to you, make use of it!
+
+#+begin_src emacs-lisp
+(use-package pyvenv
+  :after python-mode
+  :config
+  (pyvenv-mode 1))
+#+end_src
+
+** Language Server Protocol (LSP)
+
+LSP provides an alternative way to provide smart language
+development. It's not clear to me whether using LSP will replace my
+use of TIDE but I suspect it will
+
+#+begin_src emacs-lisp
+(defun efs/lsp-mode-setup ()
+  "Set up lsp mode."
+  (defvar lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . efs/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-treemacs
+  :after lsp)
+
+(use-package helm-lsp
+    :after lsp)
+
+(use-package python-mode
+  :hook (python-mode . lsp-deferred))
+#+end_src
+
+** Magit - GIT
+
+#+begin_src emacs-lisp
+(use-package magit)
+#+end_src

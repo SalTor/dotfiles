@@ -6,5 +6,6 @@ nvim/session/
 config/lazygit/
 !config/lazygit/config.yml
 config/.secrets
+my-org-init.el
 .DS_Store
 .git/*
