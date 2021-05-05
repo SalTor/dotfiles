@@ -690,5 +690,8 @@ use of TIDE but I suspect it will
 ** Magit - GIT
 
 #+begin_src emacs-lisp
-(use-package magit)
+  (use-package magit)
+
+  (evil-leader/set-key
+    "gs" 'magit-status)
 #+end_src
