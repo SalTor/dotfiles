@@ -7,20 +7,20 @@ Here is a list of stuff I set out to learn as I began using emacs
 after using vim for three years
 
 ** Terminology / good to know
-1) =C-x C-c= to quit emacs
-2) =C-h i m= transient RET
-3) =M-x= execute extended command
-4) =C-g= to escape
-5) =C-h ?= about help
-6) =C-h t= opens the emacs tutorial
-7) =C-h k= [key or chord] opens help about that key or string of keys
-8) =C-v= scroll down one screen
-9) =M-v= scroll up one screen
-10) =C-s= start incremental search / go to next match
-11) =C-x 0= kill current window
+1) ~C-x C-c~ to quit emacs
+2) ~C-h i m~ transient RET
+3) ~M-x~ execute extended command
+4) ~C-g~ to escape
+5) ~C-h ?~ about help
+6) ~C-h t~ opens the emacs tutorial
+7) ~C-h k~ [key or chord] opens help about that key or string of keys
+8) ~C-v~ scroll down one screen
+9) ~M-v~ scroll up one screen
+10) ~C-s~ start incremental search / go to next match
+11) ~C-x 0~ kill current window
 
 ** Editor configuration
-1) =M-x customize RET=
+- ~M-x customize RET~
 
 ** Line navigation
 1) marks equivalent
@@ -30,10 +30,10 @@ after using vim for three years
 5) How to toggle comments
 
 ** File navigation
-1) File finder?
+- File finder?
 
 ** Package manager
-1) =M-x package-install RET=
+- ~M-x package-install RET~
 
 ** Code editing
 1) emmet?
@@ -50,7 +50,7 @@ after using vim for three years
 6) Whichkey equivalent?
 
 ** How to close
-1) =C-x C-c=
+- ~C-x C-c~
 
 
 * Config
