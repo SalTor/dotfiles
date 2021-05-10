@@ -132,31 +132,6 @@ Some utility functions used later on functions
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 #+end_src
-** Package Management
-
-Set up ELPA, MELPA, and Org package repositories and load =use-package= to manage package configuration.
-
-*NOTE:* I'm keeping this section in but disabling tangling for now because I'm trying out =straight.el= as an alternative.
-
-#+begin_src emacs-lisp :tangle no
-;; Initialize package sources
-(require 'package)
-
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                        ("melpa-stable" . "https://stable.melpa.org/packages/")
-                        ("org" . "https://orgmode.org/elpa/")
-                        ("elpa" . "https://elpa.gnu.org/packages/")))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-(package-refresh-contents)
-(package-install 'use-package))
-
-(eval-when-compile
-    (require 'use-package))
-
-(setq use-package-always-ensure t)
-#+end_src
 ** Keybinding utils
 
 #+begin_src emacs-lisp

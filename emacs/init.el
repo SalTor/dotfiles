@@ -2,6 +2,26 @@
 ;;; Code:
 ;;; Commentary:
 
+;; Set up ELPA, MELPA, and Org package repositories and load =use-package= to manage package configuration.
+
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                        ("melpa-stable" . "https://stable.melpa.org/packages/")
+                        ("org" . "https://orgmode.org/elpa/")
+                        ("elpa" . "https://elpa.gnu.org/packages/")))
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
+
+(eval-when-compile
+    (require 'use-package))
+
+(setq use-package-always-ensure t)
+
 (require 'org)
 (org-babel-load-file
  (expand-file-name "~/dotfiles/emacs/my-org-init.org"))
