@@ -76,6 +76,7 @@ My configurations!
   (setq-default tab-width 4) ;; Tab key should generate 4 spaces
   (setq indent-line-function 'insert-tab)
   (use-package posframe)
+  (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4))) ;; Make it so helm-M-x and similar helm methods don't raise the file buffer and instead overlay
 #+end_src
 
 Some utility functions used later on functions
@@ -169,11 +170,7 @@ Sync up the path used with what's from my default shell .. I think
 #+begin_src emacs-lisp
   (use-package flycheck
     :config
-    (add-hook 'after-init-hook #'global-flycheck-mode)
-    :custom
-    (flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-    (flycheck-locate-config-file-functions
-     (flycheck-locate-config-file-ancestor-directories flycheck-locate-config-file-by-path)))
+    (add-hook 'after-init-hook #'global-flycheck-mode))
 
   (setq flycheck-javascript-eslint-executable "eslint_d")
 
@@ -206,136 +203,141 @@ For files like HTML and stuff .. I think
 ** Helm: List fuzzy filtering
 
 #+begin_src emacs-lisp
-    (use-package helm-projectile
-        :config (helm-projectile-on))
+  (use-package helm-projectile
+    :config
+    (helm-projectile-on))
 
-    (use-package helm
-      :config
-      (helm-mode 1)
-      :custom
-      (helm-always-two-windows t)
-      (helm-autoresize-mode t)
-      (helm-autoresize-max-height 50)
-      (helm-autoresize-min-height 50)
-      (helm-completion-style 'emacs)
-      (helm-minibuffer-history-key "M-p")
-      ;; ... some other stuff
-      ;; Enable opening helm results in splits
-      (cl-macrolet
-          ((make-splitter-fn (name open-fn split-fn)
-                             `(defun ,name (_candidate)
-                                ;; Display buffers in new windows
-                                (dolist (cand (helm-marked-candidates))
-                                  (select-window (,split-fn))
-                                  (,open-fn cand))
-                                ;; Adjust size of windows
-                                (balance-windows)))
-           (generate-helm-splitter-funcs
-            (op-type open-fn)
-            (let* ((prefix (concat "helm-" op-type "-switch-"))
-                   (vert-split (intern (concat prefix "vert-window")))
-                   (horiz-split (intern (concat prefix "horiz-window"))))
-              `(progn
-                 (make-splitter-fn ,vert-split ,open-fn split-window-right)
+  (use-package helm-file-preview
+    :config
+    (helm-file-preview-mode 1))
 
-                 (make-splitter-fn ,horiz-split ,open-fn split-window-below)
+  (use-package helm
+    :config
+    (helm-mode 1)
+    :custom
+    (helm-always-two-windows t)
+    (helm-autoresize-mode t)
+    (helm-autoresize-max-height 50)
+    (helm-autoresize-min-height 50)
+    (helm-completion-style 'emacs)
+    (helm-minibuffer-history-key "M-p")
+    ;; ... some other stuff
+    ;; Enable opening helm results in splits
+    (cl-macrolet
+        ((make-splitter-fn (name open-fn split-fn)
+                           `(defun ,name (_candidate)
+                              ;; Display buffers in new windows
+                              (dolist (cand (helm-marked-candidates))
+                                (select-window (,split-fn))
+                                (,open-fn cand))
+                              ;; Adjust size of windows
+                              (balance-windows)))
+         (generate-helm-splitter-funcs
+          (op-type open-fn)
+          (let* ((prefix (concat "helm-" op-type "-switch-"))
+                 (vert-split (intern (concat prefix "vert-window")))
+                 (horiz-split (intern (concat prefix "horiz-window"))))
+            `(progn
+               (make-splitter-fn ,vert-split ,open-fn split-window-right)
 
-                 (defun ,(intern (concat "helm-" op-type "-switch-vert-window-command"))
-                     ()
-                   (interactive)
-                   (with-helm-alive-p
-                     (helm-exit-and-execute-action (quote ,vert-split))))
+               (make-splitter-fn ,horiz-split ,open-fn split-window-below)
 
-                 (defun ,(intern (concat "helm-" op-type "-switch-horiz-window-command"))
-                     ()
-                   (interactive)
-                   (with-helm-alive-p
-                     (helm-exit-and-execute-action (quote ,horiz-split))))))))
+               (defun ,(intern (concat "helm-" op-type "-switch-vert-window-command"))
+                   ()
+                 (interactive)
+                 (with-helm-alive-p
+                   (helm-exit-and-execute-action (quote ,vert-split))))
 
-        (generate-helm-splitter-funcs "buffer" switch-to-buffer)
-        (generate-helm-splitter-funcs "file" find-file)
+               (defun ,(intern (concat "helm-" op-type "-switch-horiz-window-command"))
+                   ()
+                 (interactive)
+                 (with-helm-alive-p
+                   (helm-exit-and-execute-action (quote ,horiz-split))))))))
 
-        ;; install the actions for helm-find-files after that source is
-        ;; inited, which fortunately has a hook
-        (add-hook
-         'helm-find-files-after-init-hook
-         (lambda ()
-           (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
-                                      #'helm-file-switch-vert-window
-                                      helm-source-find-files)
-           (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
-                                      #'helm-file-switch-horiz-window
-                                      helm-source-find-files)))
+      (generate-helm-splitter-funcs "buffer" switch-to-buffer)
+      (generate-helm-splitter-funcs "file" find-file)
 
-        ;; ditto for helm-projectile; that defines the source when loaded, so we can
-        ;; just eval-after-load
-        (with-eval-after-load "helm-projectile"
-          (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
-                                     #'helm-file-switch-vert-window
-                                     helm-source-projectile-files-list)
-          (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
-                                     #'helm-file-switch-horiz-window
-                                     helm-source-projectile-files-list))
+      ;; install the actions for helm-find-files after that source is
+      ;; inited, which fortunately has a hook
+      (add-hook
+       'helm-find-files-after-init-hook
+       (lambda ()
+         (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
+                                    #'helm-file-switch-vert-window
+                                    helm-source-find-files)
+         (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
+                                    #'helm-file-switch-horiz-window
+                                    helm-source-find-files)))
 
-        ;; ...but helm-buffers defines the source by calling an init function, but doesn't
-        ;; have a hook, so we use advice to add the actions after that init function
-        ;; is called
-        (defun cogent/add-helm-buffer-actions (&rest _args)
-          (helm-add-action-to-source "Display buffer(s) in new vertical split(s) `C-v'"
-                                     #'helm-buffer-switch-vert-window
-                                     helm-source-buffers-list)
-          (helm-add-action-to-source "Display buffer(s) in new horizontal split(s) `C-s'"
-                                     #'helm-buffer-switch-horiz-window
-                                     helm-source-buffers-list))
-        (advice-add 'helm-buffers-list--init :after #'cogent/add-helm-buffer-actions))
-      :general
-        (:keymaps 'helm-buffer-map
-            "C-v" #'helm-buffer-switch-vert-window-command
-            "C-s" #'helm-buffer-switch-horiz-window-command)
-        (:keymaps 'helm-projectile-find-file-map
-            "C-v" #'helm-file-switch-vert-window-command
-            "C-s" #'helm-file-switch-horiz-window-command)
-        (:keymaps 'helm-find-files-map
-            "C-v" #'helm-file-switch-vert-window-command
-            "C-s" #'helm-file-switch-horiz-window-command))
+      ;; ditto for helm-projectile; that defines the source when loaded, so we can
+      ;; just eval-after-load
+      (with-eval-after-load "helm-projectile"
+        (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
+                                   #'helm-file-switch-vert-window
+                                   helm-source-projectile-files-list)
+        (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
+                                   #'helm-file-switch-horiz-window
+                                   helm-source-projectile-files-list))
 
-    (use-package helm-rg
-      :config
-      (defun cogent/switch-to-buffer-split-vert (name)
-        (select-window (split-window-right))
-        (switch-to-buffer name))
-      (defun cogent/switch-to-buffer-split-horiz (name)
-        (select-window (split-window-below))
-        (switch-to-buffer name))
+      ;; ...but helm-buffers defines the source by calling an init function, but doesn't
+      ;; have a hook, so we use advice to add the actions after that init function
+      ;; is called
+      (defun cogent/add-helm-buffer-actions (&rest _args)
+        (helm-add-action-to-source "Display buffer(s) in new vertical split(s) `C-v'"
+                                   #'helm-buffer-switch-vert-window
+                                   helm-source-buffers-list)
+        (helm-add-action-to-source "Display buffer(s) in new horizontal split(s) `C-s'"
+                                   #'helm-buffer-switch-horiz-window
+                                   helm-source-buffers-list))
+      (advice-add 'helm-buffers-list--init :after #'cogent/add-helm-buffer-actions))
+    :general
+    (:keymaps 'helm-buffer-map
+              "C-v" #'helm-buffer-switch-vert-window-command
+              "C-s" #'helm-buffer-switch-horiz-window-command)
+    (:keymaps 'helm-projectile-find-file-map
+              "C-v" #'helm-file-switch-vert-window-command
+              "C-s" #'helm-file-switch-horiz-window-command)
+    (:keymaps 'helm-find-files-map
+              "C-v" #'helm-file-switch-vert-window-command
+              "C-s" #'helm-file-switch-horiz-window-command))
 
-      (defun cogent/helm-rg-switch-vert (parsed-output &optional highlight-matches)
-        (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-vert))
-          (helm-rg--async-action parsed-output highlight-matches)))
-      (defun cogent/helm-rg-switch-horiz (parsed-output &optional highlight-matches)
-        (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-horiz))
-          (helm-rg--async-action parsed-output highlight-matches)))
+  (use-package helm-rg
+    :config
+    (defun cogent/switch-to-buffer-split-vert (name)
+      (select-window (split-window-right))
+      (switch-to-buffer name))
+    (defun cogent/switch-to-buffer-split-horiz (name)
+      (select-window (split-window-below))
+      (switch-to-buffer name))
 
-      ;; helm-rg defines the source when it's loaded, so we can add the action
-      ;; right away
-      (helm-add-action-to-source
-       "Open in horizontal split `C-s'" #'cogent/helm-rg-switch-horiz
-       helm-rg-process-source)
-      (helm-add-action-to-source
-       "Open in vertical split `C-v'" #'cogent/helm-rg-switch-vert
-       helm-rg-process-source)
+    (defun cogent/helm-rg-switch-vert (parsed-output &optional highlight-matches)
+      (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-vert))
+        (helm-rg--async-action parsed-output highlight-matches)))
+    (defun cogent/helm-rg-switch-horiz (parsed-output &optional highlight-matches)
+      (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-horiz))
+        (helm-rg--async-action parsed-output highlight-matches)))
 
-      (defun cogent/helm-rg-switch-vert-command ()
-        (interactive)
-        (with-helm-alive-p
-          (helm-exit-and-execute-action #'cogent/helm-rg-switch-vert)))
-      (defun cogent/helm-rg-switch-horiz-command ()
-        (interactive)
-        (with-helm-alive-p
-          (helm-exit-and-execute-action #'cogent/helm-rg-switch-horiz)))
+    ;; helm-rg defines the source when it's loaded, so we can add the action
+    ;; right away
+    (helm-add-action-to-source
+     "Open in horizontal split `C-s'" #'cogent/helm-rg-switch-horiz
+     helm-rg-process-source)
+    (helm-add-action-to-source
+     "Open in vertical split `C-v'" #'cogent/helm-rg-switch-vert
+     helm-rg-process-source)
 
-      (general-def helm-rg-map
-        "C-s" #'cogent/helm-rg-switch-horiz-command
-        "C-v" #'cogent/helm-rg-switch-vert-command))
+    (defun cogent/helm-rg-switch-vert-command ()
+      (interactive)
+      (with-helm-alive-p
+        (helm-exit-and-execute-action #'cogent/helm-rg-switch-vert)))
+    (defun cogent/helm-rg-switch-horiz-command ()
+      (interactive)
+      (with-helm-alive-p
+        (helm-exit-and-execute-action #'cogent/helm-rg-switch-horiz)))
+
+    (general-def helm-rg-map
+      "C-s" #'cogent/helm-rg-switch-horiz-command
+      "C-v" #'cogent/helm-rg-switch-vert-command))
 #+end_src
 
 ** Projectile: File finder
@@ -364,7 +366,7 @@ For files like HTML and stuff .. I think
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
   (global-hl-line-mode 1) ;; Highlight the current line
-  ;; (set-face-background 'hl-line (face-attribute 'mode-line :background))
+  (set-face-background 'hl-line (face-attribute 'mode-line :background))
 #+end_src
 *** Color support
 #+begin_src emacs-lisp
