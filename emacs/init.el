@@ -33,6 +33,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("8f5a7a9a3c510ef9cbb88e600c0b4c53cdcdb502cfe3eb50040b7e13c6f4e78e" "0685ffa6c9f1324721659a9cd5a8931f4bb64efae9ce43a3dba3801e9412b4d8" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default))
+ '(flycheck-posframe-border-width 10)
+ '(flycheck-posframe-error-prefix "■ ")
+ '(flycheck-posframe-info-prefix "■ ")
+ '(flycheck-posframe-prefix "■ ")
+ '(flycheck-posframe-warning-prefix "■ ")
  '(helm-minibuffer-history-key "M-p")
  '(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
