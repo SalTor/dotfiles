@@ -47,6 +47,9 @@
  ;; If there is more than one, they won't work right.
  '(flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
  '(flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories flycheck-locate-config-file-by-path))
+ '(flycheck-posframe-background-face ((t nil)))
+ '(flycheck-posframe-border-face ((t (:foreground "light green"))))
+ '(flycheck-posframe-info-face ((t (:inherit flycheck-posframe-face :foreground "SpringGreen2"))))
  '(helm-rg-file-match-face ((t (:foreground "MediumOrchid1"))))
  '(variable-pitch ((t (:family "Cantarell")))))
 
