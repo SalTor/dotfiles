@@ -38,12 +38,18 @@
  '(flycheck-posframe-info-prefix "■ ")
  '(flycheck-posframe-prefix "■ ")
  '(flycheck-posframe-warning-prefix "■ ")
+ '(helm-candidate-number-limit 200)
  '(helm-minibuffer-history-key "M-p")
+ '(helm-rg-thing-at-point nil)
+ '(helm-split-window-default-side 'below)
  '(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
+ '(lsp-enable-symbol-highlighting nil)
+ '(lsp-ui-sideline-actions-icon nil)
  '(package-selected-packages
    '(vimish-fold visual-fill-column python-mode helm-lsp evil-collection json-mode general org org-bullets orgit origami markdown-mode helm-rg yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode helm-projectile ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js helm exec-path-from-shell evil-visual-mark-mode company))
  '(savehist-mode t)
+ '(show-trailing-whitespace t)
  '(treemacs-no-png-images t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -56,7 +62,7 @@
  '(flycheck-posframe-border-face ((t (:foreground "light green"))))
  '(flycheck-posframe-info-face ((t (:inherit flycheck-posframe-face :foreground "SpringGreen2"))))
  '(helm-rg-file-match-face ((t (:foreground "MediumOrchid1"))))
- '(variable-pitch ((t (:family "Cantarell")))))
+ '(lsp-details-face ((t (:inherit shadow :height 0.8 :family "Source Code Pro")))))
 
 ;;; Above this point, don't edit
 

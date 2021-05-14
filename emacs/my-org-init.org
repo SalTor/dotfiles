@@ -356,15 +356,42 @@ For files like HTML and stuff .. I think
   (projectile-mode +1))
 #+end_src
 
-** Treemacs: Sidebar project explorer
+** Sidebar project explorer
 
 #+begin_src emacs-lisp
-(use-package treemacs
-  :config
-  (setq treemacs-follow-mode nil
-        treemacs-tag-follow-mode nil))
-(use-package treemacs-projectile)
-(use-package treemacs-evil)
+  ;; (use-package treemacs
+  ;;   :config
+  ;;   (setq treemacs-follow-mode nil
+  ;;         treemacs-tag-follow-mode nil))
+  ;; (use-package treemacs-projectile)
+  ;; (use-package treemacs-evil)
+  (use-package neotree
+    ;; :commands neotree-make-executor
+    :config
+    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
+          neo-hide-cursor t
+          neo-window-width 30
+          projectile-switch-project-action 'neotree-projectile-action)
+    :general
+    (:states 'normal
+             :keymaps 'neotree-mode-map
+             "md" 'neotree-delete-node
+             "ma" 'neotree-create-node
+             "mm" 'neotree-rename-node
+             "R" 'neotree-refresh
+             "RET" 'neotree-enter
+             "?" 'describe-mode
+             "H" 'neotree-hidden-file-toggle
+             "q" 'neotree-hide
+             "u" 'neotree-select-up-node))
+
+  ;; (add-hook 'neotree-mode-hook
+  ;;           (lambda ()
+  ;;             (define-key evil-normal-state-local-map (kbd "p") 'neotree-quick-look)
+  ;;             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+  ;;             (define-key evil-normal-state-local-map (kbd "RET") 'my-neotree-enter)
+  ;;             (define-key evil-normal-state-local-map (kbd "g") 'neotree-refresh)
+  ;;             (define-key evil-normal-state-local-map (kbd "H") 'neotree-hidden-file-toggle)))
 #+end_src
 
 ** Visual goodness
@@ -377,24 +404,31 @@ For files like HTML and stuff .. I think
 #+end_src
 *** Color support
 #+begin_src emacs-lisp
-(use-package eterm-256color
-  :hook (term-mode . eterm-256color-mode))
+  (use-package eterm-256color
+    :hook (term-mode . eterm-256color-mode))
+
+  ;; (use-package rainbow-mode) ;; Show hex colors as colors!
+
+  ;; (add-hook 'css-mode-hook 'my-rainbow-mode-hook)
+  ;; (add-hook 'web-mode-hook 'my-rainbow-mode-hook)
+  ;; (defun my-rainbow-mode-hook ()
+  ;;   (rainbow-mode 1))
 #+end_src
 *** Theme: DOOM
 The doom themes are pretty cool
 
 #+begin_src emacs-lisp
-    (use-package all-the-icons)
+  (use-package all-the-icons)
 
-    (use-package doom-themes
-      :config
-      (defvar doom-themes-treemacs-theme "doom-colors")
-      (load-theme 'doom-gruvbox t)
-      (doom-themes-visual-bell-config)
-      :custom
-      (doom-gruvbox-dark-variant "medium"))
+  (use-package doom-themes
+    :config
+    (defvar doom-themes-treemacs-theme "doom-colors")
+    (load-theme 'doom-gruvbox t)
+    (doom-themes-visual-bell-config)
+    :custom
+    (doom-gruvbox-dark-variant "medium"))
 
-    (use-package doom-modeline :init (doom-modeline-mode 1))
+  (use-package doom-modeline :init (doom-modeline-mode 1))
 #+end_src
 *** Show open buffers as tabs!
 #+begin_src emacs-lisp
@@ -446,121 +480,123 @@ The doom themes are pretty cool
 ** EVIL mode ! >:)
 
 #+begin_src emacs-lisp
-    (use-package evil
-        :init
-        (setq evil-want-keybinding nil)
-        (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
-        :custom
-        (evil-want-C-u-scroll t)
-        (evil-want-Y-yank-to-eol t)
-        (evil-undo-system 'undo-tree)
-        :config
-        (evil-set-initial-state 'Custom-mode 'normal)
-        (evil-set-initial-state 'messages-buffer-mode 'normal)
-        (evil-set-initial-state 'dashboard-mode 'normal)
-        (evil-mode 1))
-
-    ;; Make sure evil bindings work in all emacs windows
-    (use-package evil-collection :after evil)
-    (when (require 'evil-collection nil t)
-        (evil-collection-init))
-
-    (define-key evil-normal-state-map (kbd "U") 'evil-redo)
-
-    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-
-    (define-key evil-normal-state-map (kbd "U") 'evil-redo)
-
-    (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
-    (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
-
-    (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
-
-    (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
-    (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
-    (define-key evil-normal-state-map (kbd "C-n") 'next-error)
-    (define-key evil-normal-state-map (kbd "C-p") 'previous-error)
-
-    (define-key key-translation-map (kbd "SPC x") 'helm-M-x)
-    (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
-
-    (use-package evil-leader
-        :config (global-evil-leader-mode))
-
-    ;; Leader key
-    (evil-leader/set-leader "SPC")
-
-    (evil-leader/set-key "qq" 'save-buffer-kill-terminal)
-
-    (evil-leader/set-key
-        "u" 'universal-argument)
-
-    ;; Window
-    (evil-leader/set-key
-        "wr" 'evil-window-rotate-upwards
-        "w/" 'evil-window-vsplit
-        "w-" 'evil-window-split
-        "wh" 'evil-window-left
-        "wj" 'evil-window-down
-        "wk" 'evil-window-up
-        "wl" 'evil-window-right)
-
-    ;; Comments
-    (evil-leader/set-key
-        "cc" 'comment-line)
-    (evil-leader/set-key-for-mode
-        'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
-
-    ;; Project
-    (evil-leader/set-key
-        "ps" 'centaur-tabs-switch-group
-        "po" 'projectile-switch-project)
-
-    ;; Search
-    (evil-leader/set-key
-        "sp" 'projectile-ripgrep "")
-
-    ;; File
-    (evil-leader/set-key
-        "fe" 'treemacs
-        "fj" 'treemacs-find-file
-        "fr" 'rename-file
-        "f5" 'load-file
-        "fs" 'save-buffer)
-
-    ;; Buffer
-    (evil-leader/set-key
-        "wq" 'delete-window
-        "h" 'help-command
-        "bd" 'kill-this-buffer
-        "," 'helm-projectile
-        ";" 'helm-mini
-        "TAB" 'evil-switch-to-windows-last-buffer)
-
-    (use-package evil-nerd-commenter)
-
-    (use-package evil-surround :config (global-evil-surround-mode 1))
-
-    (use-package evil-goggles
+  (use-package evil
+      :init
+      (setq evil-want-keybinding nil)
+      (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
       :custom
-      (evil-goggles-change-face ((t (:inherit diff-removed))))
-      (evil-goggles-default-face ((t (:inherit 'helm-header-line-left-margin))))
-      (evil-goggles-delete-face ((t (:inherit diff-removed))))
-      (evil-goggles-paste-face ((t (:inherit diff-added))))
-      (evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
-      (evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
-      (evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
-      (evil-goggles-yank-face ((t (:inherit tool-bar))))
+      (evil-want-C-u-scroll t)
+      (evil-want-Y-yank-to-eol t)
+      (evil-undo-system 'undo-tree)
       :config
-      (evil-goggles-mode)
-      (setq evil-goggles-duration 0.500
-            evil-goggles-blocking-duration 0.001
-            evil-goggles-async-duration 0.900
-            evil-goggles-enable-paste nil
-            evil-goggles-enable-delete nil))
+      (evil-set-initial-state 'Custom-mode 'normal)
+      (evil-set-initial-state 'messages-buffer-mode 'normal)
+      (evil-set-initial-state 'dashboard-mode 'normal)
+      (evil-mode 1))
+
+  ;; Make sure evil bindings work in all emacs windows
+  (use-package evil-collection :after evil)
+  (when (require 'evil-collection nil t)
+      (evil-collection-init))
+
+  (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+
+  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+  (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+
+  (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
+  (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
+
+  (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
+
+  (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
+  (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
+  (define-key evil-normal-state-map (kbd "C-n") 'next-error)
+  (define-key evil-normal-state-map (kbd "C-p") 'previous-error)
+
+  (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+
+  (use-package evil-leader
+      :config (global-evil-leader-mode))
+
+  ;; Leader key
+  (evil-leader/set-leader "SPC")
+
+  (evil-leader/set-key "x" 'helm-M-x)
+
+  (evil-leader/set-key "qq" 'save-buffer-kill-terminal)
+
+  (evil-leader/set-key
+      "u" 'universal-argument)
+
+  ;; Window
+  (evil-leader/set-key
+      "wr" 'evil-window-rotate-upwards
+      "w/" 'evil-window-vsplit
+      "w-" 'evil-window-split
+      "wh" 'evil-window-left
+      "wj" 'evil-window-down
+      "wk" 'evil-window-up
+      "wl" 'evil-window-right)
+
+  ;; Comments
+  (evil-leader/set-key
+      "cc" 'comment-line)
+  (evil-leader/set-key-for-mode
+      'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
+
+  ;; Project
+  (evil-leader/set-key
+      "ps" 'centaur-tabs-switch-group
+      "po" 'projectile-switch-project)
+
+  ;; Search
+  (evil-leader/set-key
+      "sp" 'projectile-ripgrep "")
+
+  ;; File
+  (evil-leader/set-key
+      "fe" 'neotree
+      "fj" 'neotree-find
+      "fr" 'rename-file
+      "f5" 'load-file
+      "fs" 'evil-write-all
+      "f.s" 'save-buffer)
+
+  ;; Buffer
+  (evil-leader/set-key
+      "wq" 'delete-window
+      "h" 'help-command
+      "bd" 'kill-this-buffer
+      "," 'helm-projectile
+      ";" 'helm-mini
+      "TAB" 'evil-switch-to-windows-last-buffer)
+
+  (use-package evil-nerd-commenter)
+
+  (use-package evil-surround :config (global-evil-surround-mode 1))
+
+  (use-package evil-goggles
+    :custom
+    (evil-goggles-change-face ((t (:inherit diff-removed))))
+    (evil-goggles-default-face ((t (:inherit 'helm-header-line-left-margin))))
+    (evil-goggles-delete-face ((t (:inherit diff-removed))))
+    (evil-goggles-paste-face ((t (:inherit diff-added))))
+    (evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+    (evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+    (evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+    (evil-goggles-yank-face ((t (:inherit tool-bar))))
+    :config
+    (evil-goggles-mode)
+    (setq evil-goggles-duration 0.500
+          evil-goggles-blocking-duration 0.001
+          evil-goggles-async-duration 0.900
+          evil-goggles-enable-paste nil
+          evil-goggles-enable-delete nil))
 #+end_src
 
 ** Avy: vim-sneak equivalent
@@ -585,26 +621,26 @@ filtering followed by RET to go there
 [[https://github.com/company-mode/company-quickhelp][Company quickhelp]] adds overlay documentation for the options company provides
 
 #+begin_src emacs-lisp
-(use-package company
+  (use-package company
     :hook (lsp-mode . company-mode)
     :init
     (add-hook 'after-init-hook 'global-company-mode)
     :config
-        (company-tng-mode)
-        (setq company-idle-delay 0
-            company-minimum-prefix-length 1
-            company-selection-wrap-around t))
+    (company-tng-mode)
+    (setq company-idle-delay 0
+          company-minimum-prefix-length 1
+          company-selection-wrap-around t))
 
-(use-package company-box :hook (company-mode . company-box-mode))
+    (use-package company-box :hook (company-mode . company-box-mode))
 
-(use-package pos-tip)
-(use-package company-quickhelp :config (company-quickhelp-mode))
+    (use-package pos-tip)
+    (use-package company-quickhelp :config (company-quickhelp-mode))
 
-(eval-after-load 'company
-'(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+    (eval-after-load 'company
+      '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
-;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
+    ;; aligns annotation to the right hand side
+    (setq company-tooltip-align-annotations t)
 #+end_src
 
 ** Tide: Typescript Interactive Development Environment
@@ -619,10 +655,11 @@ filtering followed by RET to go there
     (eldoc-mode +1)
     (company-mode +1))
 
-;;  (use-package tide
-;;    :after (rjsx-mode company flycheck)
-;;    :init
-;;    :hook (rjsx-mode . setup-tide-mode))
+  ;; (use-package tide
+  ;;   :after (rjsx-mode company flycheck)
+  ;;   :hook (rjsx-mode . setup-tide-mode))
+
+  ;; (add-hook 'typescript-mode-hook #'setup-tide-mode)
 #+end_src
 
 ** Language Server Protocol (LSP)
@@ -655,6 +692,7 @@ use of TIDE but I suspect it will
     :hook
     (lsp-mode . lsp-ui-mode)
     :custom
+    (lsp-ui-sideline-enable nil)
     (lsp-headerline-breadcrumb-enable nil)
     (lsp-enable-completion-at-point t)
     (lsp-auto-execute-action nil)
@@ -667,22 +705,30 @@ use of TIDE but I suspect it will
     :after lsp
     :config
     (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
+
+  ;; consider using https://elpy.readthedocs.io/en/latest/
+  (use-package lsp-python-ms
+    :ensure t
+    :init (setq lsp-python-ms-auto-install-server t)
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-python-ms)
+                           (lsp))))  ; or lsp-deferred
 #+end_src
 
 ** Javascript/Typescript setup
 
 #+begin_src emacs-lisp
-  (setq js2-mode-show-parse-errors nil)
-  (setq js2-mode-show-strict-warnings nil)
+    (setq js2-mode-show-parse-errors nil)
+    (setq js2-mode-show-strict-warnings nil)
 
-  (use-package prettier-js
-    :after (rjsx-mode)
-    :hook (rjsx-mode . prettier-js-mode))
+    (use-package prettier-js
+      :after (rjsx-mode)
+      :hook (rjsx-mode . prettier-js-mode))
 
-  (use-package typescript-mode
-    :mode "\\.js\\'"
-    :mode "\\.ts\\'"
-    :hook (typescript-mode . lsp-deferred))
+    (use-package typescript-mode
+      :mode "\\.js\\'"
+      :mode "\\.ts\\'"
+      :hook (typescript-mode . lsp-deferred))
 #+end_src
 
 *** Support for .jsx/.tsx files
