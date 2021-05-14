@@ -60,17 +60,19 @@ My configurations!
 ** Some basic level stuff
 
 #+begin_src emacs-lisp
-  (setq create-lockfiles nil) ;; Don't create lockfiles
   (setq byte-compile-warnings '(cl-functions)) ;; Supposed to suppress warnings about cl being deprecated
+  (setq create-lockfiles nil) ;; Don't create lockfiles
+  (setq auto-save-default nil) ;; Don't auto save
   (setq backup-directory-alist '(("." . "~/.config/emacs/.saves"))) ;; Backup files in ~/.saves
   (setq evil-want-keybinding nil) ;; Evil collection requirement
   (save-place-mode 1)     ;; Remember where you were last in a file
-  (electric-pair-mode 1)  ;; Match brackets and other stuff when typing
+  (electric-pair-mode 1)  ;; Match brackets and other stuff when typing. Another alternative: https://github.com/Fuco1/smartparens
   (tool-bar-mode -1)      ;; Hide toolbar
   (menu-bar-mode -1)      ;; Hide menubar
   (scroll-bar-mode -1)    ;; Hide scrollbar
   (column-number-mode)    ;; Show column number in addition to line number
   (show-paren-mode 1)     ;; When on a bracket, highlight its matching one
+  (defalias 'yes-or-no-p #'y-or-n-p) ;; Replace yes-no questions with y-n questions
   (setq inhibit-startup-message t) ;; Hide start message
   (setq-default indent-tabs-mode nil) ;; Don't use tabs
   (setq-default tab-width 4) ;; Tab key should generate 4 spaces
@@ -185,6 +187,7 @@ Sync up the path used with what's from my default shell .. I think
 
   ;; use eslint with rjsx-mode for (j|t)sx? files
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
 
   ;; customize flycheck temp file prefix
   (setq-default flycheck-temp-prefix ".flycheck")
@@ -215,6 +218,8 @@ For files like HTML and stuff .. I think
     :config
     (helm-file-preview-mode 1))
 
+  (use-package helm-themes)
+
   (use-package helm
     :config
     (helm-mode 1)
@@ -223,8 +228,6 @@ For files like HTML and stuff .. I think
     (helm-autoresize-mode t)
     (helm-autoresize-max-height 50)
     (helm-autoresize-min-height 50)
-    (helm-completion-style 'emacs)
-    (helm-minibuffer-history-key "M-p")
     ;; ... some other stuff
     ;; Enable opening helm results in splits
     (cl-macrolet
@@ -420,7 +423,7 @@ The doom themes are pretty cool
 	dashboard-center-content nil
 	dashboard-set-navigator t
         dashboard-set-file-icons t)
-  (setq dashboard-items '((recents  . 5)
+  (setq dashboard-items '((recents  . 10)
                         (bookmarks . 5)
                         (projects . 5)))
   (dashboard-setup-startup-hook))
@@ -433,8 +436,11 @@ The doom themes are pretty cool
 [[https://github.com/gregsexton/origami.el][Origami]] is for evil mode's folding capabilities
 
 #+begin_src emacs-lisp
-(use-package undo-tree)
-(use-package origami :config (global-origami-mode))
+  (use-package undo-tree)
+  (use-package origami :config (global-origami-mode))
+  (use-package drag-stuff
+    :config
+    (drag-stuff-mode t))
 #+end_src
 
 ** EVIL mode ! >:)
