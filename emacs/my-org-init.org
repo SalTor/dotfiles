@@ -248,7 +248,7 @@ For files with HTML
 (use-package web-mode)
 #+end_src
 
-** Helm: List fuzzy filtering
+** Interactive interface for completion
 
 #+begin_src emacs-lisp
   (use-package ivy
