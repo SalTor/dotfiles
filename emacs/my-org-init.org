@@ -495,6 +495,11 @@ The doom themes are pretty cool
     ;; "wU" 'winner-redo
     )
 
+  (evil-leader/set-key-for-mode
+    'org-mode "es" 'org-edit-special)
+
+  (evil-leader/set-key "eq" 'org-edit-src-exit)
+
   ;; Comments
   (evil-leader/set-key
     "cc" 'comment-line)
