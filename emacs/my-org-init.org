@@ -514,7 +514,6 @@ The doom themes are pretty cool
   ;; Search
   (evil-leader/set-key
     "sp" 'counsel-projectile-rg
-    "ss" 'avy-goto-char-2
     "sf" 'swiper)
 
   (defun show-file-name ()
