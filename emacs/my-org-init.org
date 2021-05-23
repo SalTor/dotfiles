@@ -400,12 +400,6 @@ The doom themes are pretty cool
     (centaur-tabs-group-by-projectile-project)
     (centaur-tabs-mode t))
 #+end_src
-*** Navigate windows
-#+begin_src emacs-lisp
-  (use-package winum
-    :config
-    (winum-mode))
-#+end_src
 ** Dashboard for opening projects / bookmarks / MRU
 
 #+begin_src emacs-lisp
@@ -490,15 +484,6 @@ The doom themes are pretty cool
 
   ;; Window
   (evil-leader/set-key
-    "w1" 'winum-select-window-1
-    "w2" 'winum-select-window-2
-    "w3" 'winum-select-window-3
-    "w4" 'winum-select-window-4
-    "w5" 'winum-select-window-5
-    "w6" 'winum-select-window-6
-    "w7" 'winum-select-window-7
-    "w8" 'winum-select-window-8
-    "w9" 'winum-select-window-9
     "wr" 'evil-window-rotate-upwards
     "w/" 'evil-window-vsplit
     "w-" 'evil-window-split
