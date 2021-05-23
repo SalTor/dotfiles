@@ -477,7 +477,7 @@ The doom themes are pretty cool
 
   (evil-leader/set-key "x" 'counsel-M-x)
 
-  (evil-leader/set-key "qq" 'save-buffer-kill-terminal)
+  (evil-leader/set-key "qq" 'save-buffers-kill-terminal)
 
   (evil-leader/set-key
     "u" 'universal-argument)
