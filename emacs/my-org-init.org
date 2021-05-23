@@ -123,6 +123,9 @@ after using vim for three years
 
   ;; Enable having frames for UI
   (use-package posframe)
+
+  ;; Anchor helm so it doesn't scroll the page when it opens
+  (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
 #+end_src
 
 Some utility functions used later on in other functions
@@ -718,6 +721,8 @@ use of TIDE but I suspect it will
 
   (use-package lsp-treemacs
     :after lsp)
+
+  (use-package helm)
 
   (use-package helm-lsp
     :after lsp
