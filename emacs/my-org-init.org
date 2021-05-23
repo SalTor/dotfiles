@@ -603,17 +603,17 @@ The doom themes are pretty cool
 ** Helpful post-evil stuff
    #+begin_src emacs-lisp
 
-  (use-package hydra
-    :defer t)
+     (use-package hydra
+       :defer t)
 
-  (defhydra hydra-text-scale (:timeout 4)
-    "scale text"
-    ("j" text-scale-increase "in")
-    ("k" text-scale-decrease "out")
-    ("f" nil "finished" :exit t))
+     (defhydra hydra-text-scale (:timeout 4)
+       "scale text"
+       ("j" text-scale-increase "in")
+       ("k" text-scale-decrease "out")
+       ("f" nil "finished" :exit t))
 
-  (efs/leader-keys
-    "ts" '(hydra-text-scale/body :which-key "scale text"))
+     (efs/leader-keys
+       "ts" '(hydra-text-scale/body :which-key "scale text"))
    #+end_src
 
 ** Avy: vim-sneak equivalent
