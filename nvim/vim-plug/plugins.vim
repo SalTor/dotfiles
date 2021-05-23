@@ -47,6 +47,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'sheerun/vim-wombat-scheme'
+    Plug 'folke/lsp-colors.nvim'
 
     " Nice to have
     Plug 'christoomey/vim-system-copy'  " -

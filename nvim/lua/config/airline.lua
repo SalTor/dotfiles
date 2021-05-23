@@ -30,7 +30,8 @@ vim.g.airline_symbols = {
     keymap = 'Keymap:',
     ellipsis = '...',
     branch = '',
-    whitespace = '☲'
+    whitespace = '☲',
+    colnr = 'ln'
 }
 vim.g.airline_filetype_overrides = {
     startify = {'', ''},
@@ -38,6 +39,7 @@ vim.g.airline_filetype_overrides = {
 
 vim.g['airline#extensions#term#enabled'] = true
 vim.g['airline#extensions#nerdtree_status'] = false
+vim.g['airline#extensions#scrollbar#enabled'] = false
 
 vim.cmd [[
     function! GetWinnrSymbol(...) abort

@@ -54,34 +54,78 @@ after using vim for three years
 
 
 * Config
+** Keybinding utils
 
-My configurations!
+#+begin_src emacs-lisp
+  (use-package general
+    :after evil
+    :config
+    (general-create-definer efs/leader-keys
+      :keymaps '(normal insert visual emacs)
+      :prefix "SPC"
+      :global-prefix "C-SPC")
 
+    (efs/leader-keys
+      "t"  '(:ignore t :which-key "toggles")
+      "tc" '(counsel-load-theme :which-key "choose theme")))
+#+end_src
 ** Some basic level stuff
 
 #+begin_src emacs-lisp
-  (setq byte-compile-warnings '(cl-functions)) ;; Supposed to suppress warnings about cl being deprecated
-  (setq create-lockfiles nil) ;; Don't create lockfiles
-  (setq auto-save-default nil) ;; Don't auto save
-  (setq backup-directory-alist '(("." . "~/.config/emacs/.saves"))) ;; Backup files in ~/.saves
-  (setq evil-want-keybinding nil) ;; Evil collection requirement
-  (save-place-mode 1)     ;; Remember where you were last in a file
-  (electric-pair-mode 1)  ;; Match brackets and other stuff when typing. Another alternative: https://github.com/Fuco1/smartparens
-  (tool-bar-mode -1)      ;; Hide toolbar
-  (menu-bar-mode -1)      ;; Hide menubar
-  (scroll-bar-mode -1)    ;; Hide scrollbar
-  (column-number-mode)    ;; Show column number in addition to line number
-  (show-paren-mode 1)     ;; When on a bracket, highlight its matching one
-  (defalias 'yes-or-no-p #'y-or-n-p) ;; Replace yes-no questions with y-n questions
-  (setq inhibit-startup-message t) ;; Hide start message
-  (setq-default indent-tabs-mode nil) ;; Don't use tabs
-  (setq-default tab-width 4) ;; Tab key should generate 4 spaces
+  ;; Suppress warnings about cl being deprecated
+  (setq byte-compile-warnings '(cl-functions))
+
+  ;; Don't create lockfiles
+  (setq create-lockfiles nil)
+
+  ;; Don't auto save
+  (setq auto-save-default nil)
+
+  ;; Backup files in ~/.saves
+  (setq backup-directory-alist '(("." . "~/.config/emacs/.saves")))
+
+  ;; Font
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+
+  ;; Remember where you were last in a file
+  (save-place-mode 1)
+
+  ;; Match brackets and other stuff when typing. Another alternative: https://github.com/Fuco1/smartparens
+  (electric-pair-mode 1)
+
+  (tool-bar-mode -1)   ;; Hide toolbar
+  (menu-bar-mode -1)   ;; Hide menubar
+  (scroll-bar-mode -1) ;; Hide scrollbar
+
+  ;; Show column number in addition to line number
+  (column-number-mode)
+
+  ;; When on a bracket, highlight its matching one
+  (show-paren-mode 1)
+
+  ;; Replace yes-no questions with y-n questions
+  (defalias 'yes-or-no-p #'y-or-n-p)
+
+  ;; Hide start message
+  (setq inhibit-startup-message t)
+
+  ;; Don't indent with tabs
+  (setq-default indent-tabs-mode nil)
+
+  ;; Tab key should generate 4 spaces
+  (setq-default tab-width 4)
+
   (setq indent-line-function 'insert-tab)
+
+  ;; Maximize screen size at start
+  (custom-set-variables
+      '(initial-frame-alist (quote ((fullscreen . maximized)))))
+
+  ;; Enable having frames for UI
   (use-package posframe)
-  (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4))) ;; Make it so helm-M-x and similar helm methods don't raise the file buffer and instead overlay
 #+end_src
 
-Some utility functions used later on functions
+Some utility functions used later on in other functions
 
 #+begin_src emacs-lisp
   (defun insert-line-below ()
@@ -99,39 +143,37 @@ Some utility functions used later on functions
       (open-line 1)))
 #+end_src
 
-** Fonts!
-
+** Helpful stuff
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-#+end_src
-
-** Full screen
-
-#+begin_src emacs-lisp
-  (custom-set-variables
-      '(initial-frame-alist (quote ((fullscreen . maximized)))))
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key)
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
 #+end_src
 
 ** Garbage collection + startup time report
 #+begin_src emacs-lisp
-;; The default is 800 kilobytes.  Measured in bytes.
-(setq gc-cons-threshold (* 50 1000 1000))
+  ;; The default is 800 kilobytes.  Measured in bytes.
+  (setq gc-cons-percentage 0.6)
+  (setq gc-cons-threshold most-positive-fixnum)
 
-(defun display-startup-time ()
-    "Display startup time."
-    (message "Emacs loaded in %s with %d garbage collections."
-            (format "%.2f seconds"
-                    (float-time
-                    (time-subtract after-init-time before-init-time)))
-            gcs-done))
+  (defun display-startup-time ()
+      "Display startup time."
+      (message "Emacs loaded in %s with %d garbage collections."
+              (format "%.2f seconds"
+                      (float-time
+                      (time-subtract after-init-time before-init-time)))
+              gcs-done))
 
-(add-hook 'emacs-startup-hook #'display-startup-time)
+  (add-hook 'emacs-startup-hook #'display-startup-time)
 #+end_src
-** Keybinding utils
 
-#+begin_src emacs-lisp
-(use-package general)
-#+end_src
 ** Whichkey for showing keybindings
 
 #+begin_src emacs-lisp
@@ -200,171 +242,95 @@ Sync up the path used with what's from my default shell .. I think
 
 ** Web mode
 
-For files like HTML and stuff .. I think
+For files with HTML
 
 #+begin_src emacs-lisp
 (use-package web-mode)
-(require 'web-mode)
 #+end_src
 
 ** Helm: List fuzzy filtering
 
 #+begin_src emacs-lisp
-  (use-package helm-projectile
+  (use-package ivy
     :config
-    (helm-projectile-on))
+    (ivy-mode)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-initial-inputs-alist nil) ;; no regexp by default
+    (setq ivy-re-builders-alist ;; configure regexp engine.
+          '((t   . ivy--regex-ignore-order))) ;; allow input not in order
+    :bind (("C-s" . swiper)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-alt-done)
+           ("C-l" . ivy-alt-done)
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           :map ivy-switch-buffer-map
+           ("C-k" . ivy-previous-line)
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           :map ivy-reverse-i-search-map
+           ("C-k" . ivy-previous-line)
+           ("C-d" . ivy-reverse-i-search-kill)))
 
-  (use-package helm-file-preview
+  (use-package all-the-icons-ivy
+    :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+
+  (use-package all-the-icons-ivy-rich
+    :ensure t
+    :init (all-the-icons-ivy-rich-mode 1))
+
+  (use-package ivy-rich
+    :after ivy
     :config
-    (helm-file-preview-mode 1))
+    (setq ivy-virtual-abbreviate 'abbreviate
+          ivy-rich-path-style 'abbrev)
+    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+    (ivy-rich-mode 1))
 
-  (use-package helm-themes)
-
-  (use-package helm
-    :config
-    (helm-mode 1)
+  (use-package ivy-prescient
+    :after counsel
     :custom
-    (helm-always-two-windows t)
-    (helm-autoresize-mode t)
-    (helm-autoresize-max-height 50)
-    (helm-autoresize-min-height 50)
-    ;; ... some other stuff
-    ;; Enable opening helm results in splits
-    (cl-macrolet
-        ((make-splitter-fn (name open-fn split-fn)
-                           `(defun ,name (_candidate)
-                              ;; Display buffers in new windows
-                              (dolist (cand (helm-marked-candidates))
-                                (select-window (,split-fn))
-                                (,open-fn cand))
-                              ;; Adjust size of windows
-                              (balance-windows)))
-         (generate-helm-splitter-funcs
-          (op-type open-fn)
-          (let* ((prefix (concat "helm-" op-type "-switch-"))
-                 (vert-split (intern (concat prefix "vert-window")))
-                 (horiz-split (intern (concat prefix "horiz-window"))))
-            `(progn
-               (make-splitter-fn ,vert-split ,open-fn split-window-right)
-
-               (make-splitter-fn ,horiz-split ,open-fn split-window-below)
-
-               (defun ,(intern (concat "helm-" op-type "-switch-vert-window-command"))
-                   ()
-                 (interactive)
-                 (with-helm-alive-p
-                   (helm-exit-and-execute-action (quote ,vert-split))))
-
-               (defun ,(intern (concat "helm-" op-type "-switch-horiz-window-command"))
-                   ()
-                 (interactive)
-                 (with-helm-alive-p
-                   (helm-exit-and-execute-action (quote ,horiz-split))))))))
-
-      (generate-helm-splitter-funcs "buffer" switch-to-buffer)
-      (generate-helm-splitter-funcs "file" find-file)
-
-      ;; install the actions for helm-find-files after that source is
-      ;; inited, which fortunately has a hook
-      (add-hook
-       'helm-find-files-after-init-hook
-       (lambda ()
-         (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
-                                    #'helm-file-switch-vert-window
-                                    helm-source-find-files)
-         (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
-                                    #'helm-file-switch-horiz-window
-                                    helm-source-find-files)))
-
-      ;; ditto for helm-projectile; that defines the source when loaded, so we can
-      ;; just eval-after-load
-      (with-eval-after-load "helm-projectile"
-        (helm-add-action-to-source "Display file(s) in new vertical split(s) `C-v'"
-                                   #'helm-file-switch-vert-window
-                                   helm-source-projectile-files-list)
-        (helm-add-action-to-source "Display file(s) in new horizontal split(s) `C-s'"
-                                   #'helm-file-switch-horiz-window
-                                   helm-source-projectile-files-list))
-
-      ;; ...but helm-buffers defines the source by calling an init function, but doesn't
-      ;; have a hook, so we use advice to add the actions after that init function
-      ;; is called
-      (defun cogent/add-helm-buffer-actions (&rest _args)
-        (helm-add-action-to-source "Display buffer(s) in new vertical split(s) `C-v'"
-                                   #'helm-buffer-switch-vert-window
-                                   helm-source-buffers-list)
-        (helm-add-action-to-source "Display buffer(s) in new horizontal split(s) `C-s'"
-                                   #'helm-buffer-switch-horiz-window
-                                   helm-source-buffers-list))
-      (advice-add 'helm-buffers-list--init :after #'cogent/add-helm-buffer-actions))
-    :general
-    (:keymaps 'helm-buffer-map
-              "C-v" #'helm-buffer-switch-vert-window-command
-              "C-s" #'helm-buffer-switch-horiz-window-command)
-    (:keymaps 'helm-projectile-find-file-map
-              "C-v" #'helm-file-switch-vert-window-command
-              "C-s" #'helm-file-switch-horiz-window-command)
-    (:keymaps 'helm-find-files-map
-              "C-v" #'helm-file-switch-vert-window-command
-              "C-s" #'helm-file-switch-horiz-window-command))
-
-  (use-package helm-rg
+    (ivy-prescient-enable-filtering nil)
     :config
-    (defun cogent/switch-to-buffer-split-vert (name)
-      (select-window (split-window-right))
-      (switch-to-buffer name))
-    (defun cogent/switch-to-buffer-split-horiz (name)
-      (select-window (split-window-below))
-      (switch-to-buffer name))
+    (prescient-persist-mode 1) ;; Remember sorting across sessions
+    (ivy-prescient-mode 1))
 
-    (defun cogent/helm-rg-switch-vert (parsed-output &optional highlight-matches)
-      (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-vert))
-        (helm-rg--async-action parsed-output highlight-matches)))
-    (defun cogent/helm-rg-switch-horiz (parsed-output &optional highlight-matches)
-      (let ((helm-rg-display-buffer-normal-method #'cogent/switch-to-buffer-split-horiz))
-        (helm-rg--async-action parsed-output highlight-matches)))
-
-    ;; helm-rg defines the source when it's loaded, so we can add the action
-    ;; right away
-    (helm-add-action-to-source
-     "Open in horizontal split `C-s'" #'cogent/helm-rg-switch-horiz
-     helm-rg-process-source)
-    (helm-add-action-to-source
-     "Open in vertical split `C-v'" #'cogent/helm-rg-switch-vert
-     helm-rg-process-source)
-
-    (defun cogent/helm-rg-switch-vert-command ()
-      (interactive)
-      (with-helm-alive-p
-        (helm-exit-and-execute-action #'cogent/helm-rg-switch-vert)))
-    (defun cogent/helm-rg-switch-horiz-command ()
-      (interactive)
-      (with-helm-alive-p
-        (helm-exit-and-execute-action #'cogent/helm-rg-switch-horiz)))
-
-    (general-def helm-rg-map
-      "C-s" #'cogent/helm-rg-switch-horiz-command
-      "C-v" #'cogent/helm-rg-switch-vert-command))
+  (use-package counsel
+    :bind (("C-M-j" . 'counsel-switch-buffer)
+           :map minibuffer-local-map
+           ("C-r" . 'counsel-minibuffer-history))
+    :custom
+    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+    :config
+    (counsel-mode 1))
 #+end_src
 
 ** Projectile: File finder
 
 #+begin_src emacs-lisp
-(use-package projectile
-  :config
-  (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
-  (projectile-mode +1))
+  (use-package projectile
+    :diminish projectile-mode
+    :custom ((projectile-completion-system 'ivy))
+    :config
+    (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+    (projectile-mode))
+
+  (use-package counsel-projectile
+    :after projectile
+    :config (counsel-projectile-mode))
+
+  (use-package ibuffer-projectile)
+  (add-hook 'ibuffer-hook
+      (lambda ()
+        (ibuffer-projectile-set-filter-groups)
+        (unless (eq ibuffer-sorting-mode 'alphabetic)
+          (ibuffer-do-sort-by-alphabetic))))
 #+end_src
 
 ** Sidebar project explorer
 
 #+begin_src emacs-lisp
-  ;; (use-package treemacs
-  ;;   :config
-  ;;   (setq treemacs-follow-mode nil
-  ;;         treemacs-tag-follow-mode nil))
-  ;; (use-package treemacs-projectile)
-  ;; (use-package treemacs-evil)
   (use-package neotree
     ;; :commands neotree-make-executor
     :config
@@ -384,14 +350,6 @@ For files like HTML and stuff .. I think
              "H" 'neotree-hidden-file-toggle
              "q" 'neotree-hide
              "u" 'neotree-select-up-node))
-
-  ;; (add-hook 'neotree-mode-hook
-  ;;           (lambda ()
-  ;;             (define-key evil-normal-state-local-map (kbd "p") 'neotree-quick-look)
-  ;;             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-  ;;             (define-key evil-normal-state-local-map (kbd "RET") 'my-neotree-enter)
-  ;;             (define-key evil-normal-state-local-map (kbd "g") 'neotree-refresh)
-  ;;             (define-key evil-normal-state-local-map (kbd "H") 'neotree-hidden-file-toggle)))
 #+end_src
 
 ** Visual goodness
@@ -404,9 +362,6 @@ For files like HTML and stuff .. I think
 #+end_src
 *** Color support
 #+begin_src emacs-lisp
-  (use-package eterm-256color
-    :hook (term-mode . eterm-256color-mode))
-
   ;; (use-package rainbow-mode) ;; Show hex colors as colors!
 
   ;; (add-hook 'css-mode-hook 'my-rainbow-mode-hook)
@@ -445,7 +400,12 @@ The doom themes are pretty cool
     (centaur-tabs-group-by-projectile-project)
     (centaur-tabs-mode t))
 #+end_src
-
+*** Navigate windows
+#+begin_src emacs-lisp
+  (use-package winum
+    :config
+    (winum-mode))
+#+end_src
 ** Dashboard for opening projects / bookmarks / MRU
 
 #+begin_src emacs-lisp
@@ -481,31 +441,26 @@ The doom themes are pretty cool
 
 #+begin_src emacs-lisp
   (use-package evil
-      :init
-      (setq evil-want-keybinding nil)
-      (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
-      :custom
-      (evil-want-C-u-scroll t)
-      (evil-want-Y-yank-to-eol t)
-      (evil-undo-system 'undo-tree)
-      :config
-      (evil-set-initial-state 'Custom-mode 'normal)
-      (evil-set-initial-state 'messages-buffer-mode 'normal)
-      (evil-set-initial-state 'dashboard-mode 'normal)
-      (evil-mode 1))
+    :init
+    (setq evil-want-keybinding nil)
+    (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
+    :custom
+    (evil-want-C-u-scroll t)
+    (evil-want-Y-yank-to-eol t)
+    (evil-undo-system 'undo-tree)
+    :config
+    (evil-set-initial-state 'Custom-mode 'normal)
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal)
+    (evil-mode 1))
 
   ;; Make sure evil bindings work in all emacs windows
+  (setq evil-want-keybinding nil) ;; Evil collection requirement
   (use-package evil-collection :after evil)
   (when (require 'evil-collection nil t)
-      (evil-collection-init))
+    (evil-collection-init))
 
-  (define-key evil-normal-state-map (kbd "U") 'evil-redo)
-
-  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-
+  ;; mappings
   (define-key evil-normal-state-map (kbd "U") 'evil-redo)
 
   (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
@@ -521,60 +476,112 @@ The doom themes are pretty cool
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
   (use-package evil-leader
-      :config (global-evil-leader-mode))
+    :config (global-evil-leader-mode))
 
   ;; Leader key
   (evil-leader/set-leader "SPC")
 
-  (evil-leader/set-key "x" 'helm-M-x)
+  (evil-leader/set-key "x" 'counsel-M-x)
 
   (evil-leader/set-key "qq" 'save-buffer-kill-terminal)
 
   (evil-leader/set-key
-      "u" 'universal-argument)
+    "u" 'universal-argument)
 
   ;; Window
   (evil-leader/set-key
-      "wr" 'evil-window-rotate-upwards
-      "w/" 'evil-window-vsplit
-      "w-" 'evil-window-split
-      "wh" 'evil-window-left
-      "wj" 'evil-window-down
-      "wk" 'evil-window-up
-      "wl" 'evil-window-right)
+    "w1" 'winum-select-window-1
+    "w2" 'winum-select-window-2
+    "w3" 'winum-select-window-3
+    "w4" 'winum-select-window-4
+    "w5" 'winum-select-window-5
+    "w6" 'winum-select-window-6
+    "w7" 'winum-select-window-7
+    "w8" 'winum-select-window-8
+    "w9" 'winum-select-window-9
+    "wr" 'evil-window-rotate-upwards
+    "w/" 'evil-window-vsplit
+    "w-" 'evil-window-split
+    "wh" 'evil-window-left
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wl" 'evil-window-right
+    ;; "wu" 'winner-undo
+    ;; "wU" 'winner-redo
+    )
 
   ;; Comments
   (evil-leader/set-key
-      "cc" 'comment-line)
+    "cc" 'comment-line)
   (evil-leader/set-key-for-mode
-      'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
+    'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
 
   ;; Project
   (evil-leader/set-key
-      "ps" 'centaur-tabs-switch-group
-      "po" 'projectile-switch-project)
+    "ps" 'centaur-tabs-switch-group
+    "po" 'projectile-switch-project)
 
   ;; Search
   (evil-leader/set-key
-      "sp" 'projectile-ripgrep "")
+    "sp" 'counsel-projectile-rg
+    "ss" 'avy-goto-char-2
+    "sf" 'swiper)
+
+  (defun show-file-name ()
+    "Show the full path file name in the minibuffer."
+    (interactive)
+    (message (buffer-file-name))
+    (kill-new (file-truename buffer-file-name)))
 
   ;; File
   (evil-leader/set-key
-      "fe" 'neotree
-      "fj" 'neotree-find
-      "fr" 'rename-file
-      "f5" 'load-file
-      "fs" 'evil-write-all
-      "f.s" 'save-buffer)
+    "fe" 'neotree
+    "fj" 'neotree-find
+    "fr" 'rename-file
+    "f5" 'load-file
+    "fs" 'evil-write-all
+    "fy" 'show-file-name
+    "f.f" 'dired-jump
+    "f.s" 'save-buffer)
+
+  (use-package dired
+    :ensure nil
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump))
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-single-up-directory
+      (kbd "RET" ) 'dired-single-buffer
+      "l" 'dired-single-buffer
+      ))
+
+  (use-package dired-single
+    :commands (dired dired-jump))
+
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
+
+  (use-package dired-open
+    :commands (dired dired-jump)
+    :config
+    ;; Doesn't work as expected!
+    ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+    (setq dired-open-extensions '(("png" . "feh")
+                                  ("mkv" . "mpv"))))
 
   ;; Buffer
   (evil-leader/set-key
-      "wq" 'delete-window
-      "h" 'help-command
-      "bd" 'kill-this-buffer
-      "," 'helm-projectile
-      ";" 'helm-mini
-      "TAB" 'evil-switch-to-windows-last-buffer)
+    "wq" 'delete-window
+    "h" 'help-command
+    "bd" 'kill-this-buffer
+    "," 'counsel-projectile-find-file
+    ";" 'counsel-switch-buffer
+    "TAB" 'evil-switch-to-windows-last-buffer)
+
+  (global-set-key (kbd "C-;") 'counsel-switch-buffer)
+
+  (evil-leader/set-key
+    "tt" 'vterm)
 
   (use-package evil-nerd-commenter)
 
@@ -599,6 +606,22 @@ The doom themes are pretty cool
           evil-goggles-enable-delete nil))
 #+end_src
 
+** Helpful post-evil stuff
+   #+begin_src emacs-lisp
+
+  (use-package hydra
+    :defer t)
+
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("j" text-scale-increase "in")
+    ("k" text-scale-decrease "out")
+    ("f" nil "finished" :exit t))
+
+  (efs/leader-keys
+    "ts" '(hydra-text-scale/body :which-key "scale text"))
+   #+end_src
+
 ** Avy: vim-sneak equivalent
 
 Quickly navigate anywhere in the visible file with 2 character
@@ -610,6 +633,7 @@ filtering followed by RET to go there
         (avy-all-windows nil))
     (define-key evil-normal-state-map (kbd "s") 'avy-goto-char-2-below)
     (define-key evil-normal-state-map (kbd "S") 'avy-goto-char-2-above)
+    (define-key evil-visual-state-map (kbd "s") 'avy-goto-char-2)
 #+end_src
 
 ** Company: Auto-complete goodness
@@ -726,7 +750,6 @@ use of TIDE but I suspect it will
       :hook (rjsx-mode . prettier-js-mode))
 
     (use-package typescript-mode
-      :mode "\\.js\\'"
       :mode "\\.ts\\'"
       :hook (typescript-mode . lsp-deferred))
 #+end_src
@@ -735,7 +758,7 @@ use of TIDE but I suspect it will
 
 #+begin_src emacs-lisp
   (use-package rjsx-mode
-    :mode ("\\.jsx\\'$" . rjsx-mode)
+    :mode ("\\.jsx?\\$" . rjsx-mode)
     :mode ("\\.tsx\\'$" . rjsx-mode)
     :hook (rjsx-mode . lsp-deferred))
 #+end_src
@@ -765,4 +788,29 @@ made available to you, make use of it!
 
   (evil-leader/set-key
     "gs" 'magit-status)
+#+end_src
+
+** Terminal mode
+#+begin_src emacs-lisp
+  ;; (use-package term
+  ;;   :ensure nil
+  ;;   :config
+  ;;   (setq explicit-shell-file-name "zsh"))
+
+  (use-package vterm
+    :commands vterm
+    :config
+    (setq vterm-max-scrollback 10000))
+
+  (use-package eterm-256color
+    :hook (term-mode . eterm-256color-mode))
+#+end_src
+
+** Window management
+#+begin_src emacs-lisp
+  (use-package perspective
+    :custom
+    (persp-state-default-file t)
+    :config
+    (persp-mode))
 #+end_src

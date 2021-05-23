@@ -11,6 +11,7 @@ export BASE16_SHELL=$HOME/.config/base16-shell/
 export VIM_PLUG_CONFIG=$HOME/.config/nvim/plug-config/
 export NVIM=$HOME/.config/nvim/
 
+export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/Cellar/python@3.7/3.7.9/bin/python3.7
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/bin
