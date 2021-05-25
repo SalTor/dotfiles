@@ -62,6 +62,7 @@
  '(savehist-mode t)
  '(show-trailing-whitespace nil)
  '(treemacs-no-png-images t))
+ '(vterm-buffer-name "*vterm*")
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
