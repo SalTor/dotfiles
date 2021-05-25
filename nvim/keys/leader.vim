@@ -181,6 +181,11 @@ let s:leader_map['w'] = {
     \ '=': 'equalize',
     \ 'w': 'last-window',
     \ }
+    nnoremap <silent> <Leader>wh <C-w>h
+    nnoremap <silent> <Leader>wl <C-w>l
+    nnoremap <silent> <Leader>wj <C-w>j
+    nnoremap <silent> <Leader>wk <C-w>k
+
     nnoremap <silent> <Leader>wq :q<CR>
     nnoremap <silent> <Leader>ww <C-w>w
     nnoremap <silent> <Leader>w/ :vsp<CR>
@@ -188,10 +193,6 @@ let s:leader_map['w'] = {
     nnoremap <silent> <Leader>wo :call saltor#functions#MaximizeToggle()<CR>
     nnoremap <silent> <Leader>wr <C-w>r
     nnoremap <silent> <Leader>w= <C-w>=
-    nnoremap <silent> <C-h> <C-w>h
-    nnoremap <silent> <C-l> <C-w>l
-    nnoremap <silent> <C-j> <C-w>j
-    nnoremap <silent> <C-k> <C-w>k
 
 " * Miscellaneous
 let s:leader_map['q'] = {
