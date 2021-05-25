@@ -2,7 +2,6 @@
 #+author: Me. Your friendly neighborhood web developer
 
 * Learnings
-
 Here is a list of stuff I set out to learn as I began using emacs
 after using vim for three years
 
@@ -278,7 +277,16 @@ Sync up the path used with what's from my default shell .. I think
 For files with HTML
 
 #+begin_src emacs-lisp
-(use-package web-mode)
+  (use-package web-mode)
+
+  (use-package emmet-mode
+    :hook ((css-mode . emmet-mode)
+           (scss-mode . emmet-mode)
+           (web-mode . emmet-mode)
+           (rjsx-mode . (lambda ()
+                          (emmet-mode)
+                          (setq-local emmet-expand-jsx-className? t) ;; default nil
+                          ))))
 #+end_src
 
 ** Interactive interface for completion
@@ -517,6 +525,7 @@ The doom themes are pretty cool
 
   ;; Window
   (evil-leader/set-key
+    "wo" 'other-window
     "wr" 'evil-window-rotate-upwards
     "w/" 'evil-window-vsplit
     "w-" 'evil-window-split
