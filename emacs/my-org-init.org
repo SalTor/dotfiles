@@ -655,7 +655,16 @@ The doom themes are pretty cool
        ("f" nil "finished" :exit t))
 
      (efs/leader-keys
-       "ts" '(hydra-text-scale/body :which-key "scale text"))
+       "tf" '(hydra-text-scale/body :which-key "scale text"))
+
+     (defhydra hydra-scroll-page (:timeout 4)
+       "scroll the page"
+       ("k" evil-scroll-up "up")
+       ("j" evil-scroll-down "down")
+       ("f" nil "finished" :exit t))
+
+     (efs/leader-keys
+       "ts" '(hydra-scroll-page/body :which-key "scroll page"))
    #+end_src
 
 ** Avy: vim-sneak equivalent
