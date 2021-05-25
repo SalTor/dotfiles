@@ -843,12 +843,3 @@ made available to you, make use of it!
   (use-package eterm-256color
     :hook (term-mode . eterm-256color-mode))
 #+end_src
-
-** Window management
-#+begin_src emacs-lisp
-  (use-package perspective
-    :custom
-    (persp-state-default-file t)
-    :config
-    (persp-mode))
-#+end_src
