@@ -724,11 +724,7 @@ filtering followed by RET to go there
     (eldoc-mode +1)
     (company-mode +1))
 
-  ;; (use-package tide
-  ;;   :after (rjsx-mode company flycheck)
-  ;;   :hook (rjsx-mode . setup-tide-mode))
-
-  ;; (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
 #+end_src
 
 ** Language Server Protocol (LSP)
