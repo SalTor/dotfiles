@@ -835,11 +835,6 @@ made available to you, make use of it!
 
 ** Terminal mode
 #+begin_src emacs-lisp
-  ;; (use-package term
-  ;;   :ensure nil
-  ;;   :config
-  ;;   (setq explicit-shell-file-name "zsh"))
-
   (use-package vterm
     :commands vterm
     :config
