@@ -61,8 +61,9 @@
  '(persp-state-default-file "~/.config/emacs/persp-mode-save" nil nil "Customized with use-package perspective")
  '(savehist-mode t)
  '(show-trailing-whitespace nil)
- '(treemacs-no-png-images t))
+ '(treemacs-no-png-images t)
  '(vterm-buffer-name "*vterm*")
+ '(vterm-buffer-name-string "vterm %s"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
