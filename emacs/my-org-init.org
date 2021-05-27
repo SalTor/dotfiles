@@ -393,15 +393,6 @@ For files with HTML
   (global-hl-line-mode 1) ;; Highlight the current line
   (set-face-background 'hl-line (face-attribute 'mode-line :background))
 #+end_src
-*** Color support
-#+begin_src emacs-lisp
-  ;; (use-package rainbow-mode) ;; Show hex colors as colors!
-
-  ;; (add-hook 'css-mode-hook 'my-rainbow-mode-hook)
-  ;; (add-hook 'web-mode-hook 'my-rainbow-mode-hook)
-  ;; (defun my-rainbow-mode-hook ()
-  ;;   (rainbow-mode 1))
-#+end_src
 *** Theme: DOOM
 The doom themes are pretty cool
 
