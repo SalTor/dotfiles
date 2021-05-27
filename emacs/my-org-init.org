@@ -223,9 +223,6 @@ Some utility functions used later on in other functions
     (org-startup-folded 'content)
     :config
     (setq org-ellipsis " ▾"))
-
-  (use-package org-bullets
-    :hook (org-mode . org-bullets-mode))
 #+end_src
 ** Terminal buffer goodness
 
