@@ -736,7 +736,7 @@ use of TIDE but I suspect it will
     :hook
     (lsp-mode . lsp-ui-mode)
     :custom
-    (lsp-ui-sideline-enable nil)
+    ;; (lsp-ui-sideline-enable nil)
     (lsp-headerline-breadcrumb-enable nil)
     (lsp-enable-completion-at-point t)
     (lsp-auto-execute-action nil)
