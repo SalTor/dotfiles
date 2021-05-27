@@ -1,5 +1,7 @@
 set termguicolors
 
+let g:sal_use_telescope = 0
+
 source $NVIM/general/settings.vim
 source $NVIM/vim-plug/plugins.vim
 

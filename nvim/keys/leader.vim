@@ -3,11 +3,11 @@ let g:mapleader = ' '
 let s:leader_map = {}
 let s:leader_map['name'] = 'root'
 
-nnoremap <silent> <Leader> :<c-u>WhichKey '<Space>'<CR>
+nnoremap <Leader> :<c-u>WhichKey '<Space>'<CR>
 
 for s:i in range(1, 9)
     let s:leader_map[s:i] = 'window-'.s:i
-    execute 'nnoremap <silent> <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
+    execute 'nnoremap <Leader>'.s:i ' :'.s:i.'wincmd w<CR>'
 endfor
 
 " Misc / one character
@@ -15,8 +15,13 @@ let s:leader_map['<Tab>'] = 'alternate-file'
 let s:leader_map[';'] = 'fzf-buffers'
 let s:leader_map[','] = 'file-finder'
 nnoremap <Leader><Tab> <C-^>
-nnoremap <silent> <Leader>; :Buffers<CR>
-nnoremap <silent> <Leader>, :call saltor#functions#file_finder()<CR>
+if g:sal_use_telescope == 1
+    nnoremap <Leader>; :Telescope buffers<CR>
+    nnoremap <Leader>, :Telescope find_files<CR>
+else
+    nnoremap <Leader>; :Buffers<CR>
+    nnoremap <Leader>, :call saltor#functions#file_finder()<CR>
+endif
 
 let s:leader_map['h'] = {
     \ 'name': '+help',
@@ -24,11 +29,16 @@ let s:leader_map['h'] = {
     \ 'x': '<Plug>(fzf-maps-x)',
     \ 'o': '<Plug>(fzf-maps-o)',
     \ }
-nnoremap <silent> <Leader>hh :Helptags<CR>
-nmap <Leader>hn <Plug>(fzf-maps-n)
-nnoremap <Leader>hi :call fzf#vim#maps('i', 0)<CR>
-nnoremap <Leader>hx :call fzf#vim#maps('x', 0)<CR>
-nnoremap <Leader>ho :call fzf#vim#maps('o', 0)<CR>
+if g:sal_use_telescope
+    nnoremap <Leader>hh :Telescope help_tags<CR>
+    nnoremap <Leader>hn :Telescope keymaps<CR>
+else
+    nnoremap <Leader>hh :Helptags<CR>
+    nmap <Leader>hn <Plug>(fzf-maps-n)
+    nnoremap <Leader>hi :call fzf#vim#maps('i', 0)<CR>
+    nnoremap <Leader>hx :call fzf#vim#maps('x', 0)<CR>
+    nnoremap <Leader>ho :call fzf#vim#maps('o', 0)<CR>
+endif
 
 " Applications
 let s:leader_map['a'] = {
@@ -54,8 +64,8 @@ let s:leader_map['a'] = {
         \ 'l': [':SLoad'         , 'load-session'],
         \ },
     \ }
-    nnoremap <silent> <Leader>api :so $MYVIMRC<CR>:PlugInstall<CR>
-    nnoremap <silent> <Leader>apc :so $MYVIMRC<CR>:PlugClean<CR>
+    nnoremap <Leader>api :so $MYVIMRC<CR>:PlugInstall<CR>
+    nnoremap <Leader>apc :so $MYVIMRC<CR>:PlugClean<CR>
 
 " Buffer / Tabs
 let s:leader_map['b'] = {
@@ -64,7 +74,7 @@ let s:leader_map['b'] = {
     \ 'h': [':Startify'      , 'home-buffer'],
     \ ';': [':Buffers'       , 'list-buffers']
     \ }
-    nnoremap <silent> <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+    nnoremap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 
 let s:leader_map['c'] = {
     \ 'name': '+comments',
@@ -81,7 +91,7 @@ let s:leader_map['C'] = {
     \ 'l': [':Colors', 'list'],
     \ 'r': 'refresh',
     \ }
-    nnoremap <silent> <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>:echo 'Syntax Refreshed'<CR>
+    nnoremap <Leader>Cr :diffupdate<CR>:syntax sync fromstart<CR>:echo 'Syntax Refreshed'<CR>
 
 " File
 let s:leader_map['f'] = {
@@ -91,7 +101,7 @@ let s:leader_map['f'] = {
     \     'f': [':call saltor#functions#file_explorer(expand("%:p:h"))', 'fzf-cwd'],
     \     's': [':w', 'save-current-file'],
     \ },
-    \ 'g': [':GFiles?', 'fzf-gfiles?'],
+    \ 'g': 'fzf-gfiles?',
     \ 'e': [':call saltor#mappings#plugin_related#nerdtree_open()', 'nerdtree'],
     \ 'j': [':NERDTreeFind', 'jump-to-current-file'],
     \ '5': [':so %', 'source-file'],
@@ -102,8 +112,13 @@ let s:leader_map['f'] = {
     \ 's': 'save-all-files',
     \ 'y': 'echo-file-path',
     \ }
-    nnoremap <silent> <Leader>fs :w<CR>:wa<CR>
-    nnoremap <silent> <Leader>fy :echo expand('%p')<CR>
+    nnoremap <Leader>fs :w<CR>:wa<CR>
+    nnoremap <Leader>fy :echo expand('%p')<CR>
+    if g:sal_use_telescope
+       nnoremap <Leader>fg :Telescope git_files
+    else
+       nnoremap <Leader>fg :GFiles?<CR>
+    endif
 
 " Quick-fix lists
 let s:leader_map['o'] = {
@@ -111,8 +126,8 @@ let s:leader_map['o'] = {
     \ 'l': 'location-list',
     \ 'q': 'quick-fix-list',
     \ }
-    nnoremap <silent> <Leader>ol :call OpenDiagnostics()<CR>
-    nnoremap <silent> <Leader>oq :copen<CR>
+    nnoremap <Leader>ol :call OpenDiagnostics()<CR>
+    nnoremap <Leader>oq :copen<CR>
 
 function OpenDiagnostics()
     lua vim.lsp.diagnostic.set_loclist()
@@ -139,11 +154,11 @@ let s:leader_map['s'] = {
     \ 'c': 'clear-highlights',
     \ 't': 'find-todos',
     \ }
-    nnoremap <silent> <Leader>sp :DynamicRg<CR>
-    xnoremap <silent> <Leader>sp :lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })<CR>
+    nnoremap <Leader>sp :DynamicRg<CR>
+    xnoremap <Leader>sp :lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })<CR>
 
-    nnoremap <silent> <Leader>sc :nohlsearch<cr>
-    nnoremap <silent> <Leader>st :Rg TODO<CR>
+    nnoremap <Leader>sc :nohlsearch<cr>
+    nnoremap <Leader>st :Rg TODO<CR>
 
     nnoremap <Leader>sf y:%s/<C-R>=expand("<cword>")<CR>//gc<Left><Left><Left>
     xnoremap <Leader>sf y:%s/<C-R>"//gc<Left><Left><Left>
@@ -155,9 +170,9 @@ let s:leader_map['t'] = {
     \ '-': 'new-terminal-horizontal',
     \ 't': 'new-terminal-window',
     \ }
-    nnoremap <silent> <Leader>t/ :vertical Topen<CR><C-w>l:startinsert!<CR>
-    nnoremap <silent> <Leader>t- :belowright Topen<CR><C-w>j:startinsert!<CR>
-    nnoremap <silent> <Leader>tt :Topen<CR>i
+    nnoremap <Leader>t/ :vertical Topen<CR><C-w>l:startinsert!<CR>
+    nnoremap <Leader>t- :belowright Topen<CR><C-w>j:startinsert!<CR>
+    nnoremap <Leader>tt :Topen<CR>i
 
 " Toggle
 let s:leader_map['T'] = {
@@ -166,9 +181,9 @@ let s:leader_map['T'] = {
     \ 'n': 'cycle-line-numbering',
     \ 'c': 'colorcolumn',
     \ }
-    nnoremap <silent> <Leader>Ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
-    nnoremap <silent> <Leader>Tn :call saltor#mappings#leader#cycle_numbering()<CR>
-    nnoremap <silent> <Leader>Tc :call saltor#mappings#leader#cycle_color_column()<CR>
+    nnoremap <Leader>Ts :call saltor#mappings#leader#cycle_spellcheck()<CR>
+    nnoremap <Leader>Tn :call saltor#mappings#leader#cycle_numbering()<CR>
+    nnoremap <Leader>Tc :call saltor#mappings#leader#cycle_color_column()<CR>
 
 " Windows
 let s:leader_map['w'] = {
@@ -181,18 +196,18 @@ let s:leader_map['w'] = {
     \ '=': 'equalize',
     \ 'w': 'last-window',
     \ }
-    nnoremap <silent> <Leader>wh <C-w>h
-    nnoremap <silent> <Leader>wl <C-w>l
-    nnoremap <silent> <Leader>wj <C-w>j
-    nnoremap <silent> <Leader>wk <C-w>k
+    nnoremap <Leader>wh <C-w>h
+    nnoremap <Leader>wl <C-w>l
+    nnoremap <Leader>wj <C-w>j
+    nnoremap <Leader>wk <C-w>k
 
-    nnoremap <silent> <Leader>wq :q<CR>
-    nnoremap <silent> <Leader>ww <C-w>w
-    nnoremap <silent> <Leader>w/ :vsp<CR>
-    nnoremap <silent> <Leader>w- :sp<CR>
-    nnoremap <silent> <Leader>wo :call saltor#functions#MaximizeToggle()<CR>
-    nnoremap <silent> <Leader>wr <C-w>r
-    nnoremap <silent> <Leader>w= <C-w>=
+    nnoremap <Leader>wq :q<CR>
+    nnoremap <Leader>ww <C-w>w
+    nnoremap <Leader>w/ :vsp<CR>
+    nnoremap <Leader>w- :sp<CR>
+    nnoremap <Leader>wo :call saltor#functions#MaximizeToggle()<CR>
+    nnoremap <Leader>wr <C-w>r
+    nnoremap <Leader>w= <C-w>=
 
 " * Miscellaneous
 let s:leader_map['q'] = {
@@ -210,10 +225,10 @@ let s:leader_map['x'] = {
     \ 't': 'make-columns',
     \ 'j': 'format-json',
     \ }
-    xnoremap <silent> <Leader>xs !sort<CR>
-    xnoremap <silent> <Leader>xt :!column -t<CR>
-    nnoremap <silent> <Leader>xt :%!column -t<CR>
-    nnoremap <silent> <Leader>xj :%!python -m json.tool<CR>
+    xnoremap <Leader>xs !sort<CR>
+    xnoremap <Leader>xt :!column -t<CR>
+    nnoremap <Leader>xt :%!column -t<CR>
+    nnoremap <Leader>xj :%!python -m json.tool<CR>
 
 let g:saltor#map#leader#desc = s:leader_map
 call which_key#register('<Space>', 'g:saltor#map#leader#desc')
