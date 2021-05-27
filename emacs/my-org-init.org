@@ -468,7 +468,6 @@ The doom themes are pretty cool
     (evil-undo-system 'undo-tree)
     :config
     (evil-set-initial-state 'Custom-mode 'normal)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal)
     (evil-mode 1))
 
