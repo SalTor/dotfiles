@@ -60,7 +60,8 @@ after using vim for three years
     :after evil
     :config
     (general-create-definer leader-keys
-      :keymaps '(normal insert visual emacs)
+      :states '(normal insert visual emacs)
+      :keymaps 'override
       :prefix "SPC"
       :global-prefix "C-SPC")
 
