@@ -479,6 +479,8 @@ The doom themes are pretty cool
   ;; mappings
   (define-key evil-normal-state-map (kbd "U") 'evil-redo)
 
+  (define-key evil-normal-state-map (kbd "gm") 'evil-search-word-forward)
+
   (define-key evil-visual-state-map (kbd "J") 'drag-stuff-down)
   (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
 
