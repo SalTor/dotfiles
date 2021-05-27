@@ -59,12 +59,12 @@ after using vim for three years
   (use-package general
     :after evil
     :config
-    (general-create-definer efs/leader-keys
+    (general-create-definer leader-keys
       :keymaps '(normal insert visual emacs)
       :prefix "SPC"
       :global-prefix "C-SPC")
 
-    (efs/leader-keys
+    (leader-keys
       "t"  '(:ignore t :which-key "toggles")
       "tc" '(counsel-load-theme :which-key "choose theme")))
 #+end_src
@@ -242,9 +242,9 @@ Sync up the path used with what's from my default shell .. I think
 
   (setq flycheck-javascript-eslint-executable "eslint_d")
 
-  (use-package flycheck-posframe
-    :after flycheck
-    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  ;; (use-package flycheck-posframe
+  ;;   :after flycheck
+  ;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
   ;; Disable jshint in favour of eslint
   (setq-default flycheck-disabled-checkers
@@ -498,15 +498,16 @@ The doom themes are pretty cool
   ;; Leader key
   (evil-leader/set-leader "SPC")
 
-  (evil-leader/set-key "x" 'counsel-M-x)
+  (leader-keys "x" 'counsel-M-x)
 
-  (evil-leader/set-key "qq" 'save-buffers-kill-terminal)
+  (leader-keys "qq" 'save-buffers-kill-terminal)
 
-  (evil-leader/set-key
+  (leader-keys
     "u" 'universal-argument)
 
   ;; Window
-  (evil-leader/set-key
+  (leader-keys
+    "wq" 'delete-window
     "wo" 'other-window
     "wr" 'evil-window-rotate-upwards
     "w/" 'evil-window-vsplit
@@ -522,21 +523,21 @@ The doom themes are pretty cool
   (evil-leader/set-key-for-mode
     'org-mode "es" 'org-edit-special)
 
-  (evil-leader/set-key "eq" 'org-edit-src-exit)
+  (leader-keys "eq" 'org-edit-src-exit)
 
   ;; Comments
-  (evil-leader/set-key
+  (leader-keys
     "cc" 'comment-line)
   (evil-leader/set-key-for-mode
     'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
 
   ;; Project
-  (evil-leader/set-key
+  (leader-keys
     "ps" 'centaur-tabs-switch-group
     "po" 'projectile-switch-project)
 
   ;; Search
-  (evil-leader/set-key
+  (leader-keys
     "sp" 'counsel-projectile-rg
     "sf" 'swiper)
 
@@ -547,7 +548,7 @@ The doom themes are pretty cool
     (kill-new (file-truename buffer-file-name)))
 
   ;; File
-  (evil-leader/set-key
+  (leader-keys
     "fe" 'neotree
     "fj" 'neotree-find
     "fr" 'rename-file
@@ -566,6 +567,7 @@ The doom themes are pretty cool
       "h" 'dired-single-up-directory
       (kbd "RET" ) 'dired-single-buffer
       "l" 'dired-single-buffer
+      ";" 'ibuffer
       ))
 
   (use-package dired-single
@@ -583,17 +585,14 @@ The doom themes are pretty cool
                                   ("mkv" . "mpv"))))
 
   ;; Buffer
-  (evil-leader/set-key
-    "wq" 'delete-window
+  (leader-keys
     "h" 'help-command
     "bd" 'kill-this-buffer
     "," 'counsel-projectile-find-file
-    ";" 'counsel-switch-buffer
+    ";" 'ibuffer
     "TAB" 'evil-switch-to-windows-last-buffer)
 
-  (global-set-key (kbd "C-;") 'counsel-switch-buffer)
-
-  (evil-leader/set-key
+  (leader-keys
     "tt" 'vterm)
 
   (use-package evil-nerd-commenter)
@@ -636,7 +635,7 @@ The doom themes are pretty cool
        ("k" text-scale-decrease "out")
        ("f" nil "finished" :exit t))
 
-     (efs/leader-keys
+     (leader-keys
        "tf" '(hydra-text-scale/body :which-key "scale text"))
 
      (defhydra hydra-scroll-page (:timeout 4)
@@ -645,7 +644,7 @@ The doom themes are pretty cool
        ("j" evil-scroll-down "down")
        ("f" nil "finished" :exit t))
 
-     (efs/leader-keys
+     (leader-keys
        "ts" '(hydra-scroll-page/body :which-key "scroll page"))
    #+end_src
 
@@ -703,10 +702,13 @@ filtering followed by RET to go there
     (tide-setup)
     (flycheck-mode +1)
     (defvar flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
+    (eldoc-mode -1)
     (company-mode +1))
 
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (use-package tide
+    :after (typescript-mode company flycheck)
+    :hook ((typescript-mode . setup-tide-mode)
+           (before-save . tide-format-before-save)))
 #+end_src
 
 ** Language Server Protocol (LSP)
@@ -724,15 +726,9 @@ use of TIDE but I suspect it will
     (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
     (lsp-enable-which-key-integration t))
 
-  (defun sal-lsp-ui-doc-toggle()
-    "Toggle focus and unfocus `lsp-ui-doc-(show|hide)."
-    (interactive)
-    (if (lsp-ui-doc--frame-visible-p) (lsp-ui-doc-hide)
-      (lsp-ui-doc-show)))
-
   (use-package lsp-ui
     :init
-    (evil-leader/set-key "ca" 'helm-lsp-code-actions)
+    (leader-keys "ca" 'helm-lsp-code-actions)
     (evil-normalize-keymaps)
     :config
     (setq lsp-signature-function 'lsp-signature-posframe)
@@ -754,14 +750,6 @@ use of TIDE but I suspect it will
     :after lsp
     :config
     (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
-
-  ;; consider using https://elpy.readthedocs.io/en/latest/
-  (use-package lsp-python-ms
-    :ensure t
-    :init (setq lsp-python-ms-auto-install-server t)
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-python-ms)
-                           (lsp))))  ; or lsp-deferred
 #+end_src
 
 ** Javascript/Typescript setup
@@ -773,17 +761,13 @@ use of TIDE but I suspect it will
     (use-package prettier-js
       :after (rjsx-mode)
       :hook (rjsx-mode . prettier-js-mode))
-
-    (use-package typescript-mode
-      :mode "\\.ts\\'"
-      :hook (typescript-mode . lsp-deferred))
 #+end_src
 
 *** Support for .jsx/.tsx files
 
 #+begin_src emacs-lisp
   (use-package rjsx-mode
-    :mode ("\\.jsx?\\$" . rjsx-mode)
+    :mode ("\\.jsx\\'$" . rjsx-mode)
     :mode ("\\.tsx\\'$" . rjsx-mode)
     :hook (rjsx-mode . lsp-deferred))
 #+end_src
@@ -794,13 +778,43 @@ If you open a file in a project that has a python virtual environment
 made available to you, make use of it!
 
 #+begin_src emacs-lisp
-  (use-package python-mode
-    :hook (python-mode . lsp-deferred))
+  (use-package lsp-python-ms
+    :defer 0.3
+    :init (setq lsp-python-ms-auto-install-server t)
+    :custom (lsp-python-ms-auto-install-server t)
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-python-ms)
+                           (lsp-deferred))))
+
+  (use-package python
+    :delight "π "
+    :bind (("M-[" . python-nav-backward-block)
+           ("M-]" . python-nav-forward-block))
+    :preface
+    (defun python-remove-unused-imports()
+      "Removes unused imports and unused variables with autoflake."
+      (interactive)
+      (if (executable-find "autoflake")
+          (progn
+            (shell-command (format "autoflake --remove-all-unused-imports -i %s"
+                                   (shell-quote-argument (buffer-file-name))))
+            (revert-buffer t t t))
+        (warn "python-mode: Cannot find autoflake executable."))))
+
+
+  (use-package lsp-pyright
+    :if (executable-find "pyright")
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (lsp))))
 
   (use-package pyvenv
-    :after python-mode
-    :config
-    (pyvenv-mode 1))
+    :after python)
+
+  (use-package pipenv
+    :hook (python-mode . pipenv-mode)
+    :init
+    (setq pipenv-projectile-after-switch-function #'pipenv-projectile-after-switch-extended))
 #+end_src
 
 ** Magit - GIT
@@ -811,8 +825,12 @@ made available to you, make use of it!
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-  (evil-leader/set-key
+  (leader-keys
     "gs" 'magit-status)
+
+  (use-package forge
+    :after magit)
+  (setq auth-sources '("~/.authinfo"))
 #+end_src
 
 ** Terminal mode
@@ -853,7 +871,7 @@ made available to you, make use of it!
       (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
       (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
 
-  (evil-leader/set-key
+  (leader-keys
     "t/" (lambda ()
            (interactive)
            (split-window-right)
