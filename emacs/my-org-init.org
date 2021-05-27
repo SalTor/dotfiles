@@ -243,9 +243,9 @@ Sync up the path used with what's from my default shell .. I think
 
   (setq flycheck-javascript-eslint-executable "eslint_d")
 
-  ;; (use-package flycheck-posframe
-  ;;   :after flycheck
-  ;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  (use-package flycheck-posframe
+    :after flycheck
+    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
   ;; Disable jshint in favour of eslint
   (setq-default flycheck-disabled-checkers
