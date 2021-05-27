@@ -404,9 +404,7 @@ The doom themes are pretty cool
     :config
     (defvar doom-themes-treemacs-theme "doom-colors")
     (load-theme 'doom-gruvbox t)
-    (doom-themes-visual-bell-config)
-    :custom
-    (doom-gruvbox-dark-variant "medium"))
+    (doom-themes-visual-bell-config))
 
   (use-package doom-modeline :init (doom-modeline-mode 1))
 #+end_src
