@@ -472,7 +472,10 @@ The doom themes are pretty cool
 
   ;; Make sure evil bindings work in all emacs windows
   (setq evil-want-keybinding nil) ;; Evil collection requirement
-  (use-package evil-collection :after evil)
+  (use-package evil-collection
+    :after evil
+    :custom
+    (evil-collection-want-unimpaired-p nil))
   (when (require 'evil-collection nil t)
     (evil-collection-init))
 
