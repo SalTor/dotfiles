@@ -489,6 +489,8 @@ The doom themes are pretty cool
 
   (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
 
+  (define-key evil-normal-state-map (kbd "[ b") 'centaur-tabs-backward)
+  (define-key evil-normal-state-map (kbd "] b") 'centaur-tabs-forward)
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
   (define-key evil-normal-state-map (kbd "C-n") 'next-error)
