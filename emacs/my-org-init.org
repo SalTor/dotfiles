@@ -262,8 +262,6 @@ Some utility functions used later on in other functions
     :hook (
            (org-mode . efs/org-font-setup)
            (org-mode . sal/org-mode-setup))
-    :custom
-    (org-startup-folded 'content)
     :config
     (setq org-ellipsis " ▾"))
 #+end_src
