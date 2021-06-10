@@ -287,6 +287,14 @@ Sync up the path used with what's from my default shell .. I think
     :after flycheck
     :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
+  (use-package flymake-flycheck
+    :config
+    (setq flymake-diagnostic-functions (flymake-flycheck-all-chained-diagnostic-functions)))
+
+  ;; (use-package flymake-posframe
+  ;;   :load-path "/Users/sal/dotfiles/emacs/external-packages/flymake-posframe/"
+  ;;   :hook (flymake-mode . flymake-posframe-mode))
+
   ;; Disable jshint in favour of eslint
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
