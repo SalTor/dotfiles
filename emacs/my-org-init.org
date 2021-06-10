@@ -379,11 +379,8 @@ For files with HTML
     (ivy-prescient-mode 1))
 
   (use-package counsel
-    :bind (("C-M-j" . 'counsel-switch-buffer)
-           :map minibuffer-local-map
-           ("C-r" . 'counsel-minibuffer-history))
     :custom
-    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+    (counsel-switch-buffer-preview-virtual-buffers nil)
     :config
     (counsel-mode 1))
 #+end_src
