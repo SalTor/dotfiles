@@ -9,7 +9,7 @@
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                        ("org" . "https://orgmode.org/elpa/")
+                        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                         ("elpa" . "https://elpa.gnu.org/packages/")))
 
 ;; Initialize use-package on non-Linux platforms
