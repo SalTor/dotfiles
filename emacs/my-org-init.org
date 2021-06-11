@@ -897,6 +897,9 @@ made available to you, make use of it!
       (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
       (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
 
+  (use-package eterm-256color
+    :hook (term-mode . eterm-256color-mode))
+
   (leader-keys
     "t/" (lambda ()
            (interactive)
@@ -908,9 +911,6 @@ made available to you, make use of it!
            (split-window-below)
            (other-window 1)
            (multi-vterm)))
-
-  (use-package eterm-256color
-    :hook (term-mode . eterm-256color-mode))
 #+end_src
 ** Clipboard management
 #+begin_src emacs-lisp
