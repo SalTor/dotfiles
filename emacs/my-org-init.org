@@ -159,47 +159,20 @@ Some utility functions used later on in other functions
       (end-of-line 0)
       (open-line 1)))
 #+end_src
-** Clipboard management
+** Managing whitespace
+
 #+begin_src emacs-lisp
-  (defun isolate-kill-ring()
-    "Isolate Emacs kill ring from OS X system pasteboard.
-     This function is only necessary in window system."
-    (interactive)
-    (setq interprogram-cut-function nil)
-    (setq interprogram-paste-function nil))
 
-  (defun pasteboard-copy()
-    "Copy region to OS X system pasteboard."
-    (interactive)
-    (shell-command-on-region
-     (region-beginning) (region-end) "pbcopy"))
+  (whitespace-mode)
+  (setq whitespace-style '(face trailing))
 
-  (defun pasteboard-paste()
-    "Paste from OS X system pasteboard via `pbpaste' to point."
-    (interactive)
-    (shell-command-on-region
-     (point) (if mark-active (mark) (point)) "pbpaste" nil t))
+#+end_src
 
-  (defun pasteboard-cut()
-    "Cut region and put on OS X system pasteboard."
-    (interactive)
-    (pasteboard-copy)
-    (delete-region (region-beginning) (region-end)))
+** Buffer management
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-;") 'ibuffer)
+#+end_src
 
-  (if window-system
-      (progn
-        (isolate-kill-ring)
-        ;; bind CMD+C to pasteboard-copy
-        (global-set-key (kbd "s-c") 'pasteboard-copy)
-        ;; bind CMD+V to pasteboard-paste
-        (global-set-key (kbd "s-v") 'pasteboard-paste)
-        ;; bind CMD+X to pasteboard-cut
-        (global-set-key (kbd "s-x") 'pasteboard-cut))
-
-    ;; you might also want to assign some keybindings for non-window
-    ;; system usage (i.e., in your text terminal, where the
-    ;; command->super does not work)
-    )
 #+end_src
 
 ** Helpful stuff
@@ -270,6 +243,7 @@ Some utility functions used later on in other functions
     "Org mode setup."
     (org-indent-mode)
     (auto-fill-mode)
+    (global-linum-mode 0)
     (visual-line-mode 1))
 
   (use-package org
@@ -288,10 +262,12 @@ Sync up the path used with what's from my default shell .. I think
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 #+end_src
-** Flycheck syntax checker tool
+** Flycheck syntax checker tool & Flymake too
 
 #+begin_src emacs-lisp
   (use-package flycheck
+    :init
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
     :config
     (add-hook 'after-init-hook #'global-flycheck-mode))
 
@@ -301,13 +277,9 @@ Sync up the path used with what's from my default shell .. I think
     :after flycheck
     :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
-  (use-package flymake-flycheck
-    :config
-    (setq flymake-diagnostic-functions (flymake-flycheck-all-chained-diagnostic-functions)))
-
-  ;; (use-package flymake-posframe
-  ;;   :load-path "/Users/sal/dotfiles/emacs/external-packages/flymake-posframe/"
-  ;;   :hook (flymake-mode . flymake-posframe-mode))
+  (use-package flymake-posframe
+    :load-path "/Users/sal/dotfiles/emacs/external-packages/flymake-posframe/"
+    :hook (flymake-mode . flymake-posframe-mode))
 
   ;; Disable jshint in favour of eslint
   (setq-default flycheck-disabled-checkers
@@ -388,6 +360,7 @@ For files with HTML
     :after counsel
     :custom
     (ivy-prescient-enable-filtering nil)
+    (ivy-prescient-sort-commands '(:not swiper swiper-isearch ivy-switch-buffer counsel-projectile-find-file))
     :config
     (prescient-persist-mode 1) ;; Remember sorting across sessions
     (ivy-prescient-mode 1))
@@ -443,13 +416,19 @@ For files with HTML
              "u" 'neotree-select-up-node))
 #+end_src
 
-** Visual goodness
+** Visuals
 *** Line numbers + highlight current line
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+  (defun sal-enable-linum ()
+    (interactive)
+    (if (eq nil display-line-numbers)
+        (setq display-line-numbers 'relative)
+      (message "Linum mode set")))
+  (add-hook 'prog-mode-hook 'sal-enable-linum)
 
   (global-hl-line-mode 1) ;; Highlight the current line
-  (set-face-background 'hl-line (face-attribute 'mode-line :background))
+
 #+end_src
 *** Theme: DOOM
 The doom themes are pretty cool
@@ -458,17 +437,23 @@ The doom themes are pretty cool
   (use-package all-the-icons)
 
   (use-package doom-themes
+    :init
+    (setq doom-themes-treemacs-theme "doom-colors")
     :config
-    (defvar doom-themes-treemacs-theme "doom-colors")
     (load-theme 'doom-gruvbox t)
     (doom-themes-visual-bell-config))
 
-  (use-package doom-modeline :init (doom-modeline-mode 1))
+  (use-package doom-modeline
+    :init
+    (doom-modeline-mode 1))
 #+end_src
 *** Show open buffers as tabs!
 #+begin_src emacs-lisp
+
   (use-package centaur-tabs
     :demand
+    :hook
+    (dashboard-mode . centaur-tabs-local-mode)
     :config
     (setq centaur-tabs-set-bar 'under
           x-underline-at-descent-line t
@@ -479,22 +464,31 @@ The doom themes are pretty cool
     (centaur-tabs-headline-match)
     (centaur-tabs-group-by-projectile-project)
     (centaur-tabs-mode t))
+
+#+end_src
+*** Base16 color schemes
+#+begin_src emacs-lisp
+  ;; (use-package base16-theme
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'base16-gruvbox-dark-soft t))
 #+end_src
 ** Dashboard for opening projects / bookmarks / MRU
 
 #+begin_src emacs-lisp
-(use-package dashboard
-  :config
-  (setq dashboard-set-heading-icons t
-	;; dashboard-projects-switch-function 'projectile-switch-project
-	dashboard-startup-banner 'logo
-	dashboard-center-content nil
-	dashboard-set-navigator t
-        dashboard-set-file-icons t)
-  (setq dashboard-items '((recents  . 10)
-                        (bookmarks . 5)
-                        (projects . 5)))
-  (dashboard-setup-startup-hook))
+
+  (use-package dashboard
+    :config
+    (setq dashboard-set-heading-icons t
+          dashboard-startup-banner 'logo
+          dashboard-center-content nil
+          dashboard-set-navigator t
+          dashboard-set-file-icons t)
+    (setq dashboard-items '((recents  . 10)
+                            (bookmarks . 5)
+                            (projects . 5)))
+    (dashboard-setup-startup-hook))
+
 #+end_src
 
 ** Preparation for evil mode
@@ -561,8 +555,11 @@ The doom themes are pretty cool
   (define-key evil-normal-state-map (kbd "] b") 'centaur-tabs-forward)
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
-  (define-key evil-normal-state-map (kbd "C-n") 'next-error)
-  (define-key evil-normal-state-map (kbd "C-p") 'previous-error)
+
+  (define-key evil-normal-state-map (kbd "[ e") 'flycheck-previous-error)
+  (define-key evil-normal-state-map (kbd "] e") 'flycheck-next-error)
+  (evil-define-key 'normal 'global (kbd "C-n") 'flymake-goto-next-error)
+  (evil-define-key 'normal 'global (kbd "C-p") 'flymake-goto-prev-error)
 
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
@@ -594,10 +591,8 @@ The doom themes are pretty cool
     ;; "wU" 'winner-redo
     )
 
-  (evil-leader/set-key-for-mode
-    'org-mode "es" 'org-edit-special)
-
-  (leader-keys "eq" 'org-edit-src-exit)
+  (evil-define-key 'normal 'org-mode-map (kbd "\\ e") 'org-edit-special)
+  (evil-define-key 'normal 'org-mode-map (kbd "\\ q") 'org-edit-src-exit)
 
   ;; Comments
   (leader-keys
@@ -610,10 +605,12 @@ The doom themes are pretty cool
     "ps" 'centaur-tabs-switch-group
     "po" 'projectile-switch-project)
 
+  (use-package consult)
+
   ;; Search
   (leader-keys
     "sp" 'counsel-projectile-rg
-    "sf" 'swiper)
+    "sf" 'consult-line)
 
   (defun show-file-name ()
     "Show the full path file name in the minibuffer."
@@ -637,10 +634,11 @@ The doom themes are pretty cool
     :bind (("C-x C-j" . dired-jump))
     :config
     (evil-collection-define-key 'normal 'dired-mode-map
-      "h" 'dired-single-up-directory
       (kbd "RET" ) 'dired-single-buffer
+      "h" 'dired-single-up-directory
       "l" 'dired-single-buffer
-      ";" 'ibuffer
+      ";" 'ivy-switch-buffer
+      "c" 'find-file
       ))
 
   (use-package dired-single
