@@ -41,6 +41,7 @@
  '(doom-modeline-buffer-file-name-style 'file-name)
  '(eglot-send-changes-idle-time 1)
  '(evil-split-window-below t)
+ '(evil-undo-system 'undo-fu)
  '(evil-vsplit-window-right t)
  '(flycheck-posframe-border-width 10)
  '(flycheck-posframe-error-prefix "■ ")
@@ -61,7 +62,7 @@
  '(lsp-enable-symbol-highlighting nil)
  '(lsp-ui-sideline-actions-icon nil)
  '(package-selected-packages
-   '(magit pyenv-mode volatile-highlights all-the-icons-ivy winum vimish-fold visual-fill-column python-mode evil-collection json-mode general org org-bullets orgit origami markdown-mode yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js exec-path-from-shell evil-visual-mark-mode company))
+   '(consult flymake-flycheck undo-fu flymake-posframe eglot flx wgrep magit pyenv-mode volatile-highlights all-the-icons-ivy winum vimish-fold visual-fill-column python-mode evil-collection json-mode general org org-bullets orgit origami markdown-mode yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js exec-path-from-shell evil-visual-mark-mode company))
  '(persp-set-last-persp-for-new-frames nil)
  '(persp-state-default-file "~/.config/emacs/persp-mode-save" nil nil "Customized with use-package perspective")
  '(savehist-mode t)

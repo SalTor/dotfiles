@@ -490,8 +490,13 @@ The doom themes are pretty cool
 [[https://github.com/gregsexton/origami.el][Origami]] is for evil mode's folding capabilities
 
 #+begin_src emacs-lisp
-  (use-package undo-tree)
-  (use-package origami :config (global-origami-mode))
+  (use-package undo-fu
+    :config
+    (global-undo-tree-mode -1))
+
+  (use-package origami
+    :config (global-origami-mode))
+
   (use-package drag-stuff
     :config
     (drag-stuff-mode t))
@@ -507,7 +512,7 @@ The doom themes are pretty cool
     :custom
     (evil-want-C-u-scroll t)
     (evil-want-Y-yank-to-eol t)
-    (evil-undo-system 'undo-tree)
+    (evil-undo-system 'undo-fu)
     :config
     (evil-set-initial-state 'Custom-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal)
@@ -522,8 +527,14 @@ The doom themes are pretty cool
   (when (require 'evil-collection nil t)
     (evil-collection-init))
 
+  (define-key evil-normal-state-map (kbd "u") 'undo-fu-only-undo)
+  (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
+
   ;; mappings
   (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+
+  (define-key evil-normal-state-map (kbd "C-k") 'centaur-tabs-backward)
+  (define-key evil-normal-state-map (kbd "C-j") 'centaur-tabs-forward)
 
   (define-key evil-normal-state-map (kbd "gm") 'evil-search-word-forward)
 
