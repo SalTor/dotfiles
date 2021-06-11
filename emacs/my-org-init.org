@@ -839,10 +839,6 @@ made available to you, make use of it!
   (leader-keys
     "gs" 'magit-status)
 
-  (use-package forge
-    :after magit)
-  (setq auth-sources '("~/.authinfo"))
-
   (defun kill-magit-diff-buffer-in-current-repo (&rest _)
     "Delete the magit-diff buffer related to the current repo"
     (let ((magit-diff-buffer-in-current-repo
