@@ -666,9 +666,6 @@ The doom themes are pretty cool
     ";" 'ibuffer
     "TAB" 'evil-switch-to-windows-last-buffer)
 
-  (leader-keys
-    "tt" 'vterm)
-
   (use-package evil-nerd-commenter)
 
   (use-package evil-surround :config (global-evil-surround-mode 1))
