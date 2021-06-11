@@ -900,16 +900,27 @@ made available to you, make use of it!
   (use-package eterm-256color
     :hook (term-mode . eterm-256color-mode))
 
+  (defun sal-cd-project-root ()
+    (cd (projectile-project-root)))
+
+  ;; Terminal
   (leader-keys
+    "t" '(:ignore t :which-key "terminal")
+    "tt" (lambda ()
+           (interactive)
+           (sal-cd-project-root)
+           (multi-vterm))
     "t/" (lambda ()
            (interactive)
            (split-window-right)
            (other-window 1)
+           (sal-cd-project-root)
            (multi-vterm))
     "t-" (lambda ()
            (interactive)
            (split-window-below)
            (other-window 1)
+           (sal-cd-project-root)
            (multi-vterm)))
 #+end_src
 ** Clipboard management
