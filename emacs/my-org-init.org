@@ -624,12 +624,11 @@ The doom themes are pretty cool
   ;; File
   (leader-keys
     "fe" 'neotree
-    "fj" 'neotree-find
+    "fj" 'dired-jump
     "fr" 'rename-file
     "f5" 'load-file
     "fs" 'evil-write-all
     "fy" 'show-file-name
-    "f.f" 'dired-jump
     "f.s" 'save-buffer)
 
   (use-package dired
