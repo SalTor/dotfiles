@@ -728,12 +728,17 @@ Quickly navigate anywhere in the visible file with 2 character
 filtering followed by RET to go there
 
 #+begin_src emacs-lisp
-    (use-package avy
-        :custom
-        (avy-all-windows nil))
-    (define-key evil-normal-state-map (kbd "s") 'avy-goto-char-2-below)
-    (define-key evil-normal-state-map (kbd "S") 'avy-goto-char-2-above)
-    (define-key evil-visual-state-map (kbd "s") 'avy-goto-char-2)
+  (use-package avy
+      :custom
+      (avy-all-windows nil))
+
+  (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char-2-below)
+  (evil-define-key 'normal 'global (kbd "S") 'avy-goto-char-2-above)
+  (evil-define-key 'visual 'global (kbd "s") 'avy-goto-char-2)
+
+  (leader-keys
+    "sw" 'avy-goto-word-0-below
+    "Sw" 'avy-goto-word-0-above)
 #+end_src
 
 ** Company: Auto-complete goodness
@@ -833,6 +838,10 @@ made available to you, make use of it!
 #+begin_src emacs-lisp
   (use-package magit
     :commands magit-status
+    :config
+    (setq magit-pull-or-fetch t)
+    (define-key magit-mode-map "f" 'magit-pull)  ; was magit-fetch
+    (define-key magit-mode-map "F" 'magit-fetch) ; was magit-pull
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
