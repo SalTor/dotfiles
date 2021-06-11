@@ -717,6 +717,13 @@ The doom themes are pretty cool
 
      (leader-keys
        "ts" '(hydra-scroll-page/body :which-key "scroll page"))
+
+     (defhydra hydra-emmet (:timeout 4)
+       "interact with emmet"
+       ("," emmet-expand-line "expand line")
+       ("f" nil "finished" :exit t))
+
+     ;; (evil-define-key 'insert 'evil-insert-state-map (kbd "C-y") (hydra-emmet/body :which-key "emmet"))
    #+end_src
 
 ** Avy: vim-sneak equivalent
