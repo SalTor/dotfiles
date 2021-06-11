@@ -663,7 +663,7 @@ The doom themes are pretty cool
     "h" 'help-command
     "bd" 'kill-this-buffer
     "," 'counsel-projectile-find-file
-    ";" 'ibuffer
+    ";" 'ivy-switch-buffer
     "TAB" 'evil-switch-to-windows-last-buffer)
 
   (use-package evil-nerd-commenter)
