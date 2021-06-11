@@ -56,6 +56,13 @@ after using vim for three years
 ** Keybinding utils
 
 #+begin_src emacs-lisp
+
+  (defun sal-switch-linum-mode ()
+    (interactive)
+    (if (eq 'relative display-line-numbers)
+        (setq display-line-numbers 'absolute)
+      (setq display-line-numbers 'relative)))
+
   (use-package general
     :after evil
     :config
@@ -64,14 +71,17 @@ after using vim for three years
       :keymaps 'override
       :prefix "SPC"
       :global-prefix "C-SPC")
+      ;; Toggles
+      (leader-keys
+          "T"  '(:ignore t :which-key "toggles")
+          "Tc" '(counsel-load-theme :which-key "choose theme")
+          "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
 
-    (leader-keys
-      "t"  '(:ignore t :which-key "toggles")
-      "tc" '(counsel-load-theme :which-key "choose theme")))
 #+end_src
 ** Some basic level stuff
 
 #+begin_src emacs-lisp
+
   ;; Suppress warnings about cl being deprecated
   (setq byte-compile-warnings '(cl-functions))
 
@@ -126,6 +136,10 @@ after using vim for three years
 
   ;; Anchor helm so it doesn't scroll the page when it opens
   (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+
+  (global-linum-mode -1)
+  (setq display-line-numbers 'relative)
+
 #+end_src
 
 Some utility functions used later on in other functions
