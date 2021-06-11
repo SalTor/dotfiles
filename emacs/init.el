@@ -59,8 +59,6 @@
      (counsel-yank-pop . 5)
      (counsel-git-log . 4)))
  '(js2-strict-inconsistent-return-warning nil)
- '(lsp-enable-symbol-highlighting nil)
- '(lsp-ui-sideline-actions-icon nil)
  '(package-selected-packages
    '(consult flymake-flycheck undo-fu flymake-posframe eglot flx wgrep magit pyenv-mode volatile-highlights all-the-icons-ivy winum vimish-fold visual-fill-column python-mode evil-collection json-mode general org org-bullets orgit origami markdown-mode yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js exec-path-from-shell evil-visual-mark-mode company))
  '(persp-set-last-persp-for-new-frames nil)

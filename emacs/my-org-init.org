@@ -732,7 +732,6 @@ filtering followed by RET to go there
 
 #+begin_src emacs-lisp
   (use-package company
-    :hook (lsp-mode . company-mode)
     :init
     (add-hook 'after-init-hook 'global-company-mode)
     :config
@@ -753,83 +752,36 @@ filtering followed by RET to go there
     (setq company-tooltip-align-annotations t)
 #+end_src
 
-** Tide: Typescript Interactive Development Environment
-
+** Eglot for IDE LSP experience
 #+begin_src emacs-lisp
-  (defun setup-tide-mode ()
-    "Set up tide."
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (defvar flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-    (company-mode +1))
-
-  (use-package tide
-    :after (typescript-mode company flycheck)
-    :hook ((typescript-mode . setup-tide-mode)
-           (before-save . tide-format-before-save)))
+  (use-package eglot)
 #+end_src
-
-** Language Server Protocol (LSP)
-
-LSP provides an alternative way to provide smart language
-development. It's not clear to me whether using LSP will replace my
-use of TIDE but I suspect it will
-
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :init
-    (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-    :config
-    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
-    (lsp-enable-which-key-integration t))
-
-  (use-package lsp-ui
-    :init
-    (leader-keys "ca" 'helm-lsp-code-actions)
-    (evil-normalize-keymaps)
-    :config
-    (setq lsp-signature-function 'lsp-signature-posframe)
-    :hook
-    (lsp-mode . lsp-ui-mode)
-    :custom
-    ;; (lsp-ui-sideline-enable nil)
-    (lsp-headerline-breadcrumb-enable nil)
-    (lsp-enable-completion-at-point t)
-    (lsp-auto-execute-action nil)
-    (lsp-ui-doc-position 'at-point))
-
-  (use-package lsp-treemacs
-    :after lsp)
-
-  (use-package helm)
-
-  (use-package helm-lsp
-    :after lsp
-    :config
-    (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
-#+end_src
-
 ** Javascript/Typescript setup
 
 #+begin_src emacs-lisp
-    (setq js2-mode-show-parse-errors nil)
-    (setq js2-mode-show-strict-warnings nil)
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
 
-    (use-package prettier-js
-      :after (rjsx-mode)
-      :hook (rjsx-mode . prettier-js-mode))
+  (use-package prettier-js
+    :after (typescript-mode rjsx-mode flycheck)
+    :hook
+    ((typescript-mode rjsx-mode) . prettier-js-mode))
+
+  (use-package eslintd-fix
+    :hook
+    ((typescript-mode rjsx-mode) . eslintd-fix-mode))
 #+end_src
 
-*** Support for .jsx/.tsx files
+*** Support for .jsx?/.tsx? files
 
 #+begin_src emacs-lisp
   (use-package rjsx-mode
-    :mode ("\\.jsx\\'$" . rjsx-mode)
+    :mode ("\\.jsx?\\'$" . rjsx-mode)
     :mode ("\\.tsx\\'$" . rjsx-mode)
-    :hook (rjsx-mode . lsp-deferred))
+    :hook (rjsx-mode . eglot-ensure))
+
+  (use-package typescript-mode
+    :hook (typescript-mode . eglot-ensure))
 #+end_src
 
 ** Python setup
@@ -838,14 +790,6 @@ If you open a file in a project that has a python virtual environment
 made available to you, make use of it!
 
 #+begin_src emacs-lisp
-  (use-package lsp-python-ms
-    :defer 0.3
-    :init (setq lsp-python-ms-auto-install-server t)
-    :custom (lsp-python-ms-auto-install-server t)
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-python-ms)
-                           (lsp-deferred))))
-
   (use-package python
     :delight "π "
     :bind (("M-[" . python-nav-backward-block)
@@ -860,13 +804,6 @@ made available to you, make use of it!
                                    (shell-quote-argument (buffer-file-name))))
             (revert-buffer t t t))
         (warn "python-mode: Cannot find autoflake executable."))))
-
-
-  (use-package lsp-pyright
-    :if (executable-find "pyright")
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp))))
 
   (use-package pyvenv
     :after python)
