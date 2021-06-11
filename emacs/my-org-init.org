@@ -651,10 +651,9 @@ The doom themes are pretty cool
     :hook (dired-mode . all-the-icons-dired-mode))
 
   (use-package dired-open
-    :commands (dired dired-jump)
+    :commands
+    (dired dired-jump)
     :config
-    ;; Doesn't work as expected!
-    ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
     (setq dired-open-extensions '(("png" . "feh")
                                   ("mkv" . "mpv"))))
 
