@@ -73,6 +73,8 @@ after using vim for three years
       :global-prefix "C-SPC")
       ;; Toggles
       (leader-keys
+          "br" 'rename-buffer)
+      (leader-keys
           "T"  '(:ignore t :which-key "toggles")
           "Tc" '(counsel-load-theme :which-key "choose theme")
           "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
@@ -132,7 +134,8 @@ after using vim for three years
       '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
   ;; Enable having frames for UI
-  (use-package posframe)
+  (use-package posframe
+    :defer 1)
 
   ;; Anchor helm so it doesn't scroll the page when it opens
   (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
@@ -170,14 +173,18 @@ Some utility functions used later on in other functions
 
 ** Buffer management
 #+begin_src emacs-lisp
+
   (global-set-key (kbd "C-;") 'ibuffer)
+
 #+end_src
 
 #+end_src
 
 ** Helpful stuff
 #+begin_src emacs-lisp
+
   (use-package helpful
+    :defer 1
     :commands (helpful-callable helpful-variable helpful-command helpful-key)
     :custom
     (counsel-describe-function-function #'helpful-callable)
@@ -187,13 +194,24 @@ Some utility functions used later on in other functions
     ([remap describe-command] . helpful-command)
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
+
 #+end_src
 
 ** Garbage collection + startup time report
 #+begin_src emacs-lisp
+
+  ;; Make startup faster by reducing the frequency of garbage
+  ;; collection.  The default is 800 kilobytes.  Measured in bytes.
+  (setq gc-cons-threshold (* 50 1000 1000))
+
+  ;; The rest of the init file.
+
+  ;; Make gc pauses faster by decreasing the threshold.
+  ;; (setq gc-cons-threshold (* 2 1000 1000))
+
   ;; The default is 800 kilobytes.  Measured in bytes.
-  (setq gc-cons-percentage 0.6)
-  (setq gc-cons-threshold most-positive-fixnum)
+  ;; (setq gc-cons-percentage 0.6)
+  ;; (setq gc-cons-threshold most-positive-fixnum)
 
   (defun display-startup-time ()
       "Display startup time."
@@ -204,16 +222,22 @@ Some utility functions used later on in other functions
               gcs-done))
 
   (add-hook 'emacs-startup-hook #'display-startup-time)
+
 #+end_src
 
 ** Whichkey for showing keybindings
 
 #+begin_src emacs-lisp
-(use-package which-key :config (which-key-mode))
+
+  (use-package which-key
+    :defer 1
+    :config (which-key-mode))
+
 #+end_src
 ** Org mode setup
 
 #+begin_src emacs-lisp
+
   (defun efs/org-font-setup ()
     ;; Set faces for heading levels
     (dolist (face '((org-level-1 . 1.5)
@@ -247,24 +271,29 @@ Some utility functions used later on in other functions
     (visual-line-mode 1))
 
   (use-package org
+    :defer 1
     :hook (
            (org-mode . efs/org-font-setup)
            (org-mode . sal/org-mode-setup))
     :config
     (setq org-ellipsis " ▾"))
+
 #+end_src
 ** Terminal buffer goodness
 
 Sync up the path used with what's from my default shell .. I think
 
 #+begin_src emacs-lisp
-(use-package exec-path-from-shell)
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+
+  (use-package exec-path-from-shell)
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+
 #+end_src
 ** Flycheck syntax checker tool & Flymake too
 
 #+begin_src emacs-lisp
+
   (use-package flycheck
     :init
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -277,18 +306,15 @@ Sync up the path used with what's from my default shell .. I think
     :after flycheck
     :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
-  (use-package flymake-posframe
-    :load-path "/Users/sal/dotfiles/emacs/external-packages/flymake-posframe/"
-    :hook (flymake-mode . flymake-posframe-mode))
-
   ;; Disable jshint in favour of eslint
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(javascript-jshint)))
 
   ;; use eslint with rjsx-mode for (j|t)sx? files
-  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  ;; (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
 
   ;; customize flycheck temp file prefix
   (setq-default flycheck-temp-prefix ".flycheck")
@@ -297,6 +323,7 @@ Sync up the path used with what's from my default shell .. I think
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(json-jsonlist)))
+
 #+end_src
 
 ** Web mode
@@ -304,9 +331,12 @@ Sync up the path used with what's from my default shell .. I think
 For files with HTML
 
 #+begin_src emacs-lisp
-  (use-package web-mode)
+
+  (use-package web-mode
+    :defer 2)
 
   (use-package emmet-mode
+    :defer 2
     :hook ((css-mode . emmet-mode)
            (scss-mode . emmet-mode)
            (web-mode . emmet-mode)
@@ -314,6 +344,7 @@ For files with HTML
                           (emmet-mode)
                           (setq-local emmet-expand-jsx-className? t) ;; default nil
                           ))))
+
 #+end_src
 
 ** Interactive interface for completion
@@ -341,14 +372,19 @@ For files with HTML
            ("C-k" . ivy-previous-line)
            ("C-d" . ivy-reverse-i-search-kill)))
 
-  (use-package all-the-icons-ivy
-    :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+  (use-package all-the-icons)
+
+  (use-package all-the-icons-ibuffer
+    :defer 2
+    :init (all-the-icons-ibuffer-mode 1))
 
   (use-package all-the-icons-ivy-rich
-    :ensure t
+    :defer 2
+    :after ivy-rich
     :init (all-the-icons-ivy-rich-mode 1))
 
   (use-package ivy-rich
+    :defer 2
     :after ivy
     :config
     (setq ivy-virtual-abbreviate 'abbreviate
@@ -357,6 +393,7 @@ For files with HTML
     (ivy-rich-mode 1))
 
   (use-package ivy-prescient
+    :defer 2
     :after counsel
     :custom
     (ivy-prescient-enable-filtering nil)
@@ -390,13 +427,18 @@ For files with HTML
   (add-hook 'ibuffer-hook
       (lambda ()
         (ibuffer-projectile-set-filter-groups)))
+
+  (defun ibuffer-jump-to-last-buffer ()
+    (ibuffer-jump-to-buffer (buffer-name (cadr (buffer-list)))))
+
+  (add-hook 'ibuffer-hook #'ibuffer-jump-to-last-buffer)
 #+end_src
 
 ** Sidebar project explorer
 
 #+begin_src emacs-lisp
   (use-package neotree
-    ;; :commands neotree-make-executor
+    :defer 3
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-hide-cursor t
@@ -434,6 +476,7 @@ For files with HTML
 The doom themes are pretty cool
 
 #+begin_src emacs-lisp
+
   (use-package all-the-icons)
 
   (use-package doom-themes
@@ -446,14 +489,14 @@ The doom themes are pretty cool
   (use-package doom-modeline
     :init
     (doom-modeline-mode 1))
+
 #+end_src
+
 *** Show open buffers as tabs!
+
 #+begin_src emacs-lisp
 
   (use-package centaur-tabs
-    :demand
-    :hook
-    (dashboard-mode . centaur-tabs-local-mode)
     :config
     (setq centaur-tabs-set-bar 'under
           x-underline-at-descent-line t
@@ -465,13 +508,6 @@ The doom themes are pretty cool
     (centaur-tabs-group-by-projectile-project)
     (centaur-tabs-mode t))
 
-#+end_src
-*** Base16 color schemes
-#+begin_src emacs-lisp
-  ;; (use-package base16-theme
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'base16-gruvbox-dark-soft t))
 #+end_src
 ** Dashboard for opening projects / bookmarks / MRU
 
@@ -551,15 +587,13 @@ The doom themes are pretty cool
 
   (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
 
-  (define-key evil-normal-state-map (kbd "[ b") 'centaur-tabs-backward)
-  (define-key evil-normal-state-map (kbd "] b") 'centaur-tabs-forward)
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
 
-  (define-key evil-normal-state-map (kbd "[ e") 'flycheck-previous-error)
-  (define-key evil-normal-state-map (kbd "] e") 'flycheck-next-error)
-  (evil-define-key 'normal 'global (kbd "C-n") 'flymake-goto-next-error)
-  (evil-define-key 'normal 'global (kbd "C-p") 'flymake-goto-prev-error)
+  (define-key evil-normal-state-map (kbd "[ e") 'flymake-goto-prev-error)
+  (define-key evil-normal-state-map (kbd "] e") 'flymake-goto-next-error)
+  (evil-define-key 'normal 'global (kbd "C-p") 'flycheck-previous-error)
+  (evil-define-key 'normal 'global (kbd "C-n") 'flycheck-next-error)
 
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
@@ -694,7 +728,7 @@ The doom themes are pretty cool
    #+begin_src emacs-lisp
 
      (use-package hydra
-       :defer t)
+       :defer 1)
 
      (defhydra hydra-text-scale (:timeout 4)
        "scale text"
@@ -720,6 +754,7 @@ The doom themes are pretty cool
        ("f" nil "finished" :exit t))
 
      ;; (evil-define-key 'insert 'evil-insert-state-map (kbd "C-y") (hydra-emmet/body :which-key "emmet"))
+
    #+end_src
 
 ** Avy: vim-sneak equivalent
@@ -778,6 +813,7 @@ filtering followed by RET to go there
 ** Javascript/Typescript setup
 
 #+begin_src emacs-lisp
+
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
 
@@ -789,18 +825,67 @@ filtering followed by RET to go there
   (use-package eslintd-fix
     :hook
     ((typescript-mode rjsx-mode) . eslintd-fix-mode))
+
 #+end_src
 
 *** Support for .jsx?/.tsx? files
 
 #+begin_src emacs-lisp
-  (use-package rjsx-mode
-    :mode ("\\.jsx?\\'$" . rjsx-mode)
-    :mode ("\\.tsx\\'$" . rjsx-mode)
-    :hook (rjsx-mode . eglot-ensure))
 
-  (use-package typescript-mode
-    :hook (typescript-mode . eglot-ensure))
+  (use-package web-mode
+    :mode (("\\.js\\'" . web-mode)
+       ("\\.jsx\\'" .  web-mode)
+       ("\\.ts\\'" . web-mode)
+       ("\\.tsx\\'" . web-mode)
+       ("\\.html\\'" . web-mode))
+    :commands web-mode)
+
+  ;; lsp-mode
+  (setq lsp-log-io nil) ;; Don't log everything = speed
+  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-restart 'auto-restart)
+  (setq lsp-ui-sideline-show-diagnostics t)
+  (setq lsp-ui-sideline-show-hover t)
+  (setq lsp-ui-sideline-show-code-actions t)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-headerline-breadcrumb-enable nil)
+
+  (evil-define-key 'normal 'lsp-ui-doc-frame-mode
+        [?q] #'lsp-ui-doc-unfocus-frame)
+  (evil-normalize-keymaps)
+
+  (evil-define-key 'normal 'lsp-ui-doc-mode
+        [?K] #'lsp-ui-doc-focus-frame)
+
+  (use-package lsp-mode
+    :config
+    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
+    (lsp-enable-which-key-integration t)
+    :hook (
+       (web-mode . lsp-deferred)
+       (lsp-mode . lsp-enable-which-key-integration)
+       )
+    :commands lsp-deferred)
+
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+
+  (defun enable-minor-mode (my-pair)
+    "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+    (if (buffer-file-name)
+        (if (string-match (car my-pair) buffer-file-name)
+        (funcall (cdr my-pair)))))
+
+  (use-package prettier-js
+    :ensure t)
+  (add-hook 'web-mode-hook #'(lambda ()
+                               (enable-minor-mode
+                                '("\\.jsx?\\'" . prettier-js-mode))
+                   (enable-minor-mode
+                                '("\\.tsx?\\'" . prettier-js-mode))))
+
 #+end_src
 
 ** Python setup
@@ -836,12 +921,9 @@ made available to you, make use of it!
 ** Magit - GIT
 
 #+begin_src emacs-lisp
+
   (use-package magit
     :commands magit-status
-    :config
-    (setq magit-pull-or-fetch t)
-    (define-key magit-mode-map "f" 'magit-pull)  ; was magit-fetch
-    (define-key magit-mode-map "F" 'magit-fetch) ; was magit-pull
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
@@ -862,6 +944,7 @@ made available to you, make use of it!
               (add-hook 'with-editor-post-finish-hook
                         #'kill-magit-diff-buffer-in-current-repo
                         nil t))) ; the t is important
+
 #+end_src
 
 ** Terminal mode
@@ -869,7 +952,10 @@ made available to you, make use of it!
   (use-package vterm
     :commands vterm
     :config
-    (setq vterm-max-scrollback 10000))
+    (setq vterm-max-scrollback 10000)
+    :hook
+    (vterm-mode . (lambda ()
+                    (setq-local global-hl-line-mode nil))))
 
   (use-package multi-vterm
       :config
@@ -903,7 +989,7 @@ made available to you, make use of it!
       (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
 
   (use-package eterm-256color
-    :hook (term-mode . eterm-256color-mode))
+    :hook (vterm-mode . eterm-256color-mode))
 
   (defun sal-cd-project-root ()
     (cd (projectile-project-root)))
