@@ -76,7 +76,6 @@ after using vim for three years
           "br" 'rename-buffer)
       (leader-keys
           "T"  '(:ignore t :which-key "toggles")
-          "Tc" '(counsel-load-theme :which-key "choose theme")
           "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
 
 #+end_src
@@ -137,9 +136,6 @@ after using vim for three years
   (use-package posframe
     :defer 1)
 
-  ;; Anchor helm so it doesn't scroll the page when it opens
-  (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
-
   (global-linum-mode -1)
   (setq display-line-numbers 'relative)
 
@@ -185,15 +181,15 @@ Some utility functions used later on in other functions
 
   (use-package helpful
     :defer 1
-    :commands (helpful-callable helpful-variable helpful-command helpful-key)
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . counsel-describe-function)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
-    ([remap describe-key] . helpful-key))
+    :commands (helpful-callable helpful-variable helpful-command helpful-key))
+
+  ;; Note that the built-in `describe-function' includes both functions
+  ;; and macros. `helpful-function' is functions only, so we provide
+  ;; `helpful-callable' as a drop-in replacement.
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
 
 #+end_src
 
@@ -313,8 +309,9 @@ Sync up the path used with what's from my default shell .. I think
 
   ;; use eslint with rjsx-mode for (j|t)sx? files
   ;; (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
 
   ;; customize flycheck temp file prefix
   (setq-default flycheck-temp-prefix ".flycheck")
@@ -345,68 +342,21 @@ For files with HTML
                           (setq-local emmet-expand-jsx-className? t) ;; default nil
                           ))))
 
+  (use-package rjsx-mode
+    :mode (
+           ("\\.js\\'" . rjsx-mode)
+           ("\\.jsx\\'" .  rjsx-mode)
+           ))
+
 #+end_src
 
 ** Interactive interface for completion
 
 #+begin_src emacs-lisp
-  (use-package ivy
-    :config
-    (ivy-mode)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (setq ivy-initial-inputs-alist nil) ;; no regexp by default
-    (setq ivy-re-builders-alist ;; configure regexp engine.
-          '((t   . ivy--regex-ignore-order))) ;; allow input not in order
-    :bind (("C-s" . swiper)
-           :map ivy-minibuffer-map
-           ("TAB" . ivy-alt-done)
-           ("C-l" . ivy-alt-done)
-           ("C-j" . ivy-next-line)
-           ("C-k" . ivy-previous-line)
-           :map ivy-switch-buffer-map
-           ("C-k" . ivy-previous-line)
-           ("C-l" . ivy-done)
-           ("C-d" . ivy-switch-buffer-kill)
-           :map ivy-reverse-i-search-map
-           ("C-k" . ivy-previous-line)
-           ("C-d" . ivy-reverse-i-search-kill)))
 
-  (use-package all-the-icons)
+  ;; (load-file "~/dotfiles/emacs/conf-ivy.el")
+  (load-file "~/dotfiles/emacs/conf-selectrum.el")
 
-  (use-package all-the-icons-ibuffer
-    :defer 2
-    :init (all-the-icons-ibuffer-mode 1))
-
-  (use-package all-the-icons-ivy-rich
-    :defer 2
-    :after ivy-rich
-    :init (all-the-icons-ivy-rich-mode 1))
-
-  (use-package ivy-rich
-    :defer 2
-    :after ivy
-    :config
-    (setq ivy-virtual-abbreviate 'abbreviate
-          ivy-rich-path-style 'abbrev)
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-    (ivy-rich-mode 1))
-
-  (use-package ivy-prescient
-    :defer 2
-    :after counsel
-    :custom
-    (ivy-prescient-enable-filtering nil)
-    (ivy-prescient-sort-commands '(:not swiper swiper-isearch ivy-switch-buffer counsel-projectile-find-file))
-    :config
-    (prescient-persist-mode 1) ;; Remember sorting across sessions
-    (ivy-prescient-mode 1))
-
-  (use-package counsel
-    :custom
-    (counsel-switch-buffer-preview-virtual-buffers nil)
-    :config
-    (counsel-mode 1))
 #+end_src
 
 ** Projectile: File finder
@@ -414,14 +364,9 @@ For files with HTML
 #+begin_src emacs-lisp
   (use-package projectile
     :diminish projectile-mode
-    :custom ((projectile-completion-system 'ivy))
     :config
     (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
     (projectile-mode))
-
-  (use-package counsel-projectile
-    :after projectile
-    :config (counsel-projectile-mode))
 
   (use-package ibuffer-projectile)
   (add-hook 'ibuffer-hook
@@ -486,9 +431,9 @@ The doom themes are pretty cool
     (load-theme 'doom-gruvbox t)
     (doom-themes-visual-bell-config))
 
-  (use-package doom-modeline
-    :init
-    (doom-modeline-mode 1))
+  ;; (use-package doom-modeline
+  ;;   :init
+  ;;   (doom-modeline-mode 1))
 
 #+end_src
 
@@ -497,6 +442,7 @@ The doom themes are pretty cool
 #+begin_src emacs-lisp
 
   (use-package centaur-tabs
+    :ensure nil
     :config
     (setq centaur-tabs-set-bar 'under
           x-underline-at-descent-line t
@@ -505,8 +451,7 @@ The doom themes are pretty cool
           centaur-tabs-set-modified-marker t
           centaur-tabs-modified-marker "•")
     (centaur-tabs-headline-match)
-    (centaur-tabs-group-by-projectile-project)
-    (centaur-tabs-mode t))
+    (centaur-tabs-group-by-projectile-project))
 
 #+end_src
 ** Dashboard for opening projects / bookmarks / MRU
@@ -549,6 +494,7 @@ The doom themes are pretty cool
 ** EVIL mode ! >:)
 
 #+begin_src emacs-lisp
+
   (use-package evil
     :init
     (setq evil-want-keybinding nil)
@@ -586,6 +532,7 @@ The doom themes are pretty cool
   (define-key evil-visual-state-map (kbd "K") 'drag-stuff-up)
 
   (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
+  (define-key evil-normal-state-map (kbd "gh") 'evil-beginning-of-line)
 
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
@@ -602,8 +549,6 @@ The doom themes are pretty cool
 
   ;; Leader key
   (evil-leader/set-leader "SPC")
-
-  (leader-keys "x" 'counsel-M-x)
 
   (leader-keys "qq" 'save-buffers-kill-terminal)
 
@@ -639,11 +584,12 @@ The doom themes are pretty cool
     "ps" 'centaur-tabs-switch-group
     "po" 'projectile-switch-project)
 
-  (use-package consult)
+  (use-package consult
+    :config
+    (setq consult-preview-key (kbd "C-\\")))
 
   ;; Search
   (leader-keys
-    "sp" 'counsel-projectile-rg
     "sf" 'consult-line)
 
   (defun show-file-name ()
@@ -671,7 +617,6 @@ The doom themes are pretty cool
       (kbd "RET" ) 'dired-single-buffer
       "h" 'dired-single-up-directory
       "l" 'dired-single-buffer
-      ";" 'ivy-switch-buffer
       "c" 'find-file
       ))
 
@@ -692,8 +637,6 @@ The doom themes are pretty cool
   (leader-keys
     "h" 'help-command
     "bd" 'kill-this-buffer
-    "," 'counsel-projectile-find-file
-    ";" 'ivy-switch-buffer
     "TAB" 'evil-switch-to-windows-last-buffer)
 
   (use-package evil-nerd-commenter)
@@ -722,6 +665,7 @@ The doom themes are pretty cool
           evil-goggles-enable-undo nil
           evil-goggles-enable-redo nil
           evil-goggles-enable-record-macro nil))
+
 #+end_src
 
 ** Helpful post-evil stuff
@@ -806,9 +750,44 @@ filtering followed by RET to go there
     (setq company-tooltip-align-annotations t)
 #+end_src
 
-** Eglot for IDE LSP experience
+** Eglot/LSP for IDE LSP experience
 #+begin_src emacs-lisp
+
   (use-package eglot)
+
+  ;; lsp-mode
+  (setq lsp-log-io nil) ;; Don't log everything = speed
+  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-restart 'auto-restart)
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-headerline-breadcrumb-enable nil)
+
+  (evil-define-key 'normal 'lsp-ui-doc-frame-mode
+    [?q] #'lsp-ui-doc-unfocus-frame)
+  (evil-normalize-keymaps)
+
+  (evil-define-key 'normal 'lsp-ui-doc-mode
+    [?K] #'lsp-ui-doc-focus-frame)
+
+  (use-package lsp-mode
+    :config
+    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
+    (lsp-enable-which-key-integration t)
+    :hook (
+           (typescript-mode . lsp-deferred)
+           (rjsx-mode . lsp-deferred)
+           (web-mode . lsp-deferred)
+           (python-mode . lsp-deferred)
+           (lsp-mode . lsp-enable-which-key-integration)
+           )
+    :commands lsp-deferred)
+
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+
 #+end_src
 ** Javascript/Typescript setup
 
@@ -817,14 +796,18 @@ filtering followed by RET to go there
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
 
+  (use-package typescript-mode
+    :mode (
+         ("\\.ts\\'" . typescript-mode)
+           ))
+
   (use-package prettier-js
-    :after (typescript-mode rjsx-mode flycheck)
     :hook
-    ((typescript-mode rjsx-mode) . prettier-js-mode))
+    ((typescript-mode rjsx-mode web-mode scss-mode css-mode) . prettier-js-mode))
 
   (use-package eslintd-fix
     :hook
-    ((typescript-mode rjsx-mode) . eslintd-fix-mode))
+    ((typescript-mode rjsx-mode web-mode) . eslintd-fix-mode))
 
 #+end_src
 
@@ -833,44 +816,10 @@ filtering followed by RET to go there
 #+begin_src emacs-lisp
 
   (use-package web-mode
-    :mode (("\\.js\\'" . web-mode)
-       ("\\.jsx\\'" .  web-mode)
-       ("\\.ts\\'" . web-mode)
+    :mode (
        ("\\.tsx\\'" . web-mode)
        ("\\.html\\'" . web-mode))
     :commands web-mode)
-
-  ;; lsp-mode
-  (setq lsp-log-io nil) ;; Don't log everything = speed
-  (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-restart 'auto-restart)
-  (setq lsp-ui-sideline-show-diagnostics t)
-  (setq lsp-ui-sideline-show-hover t)
-  (setq lsp-ui-sideline-show-code-actions t)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-position 'top)
-  (setq lsp-headerline-breadcrumb-enable nil)
-
-  (evil-define-key 'normal 'lsp-ui-doc-frame-mode
-        [?q] #'lsp-ui-doc-unfocus-frame)
-  (evil-normalize-keymaps)
-
-  (evil-define-key 'normal 'lsp-ui-doc-mode
-        [?K] #'lsp-ui-doc-focus-frame)
-
-  (use-package lsp-mode
-    :config
-    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
-    (lsp-enable-which-key-integration t)
-    :hook (
-       (web-mode . lsp-deferred)
-       (lsp-mode . lsp-enable-which-key-integration)
-       )
-    :commands lsp-deferred)
-
-  (use-package lsp-ui
-    :ensure t
-    :commands lsp-ui-mode)
 
   (defun enable-minor-mode (my-pair)
     "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
@@ -894,6 +843,7 @@ If you open a file in a project that has a python virtual environment
 made available to you, make use of it!
 
 #+begin_src emacs-lisp
+
   (use-package python
     :delight "π "
     :bind (("M-[" . python-nav-backward-block)
@@ -916,6 +866,14 @@ made available to you, make use of it!
     :hook (python-mode . pipenv-mode)
     :init
     (setq pipenv-projectile-after-switch-function #'pipenv-projectile-after-switch-extended))
+
+  (use-package lsp-python-ms
+    :ensure t
+    :init (setq lsp-python-ms-auto-install-server t)
+    :hook (python-mode . (lambda ()
+                            (require 'lsp-python-ms)
+                            (lsp-deferred))))  ; or lsp-deferred
+
 #+end_src
 
 ** Magit - GIT
@@ -990,6 +948,10 @@ made available to you, make use of it!
 
   (use-package eterm-256color
     :hook (vterm-mode . eterm-256color-mode))
+
+  (use-package ivy)
+
+  (use-package theme-looper)
 
   (defun sal-cd-project-root ()
     (cd (projectile-project-root)))
