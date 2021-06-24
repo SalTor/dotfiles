@@ -390,8 +390,7 @@ For files with HTML
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-hide-cursor t
-          neo-window-width 30
-          projectile-switch-project-action 'neotree-projectile-action)
+          neo-window-width 30)
     :general
     (:states 'normal
              :keymaps 'neotree-mode-map
