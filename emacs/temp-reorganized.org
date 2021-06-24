@@ -479,14 +479,10 @@
     :bind (("C-x C-j" . dired-jump))
     :config
     (evil-collection-define-key 'normal 'dired-mode-map
-      (kbd "RET" ) 'dired-single-buffer
-      "h" 'dired-single-up-directory
-      "l" 'dired-single-buffer
       "c" 'find-file
+      "h" 'dired-up-directory
+      "l" 'dired-find-file
       ))
-
-  (use-package dired-single
-    :commands (dired dired-jump))
 
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
