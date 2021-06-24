@@ -56,7 +56,6 @@ after using vim for three years
 ** Keybinding utils
 
 #+begin_src emacs-lisp
-
   (defun sal-switch-linum-mode ()
     (interactive)
     (if (eq 'relative display-line-numbers)
@@ -64,7 +63,6 @@ after using vim for three years
       (setq display-line-numbers 'relative)))
 
   (use-package general
-    :after evil
     :config
     (general-create-definer leader-keys
       :states '(normal insert visual emacs)
@@ -140,10 +138,10 @@ Some utility functions used later on in other functions
 ** Managing whitespace
 
 #+begin_src emacs-lisp
-
-  (whitespace-mode)
-  (setq whitespace-style '(face trailing))
-
+  (whitespace-mode)    
+  (use-package whitespace-cleanup-mode
+    :config
+    (global-whitespace-cleanup-mode))
 #+end_src
 
 ** Buffer management
