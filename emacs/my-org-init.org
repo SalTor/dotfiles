@@ -414,6 +414,7 @@ For files with HTML
     (if (eq nil display-line-numbers)
         (setq display-line-numbers 'relative)
       (message "Linum mode set")))
+
   (add-hook 'prog-mode-hook 'sal-enable-linum)
 
   (global-hl-line-mode 1) ;; Highlight the current line
@@ -433,21 +434,19 @@ The doom themes are pretty cool
     (load-theme 'doom-gruvbox t)
     (doom-themes-visual-bell-config))
 
-  ;; (use-package doom-modeline
-  ;;   :init
-  ;;   (doom-modeline-mode 1))
-
 #+end_src
-
-*** Show open buffers as tabs!
+*** Modeline modifications
 
 #+begin_src emacs-lisp
-
-
+  (use-package mood-line
+    :config (mood-line-mode))
 #+end_src
+
 ** Dashboard for opening projects / bookmarks / MRU
 
 #+begin_src emacs-lisp
+
+  (setq recentf-exclude '(org-roam-files))
 
   (use-package dashboard
     :config
