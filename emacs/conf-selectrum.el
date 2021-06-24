@@ -3,7 +3,10 @@
 ;;; Commentary:
 (use-package selectrum
   :config
-  (selectrum-mode +1))
+  (selectrum-mode +1)
+  :bind (:map selectrum-minibuffer-map
+              ("C-j" . selectrum-next-candidate)
+              ("C-k" . selectrum-previous-candidate)))
 
 (use-package selectrum-prescient
   :config
