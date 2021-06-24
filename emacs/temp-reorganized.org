@@ -95,46 +95,6 @@
 
   (setq display-line-numbers 'relative)
 #+end_src
-**** Clipboard alterations
-#+begin_src emacs-lisp
-  (defun isolate-kill-ring()
-    "Isolate Emacs kill ring from OS X system pasteboard.
-     This function is only necessary in window system."
-    (interactive)
-    (setq interprogram-cut-function nil)
-    (setq interprogram-paste-function nil))
-
-  (defun pasteboard-copy()
-    "Copy region to OS X system pasteboard."
-    (interactive)
-    (shell-command-on-region
-     (region-beginning) (region-end) "pbcopy"))
-
-  (defun pasteboard-paste()
-    "Paste from OS X system pasteboard via `pbpaste' to point."
-    (interactive)
-    (shell-command-on-region
-     (point) (if mark-active (mark) (point)) "pbpaste" nil t))
-
-  (defun pasteboard-cut()
-    "Cut region and put on OS X system pasteboard."
-    (interactive)
-    (pasteboard-copy)
-    (delete-region (region-beginning) (region-end)))
-
-  (if window-system
-      (progn
-        (isolate-kill-ring)
-        (leader-keys
-          "/c" 'pasteboard-copy
-          "/v" 'pasteboard-paste
-          "/x" 'pasteboard-cut))
-
-    ;; you might also want to assign some keybindings for non-window
-    ;; system usage (i.e., in your text terminal, where the
-    ;; command->super does not work)
-    )
-#+end_src
 **** Whitespace management
 #+begin_src emacs-lisp
   (whitespace-mode)
