@@ -77,67 +77,46 @@ after using vim for three years
       (leader-keys
           "T"  '(:ignore t :which-key "toggles")
           "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
-
 #+end_src
 ** Some basic level stuff
 
 #+begin_src emacs-lisp
 
-  ;; Suppress warnings about cl being deprecated
-  (setq byte-compile-warnings '(cl-functions))
-
-  ;; Don't create lockfiles
   (setq create-lockfiles nil)
-
-  ;; Don't auto save
   (setq auto-save-default nil)
 
-  ;; Backup files in ~/.saves
   (setq backup-directory-alist '(("." . "~/.config/emacs/.saves")))
 
-  ;; Font
-  (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-
-  ;; Remember where you were last in a file
-  (save-place-mode 1)
-
-  ;; Match brackets and other stuff when typing. Another alternative: https://github.com/Fuco1/smartparens
-  (electric-pair-mode 1)
-
-  (tool-bar-mode -1)   ;; Hide toolbar
-  (menu-bar-mode -1)   ;; Hide menubar
-  (scroll-bar-mode -1) ;; Hide scrollbar
-
-  ;; Show column number in addition to line number
-  (column-number-mode)
-
-  ;; When on a bracket, highlight its matching one
-  (show-paren-mode 1)
-
-  ;; Replace yes-no questions with y-n questions
-  (defalias 'yes-or-no-p #'y-or-n-p)
-
-  ;; Hide start message
   (setq inhibit-startup-message t)
 
-  ;; Don't indent with tabs
+  (defalias 'yes-or-no-p #'y-or-n-p)
+
   (setq-default indent-tabs-mode nil)
-
-  ;; Tab key should generate 4 spaces
   (setq-default tab-width 4)
-
   (setq indent-line-function 'insert-tab)
-
-  ;; Maximize screen size at start
-  (custom-set-variables
-      '(initial-frame-alist (quote ((fullscreen . maximized)))))
-
-  ;; Enable having frames for UI
-  (use-package posframe
-    :defer 1)
 
   (global-linum-mode -1)
   (setq display-line-numbers 'relative)
+
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+
+  (save-place-mode 1)
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  (column-number-mode)
+
+  (show-paren-mode 1)
+  (electric-pair-mode 1)
+
+  (custom-set-variables
+      '(initial-frame-alist (quote ((fullscreen . maximized)))))
+
+  ;; Suppress warnings about cl being deprecated
+  (setq byte-compile-warnings '(cl-functions))
+
+  (use-package posframe)
 
 #+end_src
 
