@@ -815,7 +815,6 @@ If you open a file in a project that has a python virtual environment
 made available to you, make use of it!
 
 #+begin_src emacs-lisp
-
   (use-package python
     :delight "π "
     :bind (("M-[" . python-nav-backward-block)
@@ -845,15 +844,17 @@ made available to you, make use of it!
     :hook (python-mode . (lambda ()
                             (require 'lsp-python-ms)
                             (lsp-deferred))))  ; or lsp-deferred
-
 #+end_src
 
 ** Magit - GIT
 
 #+begin_src emacs-lisp
-
   (use-package magit
     :commands magit-status
+    :bind (
+           :map magit-mode-map
+                ("C-n" . magit-section-forward-sibling)
+                ("C-p" . magit-section-backward-sibling))
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
@@ -874,7 +875,6 @@ made available to you, make use of it!
               (add-hook 'with-editor-post-finish-hook
                         #'kill-magit-diff-buffer-in-current-repo
                         nil t))) ; the t is important
-
 #+end_src
 
 ** Terminal mode
@@ -988,3 +988,4 @@ made available to you, make use of it!
     ;; system usage (i.e., in your text terminal, where the
     ;; command->super does not work)
     )
+#+end_src
