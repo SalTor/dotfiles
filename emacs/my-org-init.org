@@ -444,17 +444,6 @@ The doom themes are pretty cool
 
 #+begin_src emacs-lisp
 
-  (use-package centaur-tabs
-    :ensure nil
-    :config
-    (setq centaur-tabs-set-bar 'under
-          x-underline-at-descent-line t
-          centaur-tabs-set-icons t
-          centaur-tabs-gray-out-icons 'buffer
-          centaur-tabs-set-modified-marker t
-          centaur-tabs-modified-marker "•")
-    (centaur-tabs-headline-match)
-    (centaur-tabs-group-by-projectile-project))
 
 #+end_src
 ** Dashboard for opening projects / bookmarks / MRU
@@ -523,11 +512,7 @@ The doom themes are pretty cool
   (define-key evil-normal-state-map (kbd "u") 'undo-fu-only-undo)
   (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
 
-  ;; mappings
   (define-key evil-normal-state-map (kbd "U") 'evil-redo)
-
-  (define-key evil-normal-state-map (kbd "C-k") 'centaur-tabs-backward)
-  (define-key evil-normal-state-map (kbd "C-j") 'centaur-tabs-forward)
 
   (define-key evil-normal-state-map (kbd "gm") 'evil-search-word-forward)
 
