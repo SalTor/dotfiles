@@ -33,8 +33,6 @@
  ;; If there is more than one, they won't work right.
  '(avy-keys
    '(104 107 108 121 117 105 111 112 110 109 44 113 119 101 114 116 122 120 99 118 98 97 115 100 103 106 102 59))
- '(centaur-tabs-mode t nil (centaur-tabs))
- '(centaur-tabs-show-new-tab-button nil)
  '(company-frontends
    '(company-tng-frontend company-echo-metadata-frontend company-pseudo-tooltip-frontend))
  '(consult-ripgrep-command
