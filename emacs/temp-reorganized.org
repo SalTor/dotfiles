@@ -164,8 +164,7 @@
 
   (define-key evil-normal-state-map (kbd "u") 'undo-fu-only-undo)
   (define-key evil-normal-state-map (kbd "\C-r") 'undo-fu-only-redo)
-
-  (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+  (define-key evil-normal-state-map (kbd "U") 'undo-fu-only-redo)
 
   (define-key evil-normal-state-map (kbd "gm") 'evil-search-word-forward)
 
