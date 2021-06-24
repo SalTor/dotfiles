@@ -546,23 +546,16 @@ The doom themes are pretty cool
     "wh" 'evil-window-left
     "wj" 'evil-window-down
     "wk" 'evil-window-up
-    "wl" 'evil-window-right
-    ;; "wu" 'winner-undo
-    ;; "wU" 'winner-redo
-    )
+    "wl" 'evil-window-right)
 
   (evil-define-key 'normal 'org-mode-map (kbd "\\ e") 'org-edit-special)
   (evil-define-key 'normal 'org-mode-map (kbd "\\ q") 'org-edit-src-exit)
 
-  ;; Comments
   (leader-keys
     "cc" 'comment-line)
-  (evil-leader/set-key-for-mode
-    'evil-visual-state "cc" 'evilnc-comment-or-uncomment-lines)
 
   ;; Project
   (leader-keys
-    "ps" 'centaur-tabs-switch-group
     "po" 'projectile-switch-project)
 
   (use-package consult
@@ -579,7 +572,6 @@ The doom themes are pretty cool
     (message (buffer-file-name))
     (kill-new (file-truename buffer-file-name)))
 
-  ;; File
   (leader-keys
     "fe" 'neotree
     "fj" 'dired-jump
@@ -614,7 +606,6 @@ The doom themes are pretty cool
     (setq dired-open-extensions '(("png" . "feh")
                                   ("mkv" . "mpv"))))
 
-  ;; Buffer
   (leader-keys
     "h" 'help-command
     "bd" 'kill-this-buffer
