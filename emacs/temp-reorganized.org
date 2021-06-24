@@ -119,8 +119,6 @@
       :global-prefix "C-SPC")
       ;; Toggles
       (leader-keys
-          "br" 'rename-buffer)
-      (leader-keys
           "T"  '(:ignore t :which-key "toggles")
           "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
 #+end_src
@@ -520,9 +518,9 @@
   (global-set-key (kbd "C-;") 'ibuffer)
 
   (leader-keys
-    "h" 'help-command
-    "bd" 'kill-this-buffer
-    "TAB" 'evil-switch-to-windows-last-buffer)
+    "TAB" 'evil-switch-to-windows-last-buffer
+    "br" 'rename-buffer
+    "bd" 'kill-this-buffer)
 #+end_src
 *** Ibuffer
 #+begin_src emacs-lisp
