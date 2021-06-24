@@ -67,8 +67,8 @@
 #+end_src
 **** Modeline changes
 #+begin_src emacs-lisp
-  (use-package mood-line
-    :config (mood-line-mode))
+  (use-package minions
+    :config (minions-mode))
 #+end_src
 **** Theme
 #+begin_src emacs-lisp
