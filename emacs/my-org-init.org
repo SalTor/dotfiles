@@ -290,13 +290,9 @@
   (use-package consult
     :config
     (setq consult-preview-key (kbd "C-\\")))
-
-  (leader-keys
-    "sf" 'consult-line)
 #+end_src
 ** Selectrum
 #+begin_src emacs-lisp
-  (load-file "~/dotfiles/emacs/conf-selectrum.el")
   (use-package selectrum
     :config
     (selectrum-mode +1)
@@ -312,6 +308,14 @@
     ;; to save your command history on disk, so the sorting gets more
     ;; intelligent over time
     (prescient-persist-mode +1))
+#+end_src
+*** Marginalia
+#+begin_src emacs-lisp
+(use-package marginalia
+  :after evil
+  :config
+  (add-to-list 'marginalia-prompt-categories '("Find file" . file))
+  (marginalia-mode))
 #+end_src
 *** Embark
 #+begin_src emacs-lisp
@@ -345,25 +349,11 @@
           embark-become-indicator embark-action-indicator)
     )
 #+end_src
-*** Marginalia
-#+begin_src emacs-lisp
-(use-package marginalia
-  :after evil
-  :config
-  (add-to-list 'marginalia-prompt-categories '("Find file" . file))
-  (marginalia-mode))
-#+end_src
 *** Ripgrep
 #+begin_src emacs-lisp
 (use-package ripgrep)
 #+end_src
 ** Company mode
-
-[[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
-
-[[https://github.com/sebastiencs/company-box][Company box]] adds some cool icons
-
-[[https://github.com/company-mode/company-quickhelp][Company quickhelp]] adds overlay documentation for the options company provides
 
 #+begin_src emacs-lisp
   (use-package company
@@ -375,20 +365,47 @@
           company-minimum-prefix-length 1
           company-selection-wrap-around t))
 
-  (use-package company-box :hook (company-mode . company-box-mode))
+  ;; Nice icons in company dropdowns
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 
   (use-package pos-tip)
-  (use-package company-quickhelp :config (company-quickhelp-mode))
+
+  ;; Add overlay documentation for the options company provides
+  (use-package company-quickhelp
+    :config (company-quickhelp-mode))
 
   (eval-after-load 'company
     '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
-  ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
 #+end_src
 
-** Terminal settings
-*** VTerm
+** Dashboard: recentf / bookmarks / MRU
+
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :config
+    (setq dashboard-set-heading-icons t
+          dashboard-startup-banner 'logo
+          dashboard-center-content nil
+          dashboard-set-navigator t
+          dashboard-set-file-icons t)
+    (setq dashboard-items '((recents  . 10)
+                            (bookmarks . 5)
+                            (projects . 5)))
+    (dashboard-setup-startup-hook))
+#+end_src
+
+* Terminal settings
+** exec-path-from-shell
+Make Emacs use the $PATH set up by the user's shell
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell)
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+#+end_src
+** VTerm
 #+begin_src emacs-lisp
   (use-package vterm
     :commands vterm
@@ -459,28 +476,6 @@
            (sal-cd-project-root)
            (multi-vterm)))
 #+end_src
-*** exec-path-from-shell
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell)
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-#+end_src
-** Dashboard: recentf / bookmarks / MRU
-
-#+begin_src emacs-lisp
-  (use-package dashboard
-    :config
-    (setq dashboard-set-heading-icons t
-          dashboard-startup-banner 'logo
-          dashboard-center-content nil
-          dashboard-set-navigator t
-          dashboard-set-file-icons t)
-    (setq dashboard-items '((recents  . 10)
-                            (bookmarks . 5)
-                            (projects . 5)))
-    (dashboard-setup-startup-hook))
-#+end_src
-
 * Project/file management
 ** Magit
 #+begin_src emacs-lisp
@@ -564,10 +559,11 @@
              "mm" 'neotree-rename-node
              "R" 'neotree-refresh
              "RET" 'neotree-enter
-             "?" 'describe-mode
              "H" 'neotree-hidden-file-toggle
-             "q" 'neotree-hide
-             "u" 'neotree-select-up-node))
+             "?" 'describe-mode
+             "h" 'neotree-select-up-node
+             "l" 'neotree-enter
+             "q" 'neotree-hide))
 #+end_src
 ** Config
 
@@ -579,7 +575,7 @@
     (kill-new (file-truename buffer-file-name)))
 
   (leader-keys
-    "fe" 'neotree
+    "fe" 'neotree-projectile-action
     "fj" 'dired-jump
     "fr" 'rename-file
     "f5" 'load-file
@@ -601,7 +597,6 @@
   (add-hook 'ibuffer-hook #'ibuffer-jump-to-last-buffer)
 #+end_src
 ** Config
-
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-;") 'ibuffer)
 
@@ -633,13 +628,12 @@
     "wl" 'evil-window-right)
 #+end_src
 * In-file navigation
-** Avy: vim-sneak equivalent
-
-Quickly navigate anywhere in the visible file with 2 character
-filtering followed by RET to go there
-
 #+begin_src emacs-lisp
-  (use-package avy :custom (avy-all-windows nil))
+  (leader-keys
+    "sf" 'consult-line)
+
+  (use-package avy
+    :custom (avy-all-windows nil))
 
   (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char-2-below)
   (evil-define-key 'normal 'global (kbd "S") 'avy-goto-char-2-above)
