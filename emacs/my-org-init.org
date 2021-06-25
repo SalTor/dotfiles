@@ -455,7 +455,8 @@ Make Emacs use the $PATH set up by the user's shell
   (use-package theme-looper)
 
   (defun sal-cd-project-root ()
-    (cd (projectile-project-root)))
+    (if (projectile-project-root)
+        (cd (projectile-project-root))))
 
   ;; Terminal
   (leader-keys
