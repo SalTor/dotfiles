@@ -667,18 +667,6 @@ filtering followed by RET to go there
        ("\\.html\\'" . web-mode))
     :commands web-mode)
 #+end_src
-**** Emmet mode
-#+begin_src emacs-lisp
-  (use-package emmet-mode
-    :defer 2
-    :hook ((css-mode . emmet-mode)
-           (scss-mode . emmet-mode)
-           (web-mode . emmet-mode)
-           (rjsx-mode . (lambda ()
-                          (emmet-mode)
-                          (setq-local emmet-expand-jsx-className? t) ;; default nil
-                          ))))
-#+end_src
 **** RJSX mode
 #+begin_src emacs-lisp
   (use-package rjsx-mode
