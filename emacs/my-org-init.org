@@ -284,7 +284,7 @@
   (use-package which-key
     :config (which-key-mode))
 #+end_src
-* Something
+* Miscellaneous
 ** Consult
 #+begin_src emacs-lisp
   (use-package consult
