@@ -172,10 +172,24 @@
   (define-key evil-normal-state-map (kbd "gl") 'evil-end-of-line)
   (define-key evil-normal-state-map (kbd "gh") 'evil-beginning-of-line)
 
+  (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+
+  (defun insert-line-below ()
+    "Insert an empty line below the current line."
+    (interactive)
+    (save-excursion
+      (end-of-line)
+      (open-line 1)))
+
+  (defun insert-line-above ()
+    "Insert an empty line above the current line."
+    (interactive)
+    (save-excursion
+      (end-of-line 0)
+      (open-line 1)))
+
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
-
-  (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 #+end_src
 **** Evil Collection
 #+begin_src emacs-lisp
