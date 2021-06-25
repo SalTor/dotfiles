@@ -398,6 +398,77 @@
     (dashboard-setup-startup-hook))
 #+end_src
 
+** Org mode
+#+begin_src emacs-lisp
+  (defun efs/org-font-setup ()
+    ;; Set faces for heading levels
+    (dolist (face '((org-level-1 . 1.5)
+                    (org-level-2 . 1.4)
+                    (org-level-3 . 1.35)
+                    (org-level-4 . 1.3)
+                    (org-level-5 . 1.4)
+                    (org-level-6 . 1.4)
+                    (org-level-7 . 1.4)
+                    (org-level-8 . 1.4)))
+      (set-face-attribute (car face) nil :font "Source Code Pro" :weight 'regular :height (cdr face)))
+
+    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+    (set-face-attribute 'org-block nil    :family "Source Code Pro" :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil    :family "Source Code Pro" :inherit 'fixed-pitch)
+    (set-face-attribute 'org-formula nil  :family "Source Code Pro" :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil     :family "Source Code Pro" :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-table nil    :family "Source Code Pro" :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-verbatim nil :family "Source Code Pro" :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-special-keyword nil :family "Source Code Pro" :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :family "Source Code Pro" :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil :family "Source Code Pro" :inherit 'fixed-pitch)
+    (set-face-attribute 'line-number nil :family "Source Code Pro" :inherit 'fixed-pitch)
+    (set-face-attribute 'line-number-current-line nil :family "Source Code Pro" :inherit 'fixed-pitch))
+
+  (defun sal/org-mode-setup ()
+    "Org mode setup."
+    (org-indent-mode)
+    (auto-fill-mode)
+    (global-linum-mode 0)
+    (visual-line-mode 1))
+
+  (use-package org
+    :defer 1
+    :hook (
+           (org-mode . efs/org-font-setup)
+           (org-mode . sal/org-mode-setup))
+    :config
+    (setq org-return-follows-link t)
+    (setq org-ellipsis " ▾"))
+
+  (use-package deft
+    :after org
+    :config
+    (leader-keys
+      "od" 'deft)
+    :custom
+    (deft-recursive t)
+    (deft-use-filter-string-for-filename t)
+    (deft-default-extension "org")
+    (deft-directory "~/org-roam/"))
+
+  (use-package org-roam
+    :after (org evil)
+    :config
+    (leader-keys
+      "or" 'org-roam
+      "of" 'org-roam-find-file
+      "oc" 'org-roam-capture
+      "oi" 'org-roam-insert
+      "oat" 'org-roam-tag-add)
+    (setq org-roam-directory "~/org-roam")
+    :init
+    (org-roam-mode))
+
+  (evil-define-key 'normal 'org-mode-map (kbd "\\ e") 'org-edit-special)
+  (evil-define-key 'normal 'org-mode-map (kbd "\\ q") 'org-edit-src-exit)
+#+end_src
+
 * Terminal settings
 ** exec-path-from-shell
 Make Emacs use the $PATH set up by the user's shell
@@ -806,77 +877,6 @@ Make Emacs use the $PATH set up by the user's shell
     :hook
     ((typescript-mode rjsx-mode web-mode) . eslintd-fix-mode))
 #+end_src
-* Org mode
-#+begin_src emacs-lisp
-  (defun efs/org-font-setup ()
-    ;; Set faces for heading levels
-    (dolist (face '((org-level-1 . 1.5)
-                    (org-level-2 . 1.4)
-                    (org-level-3 . 1.35)
-                    (org-level-4 . 1.3)
-                    (org-level-5 . 1.4)
-                    (org-level-6 . 1.4)
-                    (org-level-7 . 1.4)
-                    (org-level-8 . 1.4)))
-      (set-face-attribute (car face) nil :font "Source Code Pro" :weight 'regular :height (cdr face)))
-
-    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-    (set-face-attribute 'org-block nil    :family "Source Code Pro" :foreground nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-table nil    :family "Source Code Pro" :inherit 'fixed-pitch)
-    (set-face-attribute 'org-formula nil  :family "Source Code Pro" :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil     :family "Source Code Pro" :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-table nil    :family "Source Code Pro" :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-verbatim nil :family "Source Code Pro" :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-special-keyword nil :family "Source Code Pro" :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-meta-line nil :family "Source Code Pro" :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-checkbox nil :family "Source Code Pro" :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number nil :family "Source Code Pro" :inherit 'fixed-pitch)
-    (set-face-attribute 'line-number-current-line nil :family "Source Code Pro" :inherit 'fixed-pitch))
-
-  (defun sal/org-mode-setup ()
-    "Org mode setup."
-    (org-indent-mode)
-    (auto-fill-mode)
-    (global-linum-mode 0)
-    (visual-line-mode 1))
-
-  (use-package org
-    :defer 1
-    :hook (
-           (org-mode . efs/org-font-setup)
-           (org-mode . sal/org-mode-setup))
-    :config
-    (setq org-return-follows-link t)
-    (setq org-ellipsis " ▾"))
-
-  (use-package deft
-    :after org
-    :config
-    (leader-keys
-      "od" 'deft)
-    :custom
-    (deft-recursive t)
-    (deft-use-filter-string-for-filename t)
-    (deft-default-extension "org")
-    (deft-directory "~/org-roam/"))
-
-  (use-package org-roam
-    :after (org evil)
-    :config
-    (leader-keys
-      "or" 'org-roam
-      "of" 'org-roam-find-file
-      "oc" 'org-roam-capture
-      "oi" 'org-roam-insert
-      "oat" 'org-roam-tag-add)
-    (setq org-roam-directory "~/org-roam")
-    :init
-    (org-roam-mode))
-
-  (evil-define-key 'normal 'org-mode-map (kbd "\\ e") 'org-edit-special)
-  (evil-define-key 'normal 'org-mode-map (kbd "\\ q") 'org-edit-src-exit)
-#+end_src
-
 * Learnings
 Here is a list of stuff I set out to learn as I began using emacs
 after using vim for three years
