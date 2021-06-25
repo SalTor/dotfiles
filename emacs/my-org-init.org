@@ -483,10 +483,11 @@ Make Emacs use the $PATH set up by the user's shell
 #+begin_src emacs-lisp
   (use-package magit
     :commands magit-status
-    :bind (
-           :map magit-mode-map
+    :bind (:map magit-mode-map
                 ("C-n" . magit-section-forward-sibling)
-                ("C-p" . magit-section-backward-sibling))
+                ("C-p" . magit-section-backward-sibling)
+                ("f" . magit-pull)
+                ("F" . magit-fetch))
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
