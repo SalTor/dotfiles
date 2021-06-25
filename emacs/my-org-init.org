@@ -519,7 +519,7 @@ Make Emacs use the $PATH set up by the user's shell
 
   (leader-keys
     "," 'projectile-find-file
-    "sp" 'projectile-ripgrep
+    ;; "sp" 'projectile-ripgrep
     "po" 'projectile-switch-project)
 #+end_src
 ** Dired
@@ -571,6 +571,9 @@ Make Emacs use the $PATH set up by the user's shell
 ** Config
 
 #+begin_src emacs-lisp
+  (leader-keys
+    "sp" 'deadgrep)
+
   (defun show-file-name ()
     "Show the full path file name in the minibuffer."
     (interactive)
