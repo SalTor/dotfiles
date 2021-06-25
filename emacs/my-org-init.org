@@ -210,11 +210,12 @@
   (evil-leader/set-leader "SPC")
 
   (leader-keys
-    "qq" 'save-buffers-kill-terminal)
+    "u" 'universal-argument
+    "x" 'execute-extended-command)
+
 
   (leader-keys
-    "u" 'universal-argument)
-
+    "qq" 'save-buffers-kill-terminal)
   (leader-keys
     "cc" 'comment-line)
 #+end_src
@@ -296,10 +297,66 @@
 ** Selectrum
 #+begin_src emacs-lisp
   (load-file "~/dotfiles/emacs/conf-selectrum.el")
+  (use-package selectrum
+    :config
+    (selectrum-mode +1)
+    :bind (:map selectrum-minibuffer-map
+                ("C-j" . selectrum-next-candidate)
+                ("C-k" . selectrum-previous-candidate)))
+
+  (use-package selectrum-prescient
+    :config
+    ;; to make sorting and filtering more intelligent
+    (selectrum-prescient-mode +1)
+
+    ;; to save your command history on disk, so the sorting gets more
+    ;; intelligent over time
+    (prescient-persist-mode +1))
 #+end_src
 *** Embark
+#+begin_src emacs-lisp
+  (defun sal-split-right ()
+    (interactive)
+    (projectile--find-file (selectrum-get-current-candidate))
+    (split-window-horizontally)
+    (evil-switch-to-windows-last-buffer)
+    (other-window 1))
+
+  (defun sal-split-below ()
+    (interactive)
+    (projectile--find-file (selectrum-get-current-candidate))
+    (split-window-below)
+    (evil-switch-to-windows-last-buffer)
+    (other-window 1))
+
+  (use-package embark
+    :bind (("C-." . embark-act))
+    :config
+    (embark-define-keymap sal-embark-file-map
+      "Keymap for actions for tab-bar tabs (when mentioned by name)."
+      ("-" sal-split-below)
+      ("/" sal-split-right))
+    (add-to-list 'embark-keymap-alist '(file . sal-embark-file-map))
+
+    (setq embark-action-indicator
+          (lambda (map _target)
+            (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            #'which-key--hide-popup-ignore-command)
+          embark-become-indicator embark-action-indicator)
+    )
+#+end_src
 *** Marginalia
+#+begin_src emacs-lisp
+(use-package marginalia
+  :after evil
+  :config
+  (add-to-list 'marginalia-prompt-categories '("Find file" . file))
+  (marginalia-mode))
+#+end_src
 *** Ripgrep
+#+begin_src emacs-lisp
+(use-package ripgrep)
+#+end_src
 ** Company mode
 
 [[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
@@ -463,6 +520,8 @@
     (projectile-mode))
 
   (leader-keys
+    "," 'projectile-find-file
+    "sp" 'projectile-ripgrep
     "po" 'projectile-switch-project)
 #+end_src
 ** Dired
@@ -547,6 +606,7 @@
   (global-set-key (kbd "C-;") 'ibuffer)
 
   (leader-keys
+    ";" 'consult-buffer
     "TAB" 'evil-switch-to-windows-last-buffer
     "br" 'rename-buffer
     "bd" 'kill-this-buffer)
