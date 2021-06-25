@@ -1,8 +1,7 @@
 #+title: My emacs configuration via org mode!
 #+author: Me. Your friendly neighborhood web developer
 
-* Categories of config
-** Base layer
+* Base layer
 *** Package management tooling
 *** Miscellaneous Settings
 **** Garbage collection
@@ -284,7 +283,7 @@
   (use-package which-key
     :config (which-key-mode))
 #+end_src
-** Something
+* Something
 *** Consult
 #+begin_src emacs-lisp
   (use-package consult
@@ -425,23 +424,7 @@
     (dashboard-setup-startup-hook))
 #+end_src
 
-** Project/file management
-#+begin_src emacs-lisp
-  (defun show-file-name ()
-    "Show the full path file name in the minibuffer."
-    (interactive)
-    (message (buffer-file-name))
-    (kill-new (file-truename buffer-file-name)))
-
-  (leader-keys
-    "fe" 'neotree
-    "fj" 'dired-jump
-    "fr" 'rename-file
-    "f5" 'load-file
-    "fs" 'evil-write-all
-    "fy" 'show-file-name
-    "f.s" 'save-buffer)
-#+end_src
+* Project/file management
 *** Magit
 #+begin_src emacs-lisp
   (use-package magit
@@ -527,15 +510,25 @@
              "q" 'neotree-hide
              "u" 'neotree-select-up-node))
 #+end_src
-** Buffer management
+*** Config
+
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-;") 'ibuffer)
+  (defun show-file-name ()
+    "Show the full path file name in the minibuffer."
+    (interactive)
+    (message (buffer-file-name))
+    (kill-new (file-truename buffer-file-name)))
 
   (leader-keys
-    "TAB" 'evil-switch-to-windows-last-buffer
-    "br" 'rename-buffer
-    "bd" 'kill-this-buffer)
+    "fe" 'neotree
+    "fj" 'dired-jump
+    "fr" 'rename-file
+    "f5" 'load-file
+    "fs" 'evil-write-all
+    "fy" 'show-file-name
+    "f.s" 'save-buffer)
 #+end_src
+* Buffer management
 *** Ibuffer
 #+begin_src emacs-lisp
   (use-package ibuffer-projectile)
@@ -548,7 +541,25 @@
 
   (add-hook 'ibuffer-hook #'ibuffer-jump-to-last-buffer)
 #+end_src
-** Window management
+*** Config
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-;") 'ibuffer)
+
+  (leader-keys
+    "TAB" 'evil-switch-to-windows-last-buffer
+    "br" 'rename-buffer
+    "bd" 'kill-this-buffer)
+#+end_src
+* Window management
+*** winner-mode
+#+begin_src emacs-lisp
+  (winner-mode +1)
+  (define-key winner-mode-map (kbd "<M-left>") #'winner-undo)
+  (define-key winner-mode-map (kbd "<M-right>") #'winner-redo)
+#+end_src
+*** Config
+
 #+begin_src emacs-lisp
   (leader-keys
     "wq" 'delete-window
@@ -561,13 +572,7 @@
     "wk" 'evil-window-up
     "wl" 'evil-window-right)
 #+end_src
-*** winner-mode
-#+begin_src emacs-lisp
-  (winner-mode +1)
-  (define-key winner-mode-map (kbd "<M-left>") #'winner-undo)
-  (define-key winner-mode-map (kbd "<M-right>") #'winner-redo)
-#+end_src
-** In-file navigation
+* In-file navigation
 *** Avy: vim-sneak equivalent
 
 Quickly navigate anywhere in the visible file with 2 character
@@ -585,7 +590,7 @@ filtering followed by RET to go there
     "Sw" 'avy-goto-word-0-above)
 #+end_src
 
-** Programming tools & Config
+* Programming tools & Config
 *** Flycheck
 #+begin_src emacs-lisp
   (use-package flycheck
@@ -741,7 +746,7 @@ filtering followed by RET to go there
     :hook
     ((typescript-mode rjsx-mode web-mode) . eslintd-fix-mode))
 #+end_src
-** Org mode
+* Org mode
 #+begin_src emacs-lisp
   (defun efs/org-font-setup ()
     ;; Set faces for heading levels
