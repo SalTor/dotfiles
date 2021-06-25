@@ -319,16 +319,16 @@
           company-minimum-prefix-length 1
           company-selection-wrap-around t))
 
-    (use-package company-box :hook (company-mode . company-box-mode))
+  (use-package company-box :hook (company-mode . company-box-mode))
 
-    (use-package pos-tip)
-    (use-package company-quickhelp :config (company-quickhelp-mode))
+  (use-package pos-tip)
+  (use-package company-quickhelp :config (company-quickhelp-mode))
 
-    (eval-after-load 'company
-      '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  (eval-after-load 'company
+    '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
-    ;; aligns annotation to the right hand side
-    (setq company-tooltip-align-annotations t)
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
 #+end_src
 
 *** Terminal settings
