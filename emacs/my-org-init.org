@@ -351,7 +351,8 @@
 #+end_src
 *** Ripgrep
 #+begin_src emacs-lisp
-(use-package ripgrep)
+  (use-package ripgrep)
+  (use-package deadgrep)
 #+end_src
 ** Company mode
 
