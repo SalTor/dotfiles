@@ -546,7 +546,7 @@ Make Emacs use the $PATH set up by the user's shell
     (setq dired-open-extensions '(("png" . "feh")
                                   ("mkv" . "mpv"))))
 #+end_src
-** Tree view of folders
+** Neotree
 #+begin_src emacs-lisp
   (use-package neotree
     :defer 3
