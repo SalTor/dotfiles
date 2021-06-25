@@ -256,7 +256,9 @@
 *** Hydra
 #+begin_src emacs-lisp
   (use-package hydra)
-
+#+end_src
+**** Font size Hydra
+#+begin_src emacs-lisp
   (defhydra hydra-text-scale (:timeout 4)
     "scale text"
     ("j" text-scale-increase "in")
@@ -265,7 +267,9 @@
 
   (leader-keys
     "tf" '(hydra-text-scale/body :which-key "scale text"))
-
+#+end_src
+**** Scrolling Hydra
+#+begin_src emacs-lisp
   (defhydra hydra-scroll-page (:timeout 4)
     "scroll the page"
     ("k" evil-scroll-up "up")
@@ -274,11 +278,6 @@
 
   (leader-keys
     "ts" '(hydra-scroll-page/body :which-key "scroll page"))
-
-  (defhydra hydra-emmet (:timeout 4)
-    "interact with emmet"
-    ("," emmet-expand-line "expand line")
-    ("f" nil "finished" :exit t))
 #+end_src
 *** Whichkey
 #+begin_src emacs-lisp
