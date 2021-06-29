@@ -759,7 +759,7 @@ Make Emacs use the $PATH set up by the user's shell
                 (append flycheck-disabled-checkers
                         '(json-jsonlist)))
 #+end_src
-*** Flycheck posframe
+** Flycheck posframe
 #+begin_src emacs-lisp
   (use-package flycheck-posframe
     :after flycheck
