@@ -633,6 +633,7 @@ Make Emacs use the $PATH set up by the user's shell
              "mm" 'neotree-rename-node
              "R" 'neotree-refresh
              "RET" 'neotree-enter
+             "s" 'avy-goto-word-1
              "H" 'neotree-hidden-file-toggle
              "?" 'describe-mode
              "h" 'neotree-select-up-node
@@ -705,12 +706,16 @@ Make Emacs use the $PATH set up by the user's shell
     "wl" 'evil-window-right)
 #+end_src
 * In-file navigation
+** Avy
+#+begin_src emacs-lisp
+  (use-package avy
+    :custom (avy-all-windows nil))
+#+end_src
+
+** Config
 #+begin_src emacs-lisp
   (leader-keys
     "sf" 'consult-line)
-
-  (use-package avy
-    :custom (avy-all-windows nil))
 
   (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char-2-below)
   (evil-define-key 'normal 'global (kbd "S") 'avy-goto-char-2-above)
@@ -720,7 +725,6 @@ Make Emacs use the $PATH set up by the user's shell
     "sw" 'avy-goto-word-0-below
     "Sw" 'avy-goto-word-0-above)
 #+end_src
-
 * Programming tools & Config
 ** Flycheck
 #+begin_src emacs-lisp
