@@ -49,6 +49,7 @@
  '(evil-undo-system 'undo-fu)
  '(evil-vsplit-window-right t)
  '(exec-path-from-shell-arguments '("-l"))
+ '(flycheck-flake8rc '(".flake8"))
  '(flycheck-posframe-border-width 10)
  '(flycheck-posframe-error-prefix "■ ")
  '(flycheck-posframe-info-prefix "■ ")
@@ -68,7 +69,7 @@
  '(lsp-auto-execute-action nil)
  '(lsp-symbol-highlighting-skip-current t)
  '(package-selected-packages
-   '(deft whitespace-cleanup-mode whitespace-cleanup modus-vivendi-theme fzf mini-frame orderless org-roam solarized-theme moody tabbar theme-looper ripgrep embark marginalia all-the-icons-ibuffer esup consult flymake-flycheck undo-fu flymake-posframe eglot flx wgrep magit pyenv-mode volatile-highlights all-the-icons-ivy winum vimish-fold visual-fill-column python-mode evil-collection json-mode general org org-bullets orgit origami markdown-mode yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js exec-path-from-shell evil-visual-mark-mode company))
+   '(yapfify virtualenv pylint markdown-preview-mode dap-chrome dap-mode deft whitespace-cleanup-mode whitespace-cleanup modus-vivendi-theme fzf mini-frame orderless org-roam solarized-theme moody tabbar theme-looper ripgrep embark marginalia all-the-icons-ibuffer esup consult flymake-flycheck undo-fu flymake-posframe eglot flx wgrep magit pyenv-mode volatile-highlights all-the-icons-ivy winum vimish-fold visual-fill-column python-mode evil-collection json-mode general org org-bullets orgit origami markdown-mode yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js exec-path-from-shell evil-visual-mark-mode company))
  '(persp-set-last-persp-for-new-frames nil)
  '(persp-state-default-file "~/.config/emacs/persp-mode-save" nil nil "Customized with use-package perspective")
  '(savehist-mode t)
