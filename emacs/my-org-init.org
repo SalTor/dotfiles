@@ -554,8 +554,13 @@ Make Emacs use the $PATH set up by the user's shell
 #+begin_src emacs-lisp
   (use-package magit
     :commands magit-status
-    :custom
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+    :bind
+    (:map magit-mode-map
+     ("C-j" . magit-section-forward)
+     ("C-k" . magit-section-backward)
+     ("M-j" . magit-section-forward-sibling)
+     ("M-k" . magit-section-backward-sibling))
+    )
 
   (leader-keys
     "gs" 'magit-status)
