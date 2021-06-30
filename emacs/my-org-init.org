@@ -879,15 +879,15 @@ Make Emacs use the $PATH set up by the user's shell
   ;;                       (message "Added flycheck checkers.")))))
 
   (use-package lsp-python-ms
+    :after (lsp-mode)
     :init (setq lsp-python-ms-auto-install-server t)
     :hook
     ((python-mode . (lambda ()
                       (require 'lsp-python-ms)
-                      (lsp-deferred))))
-    (flycheck-mode . (lambda ()
-                        (flycheck-add-next-checker 'lsp 'python-flake8)
-                        (flycheck-add-next-checker 'python-flake8 'python-pylint)
-                        (message "Added flycheck checkers."))))  ; or lsp-deferred
+                      (lsp-deferred)
+                      (flycheck-add-next-checker 'lsp 'python-flake8)
+                      (flycheck-add-next-checker 'python-flake8 'python-pylint)
+                      (message "Added flycheck checkers.")))))
 #+end_src
 ***** The mode
 #+begin_src emacs-lisp
