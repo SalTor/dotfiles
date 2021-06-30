@@ -554,31 +554,11 @@ Make Emacs use the $PATH set up by the user's shell
 #+begin_src emacs-lisp
   (use-package magit
     :commands magit-status
-    :bind (:map magit-mode-map
-                ("C-n" . magit-section-forward-sibling)
-                ("C-p" . magit-section-backward-sibling)
-                ("f" . magit-pull)
-                ("F" . magit-fetch))
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
   (leader-keys
     "gs" 'magit-status)
-
-  (defun kill-magit-diff-buffer-in-current-repo (&rest _)
-    "Delete the magit-diff buffer related to the current repo"
-    (let ((magit-diff-buffer-in-current-repo
-           (magit-mode-get-buffer 'magit-diff-mode)))
-      (kill-buffer magit-diff-buffer-in-current-repo)))
-  ;;
-  ;; When 'C-c C-c' is pressed in the magit commit message buffer,
-  ;; delete the magit-diff buffer related to the current repo.
-  ;;
-  (add-hook 'git-commit-setup-hook
-            (lambda ()
-              (add-hook 'with-editor-post-finish-hook
-                        #'kill-magit-diff-buffer-in-current-repo
-                        nil t))) ; the t is important
 #+end_src
 ** Projectile
 #+begin_src emacs-lisp
