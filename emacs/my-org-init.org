@@ -750,6 +750,31 @@ Make Emacs use the $PATH set up by the user's shell
     :after flycheck
     :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
+** Prettier
+#+begin_src emacs-lisp
+  (defun enable-minor-mode (my-pair)
+    "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+    (if (buffer-file-name)
+        (if (string-match (car my-pair) buffer-file-name)
+        (funcall (cdr my-pair)))))
+
+  (use-package prettier-js)
+
+  (add-hook 'typescript-mode-hook 'prettier-js-mode)
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode)
+
+  (add-hook 'web-mode-hook #'(lambda ()
+                               (enable-minor-mode
+                                '("\\.jsx?\\'" . prettier-js-mode))
+                   (enable-minor-mode
+                                '("\\.tsx?\\'" . prettier-js-mode))))
+#+end_src
+** Eslintd
+#+begin_src emacs-lisp
+  (use-package eslintd-fix
+    :hook
+    ((typescript-mode rjsx-mode web-mode) . eslintd-fix-mode))
+#+end_src
 ** Eglot
 #+begin_src emacs-lisp
   (use-package eglot)
