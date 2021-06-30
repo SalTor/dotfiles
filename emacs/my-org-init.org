@@ -756,83 +756,119 @@ Make Emacs use the $PATH set up by the user's shell
 #+end_src
 ** LSP Mode
 #+begin_src emacs-lisp
+  ;; lsp-mode
   (setq lsp-log-io nil) ;; Don't log everything = speed
   (setq lsp-keymap-prefix "C-c l")
   (setq lsp-restart 'auto-restart)
+  (setq lsp-headerline-breadcrumb-enable nil)
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :config
+    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
+    (lsp-enable-which-key-integration t)
+    :hook
+    (lsp-mode . lsp-enable-which-key-integration)
+    :custom
+    (lsp-lens-enable nil)
+    (lsp-disabled-clients '((python-mode . pyls)))
+    :init
+    (setq lsp-keymap-prefix "C-c l"))
+
+  ;; lsp-ui
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-doc-enable t)
   (setq lsp-ui-doc-position 'top)
-  (setq lsp-headerline-breadcrumb-enable nil)
 
   (evil-normalize-keymaps)
   (evil-define-key 'normal 'lsp-ui-doc-frame-mode [?q] #'lsp-ui-doc-unfocus-frame)
   (evil-define-key 'normal 'lsp-ui-doc-mode       [?K] #'lsp-ui-doc-focus-frame)
-
-  (use-package lsp-mode
-    :config
-    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
-    (lsp-enable-which-key-integration t)
-    :hook (
-           (typescript-mode . lsp-deferred)
-           (rjsx-mode . lsp-deferred)
-           (web-mode . lsp-deferred)
-           (python-mode . lsp-deferred)
-           (lsp-mode . lsp-enable-which-key-integration)
-           )
-    :commands lsp-deferred)
-
   (use-package lsp-ui :commands lsp-ui-mode)
 #+end_src
-** Specific language pages
-*** Web mode
+
+** DAP mode
+#+begin_src emacs-lisp
+  (use-package dap-mode
+    :config
+    (dap-mode 1)
+    (dap-ui-mode 1)
+    :custom
+    (dap-auto-configure-features '(sessions locals controls)))
+
+  (require 'dap-chrome)
+  (dap-chrome-setup)
+
+  (add-hook 'dap-stopped-hook
+            (lambda (arg) (call-interactively #'dap-hydra)))
+#+end_src
+** Web mode
 #+begin_src emacs-lisp
   (use-package web-mode
     :defer 2
+    :hook
+    (web-mode . lsp-deferred)
     :mode (
        ("\\.tsx\\'" . web-mode)
        ("\\.html\\'" . web-mode))
     :commands web-mode)
 #+end_src
-*** RJSX mode
+** RJSX mode
 #+begin_src emacs-lisp
   (use-package rjsx-mode
+    :hook
+    (rjsx-mode . lsp-deferred)
     :mode (
            ("\\.js\\'" . rjsx-mode)
            ("\\.jsx\\'" .  rjsx-mode)
            ))
 #+end_src
+** Languages
 *** Python mode
-#+begin_src emacs-lisp
-    (use-package python
-      :delight "π "
-      :bind (("M-[" . python-nav-backward-block)
-             ("M-]" . python-nav-forward-block))
-      :preface
-      (defun python-remove-unused-imports()
-        "Removes unused imports and unused variables with autoflake."
-        (interactive)
-        (if (executable-find "autoflake")
-            (progn
-              (shell-command (format "autoflake --remove-all-unused-imports -i %s"
-                                     (shell-quote-argument (buffer-file-name))))
-              (revert-buffer t t t))
-          (warn "python-mode: Cannot find autoflake executable."))))
-
-    (use-package lsp-python-ms
-      :ensure t
-      :init (setq lsp-python-ms-auto-install-server t)
-      :hook (python-mode . (lambda ()
-                              (require 'lsp-python-ms)
-                              (lsp-deferred))))  ; or lsp-deferred
-#+end_src
 ***** pyvenv + pipenv
 #+begin_src emacs-lisp
-  (use-package pyvenv :after python)
+  (use-package pyvenv
+    :config
+    (pyvenv-mode t) 
+    ;; Set correct Python interpreter
+    (setq pyvenv-post-activate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+    (setq pyvenv-post-deactivate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter "python3")))))
+#+end_src
+***** pylint
+#+begin_src emacs-lisp
+  (use-package pylint)
+#+end_src
+***** LSP config
+#+begin_src emacs-lisp
+  ;; (use-package lsp-pyright
+  ;;   :hook
+  ;;   ((python-mode . (lambda ()
+  ;;                     (require 'lsp-pyright)
+  ;;                     (lsp-deferred)))
+  ;;    (flycheck-mode . (lambda ()
+  ;;                       (flycheck-add-next-checker 'lsp 'python-flake8)
+  ;;                       (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  ;;                       (message "Added flycheck checkers.")))))
 
-  (use-package pipenv
-    :hook (python-mode . pipenv-mode)
-    :init
-    (setq pipenv-projectile-after-switch-function #'pipenv-projectile-after-switch-extended))
+  (use-package lsp-python-ms
+    :init (setq lsp-python-ms-auto-install-server t)
+    :hook
+    ((python-mode . (lambda ()
+                      (require 'lsp-python-ms)
+                      (lsp-deferred))))
+    (flycheck-mode . (lambda ()
+                        (flycheck-add-next-checker 'lsp 'python-flake8)
+                        (flycheck-add-next-checker 'python-flake8 'python-pylint)
+                        (message "Added flycheck checkers."))))  ; or lsp-deferred
+#+end_src
+***** The mode
+#+begin_src emacs-lisp
+  (use-package python-mode
+    :hook
+    (python-mode . pyvenv-mode))
 #+end_src
 *** Typescript mode
 #+begin_src emacs-lisp
@@ -840,31 +876,11 @@ Make Emacs use the $PATH set up by the user's shell
   (setq js2-mode-show-strict-warnings nil)
 
   (use-package typescript-mode
+    :hook 
+    (typescript-mode . lsp-deferred)
     :mode (
          ("\\.ts\\'" . typescript-mode)
            ))
-#+end_src
-** Prettier
-#+begin_src emacs-lisp
-  (defun enable-minor-mode (my-pair)
-    "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-    (if (buffer-file-name)
-        (if (string-match (car my-pair) buffer-file-name)
-        (funcall (cdr my-pair)))))
-
-  (use-package prettier-js)
-
-  (add-hook 'web-mode-hook #'(lambda ()
-                               (enable-minor-mode
-                                '("\\.jsx?\\'" . prettier-js-mode))
-                   (enable-minor-mode
-                                '("\\.tsx?\\'" . prettier-js-mode))))
-#+end_src
-** Eslintd
-#+begin_src emacs-lisp
-  (use-package eslintd-fix
-    :hook
-    ((typescript-mode rjsx-mode web-mode) . eslintd-fix-mode))
 #+end_src
 * Learnings
 Here is a list of stuff I set out to learn as I began using emacs
