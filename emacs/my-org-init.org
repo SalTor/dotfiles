@@ -68,6 +68,12 @@
 #+begin_src emacs-lisp
   (use-package minions
     :config (minions-mode))
+
+  (setq sml/theme 'respectful)
+  (setq sml/no-confirm-load-theme t)
+
+  (use-package smart-mode-line
+    :config (sml/setup))
 #+end_src
 *** Theme
 #+begin_src emacs-lisp
@@ -912,7 +918,7 @@ Make Emacs use the $PATH set up by the user's shell
          ("\\.ts\\'" . typescript-mode)
            ))
 #+end_src
-* Learnings
+* Transitioning from VIM to Emacs
 Here is a list of stuff I set out to learn as I began using emacs
 after using vim for three years
 
