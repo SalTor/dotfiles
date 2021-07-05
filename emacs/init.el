@@ -66,7 +66,6 @@
  '(js2-strict-inconsistent-return-warning nil)
  '(lsp-auto-execute-action nil)
  '(lsp-symbol-highlighting-skip-current t)
- '(org-hide-emphasis-markers t)
  '(package-selected-packages
    '(smart-mode-line mini-modeline quelpa yapfify virtualenv pylint markdown-preview-mode dap-chrome dap-mode deft whitespace-cleanup-mode whitespace-cleanup modus-vivendi-theme fzf mini-frame orderless org-roam solarized-theme moody tabbar theme-looper ripgrep embark marginalia all-the-icons-ibuffer esup consult flymake-flycheck undo-fu flymake-posframe eglot flx wgrep magit pyenv-mode volatile-highlights all-the-icons-ivy winum vimish-fold visual-fill-column python-mode evil-collection json-mode general org org-bullets orgit origami markdown-mode yaml-mode lua-mode treemacs-evil treemacs-projectile evil-surround evil-nerd-commenter ## evil-goggles evil-leader drag-stuff vimrc-mode ag projectile-ripgrep selectrum-prescient selectrum ido company-quickhelp-terminal rjsx web-mode-edit-element use-package undo-tree tide prettier-js exec-path-from-shell evil-visual-mark-mode company))
  '(persp-set-last-persp-for-new-frames nil)
