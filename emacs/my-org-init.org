@@ -4,6 +4,10 @@
 * Base layer
 ** Package management tooling
 ** Miscellaneous Settings
+*** Namespacing
+#+begin_src emacs-lisp
+  (add-to-list 'load-path  "~/dotfiles/emacs/modules")
+#+end_src
 *** Garbage collection
 #+begin_src emacs-lisp
   ;; Make startup faster by reducing the frequency of garbage
