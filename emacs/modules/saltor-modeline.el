@@ -28,7 +28,7 @@ Containing LEFT, and RIGHT aligned respectively."
 
 (defvar cogent-line-evil-state-colours
   '((cogent-line-evil-normal "#afd787" "Evil normal state face.")
-    (cogent-line-evil-insert "deep sky blue" "Evil insert state face.")
+    (cogent-line-evil-insert "SteelBlue1" "Evil insert state face.")
     (cogent-line-evil-emacs "SkyBlue2" "Evil emacs state face.")
     (cogent-line-evil-replace "chocolate" "Evil replace state face.")
     (cogent-line-evil-visual "plum3" "Evil visual state face.")
@@ -53,6 +53,11 @@ Containing LEFT, and RIGHT aligned respectively."
            :group 'cogent))
   (eval `(defface ,(intern (concat (symbol-name (nth 0 s)) "-buffer-name"))
            (list (list t (list :foreground ,(nth 1 s)
+                               :background nil)))
+           ,(nth 2 s)
+           :group 'cogent))
+  (eval `(defface ,(intern (concat (symbol-name (nth 0 s)) "-file-changed"))
+           (list (list t (list :foreground "orange1"
                                :background nil)))
            ,(nth 2 s)
            :group 'cogent)))
@@ -81,6 +86,14 @@ Containing LEFT, and RIGHT aligned respectively."
     (replace . cogent-line-evil-replace-buffer-name)
     (visual . cogent-line-evil-visual-buffer-name)
     (motion . cogent-line-evil-motion-buffer-name)))
+(defvar cogent/evil-state-faces-file-changed
+  '((normal . cogent-line-evil-normal-file-changed)
+    (insert . cogent-line-evil-insert-file-changed)
+    (operator . cogent-line-evil-operator-file-changed)
+    (emacs . cogent-line-evil-emacs-file-changed)
+    (replace . cogent-line-evil-replace-file-changed)
+    (visual . cogent-line-evil-visual-file-changed)
+    (motion . cogent-line-evil-motion-file-changed)))
 
 (defun cogent/evil-state-face ()
   (if-let ((face (and
@@ -99,6 +112,13 @@ Containing LEFT, and RIGHT aligned respectively."
                         (if (cogent-line-selected-window-active-p)
                             cogent/evil-state-faces-buffer-name
                           cogent/evil-state-faces-inactive)))))
+      (cdr face)
+    cogent-line-default-face))
+
+(defun cogent/evil-state-face-file-changed ()
+  (if-let ((face (and
+                  (bound-and-true-p evil-local-mode)
+                  (assq evil-state cogent/evil-state-faces-file-changed))))
       (cdr face)
     cogent-line-default-face))
 
@@ -130,7 +150,12 @@ Containing LEFT, and RIGHT aligned respectively."
                                   (concat " " (s-repeat 6 "-") " ")) 'face (cogent/evil-state-face)))
              " "
              ;; File/buffer name
-             (:eval (propertize "%b" 'face (cogent/evil-state-face-buffer-name)))
+             (:eval (propertize "%b" 'face (if buffer-file-name
+                                               (if (buffer-modified-p)
+                                                   (cogent/evil-state-face-file-changed)
+                                                 (cogent/evil-state-face-buffer-name))
+                                             (cogent/evil-state-face-buffer-name))))
+
              ;; Shows "[+]" if file is modified
              (:eval
               (if buffer-file-name
@@ -139,10 +164,9 @@ Containing LEFT, and RIGHT aligned respectively."
                     " ")))
              ;; Indicates if file is read-only
              (:eval
-              (if buffer-file-name
-                  (if buffer-read-only
-                      " [read only] "
-                    " ")))
+              (if buffer-read-only
+                  " [read only] "
+                " "))
              "%e "
              mode-line-process
              ))

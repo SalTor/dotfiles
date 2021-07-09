@@ -46,14 +46,10 @@
 
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
-  (setq indent-line-function 'insert-tab)
+  (setq-default tab-always-indent t)
+  (setq-default indent-line-function 'insert-tab)
 
   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-  (custom-theme-set-faces
-   'user
-   '(line-number ((t (:inherit default :foreground "#7c6f64" :strike-through nil :underline nil :slant normal :weight normal :height 130 :family "Source Code Pro"))))
-   '(line-number-current-line ((t (:inherit (hl-line default) :background "#3c3836" :foreground "#fabd2f" :strike-through nil :underline nil :slant normal :weight normal :height 130 :family "Source Code Pro"))))
-  )
 
   (save-place-mode 1)
   (tool-bar-mode -1)
@@ -163,6 +159,7 @@
     (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
     :custom
     (evil-want-C-u-scroll t)
+    (evil-want-C-i-jump nil)
     (evil-want-Y-yank-to-eol t)
     (evil-undo-system 'undo-fu)
     :config
@@ -407,36 +404,48 @@
 #+end_src
 ** Org mode
 #+begin_src emacs-lisp
-  (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-                               ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-                               ((x-list-fonts "Cantarell")       '(:font "Cantarell"))
-                               ((x-family-fonts "Cantarell")     '(:family "Cantarell"))
-                               (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-         (base-font-color     (face-foreground 'default nil 'default))
-         (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
-
-    (custom-theme-set-faces 'user
-                            `(org-level-8 ((t (,@headline ,@variable-tuple))))
-                            `(org-level-7 ((t (,@headline ,@variable-tuple))))
-                            `(org-level-6 ((t (,@headline ,@variable-tuple))))
-                            `(org-level-5 ((t (,@headline ,@variable-tuple))))
-                            `(org-level-4 ((t (,@headline ,@variable-tuple :height 1))))
-                            `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.05))))
-                            `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.3))))
-                            `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.4))))
-                            `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))
-
-  (custom-theme-set-faces
-     'user
-     '(variable-pitch ((t (:family "ETBembo" :height 180 :weight regular)))))
-
   (defun sal/org-mode-setup ()
     "Org mode setup."
     (org-indent-mode)
     (auto-fill-mode)
-    (global-linum-mode 0)
-    (variable-pitch-mode)
-    (visual-line-mode 1))
+    (global-linum-mode 0))
+
+  (let* ((variable-tuple
+          (cond ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+                ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+                ((x-list-fonts "Verdana")         '(:font "Verdana"))
+                ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+                (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+         (base-font-color     (face-foreground 'default nil 'default))
+         (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+
+    (custom-theme-set-faces
+     'user
+     `(org-level-8 ((t (,@headline ,@variable-tuple))))
+     `(org-level-7 ((t (,@headline ,@variable-tuple))))
+     `(org-level-6 ((t (,@headline ,@variable-tuple))))
+     `(org-level-5 ((t (,@headline ,@variable-tuple))))
+     `(org-level-4 ((t (,@headline ,@variable-tuple :height 1))))
+     `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.15))))
+     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.4))))
+     `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.65))))
+     `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
+
+  (custom-theme-set-faces
+   'user
+   '(org-block ((t (:inherit fixed-pitch))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-block-begin-line ((t (:inherit (shadow fixed-pitch)))))
+   '(org-block-end-line ((t (:inherit (shadow fixed-pitch)))))
+   '(org-document-info ((t (:foreground "dark orange"))))
+   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-property-value ((t (:inherit fixed-pitch))) t)
+   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
 
   (use-package org
     :defer 1
@@ -444,13 +453,16 @@
     :config
     (setq org-return-follows-link t)
     (setq org-ellipsis " ▾")
-    (set-face-attribute 'org-table nil :font "Source Code Pro" :height 130 :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil :font "Source Code Pro" :height 130 :inherit 'fixed-pitch)
-    (set-face-attribute 'org-block nil :font "Source Code Pro" :height 130 :inherit 'fixed-pitch)
-    (set-face-attribute 'org-block-begin-line nil :font "Source Code Pro" :height 130 :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-block-end-line nil :font "Source Code Pro" :height 130 :inherit '(shadow fixed-pitch))
     :custom
     (org-hide-emphasis-markers t))
+
+  (custom-theme-set-faces
+   'user
+   '(variable-pitch ((t (:family "Lucida Grande" :height 150 :weight thin))))
+   '(fixed-pitch ((t ( :family "Source Code Pro" :height 130 :weight regular)))))
+
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
 
   (use-package org-bullets
     :after org)
@@ -760,8 +772,8 @@ Make Emacs use the $PATH set up by the user's shell
                 (append flycheck-disabled-checkers
                         '(javascript-jshint)))
 
-  ;; use eslint with rjsx-mode for (j|t)sx? files
-  ;; (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  ;; use eslint with rjsx-mode for /(j|t)sx?/ files
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
@@ -776,35 +788,22 @@ Make Emacs use the $PATH set up by the user's shell
 #+end_src
 ** Flycheck posframe
 #+begin_src emacs-lisp
-  (use-package flycheck-posframe
-    :after flycheck
-    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
-#+end_src
-** Prettier
-#+begin_src emacs-lisp
-  (defun enable-minor-mode (my-pair)
-    "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-    (if (buffer-file-name)
-        (if (string-match (car my-pair) buffer-file-name)
-        (funcall (cdr my-pair)))))
-
-  (use-package prettier-js)
-
-  (add-hook 'typescript-mode-hook 'prettier-js-mode)
-  (add-hook 'rjsx-mode-hook 'prettier-js-mode)
-  (add-hook 'scss-mode-hook 'prettier-js-mode)
-
-  (add-hook 'web-mode-hook #'(lambda ()
-                               (enable-minor-mode
-                                '("\\.jsx?\\'" . prettier-js-mode))
-                   (enable-minor-mode
-                                '("\\.tsx?\\'" . prettier-js-mode))))
+  ;; (use-package flycheck-posframe
+  ;;   :after flycheck
+  ;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
 ** Eslintd
 #+begin_src emacs-lisp
   (use-package eslintd-fix
     :hook
-    ((typescript-mode rjsx-mode web-mode) . eslintd-fix-mode))
+    (web-mode . eslintd-fix-mode)
+    (javascript-mode . eslintd-fix-mode)
+    (typescript-mode . eslintd-fix-mode)
+    (scss-mode . eslintd-fix-mode)
+    (css-mode . eslintd-fix-mode)
+    (web-mode . eslintd-fix-mode)
+    (rjsx-mode . eslintd-fix-mode)
+    (json-mode . eslintd-fix-mode))
 #+end_src
 ** Eglot
 #+begin_src emacs-lisp
@@ -864,7 +863,6 @@ Make Emacs use the $PATH set up by the user's shell
     :hook
     (web-mode . lsp-deferred)
     :mode (
-       ("\\.tsx\\'" . web-mode)
        ("\\.html\\'" . web-mode))
     :commands web-mode)
 #+end_src
@@ -922,9 +920,23 @@ Make Emacs use the $PATH set up by the user's shell
   (setq js2-mode-show-strict-warnings nil)
 
   (use-package typescript-mode
+    :init
+    (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
+    :mode (
+           ("\\.tsx?\\'" . typescript-tsx-mode))
     :hook
     (typescript-mode . lsp-deferred)
-    :mode (("\\.ts\\'" . typescript-mode)))
+    (typescript-tsx-mode . lsp-deferred))
+
+  (use-package tree-sitter
+    :hook ((typescript-mode . tree-sitter-hl-mode)
+       (typescript-tsx-mode . tree-sitter-hl-mode)))
+
+  (use-package tree-sitter-langs
+    :after tree-sitter
+    :config
+    (tree-sitter-require 'tsx)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
 #+end_src
 * Transitioning from VIM to Emacs
 Here is a list of stuff I set out to learn as I began using emacs
@@ -932,16 +944,15 @@ after using vim for three years
 
 ** Terminology / good to know
 1) ~C-x C-c~ to quit emacs
-2) ~C-h i m~ transient RET
-3) ~M-x~ execute extended command
-4) ~C-g~ to escape
-5) ~C-h ?~ about help
-6) ~C-h t~ opens the emacs tutorial
-7) ~C-h k~ [key or chord] opens help about that key or string of keys
-8) ~C-v~ scroll down one screen
-9) ~M-v~ scroll up one screen
-10) ~C-s~ start incremental search / go to next match
-11) ~C-x 0~ kill current window
+2) ~M-x~ execute command
+3) ~C-g~ to escape
+4) ~C-h ?~ about help
+5) ~C-h t~ opens the emacs tutorial
+6) ~C-h k [key or series of keys]~ opens help about that key or string of keys
+7) ~C-v~ minibuffer: scroll v one screen
+8) ~M-v~ minibuffer: scroll ^ one screen
+9) ~C-s~ start incremental search / go to next match
+10) ~C-x 0~ kill current window
 
 ** Editor configuration
 - ~M-x customize RET~
