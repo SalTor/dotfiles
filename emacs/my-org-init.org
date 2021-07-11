@@ -365,13 +365,12 @@
 ** Company mode
 #+begin_src emacs-lisp
   (use-package company
-    :init
-    (add-hook 'after-init-hook 'global-company-mode)
+    :hook (prog-mode . company-mode)
     :config
     (company-tng-mode)
-    (setq company-idle-delay 0
-          company-minimum-prefix-length 1
-          company-selection-wrap-around t))
+    (setq company-minimum-prefix-length 1)
+    (setq company-tooltip-align-annotations t)
+    (setq company-selection-wrap-around t))
 
   ;; Nice icons in company dropdowns
   (use-package company-box
@@ -383,10 +382,8 @@
   (use-package company-quickhelp
     :config (company-quickhelp-mode))
 
-  (eval-after-load 'company
-    '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-
-  (setq company-tooltip-align-annotations t)
+  (eval-after-load 'company '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  (eval-after-load 'company '(add-to-list 'company-backends '(company-capf)))
 #+end_src
 ** Dashboard: recentf / bookmarks / MRU
 #+begin_src emacs-lisp
@@ -425,10 +422,10 @@
      `(org-level-7 ((t (,@headline ,@variable-tuple))))
      `(org-level-6 ((t (,@headline ,@variable-tuple))))
      `(org-level-5 ((t (,@headline ,@variable-tuple))))
-     `(org-level-4 ((t (,@headline ,@variable-tuple :height 1))))
-     `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.15))))
-     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.4))))
-     `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.65))))
+     `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+     `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+     `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
      `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
 
   (custom-theme-set-faces
@@ -757,78 +754,103 @@ Make Emacs use the $PATH set up by the user's shell
 #+begin_src emacs-lisp
   (use-package flycheck
     :init
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (add-hook 'after-init-hook #'global-flycheck-mode)
     :config
+    (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories
+                                                  flycheck-locate-config-file-by-path))
+    (setq flycheck-check-syntax-automatically '(save
+                                                idle-change
+                                                new-line
+                                                mode-enabled))
+    (setq flycheck-display-errors-delay 0.1)
+    (setq flycheck-flake8rc '(".flake8"))
+    (setq flycheck-javascript-eslint-executable "eslint_d")
+
+    (setq-default flycheck-temp-prefix ".flycheck")
+    (setq-default flycheck-disabled-checkers
+                  (append flycheck-disabled-checkers
+                          '(javascript-jshint json-jsonlist)))
+
     (leader-keys
       "el" 'flycheck-list-errors
       "en" 'flycheck-next-error
       "ep" 'flycheck-previous-error)
-    (add-hook 'after-init-hook #'global-flycheck-mode))
+    )
 
-  (setq flycheck-javascript-eslint-executable "eslint_d")
-
-  ;; Disable jshint in favour of eslint
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(javascript-jshint)))
-
-  ;; use eslint with rjsx-mode for /(j|t)sx?/ files
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-
-  ;; customize flycheck temp file prefix
-  (setq-default flycheck-temp-prefix ".flycheck")
-
-  ;; disable json-jsonlist checking for json files
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(json-jsonlist)))
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
 #+end_src
 ** Flycheck posframe
 #+begin_src emacs-lisp
   ;; (use-package flycheck-posframe
   ;;   :after flycheck
-  ;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  ;;   :config
+  ;;   (setq flycheck-posframe-error-prefix "■ ")
+  ;;   (setq flycheck-posframe-info-prefix "■ ")
+  ;;   (setq flycheck-posframe-prefix "■ ")
+  ;;   (setq flycheck-posframe-warning-prefix "■ ")
+  ;;   (setq flycheck-posframe-background-face ((t nil)))
+  ;;   (setq flycheck-posframe-border-face ((t (:foreground "light green"))))
+  ;;   (setq flycheck-posframe-info-face ((t (:inherit flycheck-posframe-face :foreground "SpringGreen2"))))
+
+  ;;   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
 ** Eslintd
 #+begin_src emacs-lisp
   (use-package eslintd-fix
-    :hook
-    (web-mode . eslintd-fix-mode)
-    (javascript-mode . eslintd-fix-mode)
-    (typescript-mode . eslintd-fix-mode)
-    (scss-mode . eslintd-fix-mode)
-    (css-mode . eslintd-fix-mode)
-    (web-mode . eslintd-fix-mode)
-    (rjsx-mode . eslintd-fix-mode)
-    (json-mode . eslintd-fix-mode))
+    :hook ((web-mode
+            typescript-mode
+            typescript-tsx-mode
+            css-mode
+            scss-mode
+            rjsx-mode
+            json-mode) . eslintd-fix-mode))
 #+end_src
-** Eglot
+** Prettier
+Handled more often by eslintd when a project uses both eslint and prettier
+** EditorConfig
 #+begin_src emacs-lisp
-  (use-package eglot)
+  (use-package editorconfig
+    :config
+    (editorconfig-mode 1))
 #+end_src
 ** LSP Mode
 #+begin_src emacs-lisp
-  ;; lsp-mode
-  (setq lsp-log-io nil) ;; Don't log everything = speed
-  (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-restart 'auto-restart)
-  (setq lsp-headerline-breadcrumb-enable nil)
-
   (use-package lsp-mode
+    :init
+    (setq lsp-keymap-prefix "C-c l")
     :commands (lsp lsp-deferred)
+    :hook ((lsp-mode . lsp-enable-which-key-integration))
     :config
+    (setq lsp-auto-guess-root t)
+    (setq lsp-diagnostic-package :none)
+    (add-hook 'web-mode-hook #'lsp-flycheck-enable)
+
+    (setq lsp-log-io nil) ;; Don't log everything = speed
+    (setq lsp-restart 'auto-restart)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-lens-enable nil)
+    (setq lsp-keymap-prefix "C-c l")
+
+    (setq lsp-enable-completion-at-point t)
+    (setq lsp-enable-symbol-highlighting t)
+    (setq lsp-modeline-diagnostics-enable t)
+    (setq lsp-enable-on-type-formatting nil)
+    (setq lsp-signature-auto-activate nil)
+    (setq lsp-modeline-code-actions-enable nil)
+    (setq lsp-enable-folding nil)
+    (setq lsp-enable-imenu nil)
+    (setq lsp-enable-snippet nil)
+    (setq lsp-eslint-enable nil)
+    (setq read-process-output-max (* 1024 1024)) ;; 1mb
+    (setq lsp-idle-delay 0.5)
+
     (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
     (lsp-enable-which-key-integration t)
-    :hook
-    (lsp-mode . lsp-enable-which-key-integration)
-    :custom
-    (lsp-lens-enable nil)
-    (lsp-disabled-clients '((python-mode . pyls)))
-    :init
-    (setq lsp-keymap-prefix "C-c l"))
+    )
 
   ;; lsp-ui
   (setq lsp-ui-sideline-enable nil)
@@ -877,25 +899,27 @@ Make Emacs use the $PATH set up by the user's shell
            ))
 #+end_src
 ** Languages
-*** Python mode
-***** pyvenv + pipenv
+*** Python
+**** pyvenv + pipenv
 #+begin_src emacs-lisp
   (use-package pyvenv
     :config
-    (pyvenv-mode t)
+    (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
     ;; Set correct Python interpreter
     (setq pyvenv-post-activate-hooks
           (list (lambda ()
+                  (call-interactively #'lsp-workspace-restart)
                   (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
     (setq pyvenv-post-deactivate-hooks
           (list (lambda ()
-                  (setq python-shell-interpreter "python3")))))
+                  (setq python-shell-interpreter "python3"))))
+    (pyvenv-mode +1))
 #+end_src
-***** pylint
+**** pylint
 #+begin_src emacs-lisp
   (use-package pylint)
 #+end_src
-***** LSP config
+**** LSP config
 #+begin_src emacs-lisp
   (use-package lsp-python-ms
     :after (lsp-mode)
@@ -908,13 +932,13 @@ Make Emacs use the $PATH set up by the user's shell
                       (flycheck-add-next-checker 'python-flake8 'python-pylint)
                       (message "Added flycheck checkers.")))))
 #+end_src
-***** The mode
+**** The mode
 #+begin_src emacs-lisp
   (use-package python-mode
     :hook
     (python-mode . pyvenv-mode))
 #+end_src
-*** Typescript mode
+** Javascript/Typescript
 #+begin_src emacs-lisp
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
@@ -922,11 +946,14 @@ Make Emacs use the $PATH set up by the user's shell
   (use-package typescript-mode
     :init
     (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
-    :mode (
-           ("\\.tsx?\\'" . typescript-tsx-mode))
-    :hook
-    (typescript-mode . lsp-deferred)
-    (typescript-tsx-mode . lsp-deferred))
+    :config
+    (setq typescript-indent-level 2)
+    :mode ("\\.tsx?\\'" . typescript-tsx-mode)
+    :hook ((typescript-mode . subword-mode)
+           (typescript-tsx-mode . (lambda ()
+                                    (lsp-deferred)
+                                    ;; (flycheck-add-next-checker 'lsp 'javascript-eslint)
+                                    ))))
 
   (use-package tree-sitter
     :hook ((typescript-mode . tree-sitter-hl-mode)
@@ -942,6 +969,20 @@ Make Emacs use the $PATH set up by the user's shell
 Here is a list of stuff I set out to learn as I began using emacs
 after using vim for three years
 
+** Stuff I expect to be an editor
+- Vim basics
+  - Modal editing
+  - Macros
+  - surround.vim equivalent
+  - sneak.vim equivalent
+- File explorer
+- File picker
+- Autocomplete as I type
+  - Variables and function
+- Syntax highlighting
+- Project-wide search (ag, rg, etc)
+- Version control tooling
+
 ** Terminology / good to know
 1) ~C-x C-c~ to quit emacs
 2) ~M-x~ execute command
@@ -955,7 +996,7 @@ after using vim for three years
 10) ~C-x 0~ kill current window
 
 ** Editor configuration
-- ~M-x customize RET~
+- ~M-x customize~
 
 ** Line navigation
 1) marks equivalent
