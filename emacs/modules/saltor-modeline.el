@@ -51,16 +51,7 @@ Containing LEFT, and RIGHT aligned respectively."
                                :background nil)))
            ,(nth 2 s)
            :group 'cogent))
-  (eval `(defface ,(intern (concat (symbol-name (nth 0 s)) "-buffer-name"))
-           (list (list t (list :foreground ,(nth 1 s)
-                               :background nil)))
-           ,(nth 2 s)
-           :group 'cogent))
-  (eval `(defface ,(intern (concat (symbol-name (nth 0 s)) "-file-changed"))
-           (list (list t (list :foreground "orange1"
-                               :background nil)))
-           ,(nth 2 s)
-           :group 'cogent)))
+    )
 
 (defvar cogent/evil-state-faces
   '((normal . cogent-line-evil-normal)
@@ -78,47 +69,11 @@ Containing LEFT, and RIGHT aligned respectively."
     (replace . cogent-line-evil-replace-inactive)
     (visual . cogent-line-evil-visual-inactive)
     (motion . cogent-line-evil-motion-inactive)))
-(defvar cogent/evil-state-faces-buffer-name
-  '((normal . cogent-line-evil-normal-buffer-name)
-    (insert . cogent-line-evil-insert-buffer-name)
-    (operator . cogent-line-evil-operator-buffer-name)
-    (emacs . cogent-line-evil-emacs-buffer-name)
-    (replace . cogent-line-evil-replace-buffer-name)
-    (visual . cogent-line-evil-visual-buffer-name)
-    (motion . cogent-line-evil-motion-buffer-name)))
-(defvar cogent/evil-state-faces-file-changed
-  '((normal . cogent-line-evil-normal-file-changed)
-    (insert . cogent-line-evil-insert-file-changed)
-    (operator . cogent-line-evil-operator-file-changed)
-    (emacs . cogent-line-evil-emacs-file-changed)
-    (replace . cogent-line-evil-replace-file-changed)
-    (visual . cogent-line-evil-visual-file-changed)
-    (motion . cogent-line-evil-motion-file-changed)))
 
 (defun cogent/evil-state-face ()
   (if-let ((face (and
                   (bound-and-true-p evil-local-mode)
-                  (assq evil-state
-                        (if (cogent-line-selected-window-active-p)
-                            cogent/evil-state-faces
-                          cogent/evil-state-faces-inactive)))))
-      (cdr face)
-    cogent-line-default-face))
-
-(defun cogent/evil-state-face-buffer-name ()
-  (if-let ((face (and
-                  (bound-and-true-p evil-local-mode)
-                  (assq evil-state
-                        (if (cogent-line-selected-window-active-p)
-                            cogent/evil-state-faces-buffer-name
-                          cogent/evil-state-faces-inactive)))))
-      (cdr face)
-    cogent-line-default-face))
-
-(defun cogent/evil-state-face-file-changed ()
-  (if-let ((face (and
-                  (bound-and-true-p evil-local-mode)
-                  (assq evil-state cogent/evil-state-faces-file-changed))))
+                  (assq evil-state cogent/evil-state-faces))))
       (cdr face)
     cogent-line-default-face))
 
@@ -145,17 +100,7 @@ Containing LEFT, and RIGHT aligned respectively."
     (simple-mode-line-render
      ;; left side
      (quote (" "
-             (:eval (propertize (if (cogent-line-selected-window-active-p)
-                                    (concat " " evil-mode-line-tag " ")
-                                  (concat " " (s-repeat 6 "-") " ")) 'face (cogent/evil-state-face)))
-             " "
-             ;; File/buffer name
-             (:eval (propertize "%b" 'face (if buffer-file-name
-                                               (if (buffer-modified-p)
-                                                   (cogent/evil-state-face-file-changed)
-                                                 (cogent/evil-state-face-buffer-name))
-                                             (cogent/evil-state-face-buffer-name))))
-
+             "%b"
              ;; Shows "[+]" if file is modified
              (:eval
               (if buffer-file-name
@@ -165,7 +110,7 @@ Containing LEFT, and RIGHT aligned respectively."
              ;; Indicates if file is read-only
              (:eval
               (if buffer-read-only
-                  " [read only] "
+                  " [RO] "
                 " "))
              "%e "
              mode-line-process
