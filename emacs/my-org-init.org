@@ -728,7 +728,9 @@ Make Emacs use the $PATH set up by the user's shell
     "wh" 'evil-window-left
     "wj" 'evil-window-down
     "wk" 'evil-window-up
-    "wl" 'evil-window-right)
+    "wl" 'evil-window-right
+    "w=" 'balance-windows
+    )
 #+end_src
 * In-file navigation
 ** Avy
