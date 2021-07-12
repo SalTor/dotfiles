@@ -103,6 +103,8 @@
  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+ '(selectrum-prescient-primary-highlight ((t (:foreground "orange1" :weight bold))))
+ '(selectrum-prescient-secondary-highlight ((t (:underline t))))
  '(variable-pitch ((t (:family "Lucida Grande" :height 150 :weight thin)))))
 
 ;;; Above this point, don't edit
