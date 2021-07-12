@@ -48,6 +48,7 @@
  '(evil-vsplit-window-right t)
  '(evil-want-C-i-jump t)
  '(exec-path-from-shell-arguments '("-l"))
+ '(flycheck-posframe-border-width 10)
  '(initial-frame-alist '((fullscreen . maximized)))
  '(ivy-height 20)
  '(ivy-height-alist
@@ -73,6 +74,9 @@
  ;; If there is more than one, they won't work right.
  '(evil-goggles-yank-face ((t (:inherit evil-goggles-default-face :background "DarkOrange1"))))
  '(fixed-pitch ((t (:family "Source Code Pro" :height 130 :weight regular))))
+ '(flycheck-posframe-background-face ((t nil)))
+ '(flycheck-posframe-border-face ((t (:foreground "light green"))))
+ '(flycheck-posframe-info-face ((t (:inherit flycheck-posframe-face :foreground "SpringGreen2"))))
  '(helm-rg-file-match-face ((t (:foreground "MediumOrchid1"))))
  '(lsp-details-face ((t (:inherit shadow :height 0.8 :family "Source Code Pro"))))
  '(mode-line-inactive ((t (:background "gray20" :foreground "gray40" :box nil))))
