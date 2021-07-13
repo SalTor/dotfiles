@@ -366,12 +366,13 @@
 ** Company mode
 #+begin_src emacs-lisp
   (use-package company
-    :hook (prog-mode . company-mode)
     :config
     (company-tng-mode)
     (setq company-minimum-prefix-length 1)
     (setq company-tooltip-align-annotations t)
     (setq company-selection-wrap-around t))
+
+  (add-hook 'after-init-hook 'global-company-mode)
 
   ;; Nice icons in company dropdowns
   (use-package company-box
@@ -384,7 +385,6 @@
     :config (company-quickhelp-mode))
 
   (eval-after-load 'company '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-  (eval-after-load 'company '(add-to-list 'company-backends '(company-capf)))
 #+end_src
 ** Dashboard: recentf / bookmarks / MRU
 #+begin_src emacs-lisp
