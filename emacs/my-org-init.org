@@ -577,6 +577,9 @@ Make Emacs use the $PATH set up by the user's shell
 * Project/file management
 ** Magit
 #+begin_src emacs-lisp
+  ;; Set so modeline info updates
+  (setq auto-revert-check-vc-info t)
+
   (use-package magit
     :commands magit-status
     :custom

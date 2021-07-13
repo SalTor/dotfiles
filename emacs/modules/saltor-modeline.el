@@ -118,6 +118,8 @@ Containing LEFT, and RIGHT aligned respectively."
 
      ;; right side
      (quote (
+             (:eval '(vc-mode vc-mode))
+             " "
              ;; Cursor line, total lines, cursor column
              (:eval (when line-number-mode
                       (let ((str "%l"))
