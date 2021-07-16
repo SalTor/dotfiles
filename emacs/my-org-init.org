@@ -405,8 +405,6 @@
 #+begin_src emacs-lisp
   (defun sal/org-mode-setup ()
     "Org mode setup."
-    (org-indent-mode)
-    (auto-fill-mode)
     (global-linum-mode 0))
 
   (let* ((variable-tuple
@@ -448,7 +446,11 @@
 
   (use-package org
     :defer 1
-    :hook ((org-mode . sal/org-mode-setup))
+    :hook ((org-mode . sal/org-mode-setup)
+           (org-mode . visual-line-mode)
+           (org-mode . auto-fill-mode)
+           (org-mode . org-indent-mode)
+           (org-mode . (lambda () (setq-local evil-auto-indent nil))))
     :config
     (setq org-return-follows-link t)
     (setq org-ellipsis " ▾")
