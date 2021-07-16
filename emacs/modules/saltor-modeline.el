@@ -77,36 +77,40 @@ Containing LEFT, and RIGHT aligned respectively."
       (cdr face)
     cogent-line-default-face))
 
-;; Keep track of selected window, so we can render the modeline differently
-(defvar cogent-line-selected-window (frame-selected-window))
-(defun cogent-line-set-selected-window (&rest _args)
-  (when (not (minibuffer-window-active-p (frame-selected-window)))
-    (setq cogent-line-selected-window (frame-selected-window))
-    (force-mode-line-update)))
-(defun cogent-line-unset-selected-window ()
-  (setq cogent-line-selected-window nil)
-  (force-mode-line-update))
-(add-hook 'window-configuration-change-hook #'cogent-line-set-selected-window)
-(add-hook 'focus-in-hook #'cogent-line-set-selected-window)
-(add-hook 'focus-out-hook #'cogent-line-unset-selected-window)
-(advice-add 'handle-switch-frame :after #'cogent-line-set-selected-window)
-(add-hook 'window-selection-change-functions #'cogent-line-set-selected-window)
-(defun cogent-line-selected-window-active-p ()
-  (eq cogent-line-selected-window (selected-window)))
+(defvar ml-selected-window nil)
+
+(defun ml-record-selected-window ()
+  (setq ml-selected-window (selected-window)))
+
+(add-hook 'post-command-hook 'ml-record-selected-window)
+
+(defun is-active-buffer ()
+  (eq ml-selected-window (selected-window)))
+
+(defun is-active-propertized (active-text &optional inactive-text)
+  (interactive)
+  (if (is-active-buffer)
+      (propertize active-text 'face (cogent/evil-state-face))
+    (if inactive-text
+        inactive-text
+      active-text)))
 
 (setq-default
  mode-line-format
  '((:eval
     (simple-mode-line-render
      ;; left side
-     (quote (" "
+     (quote (
+             (:eval (is-active-propertized
+                     (concat " " evil-mode-line-tag " ")
+                     " ------ "))
+             " "
              "%b"
-             ;; Shows "[+]" if file is modified
+             ;; Shows if file is modified
              (:eval
-              (if buffer-file-name
-                  (if (buffer-modified-p)
-                      " [+] "
-                    " ")))
+              (if (and buffer-file-name (buffer-modified-p))
+                  " [+] "
+                " "))
              ;; Indicates if file is read-only
              (:eval
               (if buffer-read-only
@@ -117,8 +121,12 @@ Containing LEFT, and RIGHT aligned respectively."
              ))
 
      ;; right side
-     (quote (
-             (:eval '(vc-mode vc-mode))
+     (quote ((:eval (boundp 'pyvenv-virtual-env-name))
+             (:eval (let ((salgitbranch (format-mode-line '(vc-mode vc-mode))))
+                      (if (boundp 'salgitbranch)
+                          (replace-regexp-in-string "Git[:|-]" "" salgitbranch))
+                      )
+                    )
              " "
              ;; Cursor line, total lines, cursor column
              (:eval (when line-number-mode
