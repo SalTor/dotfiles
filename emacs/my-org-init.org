@@ -671,6 +671,11 @@ Make Emacs use the $PATH set up by the user's shell
              "l" 'neotree-enter
              "q" 'neotree-hide))
 #+end_src
+** Custom commands
+#+begin_src emacs-lisp
+  (leader-keys
+    "pc" 'capsule-cw-mfe)
+#+end_src
 ** Config
 
 #+begin_src emacs-lisp
