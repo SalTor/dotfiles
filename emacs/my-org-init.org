@@ -913,6 +913,9 @@ Handled more often by eslintd when a project uses both eslint and prettier
 *** Python
 **** pyvenv + pipenv
 #+begin_src emacs-lisp
+  (setq pyvenv-virtualenvwrapper-python "python3")
+  (setenv "WORKON_HOME" "~/.local/share/virtualenvs/")
+
   (use-package pyvenv
     :config
     (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
@@ -925,6 +928,13 @@ Handled more often by eslintd when a project uses both eslint and prettier
           (list (lambda ()
                   (setq python-shell-interpreter "python3"))))
     (pyvenv-mode +1))
+
+  (use-package pipenv
+    :hook (python-mode . pipenv-mode)
+    :init
+    (setq
+     pipenv-projectile-after-switch-function
+     #'pipenv-projectile-after-switch-extended))
 #+end_src
 **** pylint
 #+begin_src emacs-lisp
