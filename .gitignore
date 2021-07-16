@@ -8,5 +8,6 @@ config/lazygit/
 config/.secrets
 my-org-init.el
 emacs/external-packages/
+emacs/project-setups/
 .DS_Store
 .git/*

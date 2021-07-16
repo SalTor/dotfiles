@@ -7,6 +7,7 @@
 *** Namespacing
 #+begin_src emacs-lisp
   (add-to-list 'load-path  "~/dotfiles/emacs/modules")
+  (add-to-list 'load-path  "~/dotfiles/emacs/project-setups")
 #+end_src
 *** Garbage collection
 #+begin_src emacs-lisp
