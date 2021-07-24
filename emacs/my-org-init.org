@@ -622,7 +622,6 @@ Make Emacs use the $PATH set up by the user's shell
 
   (leader-keys
     "," 'projectile-find-file
-    ;; "sp" 'projectile-ripgrep
     "po" 'projectile-switch-project)
 #+end_src
 ** Dired
@@ -715,12 +714,29 @@ Make Emacs use the $PATH set up by the user's shell
 
   (add-hook 'ibuffer-hook #'ibuffer-jump-to-last-buffer)
 #+end_src
+** Perspective.el
+This allows us to group buffers and window layouts into different
+virtual "workspaces". This is particularly useful when working with
+multiple projects and you don't want to clutter your buffer list
+#+begin_src emacs-lisp
+  (use-package perspective
+    :init
+    (persp-mode)
+    :custom
+    (persp-state-default-file "~/Documents/perspective-saves"))
+  (add-hook 'kill-emacs-hook #'persp-state-save)
+
+  (leader-keys
+    "s;" 'persp-switch
+    "ss" 'persp-set-buffer
+    "sr" 'persp-rename)
+#+end_src
 ** Config
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-;") 'ibuffer)
 
   (leader-keys
-    ";" 'consult-buffer
+    ";" 'switch-to-buffer
     "TAB" 'evil-switch-to-windows-last-buffer
     "br" 'rename-buffer
     "bd" 'kill-this-buffer)
@@ -778,10 +794,10 @@ Make Emacs use the $PATH set up by the user's shell
     (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories
                                                   flycheck-locate-config-file-by-path))
     (setq flycheck-check-syntax-automatically '(save
-                                                idle-change
-                                                new-line
+                                                ;; idle-change
+                                                ;; new-line
                                                 mode-enabled))
-    (setq flycheck-display-errors-delay 0.1)
+    (setq flycheck-display-errors-delay 0.3)
     (setq flycheck-flake8rc '(".flake8"))
     (setq flycheck-javascript-eslint-executable "eslint_d")
 
@@ -866,6 +882,9 @@ Handled more often by eslintd when a project uses both eslint and prettier
 
     (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
     (lsp-enable-which-key-integration t)
+
+    (leader-keys
+      "vr" 'lsp-rename)
     )
 
   ;; lsp-ui
@@ -876,7 +895,9 @@ Handled more often by eslintd when a project uses both eslint and prettier
   (evil-normalize-keymaps)
   (evil-define-key 'normal 'lsp-ui-doc-frame-mode [?q] #'lsp-ui-doc-unfocus-frame)
   (evil-define-key 'normal 'lsp-ui-doc-mode       [?K] #'lsp-ui-doc-focus-frame)
-  (use-package lsp-ui :commands lsp-ui-mode)
+
+  (use-package lsp-ui
+    :commands lsp-ui-mode)
 #+end_src
 
 ** DAP mode
@@ -973,7 +994,6 @@ Handled more often by eslintd when a project uses both eslint and prettier
     :init
     (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
     :config
-    (setq typescript-indent-level 2)
     :mode ("\\.tsx?\\'" . typescript-tsx-mode)
     :hook ((typescript-mode . subword-mode)
            (typescript-tsx-mode . (lambda ()
