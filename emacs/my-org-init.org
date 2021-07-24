@@ -528,6 +528,7 @@ Make Emacs use the $PATH set up by the user's shell
       (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
       (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
       (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+      (evil-define-key 'normal vterm-mode-map (kbd "C-d")      nil)
       (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
       (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
       (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
