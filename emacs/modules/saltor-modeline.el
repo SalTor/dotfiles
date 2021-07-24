@@ -28,7 +28,7 @@ Containing LEFT, and RIGHT aligned respectively."
 
 (defvar cogent-line-evil-state-colours
   '((cogent-line-evil-normal "#afd787" "Evil normal state face.")
-    (cogent-line-evil-insert "SteelBlue1" "Evil insert state face.")
+    (cogent-line-evil-insert "#87afd7" "Evil insert state face.")
     (cogent-line-evil-emacs "SkyBlue2" "Evil emacs state face.")
     (cogent-line-evil-replace "chocolate" "Evil replace state face.")
     (cogent-line-evil-visual "plum3" "Evil visual state face.")
