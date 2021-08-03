@@ -995,8 +995,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
     :config
     :mode ("\\.tsx?\\'" . typescript-tsx-mode)
-    :hook ((typescript-mode . subword-mode)
-           (typescript-tsx-mode . (lambda ()
+    :hook ((typescript-tsx-mode . (lambda ()
                                     (lsp-deferred)
                                     ;; (flycheck-add-next-checker 'lsp 'javascript-eslint)
                                     ))))
