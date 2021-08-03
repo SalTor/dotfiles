@@ -51,7 +51,7 @@ Containing LEFT, and RIGHT aligned respectively."
                                :background nil)))
            ,(nth 2 s)
            :group 'cogent))
-    )
+  )
 
 (defvar cogent/evil-state-faces
   '((normal . cogent-line-evil-normal)
@@ -95,6 +95,49 @@ Containing LEFT, and RIGHT aligned respectively."
         inactive-text
       active-text)))
 
+(defun hide-scroll-lines-etc ()
+  (interactive)
+  (or (eq major-mode 'org-mode)
+      (eq major-mode 'dashboard-mode)
+      (eq major-mode 'vterm-mode)
+      (eq major-mode 'magit-status-mode)
+      (eq major-mode 'magit-log-mode)
+      ))
+
+(defun get-lines-and-scroll-pos ()
+  (interactive)
+  (quote (
+          ;; Cursor line, total lines, cursor column
+          (:eval (when line-number-mode
+                    "%l"))
+          (:eval (when column-number-mode
+                    ",%c "))
+          ;; Percentage down in file that the line is
+          (:eval (when line-number-mode
+                   (let ((str ""))
+                     (if my-mode-line-buffer-line-count
+                         (setq str (concat str "☰ " (int-to-string (floor (* (/ (string-to-number (concat (format-mode-line "%l") ".0")) my-mode-line-buffer-line-count) 100))) "%% ")))
+                     str)))
+          )))
+
+;; (defun my-update-header ()
+;;   (interactive)
+;;   (if (and (not (eq major-mode 'magit-status-mode))
+;;            (not (eq major-mode 'magit-log-mode))
+;;            (not (eq major-mode 'magit-diff-mode)))
+;;       (setq global-mode-string (quote (
+;;                                        " "
+;;                                        (:eval (propertize (persp-current-name) 'face (if (is-active-buffer)
+;;                                                                                          'dired-special
+;;                                                                                        nil)))
+;;                                        (:eval (let ((salgitbranch (format-mode-line '(vc-mode vc-mode))))
+;;                                                 (if (boundp 'salgitbranch)
+;;                                                     (replace-regexp-in-string "Git[:|-]" "" salgitbranch))
+;;                                                 )
+;;                     )
+;;                                        )))))
+;; (add-hook 'buffer-list-update-hook 'my-update-header)
+
 (setq-default
  mode-line-format
  '((:eval
@@ -121,28 +164,18 @@ Containing LEFT, and RIGHT aligned respectively."
              ))
 
      ;; right side
-     (quote ((:eval (boundp 'pyvenv-virtual-env-name))
-             (:eval (let ((salgitbranch (format-mode-line '(vc-mode vc-mode))))
-                      (if (boundp 'salgitbranch)
-                          (replace-regexp-in-string "Git[:|-]" "" salgitbranch))
-                      )
-                    )
+     (quote (
+             (:eval (boundp 'pyvenv-virtual-env-name))
+             ;; (vc-working-revision (buffer-file-name (current-buffer)))
              " "
-             ;; Cursor line, total lines, cursor column
-             (:eval (when line-number-mode
-                      (let ((str "%l"))
-                        (if my-mode-line-buffer-line-count
-                            (setq str (concat str "," (int-to-string my-mode-line-buffer-line-count))))
-                        str)))
-             (column-number-mode "-%c ")
-             ;; Percentage down in file that the line is
-             (:eval (when line-number-mode
-                      (let ((str ""))
-                        (if my-mode-line-buffer-line-count
-                            (setq str (concat str "☰ " (int-to-string (floor (* (/ (string-to-number (concat (format-mode-line "%l") ".0")) my-mode-line-buffer-line-count) 100))) "%% ")))
-                        str)))
+             ;; lines, scroll position
+             (:eval (if (hide-scroll-lines-etc)
+                        ""
+                      (get-lines-and-scroll-pos)
+                      ))
              ;; Condense list of modes into "(Major-mode ;-)"
              minions-mode-line-modes
+             " "
              ))))))
 
 (defun my-mode-line-count-lines ()
