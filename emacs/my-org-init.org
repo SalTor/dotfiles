@@ -898,6 +898,18 @@ Handled more often by eslintd when a project uses both eslint and prettier
        ("\\.html\\'" . web-mode))
     :commands web-mode)
 #+end_src
+** Emmet mode
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :hook (
+           (typescript-tsx-mode . emmet-mode)
+           (web-mode . emmet-mode)
+           (css-mode . emmet-mode)
+           (scss-mode . emmet-mode)
+           ))
+
+  (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
+#+end_src
 ** RJSX mode
 #+begin_src emacs-lisp
   (use-package rjsx-mode
