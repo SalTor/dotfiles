@@ -463,7 +463,10 @@
 ** exec-path-from-shell
 Make Emacs use the $PATH set up by the user's shell
 #+begin_src emacs-lisp
-  (use-package exec-path-from-shell)
+  (use-package exec-path-from-shell
+    :config
+    (setenv "SHELL" "/bin/zsh")
+    (setq shell-file-name "/bin/zsh"))
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
 #+end_src
