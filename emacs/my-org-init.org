@@ -851,11 +851,12 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (setq lsp-eslint-enable nil)
     (setq read-process-output-max (* 1024 1024)) ;; 1mb
     (setq lsp-idle-delay 0.5)
-
-    (evil-leader/set-key-for-mode 'lsp-mode "gd" 'lsp-find-definition)
     (lsp-enable-which-key-integration t)
 
     (leader-keys
+      "gd" 'lsp-find-definition
+      "gi" 'lsp-goto-implementation
+      "gt" 'lsp-goto-type-definition
       "vr" 'lsp-rename)
     )
 
