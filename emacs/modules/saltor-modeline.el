@@ -144,9 +144,6 @@ Containing LEFT, and RIGHT aligned respectively."
     (simple-mode-line-render
      ;; left side
      (quote (
-             (:eval (is-active-propertized
-                     (concat " " evil-mode-line-tag " ")
-                     " ------ "))
              " "
              "%b"
              ;; Shows if file is modified
