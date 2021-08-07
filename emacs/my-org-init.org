@@ -724,7 +724,8 @@ multiple projects and you don't want to clutter your buffer list
 #+begin_src emacs-lisp
   (leader-keys
     "wq" 'delete-window
-    "wo" 'other-window
+    "wo" 'delete-other-windows
+    "w TAB" 'other-window
     "wr" 'evil-window-rotate-upwards
     "w/" 'evil-window-vsplit
     "w-" 'evil-window-split
