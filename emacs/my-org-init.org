@@ -301,6 +301,18 @@
     :config
     (setq consult-preview-key (kbd "C-\\")))
 #+end_src
+** straight.el
+#+begin_src emacs-lisp
+(straight-use-package 'use-package)
+#+end_src
+** completion-styles
+#+begin_src emacs-lisp
+  (use-package hotfuzz
+    :straight (hotfuzz :type git :host github :repo "axelf4/hotfuzz"))
+
+  (setq completion-styles '(hotfuzz))
+#+end_src
+
 ** Selectrum
 #+begin_src emacs-lisp
   (use-package selectrum
