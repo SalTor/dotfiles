@@ -302,7 +302,11 @@
 ** completion-styles
 #+begin_src emacs-lisp
   (use-package hotfuzz
-    :straight (hotfuzz :type git :host github :repo "axelf4/hotfuzz"))
+    :straight (hotfuzz :type git :host github :repo "axelf4/hotfuzz")
+    :config
+    (setq completion-ignore-case t)
+    :init
+    (hotfuzz-selectrum-mode))
 
   (setq completion-styles '(hotfuzz))
 #+end_src
