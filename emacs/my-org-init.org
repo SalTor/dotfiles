@@ -1005,6 +1005,15 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (tree-sitter-require 'tsx)
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
 #+end_src
+*** C#
+#+begin_src emacs-lisp
+  (use-package csharp-mode
+    :hook ((csharp-mode . lsp-deferred))
+    :config
+    (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode)))
+
+  (setq lsp-csharp-server-path "~/.emacs.d/.cache/lsp/omnisharp-roslyn/latest/run")
+#+end_src
 * Transitioning from VIM to Emacs
 Here is a list of stuff I set out to learn as I began using emacs
 after using vim for three years
