@@ -980,7 +980,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
     :hook
     (python-mode . pyvenv-mode))
 #+end_src
-** Javascript/Typescript
+*** Javascript/Typescript
 #+begin_src emacs-lisp
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
