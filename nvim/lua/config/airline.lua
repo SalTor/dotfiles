@@ -9,7 +9,7 @@ vim.g['airline#extensions#default#layout'] = {
      { 'b', 'a', 'warning', 'error', 'c' },
      { 'x', 'y', 'z' },
 }
-vim.g['airline#extensions#tabline#enabled'] = true
+vim.g['airline#extensions#tabline#enabled'] = false
 vim.g['airline#extensions#tabline#tab_nr_type'] = true
 vim.g['airline#extensions#tabline#show_tab_nr'] = false
 vim.g['airline#extensions#tabline#show_tab_type'] = false
@@ -31,7 +31,7 @@ vim.g.airline_symbols = {
     ellipsis = '...',
     branch = '',
     whitespace = '☲',
-    colnr = 'ln'
+    colnr = ' ln '
 }
 vim.g.airline_filetype_overrides = {
     startify = {'', ''},

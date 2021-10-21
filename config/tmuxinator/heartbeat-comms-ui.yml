@@ -1,0 +1,7 @@
+name: heartbeat-comms-ui
+root: ~/capsule/heartbeat-comms-ui/
+attach: true
+windows:
+  - SERVERS: npm run watch-dev
+  - CODE: nvim
+  - LAZYGIT: lazygit

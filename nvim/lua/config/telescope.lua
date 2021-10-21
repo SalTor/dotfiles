@@ -5,11 +5,13 @@ require'telescope'.setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
         color_devicons = true,
-        prompt_position = 'top',
         sorting_strategy = 'ascending',
 
         find_command = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
         set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil
+        layout = {
+            prompt_position = 'top',
+        },
         mappings = {
             i = {
                 ['<C-u>'] = false,
