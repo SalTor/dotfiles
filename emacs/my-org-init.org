@@ -750,16 +750,13 @@ multiple projects and you don't want to clutter your buffer list
 
 ** Config
 #+begin_src emacs-lisp
-  (leader-keys
-    "sf" 'consult-line)
-
-  (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char-2-below)
-  (evil-define-key 'normal 'global (kbd "S") 'avy-goto-char-2-above)
-  (evil-define-key 'visual 'global (kbd "s") 'avy-goto-char-2)
-
-  (leader-keys
-    "sw" 'avy-goto-word-0-below
-    "Sw" 'avy-goto-word-0-above)
+  (defhydra hydra-search (evil-normal-state-map "s" :timeout 0)
+    "Search stuff"
+    ("f" consult-line "lines")
+    ("s" avy-goto-char-timer "any-2-char")
+    ("n" avy-goto-char-2-below "word-forward")
+    ("p" avy-goto-char-2-above "word-backward")
+    )
 #+end_src
 * Programming tools & Config
 ** Flycheck
