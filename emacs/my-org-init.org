@@ -562,8 +562,12 @@ Make Emacs use the $PATH set up by the user's shell
           ("C-j" . magit-section-forward)
           ("C-k" . magit-section-backward)
           ("M-j" . magit-section-forward-sibling)
-          ("M-k" . magit-section-backward-sibling))
+          ("M-k" . magit-section-backward-sibling)
+          ("," . projectile-find-file)
+          (";" . switch-to-buffer))
     :config
+    (setq magit-refresh-status-buffer nil)
+
     (defun kill-magit-diff-buffer-in-current-repo (&rest _)
       "Delete the magit-diff buffer related to the current repo"
       (let ((magit-diff-buffer-in-current-repo
