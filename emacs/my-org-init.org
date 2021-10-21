@@ -87,14 +87,14 @@
   (defun sal-enable-linum ()
     (interactive)
     (if (eq nil display-line-numbers)
-        (setq display-line-numbers 'relative)
+        (setq display-line-numbers 'absolute)
       (message "Linum mode set")))
 
   (add-hook 'prog-mode-hook 'sal-enable-linum)
 
   (global-linum-mode -1)
 
-  (setq display-line-numbers 'relative)
+  (setq display-line-numbers 'absolute)
 #+end_src
 *** Whitespace management
 #+begin_src emacs-lisp
