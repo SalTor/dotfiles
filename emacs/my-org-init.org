@@ -70,8 +70,6 @@
 #+begin_src emacs-lisp
   (use-package minions
     :config (minions-mode))
-
-  (require 'saltor-modeline)
 #+end_src
 *** Theme
 #+begin_src emacs-lisp
