@@ -855,12 +855,16 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (setq lsp-idle-delay 0.5)
     (lsp-enable-which-key-integration t)
 
+    (evil-define-key 'normal lsp-mode-map (kbd "gd") 'lsp-find-definition)
+    (evil-define-key 'normal lsp-mode-map (kbd "gi") 'lsp-goto-implementation)
+    (evil-define-key 'normal lsp-mode-map (kbd "gt") 'lsp-goto-type-definition)
+
     (leader-keys
-      "gd" 'lsp-find-definition
-      "gi" 'lsp-goto-implementation
-      "gt" 'lsp-goto-type-definition
       "vr" 'lsp-rename)
     )
+
+  (require 'lsp-diagnostics)
+  (lsp-diagnostics-flycheck-enable)
 
   ;; lsp-ui
   (setq lsp-ui-sideline-enable nil)
@@ -878,11 +882,15 @@ Handled more often by eslintd when a project uses both eslint and prettier
 ** DAP mode
 #+begin_src emacs-lisp
   (use-package dap-mode
-    :config
-    (dap-mode 1)
-    (dap-ui-mode 1)
     :custom
     (dap-auto-configure-features '(sessions locals controls)))
+
+  (defun sal-enable-dap ()
+    (interactive)
+    (dap-mode 1)
+    (dap-ui-mode 1))
+
+  (add-hook 'prog-mode-hook 'sal-enable-dap)
 
   (require 'dap-chrome)
   (dap-chrome-setup)
