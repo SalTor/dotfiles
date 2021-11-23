@@ -100,7 +100,8 @@
     :config
     (global-whitespace-cleanup-mode))
 #+end_src
-** General
+** Keybindings with general.el
+More convenient key definitions in emacs
 #+begin_src emacs-lisp
   (defun sal-switch-linum-mode ()
     (interactive)
@@ -115,12 +116,19 @@
       :keymaps 'override
       :prefix "SPC"
       :global-prefix "C-SPC")
-      ;; Toggles
-      (leader-keys
-          "T"  '(:ignore t :which-key "toggles")
-          "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
+    ;; Toggles
+    (leader-keys
+      "T"  '(:ignore t :which-key "toggles")
+      "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
+
+  (defun sal-switch-linum-mode ()
+    (interactive)
+    (if (eq 'relative display-line-numbers)
+        (setq display-line-numbers 'absolute)
+      (setq display-line-numbers 'relative)))
 #+end_src
 ** Helpful to improve help docs
+An alternative to the built-in Emacs help that provides much more contextual information
 #+begin_src emacs-lisp
   (use-package helpful
     :commands (helpful-callable helpful-variable helpful-command helpful-key))
