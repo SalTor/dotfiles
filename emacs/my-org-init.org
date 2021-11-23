@@ -58,9 +58,6 @@
   (show-paren-mode 1)
   (electric-pair-mode 1)
 
-  (custom-set-variables
-      '(initial-frame-alist (quote ((fullscreen . maximized)))))
-
   ;; Suppress warnings about cl being deprecated
   (setq byte-compile-warnings '(cl-functions))
 
