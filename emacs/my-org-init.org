@@ -480,10 +480,6 @@ Simple package for commenting out code
    "\\ q" 'org-edit-src-exit)
 #+end_src
 
-** Truly miscellaneous
-#+begin_src emacs-lisp
-(setq redisplay-dont-pause t)
-#+end_src
 * Terminal settings
 ** exec-path-from-shell
 Make Emacs use the $PATH set up by the user's shell
