@@ -1,8 +1,7 @@
 function! saltor#autocmds#HandleResize(...) abort
     " Resize splits when vim container resizes
     execute "normal! \<c-w>="
-    AirlineRefresh!
-    echo 'Handle Resize'
+    " AirlineRefresh!
 endfunction
 
 function! saltor#autocmds#OnUIEnter(event) abort

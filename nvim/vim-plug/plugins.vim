@@ -44,8 +44,8 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Visuals
     Plug 'RRethy/nvim-base16' " - Color schemes
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    " Plug 'vim-airline/vim-airline'
+    " Plug 'vim-airline/vim-airline-themes'
     Plug 'sheerun/vim-wombat-scheme'
     Plug 'folke/lsp-colors.nvim'
 
