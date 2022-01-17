@@ -42,7 +42,6 @@
   (defalias 'yes-or-no-p #'y-or-n-p)
 
   (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4)
   (setq-default tab-always-indent t)
   (setq-default indent-line-function 'insert-tab)
 
@@ -154,6 +153,8 @@ There's multiple ways to achieve an undo tree and code folding, undo-fu is for t
 #+end_src
 *** The evil package
 #+begin_src emacs-lisp
+  (general-evil-setup t)
+
   (use-package evil
     :init
     (setq evil-want-keybinding nil)
@@ -216,12 +217,27 @@ A set of keybindings for evil-mode
   (setq evil-want-keybinding nil)
 
   (use-package evil-collection
-    :after evil
-    :custom
-    (evil-collection-want-unimpaired-p nil))
+    :config
+    ;; i use colemak
+    (general-translate-key nil '(emacs motion normal override)
+      "n" "j"
+      "e" "k"
+      "m" "h"
+      "i" "l"
 
-  (when (require 'evil-collection nil t)
-    (evil-collection-init))
+      "j" "e"
+      "k" "n"
+      "m" "h"
+      "i" "l"
+
+      "N" "J"
+      "K" "N"
+      )
+    :custom
+    (evil-collection-want-unimpaired-p nil)
+    )
+
+  (evil-collection-init)
 #+end_src
 *** Evil leader
 <leader> key for evil-mode
@@ -538,6 +554,8 @@ Make Emacs use the $PATH set up by the user's shell
      ",c"        'multi-vterm-prev
      "i"         'evil-insert-resume
      "<return>"  'evil-insert-resume
+     "<prior>" 'scroll-down-command
+     "<next>" 'scroll-up-command
 
      "C-d"       #'evil-scroll-down
      )
@@ -571,7 +589,7 @@ Make Emacs use the $PATH set up by the user's shell
            (other-window 1)
            (sal-cd-project-root)
            (multi-vterm))
-    "t-" (lambda ()
+    "td" (lambda ()
            (interactive)
            (split-window-below)
            (other-window 1)
@@ -746,15 +764,18 @@ multiple projects and you don't want to clutter your buffer list
 
   (leader-keys
     "s;" 'persp-switch
+    "s/" 'persp-switch
     "ss" 'persp-set-buffer
     "sr" 'persp-rename)
 #+end_src
 ** Config
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-;") 'ibuffer)
+  (global-set-key (kbd "C-/") 'ibuffer)
 
   (leader-keys
     ";" 'switch-to-buffer
+    "/" 'switch-to-buffer
     "TAB" 'evil-switch-to-windows-last-buffer
     "br" 'rename-buffer
     "bd" 'kill-this-buffer)
@@ -775,11 +796,15 @@ multiple projects and you don't want to clutter your buffer list
     "w TAB" 'other-window
     "wr" 'evil-window-rotate-upwards
     "w/" 'evil-window-vsplit
-    "w-" 'evil-window-split
+    "wd" 'evil-window-split
     "wh" 'evil-window-left
+    "wm" 'evil-window-left
     "wj" 'evil-window-down
+    "wn" 'evil-window-down
     "wk" 'evil-window-up
+    "we" 'evil-window-up
     "wl" 'evil-window-right
+    "wi" 'evil-window-right
     "w=" 'balance-windows
     )
 #+end_src
@@ -853,8 +878,22 @@ multiple projects and you don't want to clutter your buffer list
             rjsx-mode
             json-mode) . eslintd-fix-mode))
 #+end_src
-** Prettier
+** Code formatting AKA Prettier/Black/etc
 Handled more often by eslintd when a project uses both eslint and prettier
+#+begin_src emacs-lisp
+  (use-package apheleia
+    :hook ((web-mode
+            typescript-mode
+            typescript-tsx-mode
+            css-mode
+            scss-mode
+            rjsx-mode
+            vue-mode
+            json-mode) . apheleia-mode)
+    :config
+    (apheleia-global-mode +1)
+    (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode prettier)))
+#+end_src
 ** EditorConfig
 #+begin_src emacs-lisp
   (use-package editorconfig
@@ -898,7 +937,8 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (evil-define-key 'normal lsp-mode-map (kbd "gt") 'lsp-goto-type-definition)
 
     (leader-keys
-      "vr" 'lsp-rename)
+      "vr" 'lsp-rename
+      "vR" 'lsp-find-references)
     )
 
   (require 'lsp-diagnostics)
@@ -958,6 +998,16 @@ Handled more often by eslintd when a project uses both eslint and prettier
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
 #+end_src
+** REPL
+#+begin_src emacs-lisp
+  (use-package nodejs-repl
+    :config
+    (leader-keys
+     "rl" 'nodejs-repl-send-line
+     "rr" 'nodejs-repl-send-region
+     "rb" 'nodejs-repl-send-buffer
+    ))
+#+end_src
 ** RJSX mode
 #+begin_src emacs-lisp
   (use-package rjsx-mode
@@ -1003,20 +1053,17 @@ Handled more often by eslintd when a project uses both eslint and prettier
 #+begin_src emacs-lisp
   (use-package lsp-python-ms
     :after (lsp-mode)
-    :init (setq lsp-python-ms-auto-install-server t)
     :hook
     ((python-mode . (lambda ()
                       (require 'lsp-python-ms)
-                      (lsp-deferred)
+                      (lsp)
                       (flycheck-add-next-checker 'lsp 'python-flake8)
                       (flycheck-add-next-checker 'python-flake8 'python-pylint)
-                      (message "Added flycheck checkers.")))))
-#+end_src
-**** The mode
-#+begin_src emacs-lisp
-  (use-package python-mode
-    :hook
-    (python-mode . pyvenv-mode))
+                      (message "Added flycheck checkers."))))
+    :init
+    (setq lsp-python-ms-auto-install-server t)
+    ;; (setq lsp-python-ms-executable (executable-find "pyls"))
+    )
 #+end_src
 *** Javascript/Typescript
 #+begin_src emacs-lisp
@@ -1043,6 +1090,16 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (tree-sitter-require 'tsx)
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
 #+end_src
+*** Vue
+#+begin_src emacs-lisp
+  (use-package vue-mode
+    :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"))
+
+  (use-package vue-mode
+    :mode "\\.vue\\'"
+    :config
+    (add-hook 'vue-mode-hook #'lsp))
+#+end_src
 *** C#
 #+begin_src emacs-lisp
   (use-package csharp-mode
@@ -1051,6 +1108,14 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode)))
 
   (setq lsp-csharp-server-path "~/.emacs.d/.cache/lsp/omnisharp-roslyn/latest/run")
+#+end_src
+*** Lua
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :config
+    (setq lsp-lua-diagnostics-disable '("lowercase-global"))
+    :hook ((lua-mode . (lambda ()
+                         (lsp-deferred)))))
 #+end_src
 
 * Transitioning from VIM to Emacs

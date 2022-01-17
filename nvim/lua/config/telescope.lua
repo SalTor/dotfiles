@@ -1,17 +1,14 @@
 local actions = require'telescope.actions'
 -- Global remapping
 -------------------
-require'telescope'.setup {
+require('telescope').setup {
     defaults = {
-        file_sorter = require('telescope.sorters').get_fzy_sorter,
         color_devicons = true,
-        sorting_strategy = 'ascending',
 
-        find_command = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
+        -- find_command = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
+
         set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil
-        layout = {
-            prompt_position = 'top',
-        },
+
         mappings = {
             i = {
                 ['<C-u>'] = false,
@@ -44,14 +41,8 @@ require'telescope'.setup {
         grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
         qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
     },
-    extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
-        },
-    },
 }
-require('telescope').load_extension('fzy_native')
+-- require('telescope').load_extension('fzf')
 
 require('nvim-web-devicons').setup{
     default = true

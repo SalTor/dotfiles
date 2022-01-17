@@ -29,14 +29,23 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
 
+    " Highlight
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
     " Intellisense
     Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'mattn/efm-langserver'
-    Plug 'hrsh7th/nvim-compe'
+    Plug 'jose-elias-alvarez/null-ls.nvim'
     Plug 'glepnir/lspsaga.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-telescope/telescope-fzy-native.nvim'
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+    " Plug 'mattn/efm-langserver'
+
+    " Completion
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'onsails/lspkind-nvim'
 
     " Terminal aide
     Plug 'kassio/neoterm'
@@ -46,7 +55,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'RRethy/nvim-base16' " - Color schemes
     " Plug 'vim-airline/vim-airline'
     " Plug 'vim-airline/vim-airline-themes'
-    Plug 'sheerun/vim-wombat-scheme'
+    " Plug 'sheerun/vim-wombat-scheme'
     Plug 'folke/lsp-colors.nvim'
 
     " Nice to have
@@ -56,6 +65,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'liuchengxu/vim-which-key'     " - show leader keymappings
     Plug 'norcalli/nvim-colorizer.lua'  " - preview colors
     Plug 'kyazdani42/nvim-web-devicons' " - icons everywhere
-    Plug 'kosayoda/nvim-lightbulb'      " - indicate code-actions with lightbulb
+    " Plug 'kosayoda/nvim-lightbulb'      " - indicate code-actions with lightbulb
     Plug 'wincent/pinnacle'             " - I wonder if I can get rid of this by reducing the complexity of my color scheme method
 call plug#end()

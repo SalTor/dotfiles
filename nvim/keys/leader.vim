@@ -197,9 +197,13 @@ let s:leader_map['w'] = {
     \ 'w': 'last-window',
     \ }
     nnoremap <Leader>wh <C-w>h
+    nnoremap <Leader>wm <C-w>h
     nnoremap <Leader>wl <C-w>l
+    nnoremap <Leader>wi <C-w>l
     nnoremap <Leader>wj <C-w>j
+    nnoremap <Leader>wn <C-w>j
     nnoremap <Leader>wk <C-w>k
+    nnoremap <Leader>we <C-w>k
 
     nnoremap <Leader>wq :q<CR>
     nnoremap <Leader>ww <C-w>w

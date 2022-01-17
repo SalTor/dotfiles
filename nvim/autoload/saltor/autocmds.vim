@@ -6,7 +6,7 @@ endfunction
 
 function! saltor#autocmds#OnUIEnter(event) abort
     if saltor#utils#FirenvimIsActive(a:event)
-        :AirlineToggle
+        " :AirlineToggle
         nnoremap <buffer> j gj
         nnoremap <buffer> k gk
     endif
