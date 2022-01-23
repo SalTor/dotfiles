@@ -26,3 +26,4 @@ function aws_mfa() {
     fi
 }
 ### }}} CAPSULE
+. "$HOME/.cargo/env"

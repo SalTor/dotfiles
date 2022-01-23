@@ -154,7 +154,11 @@ let s:leader_map['s'] = {
     \ 'c': 'clear-highlights',
     \ 't': 'find-todos',
     \ }
-    nnoremap <Leader>sp :DynamicRg<CR>
+    if g:sal_use_telescope
+        nnoremap <Leader>sp :Telescope live_grep<CR>
+    else
+        nnoremap <Leader>sp :DynamicRg<CR>
+    endif
     xnoremap <Leader>sp :lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })<CR>
 
     nnoremap <Leader>sc :nohlsearch<cr>

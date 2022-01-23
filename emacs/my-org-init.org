@@ -455,6 +455,11 @@ Simple package for commenting out code
 
   (use-package org
     :defer 1
+    :bind
+    (:map org-mode-map
+          ("C-c e" . org-edit-special))
+    (:map org-src-mode-map
+          ("C-c s" . org-edit-src-exit))
     :hook ((org-mode . sal/org-mode-setup)
            (org-mode . visual-line-mode)
            (org-mode . org-indent-mode)
@@ -488,12 +493,6 @@ Simple package for commenting out code
     (setq org-roam-directory "~/org-roam")
     :init
     (org-roam-mode))
-
-  (general-define-key
-   :keymaps '(org-mode-map emacs-lisp-mode-map)
-   :states '(normal)
-   "\\ e" 'org-edit-special
-   "\\ q" 'org-edit-src-exit)
 #+end_src
 
 * Terminal settings
@@ -903,58 +902,67 @@ Handled more often by eslintd when a project uses both eslint and prettier
 ** LSP Mode
 #+begin_src emacs-lisp
   (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c l")
     :commands (lsp lsp-deferred)
-    :hook ((lsp-mode . lsp-enable-which-key-integration))
     :config
-    (setq lsp-auto-guess-root t)
-    (setq lsp-diagnostic-package :none)
-    (add-hook 'web-mode-hook #'lsp-flycheck-enable)
-
-    (setq lsp-log-io nil) ;; Don't log everything = speed
-    (setq lsp-restart 'auto-restart)
-    (setq lsp-headerline-breadcrumb-enable nil)
-    (setq lsp-lens-enable nil)
-    (setq lsp-keymap-prefix "C-c l")
-
-    (setq lsp-enable-completion-at-point t)
-    (setq lsp-enable-symbol-highlighting t)
-    (setq lsp-modeline-diagnostics-enable t)
-    (setq lsp-enable-on-type-formatting nil)
-    (setq lsp-signature-auto-activate nil)
-    (setq lsp-modeline-code-actions-enable nil)
-    (setq lsp-enable-folding nil)
-    (setq lsp-enable-imenu nil)
-    (setq lsp-enable-snippet nil)
-    (setq lsp-eslint-enable nil)
+    (setq
+          lsp-idle-delay 0.5
+          lsp-auto-guess-root t
+          lsp-restart 'auto-restart
+          lsp-enable-completion-at-point t
+          lsp-enable-symbol-highlighting t
+          lsp-modeline-diagnostics-enable t
+          lsp-diagnostic-package :none
+          lsp-log-io nil ;; Don't log everything = speed
+          lsp-lens-enable nil
+          lsp-headerline-breadcrumb-enable nil
+          lsp-signature-auto-activate nil
+          lsp-modeline-code-actions-enable nil
+          lsp-eslint-enable nil
+          lsp-enable-on-type-formatting nil
+          lsp-enable-folding nil
+          lsp-enable-imenu nil
+          lsp-enable-snippet nil
+          )
     (setq read-process-output-max (* 1024 1024)) ;; 1mb
-    (setq lsp-idle-delay 0.5)
+    (add-hook 'web-mode-hook #'lsp-flycheck-enable)
+    (with-eval-after-load 'lsp-mode
+      (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+    :custom
+    (lsp-eldoc-render-all t)
     (lsp-enable-which-key-integration t)
+    (lsp-rust-analyzer-cargo-watch-command "clippy")
+    (lsp-rust-analyzer-server-display-inlay-hints t)
+    )
 
-    (evil-define-key 'normal lsp-mode-map (kbd "gd") 'lsp-find-definition)
-    (evil-define-key 'normal lsp-mode-map (kbd "gi") 'lsp-goto-implementation)
-    (evil-define-key 'normal lsp-mode-map (kbd "gt") 'lsp-goto-type-definition)
-
-    (leader-keys
-      "vr" 'lsp-rename
-      "vR" 'lsp-find-references)
+  (use-package lsp-ui
+    :commands lsp-ui-mode
+    :bind (:map lsp-mode-map
+                ("M-d" . xref-find-definitions)
+                ("M-r" . xref-find-references)
+                ("M-t" . lsp-find-type-definition)
+                )
+    :config
+    (setq lsp-ui-doc-enable t
+          lsp-ui-doc-use-childframe t
+          lsp-ui-doc-position 'top
+          lsp-ui-doc-include-signature t
+          lsp-ui-sideline-enable nil
+          lsp-ui-flycheck-enable t
+          lsp-ui-flycheck-list-position 'right
+          lsp-ui-flycheck-live-reporting t
+          )
+    (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+    (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+    :custom
+    (lsp-ui-peek-enable t)
+    (lsp-ui-peek-show-directory t)
+    (lsp-ui-peek-list-width 60)
+    (lsp-ui-peek-peek-height 25)
+    (lsp-ui-peek-fontify 'on-demand)
     )
 
   (require 'lsp-diagnostics)
   (lsp-diagnostics-flycheck-enable)
-
-  ;; lsp-ui
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-position 'top)
-
-  (evil-normalize-keymaps)
-  (evil-define-key 'normal 'lsp-ui-doc-frame-mode [?q] #'lsp-ui-doc-unfocus-frame)
-  (evil-define-key 'normal 'lsp-ui-doc-mode       [?K] #'lsp-ui-doc-focus-frame)
-
-  (use-package lsp-ui
-    :commands lsp-ui-mode)
 #+end_src
 
 ** DAP mode
@@ -1088,7 +1096,8 @@ Handled more often by eslintd when a project uses both eslint and prettier
     :after tree-sitter
     :config
     (tree-sitter-require 'tsx)
-    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
 #+end_src
 *** Vue
 #+begin_src emacs-lisp
@@ -1116,6 +1125,15 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (setq lsp-lua-diagnostics-disable '("lowercase-global"))
     :hook ((lua-mode . (lambda ()
                          (lsp-deferred)))))
+#+end_src
+*** Rust
+#+begin_src emacs-lisp
+  (use-package rustic
+    :bind (:map rustic-mode-map
+                ("M-j" . lsp-ui-imenu))
+    :config
+    (setq rustic-lsp-server 'rust-analyzer)
+    (setq rustic-format-on-save t))
 #+end_src
 
 * Transitioning from VIM to Emacs
