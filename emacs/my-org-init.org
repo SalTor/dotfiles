@@ -69,12 +69,22 @@
 #+end_src
 *** Theme
 #+begin_src emacs-lisp
-  (use-package doom-themes
-    :init
-    (setq doom-themes-treemacs-theme "doom-colors")
-    :config
-    (load-theme 'doom-gruvbox t)
-    (doom-themes-visual-bell-config))
+  ;; (use-package doom-themes
+  ;;   :init
+  ;;   (setq doom-themes-treemacs-theme "doom-colors")
+  ;;   :config
+  ;;   (load-theme 'doom-gruvbox t)
+  ;;   (doom-themes-visual-bell-config))
+  (load-theme 'modus-operandi)
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-mixed-fonts nil
+        modus-themes-tabs-accented t
+        modus-themes-variable-pitch-ui nil
+        modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
+        modus-themes-fringes nil ; {nil, 'subtle, 'intense}
+        modus-themes-success-deuteranopia t
+        )
 #+end_src
 *** Line number settings
 #+begin_src emacs-lisp
