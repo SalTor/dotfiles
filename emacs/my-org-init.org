@@ -227,23 +227,6 @@ A set of keybindings for evil-mode
   (setq evil-want-keybinding nil)
 
   (use-package evil-collection
-    :config
-    ;; i use colemak
-    (general-translate-key nil '(emacs motion normal override)
-      "n" "j"
-      "e" "k"
-      "m" "h"
-      "i" "l"
-
-      "j" "e"
-      "k" "n"
-      "m" "h"
-      "i" "l"
-
-      "N" "J"
-      "K" "N"
-      )
-    :custom
     (evil-collection-want-unimpaired-p nil)
     )
 
@@ -578,8 +561,6 @@ Make Emacs use the $PATH set up by the user's shell
     (rainbow-mode))
 
   (use-package ivy)
-
-  (use-package theme-looper)
 
   (defun sal-cd-project-root ()
     (if (projectile-project-root)
@@ -973,26 +954,6 @@ Handled more often by eslintd when a project uses both eslint and prettier
 
   (require 'lsp-diagnostics)
   (lsp-diagnostics-flycheck-enable)
-#+end_src
-
-** DAP mode
-#+begin_src emacs-lisp
-  (use-package dap-mode
-    :custom
-    (dap-auto-configure-features '(sessions locals controls)))
-
-  (defun sal-enable-dap ()
-    (interactive)
-    (dap-mode 1)
-    (dap-ui-mode 1))
-
-  (add-hook 'prog-mode-hook 'sal-enable-dap)
-
-  (require 'dap-chrome)
-  (dap-chrome-setup)
-
-  (add-hook 'dap-stopped-hook
-            (lambda (arg) (call-interactively #'dap-hydra)))
 #+end_src
 ** Web mode
 #+begin_src emacs-lisp
