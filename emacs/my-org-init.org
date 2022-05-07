@@ -11,22 +11,6 @@
 #+begin_src emacs-lisp
   (straight-use-package 'use-package)
 #+end_src
-* Improved help docs
-Improve Emacs's built-in docs with more contextual info
-#+begin_src emacs-lisp
-  (use-package helpful
-    :commands (helpful-callable helpful-variable helpful-command helpful-key))
-
-  ;; Note that the built-in `describe-function' includes both functions
-  ;; and macros. `helpful-function' is functions only, so we provide
-  ;; `helpful-callable' as a drop-in replacement.
-
-  (global-set-key (kbd "C-h f") #'helpful-callable)
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-
-  (leader-keys "h" 'help-command)
-#+end_src
 * Use $PATH
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -88,6 +72,22 @@ Improve Emacs's built-in docs with more contextual info
             (which-key--show-keymap "Embark" map nil nil 'no-paging)
             #'which-key--hide-popup-ignore-command)
           embark-become-indicator embark-action-indicator))
+#+end_src
+* Improved help docs
+Improve Emacs's built-in docs with more contextual info
+#+begin_src emacs-lisp
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key))
+
+  ;; Note that the built-in `describe-function' includes both functions
+  ;; and macros. `helpful-function' is functions only, so we provide
+  ;; `helpful-callable' as a drop-in replacement.
+
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+
+  (leader-keys "h" 'help-command)
 #+end_src
 * Menu Completion
 #+begin_src emacs-lisp
