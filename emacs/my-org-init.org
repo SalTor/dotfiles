@@ -11,6 +11,22 @@
 #+begin_src emacs-lisp
   (straight-use-package 'use-package)
 #+end_src
+* Improved help docs
+Improve Emacs's built-in docs with more contextual info
+#+begin_src emacs-lisp
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key))
+
+  ;; Note that the built-in `describe-function' includes both functions
+  ;; and macros. `helpful-function' is functions only, so we provide
+  ;; `helpful-callable' as a drop-in replacement.
+
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+
+  (leader-keys "h" 'help-command)
+#+end_src
 * Use $PATH
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -20,12 +36,12 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
 #+end_src
-* Ripgrep/Deadgrep
+* Search via Ripgrep/Deadgrep
 #+begin_src emacs-lisp
   (use-package ripgrep)
   (use-package deadgrep)
 #+end_src
-* General.el for keybindings
+* Keybindings via General.el + Hydra + Embark
 #+begin_src emacs-lisp
   (use-package general
     :config
@@ -57,6 +73,21 @@
 
   (leader-keys
     "ts" '(hydra-scroll-page/body :which-key "scroll page"))
+
+  (use-package embark ;; Keybinds for minibuffer commands
+    :bind (("C-." . embark-act))
+    :config
+    (embark-define-keymap sal-embark-file-map
+                          "Keymap for actions for tab-bar tabs (when mentioned by name)."
+                          ("-" sal-split-below)
+                          ("/" sal-split-right))
+    (add-to-list 'embark-keymap-alist '(file . sal-embark-file-map))
+
+    (setq embark-action-indicator
+          (lambda (map _target)
+            (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            #'which-key--hide-popup-ignore-command)
+          embark-become-indicator embark-action-indicator))
 #+end_src
 * Menu Completion
 #+begin_src emacs-lisp
@@ -82,21 +113,6 @@
     :config
     (add-to-list 'marginalia-prompt-categories '("Find file" . file))
     (marginalia-mode))
-
-  (use-package embark ;; Keybinds for minibuffer commands
-    :bind (("C-." . embark-act))
-    :config
-    (embark-define-keymap sal-embark-file-map
-                          "Keymap for actions for tab-bar tabs (when mentioned by name)."
-                          ("-" sal-split-below)
-                          ("/" sal-split-right))
-    (add-to-list 'embark-keymap-alist '(file . sal-embark-file-map))
-
-    (setq embark-action-indicator
-          (lambda (map _target)
-            (which-key--show-keymap "Embark" map nil nil 'no-paging)
-            #'which-key--hide-popup-ignore-command)
-          embark-become-indicator embark-action-indicator))
 #+end_src
 * Company mode
 #+begin_src emacs-lisp
@@ -112,19 +128,16 @@
 
   (add-hook 'after-init-hook 'global-company-mode)
 
-  ;; Nice icons in company dropdowns
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
+
+  (use-package company-box :hook (company-mode . company-box-mode)) ;; Icons in company dropdowns
 
   (use-package pos-tip)
 
-  ;; Add overlay documentation for the options company provides
-  (use-package company-quickhelp
-    :config (company-quickhelp-mode))
+  (use-package company-quickhelp :config (company-quickhelp-mode))
 
   (eval-after-load 'company '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 #+end_src
-* Flycheck
+* Syntax checking via Flycheck
 #+begin_src emacs-lisp
   (use-package flycheck
     :init
@@ -158,6 +171,8 @@
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
 
+  (use-package posframe)
+
   (use-package flycheck-posframe
     :after flycheck
     :config
@@ -168,30 +183,7 @@
 
     (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 #+end_src
-* Improved help docs
-An alternative to the built-in Emacs help that provides much more contextual information
-#+begin_src emacs-lisp
-  (use-package helpful
-    :commands (helpful-callable helpful-variable helpful-command helpful-key))
-
-  ;; Note that the built-in `describe-function' includes both functions
-  ;; and macros. `helpful-function' is functions only, so we provide
-  ;; `helpful-callable' as a drop-in replacement.
-
-  (global-set-key (kbd "C-h f") #'helpful-callable)
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-
-  (leader-keys
-    "h" 'help-command)
-#+end_src
-* EditorConfig
-#+begin_src emacs-lisp
-  (use-package editorconfig
-    :config
-    (editorconfig-mode 1))
-#+end_src
-* Prettier/Black/Eslint
+* Code formating via Prettier/Black/Eslint/Editorconfig
 #+begin_src emacs-lisp
   (use-package apheleia
     :hook ((web-mode
@@ -215,12 +207,16 @@ An alternative to the built-in Emacs help that provides much more contextual inf
             scss-mode
             rjsx-mode
             json-mode) . eslintd-fix-mode))
+
+  (use-package editorconfig :config (editorconfig-mode 1))
 #+end_src
 * EVIL mode
 #+begin_src emacs-lisp
+  ;; START --- My evil config uses these packages
   (use-package undo-fu :config (global-undo-tree-mode -1))
   (use-package origami :config (global-origami-mode))
   (use-package drag-stuff :config (drag-stuff-mode t)) ;; Used for shortcut to move lines up/down
+  ;; END
 
   (use-package evil
     :init
@@ -257,16 +253,14 @@ An alternative to the built-in Emacs help that provides much more contextual inf
   (general-define-key
    :states '(visual)
    "J" 'drag-stuff-down
-   "K" 'drag-stuff-up
-   )
+   "K" 'drag-stuff-up)
 
+  ;; Use <escape> like you use <C-g> across emacs
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
+  (use-package evil-surround :config (global-evil-surround-mode 1))
 
-  (use-package evil-surround ;; like vim-surround
-    :config (global-evil-surround-mode 1))
-
-  (use-package evil-goggles ;; Show what was yanked w/ quick flash of colored text
+  (use-package evil-goggles
     :custom
     (evil-goggles-yank-face ((t (:inherit evil-goggles-default-face :background "DarkOrange1"))))
     :config
@@ -294,27 +288,21 @@ An alternative to the built-in Emacs help that provides much more contextual inf
   (use-package evil-nerd-commenter)
 #+end_src
 ** Evil Collection
-
 A set of keybindings for evil-mode
-
 #+begin_src emacs-lisp
   (setq evil-want-keybinding nil)
 
   (use-package evil-collection
     :custom
     (evil-collection-magit-state 'emacs)
-    (evil-collection-want-unimpaired-p nil)
-    )
+    (evil-collection-want-unimpaired-p nil))
 
   (evil-collection-init)
 #+end_src
 ** Evil leader
-
-<leader> key for evil-mode
-
+=<leader>= key for evil-mode
 #+begin_src emacs-lisp
-  (use-package evil-leader
-    :config (global-evil-leader-mode))
+  (use-package evil-leader :config (global-evil-leader-mode))
 
   (evil-leader/set-leader "SPC")
 
@@ -322,8 +310,7 @@ A set of keybindings for evil-mode
     "u"  'universal-argument       ;; <C-u> is the default, I use that for scrolling up
     "x"  'execute-extended-command ;; <M-x> is the defualt, which is awkward to type
     "qq" 'save-buffers-kill-terminal
-    "cc" 'comment-line
-    )
+    "cc" 'comment-line)
 #+end_src
 * Org mode
 #+begin_src emacs-lisp
@@ -445,11 +432,9 @@ A set of keybindings for evil-mode
               (lambda ()
                 (add-hook 'with-editor-post-finish-hook
                           #'kill-magit-diff-buffer-in-current-repo
-                          nil t))) ; the t is important
-    )
+                          nil t))))  ; the t is important
 
-  (leader-keys
-    "gs" 'magit-status)
+  (leader-keys "gs" 'magit-status)
 #+end_src
 ** Projectile
 #+begin_src emacs-lisp
@@ -474,11 +459,9 @@ A set of keybindings for evil-mode
     (evil-collection-define-key 'normal 'dired-mode-map
       "c" 'find-file
       "h" 'dired-up-directory
-      "l" 'dired-find-file
-      )
+      "l" 'dired-find-file)
     (let ((gls "/usr/local/bin/gls"))
-      (if (file-exists-p gls) (setq insert-directory-program gls)))
-    )
+      (if (file-exists-p gls) (setq insert-directory-program gls))))
 
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
@@ -524,6 +507,14 @@ A set of keybindings for evil-mode
     "TAB" 'evil-switch-to-windows-last-buffer
     "br" 'rename-buffer
     "bd" 'kill-this-buffer)
+
+  (use-package avy :custom (avy-all-windows nil))
+
+  (leader-keys "sf" 'consult-line)
+
+  (general-define-key
+    :states '(normal visual)
+    "s" 'avy-goto-char-2)
 #+end_src
 ** Ibuffer
 #+begin_src emacs-lisp
@@ -561,9 +552,7 @@ This allows us to group buffers and window layouts into different virtual "works
     ("f" nil "finished" :exit t))
 
   (leader-keys
-    "w," '(hydra-winner/body :which-key "winner"))
-
-  (leader-keys
+    "w," '(hydra-winner/body :which-key "winner")
     "wq" 'delete-window
     "wo" 'delete-other-windows
     "w TAB" 'other-window
@@ -574,20 +563,7 @@ This allows us to group buffers and window layouts into different virtual "works
     "wj" 'evil-window-down
     "wk" 'evil-window-up
     "wl" 'evil-window-right
-    "w=" 'balance-windows
-    )
-#+end_src
-* In-file navigation
-#+begin_src emacs-lisp
-  (use-package avy
-    :custom (avy-all-windows nil))
-
-  (leader-keys
-    "sf" 'consult-line)
-
-  (general-define-key
-    :states '(normal visual)
-    "s" 'avy-goto-char-2)
+    "w=" 'balance-windows)
 #+end_src
 * Terminal in emacs
 #+begin_src emacs-lisp
@@ -627,8 +603,7 @@ This allows us to group buffers and window layouts into different virtual "works
       "C-c" 'vterm--self-insert
       "C-SPC" 'vterm--self-insert
 
-      "C-d" #'evil-normal-state
-      )
+      "C-d" #'evil-normal-state)
 
     (general-define-key
       :states  '(normal)
@@ -639,18 +614,10 @@ This allows us to group buffers and window layouts into different virtual "works
       "<prior>"   'scroll-down-command
       "<next>"    'scroll-up-command
 
-      "C-d"       #'evil-scroll-down
-      )
+      "C-d"       #'evil-scroll-down)
     )
 
-  (use-package eterm-256color
-    :hook (vterm-mode . eterm-256color-mode))
-
-  (use-package rainbow-mode
-    :config
-    (rainbow-mode))
-
-  (use-package ivy)
+  (use-package eterm-256color :hook (vterm-mode . eterm-256color-mode))
 
   ;; Terminal
   (leader-keys
@@ -685,8 +652,7 @@ This allows us to group buffers and window layouts into different virtual "works
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :config
-    (setq
-          lsp-idle-delay 0.5
+    (setq lsp-idle-delay 0.5
           lsp-auto-guess-root t
           lsp-restart 'auto-restart
           lsp-enable-completion-at-point t
@@ -703,8 +669,7 @@ This allows us to group buffers and window layouts into different virtual "works
           lsp-enable-folding nil
           lsp-enable-imenu nil
           lsp-enable-snippet nil
-          read-process-output-max (* 1024 1024) ;; 1mb
-          )
+          read-process-output-max (* 1024 1024)) ;; 1mb
     (add-hook 'web-mode-hook #'lsp-flycheck-enable)
     (with-eval-after-load 'lsp-mode
       (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
@@ -712,16 +677,14 @@ This allows us to group buffers and window layouts into different virtual "works
     (lsp-eldoc-render-all t)
     (lsp-enable-which-key-integration t)
     (lsp-rust-analyzer-cargo-watch-command "clippy")
-    (lsp-rust-analyzer-server-display-inlay-hints t)
-    )
+    (lsp-rust-analyzer-server-display-inlay-hints t))
 
   (use-package lsp-ui
     :commands lsp-ui-mode
     :bind (:map lsp-mode-map
                 ("M-d" . xref-find-definitions)
                 ("M-r" . xref-find-references)
-                ("M-t" . lsp-find-type-definition)
-                )
+                ("M-t" . lsp-find-type-definition))
     :config
     (setq lsp-ui-doc-enable t
           lsp-ui-doc--from-mouse nil
@@ -731,8 +694,7 @@ This allows us to group buffers and window layouts into different virtual "works
           lsp-ui-sideline-enable nil
           lsp-ui-flycheck-enable t
           lsp-ui-flycheck-list-position 'right
-          lsp-ui-flycheck-live-reporting t
-          )
+          lsp-ui-flycheck-live-reporting t)
     (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
     (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
     :custom
@@ -740,8 +702,7 @@ This allows us to group buffers and window layouts into different virtual "works
     (lsp-ui-peek-show-directory t)
     (lsp-ui-peek-list-width 60)
     (lsp-ui-peek-peek-height 25)
-    (lsp-ui-peek-fontify 'on-demand)
-    )
+    (lsp-ui-peek-fontify 'on-demand))
 
   (require 'lsp-diagnostics)
   (lsp-diagnostics-flycheck-enable)
@@ -750,21 +711,17 @@ This allows us to group buffers and window layouts into different virtual "works
 #+begin_src emacs-lisp
   (use-package web-mode
     :defer 2
-    :hook
-    (web-mode . lsp-deferred)
-    :mode (
-       ("\\.html\\'" . web-mode))
+    :hook (web-mode . lsp-deferred)
+    :mode (("\\.html\\'" . web-mode))
     :commands web-mode)
 #+end_src
 * Emmet mode
 #+begin_src emacs-lisp
   (use-package emmet-mode
-    :hook (
-           (typescript-tsx-mode . emmet-mode)
+    :hook ((typescript-tsx-mode . emmet-mode)
            (web-mode . emmet-mode)
            (css-mode . emmet-mode)
-           (scss-mode . emmet-mode)
-           ))
+           (scss-mode . emmet-mode)))
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
 #+end_src
@@ -775,18 +732,14 @@ This allows us to group buffers and window layouts into different virtual "works
     (leader-keys
      "rl" 'nodejs-repl-send-line
      "rr" 'nodejs-repl-send-region
-     "rb" 'nodejs-repl-send-buffer
-    ))
+     "rb" 'nodejs-repl-send-buffer))
 #+end_src
 * RJSX mode
 #+begin_src emacs-lisp
   (use-package rjsx-mode
-    :hook
-    (rjsx-mode . lsp-deferred)
-    :mode (
-           ("\\.js\\'" . rjsx-mode)
-           ("\\.jsx\\'" .  rjsx-mode)
-           ))
+    :hook (rjsx-mode . lsp-deferred)
+    :mode (("\\.js\\'" . rjsx-mode)
+           ("\\.jsx\\'" .  rjsx-mode)))
 #+end_src
 * Languages
 ** Python
@@ -826,9 +779,8 @@ This allows us to group buffers and window layouts into different virtual "works
                       (flycheck-add-next-checker 'python-flake8 'python-pylint)
                       (message "Added flycheck checkers."))))
     :init
-    (setq lsp-python-ms-auto-install-server t)
     ;; (setq lsp-python-ms-executable (executable-find "pyls"))
-    )
+    (setq lsp-python-ms-auto-install-server t))
 #+end_src
 ** Javascript/Typescript
 #+begin_src emacs-lisp
@@ -847,7 +799,7 @@ This allows us to group buffers and window layouts into different virtual "works
 
   (use-package tree-sitter
     :hook ((typescript-mode . tree-sitter-hl-mode)
-       (typescript-tsx-mode . tree-sitter-hl-mode)))
+           (typescript-tsx-mode . tree-sitter-hl-mode)))
 
   (use-package tree-sitter-langs
     :after tree-sitter
@@ -858,8 +810,7 @@ This allows us to group buffers and window layouts into different virtual "works
 #+end_src
 ** Vue
 #+begin_src emacs-lisp
-  (use-package vue-mode
-    :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"))
+  (use-package vue-mode :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"))
 
   (use-package vue-mode
     :mode "\\.vue\\'"
@@ -893,10 +844,12 @@ This allows us to group buffers and window layouts into different virtual "works
     (setq rustic-format-on-save t))
 #+end_src
 * Visuals
+#+begin_src emacs-lisp
+  (use-package rainbow-mode :config (rainbow-mode))
+#+end_src
 ** Modeline
 #+begin_src emacs-lisp
-  (use-package minions
-    :config (minions-mode))
+  (use-package minions :config (minions-mode))
 
   ;; (use-package nano-modeline
   ;;  :hook ((org-agenda-mode . nano-modeline-mode)))
@@ -927,8 +880,7 @@ This allows us to group buffers and window layouts into different virtual "works
     (set-fontset-font t 'unicode
                       (font-spec :name "Inconsolata Light" :size 16) nil)
     (set-fontset-font t '(#xe000 . #xffdd)
-                      (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
-    )
+                      (font-spec :name "RobotoMono Nerd Font" :size 12) nil))
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions
@@ -1012,8 +964,6 @@ This allows us to group buffers and window layouts into different virtual "works
 
   ;; Suppress warnings about cl being deprecated
   (setq byte-compile-warnings '(cl-functions))
-
-  (use-package posframe)
 
   ;; The rest of the init file.
 
