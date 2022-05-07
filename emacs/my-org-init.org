@@ -1,123 +1,32 @@
 #+title: My emacs configuration via org mode!
 #+author: Me. Your friendly neighborhood web developer
 
-* Base layer
-** Package management tooling
-** Miscellaneous Settings
-*** Namespacing
+* Load my custom scripts
 #+begin_src emacs-lisp
-  (add-to-list 'load-path  "~/dotfiles/emacs/modules")
-  (add-to-list 'load-path  "~/dotfiles/emacs/project-setups")
+  (load-file "~/dotfiles/emacs/modules/sal-functions.el")
+  (load-file "~/dotfiles/emacs/modules/org-agenda-functions.el")
+  ;; (add-to-list 'load-path  "~/dotfiles/emacs/project-setups/capsule-cw-mfe.el")
 #+end_src
-*** Garbage collection
+* Package management
 #+begin_src emacs-lisp
-  ;; The rest of the init file.
-
-  ;; Make gc pauses faster by decreasing the threshold.
-  ;; (setq gc-cons-threshold (* 2 1000 1000))
-
-  ;; The default is 800 kilobytes.  Measured in bytes.
-  ;; (setq gc-cons-percentage 0.6)
-  ;; (setq gc-cons-threshold most-positive-fixnum)
-
-  (defun display-startup-time ()
-      "Display startup time."
-      (message "Emacs loaded in %s with %d garbage collections."
-              (format "%.2f seconds"
-                      (float-time
-                      (time-subtract after-init-time before-init-time)))
-              gcs-done))
-
-  (add-hook 'emacs-startup-hook #'display-startup-time)
+  (straight-use-package 'use-package)
 #+end_src
-*** Basic settings
+* Use $PATH
 #+begin_src emacs-lisp
-  (setq create-lockfiles nil)
-  (setq auto-save-default nil)
-
-  (setq backup-directory-alist '(("." . "~/.config/emacs/.saves")))
-
-  (setq inhibit-startup-message t)
-
-  (defalias 'yes-or-no-p #'y-or-n-p)
-
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-always-indent t)
-  (setq-default indent-line-function 'insert-tab)
-
-  (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-
-  (save-place-mode 1)
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-
-  (column-number-mode)
-
-  (show-paren-mode 1)
-  (electric-pair-mode 1)
-
-  ;; Suppress warnings about cl being deprecated
-  (setq byte-compile-warnings '(cl-functions))
-
-  (use-package posframe)
-#+end_src
-*** Modeline changes
-#+begin_src emacs-lisp
-  (use-package minions
-    :config (minions-mode))
-#+end_src
-*** Theme
-#+begin_src emacs-lisp
-  ;; (use-package doom-themes
-  ;;   :init
-  ;;   (setq doom-themes-treemacs-theme "doom-colors")
-  ;;   :config
-  ;;   (load-theme 'doom-gruvbox t)
-  ;;   (doom-themes-visual-bell-config))
-  (load-theme 'modus-operandi)
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-mixed-fonts nil
-        modus-themes-tabs-accented t
-        modus-themes-variable-pitch-ui nil
-        modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
-        modus-themes-fringes nil ; {nil, 'subtle, 'intense}
-        modus-themes-success-deuteranopia t
-        )
-#+end_src
-*** Line number settings
-#+begin_src emacs-lisp
-  (global-hl-line-mode 1)
-
-  (defun sal-enable-linum ()
-    (interactive)
-    (if (eq nil display-line-numbers)
-        (setq display-line-numbers 'absolute)
-      (message "Linum mode set")))
-
-  (add-hook 'prog-mode-hook 'sal-enable-linum)
-
-  (global-linum-mode -1)
-
-  (setq display-line-numbers 'absolute)
-#+end_src
-*** Whitespace management
-#+begin_src emacs-lisp
-  (whitespace-mode)
-  (use-package whitespace-cleanup-mode
+  (use-package exec-path-from-shell
     :config
-    (global-whitespace-cleanup-mode))
+    (setenv "SHELL" "/bin/zsh")
+    (setq shell-file-name "/bin/zsh"))
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
 #+end_src
-** Keybindings with general.el
-More convenient key definitions in emacs
+* Ripgrep/Deadgrep
 #+begin_src emacs-lisp
-  (defun sal-switch-linum-mode ()
-    (interactive)
-    (if (eq 'relative display-line-numbers)
-        (setq display-line-numbers 'absolute)
-      (setq display-line-numbers 'relative)))
-
+  (use-package ripgrep)
+  (use-package deadgrep)
+#+end_src
+* General.el for keybindings
+#+begin_src emacs-lisp
   (use-package general
     :config
     (general-create-definer leader-keys
@@ -125,18 +34,141 @@ More convenient key definitions in emacs
       :keymaps 'override
       :prefix "SPC"
       :global-prefix "C-SPC")
-    ;; Toggles
     (leader-keys
       "T"  '(:ignore t :which-key "toggles")
-      "Tn" '(sal-switch-linum-mode :which-key "change linum mode")))
+      "Tn" '(sal-switch-linum-mode :which-key "toggle linum mode relative/absolute")))
 
-  (defun sal-switch-linum-mode ()
-    (interactive)
-    (if (eq 'relative display-line-numbers)
-        (setq display-line-numbers 'absolute)
-      (setq display-line-numbers 'relative)))
+  (use-package hydra)
+
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("j" text-scale-increase "in")
+    ("k" text-scale-decrease "out")
+    ("f" nil "finished" :exit t))
+
+  (leader-keys
+    "tf" '(hydra-text-scale/body :which-key "scale text"))
+
+  (defhydra hydra-scroll-page (:timeout 4)
+    "scroll the page"
+    ("k" evil-scroll-up "up")
+    ("j" evil-scroll-down "down")
+    ("f" nil "finished" :exit t))
+
+  (leader-keys
+    "ts" '(hydra-scroll-page/body :which-key "scroll page"))
 #+end_src
-** Helpful to improve help docs
+* Menu Completion
+#+begin_src emacs-lisp
+  (use-package consult
+    :config
+    (setq consult-preview-key (kbd "C-\\")))
+
+  (use-package selectrum
+    :bind (:map selectrum-minibuffer-map
+                ("C-j" . selectrum-next-candidate)
+                ("C-k" . selectrum-previous-candidate))
+    :config
+    (selectrum-mode +1))
+
+  (use-package selectrum-prescient
+    :config
+    (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
+    (prescient-persist-mode +1)   ;; save command history on disk: sorting gets more intelligent over time
+    )
+
+  (use-package marginalia ;; Annotate minibuffer commands
+    :after evil
+    :config
+    (add-to-list 'marginalia-prompt-categories '("Find file" . file))
+    (marginalia-mode))
+
+  (use-package embark ;; Keybinds for minibuffer commands
+    :bind (("C-." . embark-act))
+    :config
+    (embark-define-keymap sal-embark-file-map
+                          "Keymap for actions for tab-bar tabs (when mentioned by name)."
+                          ("-" sal-split-below)
+                          ("/" sal-split-right))
+    (add-to-list 'embark-keymap-alist '(file . sal-embark-file-map))
+
+    (setq embark-action-indicator
+          (lambda (map _target)
+            (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            #'which-key--hide-popup-ignore-command)
+          embark-become-indicator embark-action-indicator))
+#+end_src
+* Company mode
+#+begin_src emacs-lisp
+  (use-package company
+    :bind (:map company-mode-map
+                ("C-c y" . company-set-selection))
+    :config
+    (company-tng-mode)
+    (setq company-minimum-prefix-length 1)
+    (setq company-tooltip-align-annotations t)
+    (setq company-selection-wrap-around t)
+    )
+
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  ;; Nice icons in company dropdowns
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+
+  (use-package pos-tip)
+
+  ;; Add overlay documentation for the options company provides
+  (use-package company-quickhelp
+    :config (company-quickhelp-mode))
+
+  (eval-after-load 'company '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+#+end_src
+* Flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :init
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    :config
+    (setq-default flycheck-emacs-lisp-load-path 'inherit
+                  flycheck-disabled-checker '(emacs-list-checkdoc)
+                  flycheck-temp-prefix ".flycheck"
+                  flycheck-disabled-checkers
+                  (append flycheck-disabled-checkers
+                          '(javascript-jshint json-jsonlist)))
+    (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories
+                                                  flycheck-locate-config-file-by-path)
+          flycheck-check-syntax-automatically '(save
+                                                ;; idle-change
+                                                ;; new-line
+                                                mode-enabled)
+          flycheck-display-errors-delay 0.3
+          flycheck-flake8rc '(".flake8")
+          flycheck-javascript-eslint-executable "eslint_d")
+
+    (leader-keys
+      "el" 'flycheck-list-errors
+      "en" 'flycheck-next-error
+      "ep" 'flycheck-previous-error)
+    )
+
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
+
+  (use-package flycheck-posframe
+    :after flycheck
+    :config
+    (setq flycheck-posframe-error-prefix "■ ")
+    (setq flycheck-posframe-info-prefix "■ ")
+    (setq flycheck-posframe-prefix "■ ")
+    (setq flycheck-posframe-warning-prefix "■ ")
+
+    (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+#+end_src
+* Improved help docs
 An alternative to the built-in Emacs help that provides much more contextual information
 #+begin_src emacs-lisp
   (use-package helpful
@@ -145,25 +177,50 @@ An alternative to the built-in Emacs help that provides much more contextual inf
   ;; Note that the built-in `describe-function' includes both functions
   ;; and macros. `helpful-function' is functions only, so we provide
   ;; `helpful-callable' as a drop-in replacement.
-  (global-set-key (kbd "C-h f") #'helpful-callable)
 
+  (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h k") #'helpful-key)
 
   (leader-keys
     "h" 'help-command)
 #+end_src
-** EVIL (Emacs VIm Layer--A++ vim emulator)
-*** Pre-reqs for other utilities
-There's multiple ways to achieve an undo tree and code folding, undo-fu is for the former and origami for the latter
+* EditorConfig
+#+begin_src emacs-lisp
+  (use-package editorconfig
+    :config
+    (editorconfig-mode 1))
+#+end_src
+* Prettier/Black/Eslint
+#+begin_src emacs-lisp
+  (use-package apheleia
+    :hook ((web-mode
+            typescript-mode
+            typescript-tsx-mode
+            css-mode
+            scss-mode
+            rjsx-mode
+            vue-mode
+            json-mode) . apheleia-mode)
+    :config
+    (apheleia-global-mode +1)
+    (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode prettier))
+    (add-to-list 'apheleia-mode-alist '(python black)))
+
+  (use-package eslintd-fix
+    :hook ((web-mode
+            typescript-mode
+            typescript-tsx-mode
+            css-mode
+            scss-mode
+            rjsx-mode
+            json-mode) . eslintd-fix-mode))
+#+end_src
+* EVIL mode
 #+begin_src emacs-lisp
   (use-package undo-fu :config (global-undo-tree-mode -1))
   (use-package origami :config (global-origami-mode))
-  (use-package drag-stuff :config (drag-stuff-mode t))
-#+end_src
-*** The evil package
-#+begin_src emacs-lisp
-  (general-evil-setup t)
+  (use-package drag-stuff :config (drag-stuff-mode t)) ;; Used for shortcut to move lines up/down
 
   (use-package evil
     :init
@@ -172,39 +229,26 @@ There's multiple ways to achieve an undo tree and code folding, undo-fu is for t
     (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
     :custom
     (evil-want-C-u-scroll t)
-    (evil-want-C-i-jump nil)
+    (evil-want-C-i-jump t)
     (evil-want-Y-yank-to-eol t)
     (evil-undo-system 'undo-fu)
+    (evil-split-window-below t)
+    (evil-vsplit-window-right t)
     :config
     (evil-set-initial-state 'Custom-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal)
     (evil-mode 1))
-#+end_src
 
-And some bindings for vim modes
-#+begin_src emacs-lisp
-  (defun insert-line-below ()
-    "Insert an empty line below the current line."
-    (interactive)
-    (save-excursion
-      (end-of-line)
-      (open-line 1)))
-
-  (defun insert-line-above ()
-    "Insert an empty line above the current line."
-    (interactive)
-    (save-excursion
-      (end-of-line 0)
-      (open-line 1)))
+  (general-evil-setup t) ;; integrate w/ general.el
 
   (general-define-key
    :states '(normal)
-   "u" 'undo-fu-only-undo
-   "U" 'undo-fu-only-redo
+   "u"    'undo-fu-only-undo
+   "U"    'undo-fu-only-redo
    "\C-r" 'undo-fu-only-redo
-   "gm" 'evil-search-word-forward
-   "gl" 'evil-end-of-line
-   "gh" 'evil-beginning-of-line
+   "gm"   'evil-search-word-forward
+   "gl"   'evil-end-of-line
+   "gh"   'evil-beginning-of-line
    )
 
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
@@ -216,51 +260,15 @@ And some bindings for vim modes
    "K" 'drag-stuff-up
    )
 
-  ;; (general-translate-key nil 'motion
-  ;;   "ESC" "C-g")
-
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
-#+end_src
-*** Evil Collection
-A set of keybindings for evil-mode
-#+begin_src emacs-lisp
-  (setq evil-want-keybinding nil)
 
-  (use-package evil-collection
-    (evil-collection-want-unimpaired-p nil)
-    )
 
-  (evil-collection-init)
-#+end_src
-*** Evil leader
-<leader> key for evil-mode
-#+begin_src emacs-lisp
-  (use-package evil-leader
-    :config (global-evil-leader-mode))
-
-  ;; I use the spacebar as my leader key
-  (evil-leader/set-leader "SPC")
-
-  ;; Some basic quit and comment out
-  (leader-keys "qq" 'save-buffers-kill-terminal)
-  (leader-keys "cc" 'comment-line)
-#+end_src
-I use <C-u> for scroll up, but default emacs uses that for something called "universal-argument" so I add this bindign for backwards compatibility
-Emacs uses <M-x> (aka alt-x) for running commands (somewhat similar to vim's command mode accessed via ":") but I find <SPC-x> easier to access
-#+begin_src emacs-lisp
-  (leader-keys
-    "u" 'universal-argument
-    "x" 'execute-extended-command)
-#+end_src
-*** Evil surround
-#+begin_src emacs-lisp
-  (use-package evil-surround
+  (use-package evil-surround ;; like vim-surround
     :config (global-evil-surround-mode 1))
-#+end_src
-*** Evil goggles
-For highlighting certain code actions. I like seeing what I yanked to my clipboard with a simple and quick flash of colored text
-#+begin_src emacs-lisp
-  (use-package evil-goggles
+
+  (use-package evil-goggles ;; Show what was yanked w/ quick flash of colored text
+    :custom
+    (evil-goggles-yank-face ((t (:inherit evil-goggles-default-face :background "DarkOrange1"))))
     :config
     (evil-goggles-mode)
     (setq evil-goggles-duration 0.500
@@ -282,186 +290,96 @@ For highlighting certain code actions. I like seeing what I yanked to my clipboa
           evil-goggles-enable-undo nil
           evil-goggles-enable-redo nil
           evil-goggles-enable-record-macro nil))
-#+end_src
-*** Evil nerd commenter
-Simple package for commenting out code
-#+begin_src emacs-lisp
+
   (use-package evil-nerd-commenter)
 #+end_src
-** Hydra
+** Evil Collection
+
+A set of keybindings for evil-mode
+
 #+begin_src emacs-lisp
-  (use-package hydra)
+  (setq evil-want-keybinding nil)
+
+  (use-package evil-collection
+    :custom
+    (evil-collection-magit-state 'emacs)
+    (evil-collection-want-unimpaired-p nil)
+    )
+
+  (evil-collection-init)
 #+end_src
-*** Font size Hydra
+** Evil leader
+
+<leader> key for evil-mode
+
 #+begin_src emacs-lisp
-  (defhydra hydra-text-scale (:timeout 4)
-    "scale text"
-    ("j" text-scale-increase "in")
-    ("k" text-scale-decrease "out")
-    ("f" nil "finished" :exit t))
+  (use-package evil-leader
+    :config (global-evil-leader-mode))
+
+  (evil-leader/set-leader "SPC")
 
   (leader-keys
-    "tf" '(hydra-text-scale/body :which-key "scale text"))
-#+end_src
-*** Scrolling Hydra
-#+begin_src emacs-lisp
-  (defhydra hydra-scroll-page (:timeout 4)
-    "scroll the page"
-    ("k" evil-scroll-up "up")
-    ("j" evil-scroll-down "down")
-    ("f" nil "finished" :exit t))
-
-  (leader-keys
-    "ts" '(hydra-scroll-page/body :which-key "scroll page"))
-#+end_src
-** Whichkey
-#+begin_src emacs-lisp
-  (use-package which-key
-    :config (which-key-mode))
-#+end_src
-* Miscellaneous
-** Consult
-#+begin_src emacs-lisp
-  (use-package consult
-    :config
-    (setq consult-preview-key (kbd "C-\\")))
-#+end_src
-** straight.el
-#+begin_src emacs-lisp
-(straight-use-package 'use-package)
-#+end_src
-** Selectrum
-#+begin_src emacs-lisp
-  (use-package selectrum
-    :config
-    (selectrum-mode +1)
-    :bind (:map selectrum-minibuffer-map
-                ("C-j" . selectrum-next-candidate)
-                ("C-k" . selectrum-previous-candidate)))
-
-  (use-package selectrum-prescient
-    :config
-    ;; to make sorting and filtering more intelligent
-    (selectrum-prescient-mode +1)
-
-    ;; to save your command history on disk, so the sorting gets more
-    ;; intelligent over time
-    (prescient-persist-mode +1))
-
-  ;; (use-package hotfuzz
-    ;; :straight (hotfuzz :type git :host github :repo "axelf4/hotfuzz")
-    ;; :config
-    ;; (setq pcomplete-ignore-case t)
-    ;; (setq completion-ignore-case t)
-    ;; (setq read-buffer-completion-ignore-case t)
-    ;; (setq read-file-name-completion-ignore-case t)
-    ;; (setq completion-styles '(hotfuzz))
-    ;; (hotfuzz-selectrum-mode))
-#+end_src
-*** Marginalia
-#+begin_src emacs-lisp
-(use-package marginalia
-  :after evil
-  :config
-  (add-to-list 'marginalia-prompt-categories '("Find file" . file))
-  (marginalia-mode))
-#+end_src
-*** Embark
-#+begin_src emacs-lisp
-  (defun sal-split-right ()
-    (interactive)
-    (projectile--find-file (selectrum-get-current-candidate))
-    (split-window-horizontally)
-    (evil-switch-to-windows-last-buffer)
-    (other-window 1))
-
-  (defun sal-split-below ()
-    (interactive)
-    (projectile--find-file (selectrum-get-current-candidate))
-    (split-window-below)
-    (evil-switch-to-windows-last-buffer)
-    (other-window 1))
-
-  (use-package embark
-    :bind (("C-." . embark-act))
-    :config
-    (embark-define-keymap sal-embark-file-map
-      "Keymap for actions for tab-bar tabs (when mentioned by name)."
-      ("-" sal-split-below)
-      ("/" sal-split-right))
-    (add-to-list 'embark-keymap-alist '(file . sal-embark-file-map))
-
-    (setq embark-action-indicator
-          (lambda (map _target)
-            (which-key--show-keymap "Embark" map nil nil 'no-paging)
-            #'which-key--hide-popup-ignore-command)
-          embark-become-indicator embark-action-indicator)
+    "u"  'universal-argument       ;; <C-u> is the default, I use that for scrolling up
+    "x"  'execute-extended-command ;; <M-x> is the defualt, which is awkward to type
+    "qq" 'save-buffers-kill-terminal
+    "cc" 'comment-line
     )
 #+end_src
-*** Ripgrep
+* Org mode
 #+begin_src emacs-lisp
-  (use-package ripgrep)
-  (use-package deadgrep)
-#+end_src
-** Company mode
-#+begin_src emacs-lisp
-  (use-package company
-    :config
-    (company-tng-mode)
-    (setq company-minimum-prefix-length 1)
-    (setq company-tooltip-align-annotations t)
-    (setq company-selection-wrap-around t))
+  (add-hook 'org-agenda-mode-hook 'sal-agenda-setup)
 
-  (add-hook 'after-init-hook 'global-company-mode)
-
-  ;; Nice icons in company dropdowns
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
-
-  (use-package pos-tip)
-
-  ;; Add overlay documentation for the options company provides
-  (use-package company-quickhelp
-    :config (company-quickhelp-mode))
-
-  (eval-after-load 'company '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-#+end_src
-** Dashboard: recentf / bookmarks / MRU
-#+begin_src emacs-lisp
-  (use-package dashboard
-    :config
-    (setq dashboard-set-heading-icons t
-          dashboard-startup-banner 'logo
-          dashboard-center-content nil
-          dashboard-set-navigator t
-          dashboard-set-file-icons t)
-    (setq dashboard-items '((recents  . 10)
-                            (bookmarks . 5)
-                            (projects . 5)))
-    (dashboard-setup-startup-hook))
-#+end_src
-** Org mode
-#+begin_src emacs-lisp
-  (defun sal/org-mode-setup ()
-    "Org mode setup."
-    (global-linum-mode 0))
+  (general-define-key
+   :prefix "C-c"
+   "a" 'air-pop-to-org-agenda
+   "t" 'air-org-agenda-capture
+   "c" 'org-capture)
 
   (use-package org
-    :defer 1
-    :bind
-    (:map org-mode-map
-          ("C-c e" . org-edit-special))
-    (:map org-src-mode-map
-          ("C-c s" . org-edit-src-exit))
     :hook ((org-mode . sal/org-mode-setup)
            (org-mode . visual-line-mode)
            (org-mode . org-indent-mode)
            (org-mode . (lambda () (setq-local evil-auto-indent nil))))
+    :bind (:map org-mode-map
+           ("C-c e" . org-edit-special)
+           :map org-src-mode-map
+           ("C-c s" . org-edit-src-exit))
+    :custom
+    (org-directory "~/org")
+    (org-hide-emphasis-markers t)
+    (org-agenda-files (list "~/org"))
     :config
+    (setq org-log-done t)
+    (setq org-agenda-custom-commands
+          '(("d" "Daily agenda and all TODOs"
+             ((tags "PRIORITY=\"A\""
+                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done 'meeting))
+                     (org-agenda-overriding-header "High-priority unfinished tasks:")))
+              (agenda "" ((org-agenda-ndays 1)))
+              (alltodo ""
+                       ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
+                                                       (air-org-skip-subtree-if-priority ?A)
+                                                       (org-agenda-skip-if nil '(scheduled deadline))))
+                        (org-agenda-overriding-header "ALL normal priority tasks:"))))
+             ;; ((org-agenda-compact-blocks t))
+             )))
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "IN-PROGRESS(p)" "WAITING(w)" "MEETING(m)" "|" "DONE(x)")))
     (setq org-return-follows-link t)
     (setq org-ellipsis " ▾")
-    :custom
-    (org-hide-emphasis-markers t))
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline "~/org/agenda.org" "Tasks")
+             "* TODO %?\n%u\n%a\n  %i")
+            ("m" "Meeting" entry (file+headline "~/org/agenda.org" "Meetings")
+             "* MEETING with %? :MEETING:\n%i")
+            ("c" "Calendar" entry (file+datetree "~/org/calendar.org")
+             "* CAL %? :EVENT:\n%i")
+            ("i" "Idea" entry (file+headline "~/org/agenda.org" "Ideas")
+             "* %? :IDEA: \n%u\n%a\n  %i")
+            ("o" "On-Call" entry (file+datetree "~/org/on-call.org")
+             "* %?\n  %i")
+            )))
 
   (use-package deft
     :after org
@@ -475,122 +393,39 @@ Simple package for commenting out code
     (deft-directory "~/org-roam/"))
 
   (use-package org-roam
-    :after (org evil)
+    :after (org deft)
+    :custom
+    (org-roam-directory "~/org-roam")
+    (org-roam-completion-everywhere t)
+    :bind-keymap ("C-c n" . org-roam-dailies-map)
+    :bind ((:map org-roam-dailies-map
+                 ("n" . org-roam-dailies-capture-today) ;; neumonic "now"; This is provided by default
+                 ("t" . org-roam-dailies-capture-tomorrow)
+                 ("y" . org-roam-dailies-capture-yesterday)))
     :config
     (leader-keys
       "or" 'org-roam
       "of" 'org-roam-find-file
       "oc" 'org-roam-capture
-      "oi" 'org-roam-insert
-      "oat" 'org-roam-tag-add)
-    (setq org-roam-directory "~/org-roam")
+      "oi" 'org-roam-insert)
     :init
     (org-roam-mode))
 #+end_src
-
-* Terminal settings
-** exec-path-from-shell
-Make Emacs use the $PATH set up by the user's shell
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :config
-    (setenv "SHELL" "/bin/zsh")
-    (setq shell-file-name "/bin/zsh"))
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-#+end_src
-** VTerm
-#+begin_src emacs-lisp
-  (use-package vterm
-    :commands vterm
-    :config
-    (setq vterm-max-scrollback 10000)
-    :hook
-    (vterm-mode . (lambda ()
-                    (setq-local hl-line-mode nil)
-                    (setq-local line-number-mode nil)
-                    (setq-local column-number-mode nil))))
-
-  (use-package multi-vterm
-    :config
-    (define-key vterm-mode-map [return] #'vterm-send-return)
-
-    (setq vterm-keymap-exceptions nil)
-    (general-define-key
-     :states '(insert)
-     :keymaps 'vterm-mode-map
-     "C-e" 'vterm--self-insert
-     "C-f" 'vterm--self-insert
-     "C-a" 'vterm--self-insert
-     "C-v" 'vterm--self-insert
-     "C-b" 'vterm--self-insert
-     "C-w" 'vterm--self-insert
-     "C-u" 'vterm--self-insert
-     "C-n" 'vterm--self-insert
-     "C-m" 'vterm--self-insert
-     "C-p" 'vterm--self-insert
-     "C-j" 'vterm--self-insert
-     "C-k" 'vterm--self-insert
-     "C-r" 'vterm--self-insert
-     "C-t" 'vterm--self-insert
-     "C-g" 'vterm--self-insert
-     "C-c" 'vterm--self-insert
-     "C-SPC" 'vterm--self-insert
-
-     "C-d" #'evil-normal-state
-     )
-
-    (general-define-key
-     :states '(normal)
-     :keymaps 'vterm-mode-map
-     ",c"        'multi-vterm-prev
-     "i"         'evil-insert-resume
-     "<return>"  'evil-insert-resume
-     "<prior>" 'scroll-down-command
-     "<next>" 'scroll-up-command
-
-     "C-d"       #'evil-scroll-down
-     )
-    )
-
-  (use-package eterm-256color
-    :hook (vterm-mode . eterm-256color-mode))
-
-  (use-package rainbow-mode
-    :config
-    (rainbow-mode))
-
-  (use-package ivy)
-
-  (defun sal-cd-project-root ()
-    (if (projectile-project-root)
-        (cd (projectile-project-root))))
-
-  ;; Terminal
-  (leader-keys
-    "t" '(:ignore t :which-key "terminal")
-    "tt" (lambda ()
-           (interactive)
-           (sal-cd-project-root)
-           (multi-vterm))
-    "t/" (lambda ()
-           (interactive)
-           (split-window-right)
-           (other-window 1)
-           (sal-cd-project-root)
-           (multi-vterm))
-    "td" (lambda ()
-           (interactive)
-           (split-window-below)
-           (other-window 1)
-           (sal-cd-project-root)
-           (multi-vterm)))
-#+end_src
 * Project/file management
+#+begin_src emacs-lisp
+  (leader-keys
+    "sp" 'deadgrep
+    "fe" 'neotree-projectile-action
+    "fj" 'dired-jump
+    "fr" 'rename-file
+    "f5" 'load-file
+    "fs" 'evil-write-all
+    "fy" 'show-file-name
+    "f.s" 'save-buffer)
+#+end_src
 ** Magit
 #+begin_src emacs-lisp
-  ;; Set so modeline info updates
-  (setq auto-revert-check-vc-info t)
+  (setq auto-revert-check-vc-info t) ;; modeline integration
 
   (use-package magit
     :commands magit-status
@@ -598,21 +433,12 @@ Make Emacs use the $PATH set up by the user's shell
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
     :config
     (general-define-key
-     :keymaps 'magit-status-mode-map
-     "C-j" 'magit-section-forward
-     "C-k" 'magit-section-backward
-     "M-j" 'magit-section-forward-sibling
-     "M-k" 'magit-section-backward-sibling
-     "," 'projectile-find-file
-     ";" 'switch-to-buffer
-     "p" 'magit-pull)
+      :keymaps 'magit-status-mode-map
+      "C-j" 'magit-section-forward
+      "C-k" 'magit-section-backward
+      "M-j" 'magit-section-forward-sibling
+      "M-k" 'magit-section-backward-sibling)
     (setq magit-refresh-status-buffer nil)
-
-    (defun kill-magit-diff-buffer-in-current-repo (&rest _)
-      "Delete the magit-diff buffer related to the current repo"
-      (let ((magit-diff-buffer-in-current-repo
-             (magit-mode-get-buffer 'magit-diff-mode)))
-        (kill-buffer magit-diff-buffer-in-current-repo)))
     ;; When 'C-c C-c' is pressed in the magit commit message buffer,
     ;;   delete the magit-diff buffer related to the current repo.
     (add-hook 'git-commit-setup-hook
@@ -687,47 +513,18 @@ Make Emacs use the $PATH set up by the user's shell
              "l" 'neotree-enter
              "q" 'neotree-hide))
 #+end_src
-** Fzf
-#+begin_src emacs-lisp
-  (use-package fzf)
-
-  ;; (defun fzf-find-file (&optional directory)
-  ;;   (interactive)
-  ;;   (let ((d (fzf/resolve-directory directory)))
-  ;;     (fzf
-  ;;     (lambda (x)
-  ;;         (let ((f (expand-file-name x d)))
-  ;;         (when (file-exists-p f)
-  ;;             (find-file f))))
-  ;;     d)))
-#+end_src
-** Custom commands
-#+begin_src emacs-lisp
-  (leader-keys
-    "pc" 'capsule-cw-mfe)
-#+end_src
-** Config
-
-#+begin_src emacs-lisp
-  (leader-keys
-    "sp" 'deadgrep)
-
-  (defun show-file-name ()
-    "Show the full path file name in the minibuffer."
-    (interactive)
-    (message (buffer-file-name))
-    (kill-new (file-truename buffer-file-name)))
-
-  (leader-keys
-    "fe" 'neotree-projectile-action
-    "fj" 'dired-jump
-    "fr" 'rename-file
-    "f5" 'load-file
-    "fs" 'evil-write-all
-    "fy" 'show-file-name
-    "f.s" 'save-buffer)
-#+end_src
 * Buffer management
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-;") 'ibuffer)
+  (global-set-key (kbd "C-/") 'ibuffer)
+
+  (leader-keys
+    ";" 'switch-to-buffer
+    "/" 'switch-to-buffer
+    "TAB" 'evil-switch-to-windows-last-buffer
+    "br" 'rename-buffer
+    "bd" 'kill-this-buffer)
+#+end_src
 ** Ibuffer
 #+begin_src emacs-lisp
   (use-package ibuffer-projectile)
@@ -735,15 +532,10 @@ Make Emacs use the $PATH set up by the user's shell
       (lambda ()
         (ibuffer-projectile-set-filter-groups)))
 
-  (defun ibuffer-jump-to-last-buffer ()
-    (ibuffer-jump-to-buffer (buffer-name (cadr (buffer-list)))))
-
   (add-hook 'ibuffer-hook #'ibuffer-jump-to-last-buffer)
 #+end_src
 ** Perspective.el
-This allows us to group buffers and window layouts into different
-virtual "workspaces". This is particularly useful when working with
-multiple projects and you don't want to clutter your buffer list
+This allows us to group buffers and window layouts into different virtual "workspaces". This is particularly useful when working with multiple projects and you don't want to clutter your buffer list
 #+begin_src emacs-lisp
   (use-package perspective
     :commands persp-state-load
@@ -758,48 +550,34 @@ multiple projects and you don't want to clutter your buffer list
     "ss" 'persp-set-buffer
     "sr" 'persp-rename)
 #+end_src
-** Config
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-;") 'ibuffer)
-  (global-set-key (kbd "C-/") 'ibuffer)
-
-  (leader-keys
-    ";" 'switch-to-buffer
-    "/" 'switch-to-buffer
-    "TAB" 'evil-switch-to-windows-last-buffer
-    "br" 'rename-buffer
-    "bd" 'kill-this-buffer)
-#+end_src
 * Window management
-** winner-mode
 #+begin_src emacs-lisp
   (winner-mode +1)
-  (define-key winner-mode-map (kbd "<M-left>") #'winner-undo)
-  (define-key winner-mode-map (kbd "<M-right>") #'winner-redo)
-#+end_src
-** Config
 
-#+begin_src emacs-lisp
+  (defhydra hydra-winner (:timeout 4)
+    "scale text"
+    ("k" winner-redo "winner-redo")
+    ("j" winner-undo "winner-undo")
+    ("f" nil "finished" :exit t))
+
+  (leader-keys
+    "w," '(hydra-winner/body :which-key "winner"))
+
   (leader-keys
     "wq" 'delete-window
     "wo" 'delete-other-windows
     "w TAB" 'other-window
     "wr" 'evil-window-rotate-upwards
     "w/" 'evil-window-vsplit
-    "wd" 'evil-window-split
+    "w-" 'evil-window-split
     "wh" 'evil-window-left
-    "wm" 'evil-window-left
     "wj" 'evil-window-down
-    "wn" 'evil-window-down
     "wk" 'evil-window-up
-    "we" 'evil-window-up
     "wl" 'evil-window-right
-    "wi" 'evil-window-right
     "w=" 'balance-windows
     )
 #+end_src
 * In-file navigation
-** Avy
 #+begin_src emacs-lisp
   (use-package avy
     :custom (avy-all-windows nil))
@@ -808,89 +586,101 @@ multiple projects and you don't want to clutter your buffer list
     "sf" 'consult-line)
 
   (general-define-key
-   :states '(normal visual)
-   "s" 'avy-goto-char-2)
+    :states '(normal visual)
+    "s" 'avy-goto-char-2)
 #+end_src
-* Programming tools & Config
-** Flycheck
+* Terminal in emacs
 #+begin_src emacs-lisp
-  (use-package flycheck
-    :init
-    (add-hook 'after-init-hook #'global-flycheck-mode)
+  (use-package vterm
+    :commands vterm
     :config
-    (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories
-                                                  flycheck-locate-config-file-by-path))
-    (setq flycheck-check-syntax-automatically '(save
-                                                ;; idle-change
-                                                ;; new-line
-                                                mode-enabled))
-    (setq flycheck-display-errors-delay 0.3)
-    (setq flycheck-flake8rc '(".flake8"))
-    (setq flycheck-javascript-eslint-executable "eslint_d")
+    (setq vterm-max-scrollback 10000)
+    :hook
+    (vterm-mode . (lambda ()
+                    (setq-local hl-line-mode nil)
+                    (setq-local line-number-mode nil)
+                    (setq-local column-number-mode nil))))
 
-    (setq-default flycheck-temp-prefix ".flycheck")
-    (setq-default flycheck-disabled-checkers
-                  (append flycheck-disabled-checkers
-                          '(javascript-jshint json-jsonlist)))
+  (use-package multi-vterm
+    :config
+    (define-key vterm-mode-map [return] #'vterm-send-return)
 
-    (leader-keys
-      "el" 'flycheck-list-errors
-      "en" 'flycheck-next-error
-      "ep" 'flycheck-previous-error)
+    (setq vterm-keymap-exceptions nil)
+    (general-define-key
+      :states  '(insert)
+      :keymaps 'vterm-mode-map
+      "C-e" 'vterm--self-insert
+      "C-f" 'vterm--self-insert
+      "C-a" 'vterm--self-insert
+      "C-v" 'vterm--self-insert
+      "C-b" 'vterm--self-insert
+      "C-w" 'vterm--self-insert
+      "C-u" 'vterm--self-insert
+      "C-n" 'vterm--self-insert
+      "C-m" 'vterm--self-insert
+      "C-p" 'vterm--self-insert
+      "C-j" 'vterm--self-insert
+      "C-k" 'vterm--self-insert
+      "C-r" 'vterm--self-insert
+      "C-t" 'vterm--self-insert
+      "C-g" 'vterm--self-insert
+      "C-c" 'vterm--self-insert
+      "C-SPC" 'vterm--self-insert
+
+      "C-d" #'evil-normal-state
+      )
+
+    (general-define-key
+      :states  '(normal)
+      :keymaps 'vterm-mode-map
+      ",c"        'multi-vterm-prev
+      "i"         'evil-insert-resume
+      "<return>"  'evil-insert-resume
+      "<prior>"   'scroll-down-command
+      "<next>"    'scroll-up-command
+
+      "C-d"       #'evil-scroll-down
+      )
     )
 
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-mode 'javascript-eslint 'js2-mode)
-  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
-#+end_src
-** Flycheck posframe
-#+begin_src emacs-lisp
-  (use-package flycheck-posframe
-    :after flycheck
-    :config
-    (setq flycheck-posframe-error-prefix "■ ")
-    (setq flycheck-posframe-info-prefix "■ ")
-    (setq flycheck-posframe-prefix "■ ")
-    (setq flycheck-posframe-warning-prefix "■ ")
+  (use-package eterm-256color
+    :hook (vterm-mode . eterm-256color-mode))
 
-    (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
-#+end_src
-** Eslintd
-#+begin_src emacs-lisp
-  (use-package eslintd-fix
-    :hook ((web-mode
-            typescript-mode
-            typescript-tsx-mode
-            css-mode
-            scss-mode
-            rjsx-mode
-            json-mode) . eslintd-fix-mode))
-#+end_src
-** Code formatting AKA Prettier/Black/etc
-Handled more often by eslintd when a project uses both eslint and prettier
-#+begin_src emacs-lisp
-  (use-package apheleia
-    :hook ((web-mode
-            typescript-mode
-            typescript-tsx-mode
-            css-mode
-            scss-mode
-            rjsx-mode
-            vue-mode
-            json-mode) . apheleia-mode)
+  (use-package rainbow-mode
     :config
-    (apheleia-global-mode +1)
-    (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode prettier)))
+    (rainbow-mode))
+
+  (use-package ivy)
+
+  ;; Terminal
+  (leader-keys
+    "t" '(:ignore t :which-key "terminal")
+    "tt" (lambda ()
+           (interactive)
+           (sal-cd-project-root)
+           (multi-vterm))
+    "t/" (lambda ()
+           (interactive)
+           (split-window-right)
+           (other-window 1)
+           (sal-cd-project-root)
+           (multi-vterm))
+    "td" (lambda ()
+           (interactive)
+           (split-window-below)
+           (other-window 1)
+           (sal-cd-project-root)
+           (multi-vterm)))
 #+end_src
-** EditorConfig
+* YASnippets
 #+begin_src emacs-lisp
-  (use-package editorconfig
+  (use-package yasnippet
     :config
-    (editorconfig-mode 1))
+    (yas-global-mode 1)
+    (setq yas-snippet-dirs
+        '("~/.emacs.d/snippets")))
 #+end_src
-** LSP Mode
+* LSP Mode
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
@@ -913,8 +703,8 @@ Handled more often by eslintd when a project uses both eslint and prettier
           lsp-enable-folding nil
           lsp-enable-imenu nil
           lsp-enable-snippet nil
+          read-process-output-max (* 1024 1024) ;; 1mb
           )
-    (setq read-process-output-max (* 1024 1024)) ;; 1mb
     (add-hook 'web-mode-hook #'lsp-flycheck-enable)
     (with-eval-after-load 'lsp-mode
       (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
@@ -934,6 +724,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
                 )
     :config
     (setq lsp-ui-doc-enable t
+          lsp-ui-doc--from-mouse nil
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-position 'top
           lsp-ui-doc-include-signature t
@@ -955,7 +746,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
   (require 'lsp-diagnostics)
   (lsp-diagnostics-flycheck-enable)
 #+end_src
-** Web mode
+* Web mode
 #+begin_src emacs-lisp
   (use-package web-mode
     :defer 2
@@ -965,7 +756,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
        ("\\.html\\'" . web-mode))
     :commands web-mode)
 #+end_src
-** Emmet mode
+* Emmet mode
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook (
@@ -977,7 +768,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
 #+end_src
-** REPL
+* REPL
 #+begin_src emacs-lisp
   (use-package nodejs-repl
     :config
@@ -987,7 +778,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
      "rb" 'nodejs-repl-send-buffer
     ))
 #+end_src
-** RJSX mode
+* RJSX mode
 #+begin_src emacs-lisp
   (use-package rjsx-mode
     :hook
@@ -997,9 +788,8 @@ Handled more often by eslintd when a project uses both eslint and prettier
            ("\\.jsx\\'" .  rjsx-mode)
            ))
 #+end_src
-** Languages
-*** Python
-**** pyvenv + pipenv
+* Languages
+** Python
 #+begin_src emacs-lisp
   (setq pyvenv-virtualenvwrapper-python "python3")
   (setenv "WORKON_HOME" "~/.local/share/virtualenvs/")
@@ -1023,13 +813,9 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (setq
      pipenv-projectile-after-switch-function
      #'pipenv-projectile-after-switch-extended))
-#+end_src
-**** pylint
-#+begin_src emacs-lisp
+
   (use-package pylint)
-#+end_src
-**** LSP config
-#+begin_src emacs-lisp
+
   (use-package lsp-python-ms
     :after (lsp-mode)
     :hook
@@ -1044,7 +830,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
     ;; (setq lsp-python-ms-executable (executable-find "pyls"))
     )
 #+end_src
-*** Javascript/Typescript
+** Javascript/Typescript
 #+begin_src emacs-lisp
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
@@ -1070,7 +856,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
     (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
 #+end_src
-*** Vue
+** Vue
 #+begin_src emacs-lisp
   (use-package vue-mode
     :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"))
@@ -1080,7 +866,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
     :config
     (add-hook 'vue-mode-hook #'lsp))
 #+end_src
-*** C#
+** C#
 #+begin_src emacs-lisp
   (use-package csharp-mode
     :hook ((csharp-mode . lsp-deferred))
@@ -1089,7 +875,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
 
   (setq lsp-csharp-server-path "~/.emacs.d/.cache/lsp/omnisharp-roslyn/latest/run")
 #+end_src
-*** Lua
+** Lua
 #+begin_src emacs-lisp
   (use-package lua-mode
     :config
@@ -1097,7 +883,7 @@ Handled more often by eslintd when a project uses both eslint and prettier
     :hook ((lua-mode . (lambda ()
                          (lsp-deferred)))))
 #+end_src
-*** Rust
+** Rust
 #+begin_src emacs-lisp
   (use-package rustic
     :bind (:map rustic-mode-map
@@ -1106,66 +892,137 @@ Handled more often by eslintd when a project uses both eslint and prettier
     (setq rustic-lsp-server 'rust-analyzer)
     (setq rustic-format-on-save t))
 #+end_src
+* Visuals
+** Modeline
+#+begin_src emacs-lisp
+  (use-package minions
+    :config (minions-mode))
 
-* Transitioning from VIM to Emacs
-Here is a list of stuff I set out to learn as I began using emacs
-after using vim for three years
+  ;; (use-package nano-modeline
+  ;;  :hook ((org-agenda-mode . nano-modeline-mode)))
+#+end_src
+** Line numbers
+#+begin_src emacs-lisp
+  (global-hl-line-mode 1)
 
-** Stuff I expect to be an editor
-- Vim basics
-  - Modal editing
-  - Macros
-  - surround.vim equivalent
-  - sneak.vim equivalent
-- File explorer
-- File picker
-- Autocomplete as I type
-  - Variables and function
-- Syntax highlighting
-- Project-wide search (ag, rg, etc)
-- Version control tooling
+  (add-hook 'prog-mode-hook 'sal-enable-linum)
 
-** Terminology / good to know
-1) ~C-x C-c~ to quit emacs
-2) ~M-x~ execute command
-3) ~C-g~ to escape
-4) ~C-h ?~ about help
-5) ~C-h t~ opens the emacs tutorial
-6) ~C-h k [key or series of keys]~ opens help about that key or string of keys
-7) ~C-v~ minibuffer: scroll v one screen
-8) ~M-v~ minibuffer: scroll ^ one screen
-9) ~C-s~ start incremental search / go to next match
-10) ~C-x 0~ kill current window
+  (global-linum-mode -1)
 
-** Editor configuration
-- Edit your init.el file
-- ~M-x customize~
+  (setq display-line-numbers 'absolute)
+#+end_src
+** Theme
+#+begin_src emacs-lisp
+  (defun sal/set-font-faces ()
+    (message "[sal] Setting font faces")
 
-** Line navigation
-1) marks equivalent
-2) wellle/targets.vim equivalent
-3) How to toggle comments
+    (set-face-attribute 'default nil
+                        :font "Source Code Pro" :weight 'regular :height 130)
+    ;; (set-face-attribute 'default nil
+    ;; :family "Roboto Mono" :weight 'light :height 130)
+    (set-face-attribute 'bold nil
+                        :family "Roboto Mono" :weight 'regular)
+    (set-face-attribute 'italic nil
+                        :family "Victor Mono" :weight 'light :slant 'italic)
+    (set-fontset-font t 'unicode
+                      (font-spec :name "Inconsolata Light" :size 16) nil)
+    (set-fontset-font t '(#xe000 . #xffdd)
+                      (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+    )
 
-** File navigation
-- File finder?
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (with-selected-frame frame
+                    (sal/set-font-faces))))
+    (sal/set-font-faces))
 
-** Package manager
-- ~M-x package-install RET~
+  (setq custom-safe-themes t)
 
-** Code editing
-1) emmet?
-2) Intellisense / LSP capabilities?
-   - Depends. There's stuff like lsp-mode and you can also use something like tide for javascript
+  ;; modus is an emacs provided theme
+  ;; (load-theme 'modus-operandi)
+  (use-package doom-themes
+    :init
+    (setq doom-themes-treemacs-theme "doom-colors")
+    :config
+    (load-theme 'doom-gruvbox t)
+    (doom-themes-visual-bell-config))
 
-** Visuals
-1) statusline?
-2) doom-modeline
-3) icons?
-4) Syntax highlighting
-   * Colorscheme
-5) Hex/RGBA/HSL color previews
-6) Whichkey equivalent?
-   - there's a vim package for this but this actually came from an emacs package
+  (straight-use-package '(nano-theme :type git :host github
+                                     :repo "rougier/nano-theme"))
+#+end_src
+** Dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :config
+    (setq dashboard-set-heading-icons t
+          dashboard-startup-banner 'logo
+          dashboard-center-content nil
+          dashboard-set-navigator t
+          dashboard-set-file-icons t)
+    (setq dashboard-items '((recents  . 10)
+                            (bookmarks . 5)
+                            (projects . 5)))
+    (dashboard-setup-startup-hook))
 
-** How to close
-- ~C-x C-c~
+  (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
+#+end_src
+** Whichkey
+#+begin_src emacs-lisp
+  (use-package which-key :config (which-key-mode))
+#+end_src
+** Whitespace
+#+begin_src emacs-lisp
+  (whitespace-mode)
+  (use-package whitespace-cleanup-mode
+    :config
+    (global-whitespace-cleanup-mode))
+#+end_src
+* Other settings
+#+begin_src emacs-lisp
+  ;; Minimal UI
+  (scroll-bar-mode -1)
+  (tool-bar-mode   -1)
+  (tooltip-mode    -1)
+  (menu-bar-mode   -1)
+
+  (setq scroll-margin 3) ;; scroll when within 3 lines of top/bottom of visible buffer
+  (setq scroll-step 1)   ;; when doing so, scroll one line at a time
+
+  ;; Parentheses
+  (show-paren-mode 1)
+  (electric-pair-mode 1)
+
+  ;; Which column is this?
+  (column-number-mode)
+
+  ;; Where I left off
+  (save-place-mode 1)
+
+  (defalias 'yes-or-no-p #'y-or-n-p)
+  (setq inhibit-startup-message t)
+  (setq backup-directory-alist '(("." . "~/.config/emacs/.saves")))
+  (setq create-lockfiles nil)
+  (setq auto-save-default nil)
+
+  ;; Formatting
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-always-indent t)
+  (setq-default indent-line-function 'insert-tab)
+
+  ;; Suppress warnings about cl being deprecated
+  (setq byte-compile-warnings '(cl-functions))
+
+  (use-package posframe)
+
+  ;; The rest of the init file.
+
+  ;; Make gc pauses faster by decreasing the threshold.
+  ;; (setq gc-cons-threshold (* 2 1000 1000))
+
+  ;; The default is 800 kilobytes.  Measured in bytes.
+  ;; (setq gc-cons-percentage 0.6)
+  ;; (setq gc-cons-threshold most-positive-fixnum)
+
+  (add-hook 'emacs-startup-hook #'sal-display-startup-time)
+#+end_src

@@ -1,0 +1,61 @@
+Here is a list of stuff I set out to learn as I began using emacs
+after using vim for three years
+
+* Stuff I expect to be an editor
+- Vim basics
+  - Modal editing
+  - Macros
+  - surround.vim equivalent
+  - sneak.vim equivalent
+- File explorer
+- File picker
+- Autocomplete as I type
+  - Variables and function
+- Syntax highlighting
+- Project-wide search (ag, rg, etc)
+- Version control tooling
+
+* Terminology / good to know
+1) ~C-x C-c~ to quit emacs
+2) ~M-x~ execute command
+3) ~C-g~ to escape
+4) ~C-h ?~ about help
+5) ~C-h t~ opens the emacs tutorial
+6) ~C-h k [key or series of keys]~ opens help about that key or string of keys
+7) ~C-v~ minibuffer: scroll v one screen
+8) ~M-v~ minibuffer: scroll ^ one screen
+9) ~C-s~ start incremental search / go to next match
+10) ~C-x 0~ kill current window
+
+* Editor configuration
+- Edit your init.el file
+- ~M-x customize~
+
+* Line navigation
+1) marks equivalent
+2) wellle/targets.vim equivalent
+3) How to toggle comments
+
+* File navigation
+- File finder?
+
+* Package manager
+- ~M-x package-install RET~
+
+* Code editing
+1) emmet?
+2) Intellisense / LSP capabilities?
+   - Depends. There's stuff like lsp-mode and you can also use something like tide for javascript
+
+* Visuals
+1) statusline?
+2) doom-modeline
+3) icons?
+4) Syntax highlighting
+   * Colorscheme
+5) Hex/RGBA/HSL color previews
+6) Whichkey equivalent?
+   - there's a vim package for this but this actually came from an emacs package
+
+* How to close
+- ~C-x C-c~

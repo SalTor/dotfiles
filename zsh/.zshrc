@@ -22,6 +22,8 @@ source $HOME/dotfiles/zsh/config/capsule.zsh
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+eval "$(pyenv init -)"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if [[ -t 0 ]] && [[ -r $NVM_DIR/bash_completion ]]; then
@@ -38,3 +40,9 @@ if [[ -t 0 ]] && [[ -s $HOME/.avn/bin/avn.sh ]]; then
     # load avn
     . $HOME/.avn/bin/avn.sh
 fi
+
+# Pull in env vars necessary for Capsule development
+source /Users/sal/.config/cia/.cia_envvars
+
+export PNPM_HOME="/Users/sal/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
