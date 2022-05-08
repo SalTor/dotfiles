@@ -5,7 +5,6 @@
 #+begin_src emacs-lisp
   (load-file "~/dotfiles/emacs/modules/sal-functions.el")
   (load-file "~/dotfiles/emacs/modules/org-agenda-functions.el")
-  ;; (add-to-list 'load-path  "~/dotfiles/emacs/project-setups/capsule-cw-mfe.el")
 #+end_src
 * Package management
 #+begin_src emacs-lisp
@@ -105,8 +104,7 @@ Improve Emacs's built-in docs with more contextual info
   (use-package selectrum-prescient
     :config
     (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
-    (prescient-persist-mode +1)   ;; save command history on disk: sorting gets more intelligent over time
-    )
+    (prescient-persist-mode +1)) ;; save command history on disk: sorting gets more intelligent over time
 
   (use-package marginalia ;; Annotate minibuffer commands
     :after evil
@@ -123,15 +121,12 @@ Improve Emacs's built-in docs with more contextual info
     (company-tng-mode)
     (setq company-minimum-prefix-length 1)
     (setq company-tooltip-align-annotations t)
-    (setq company-selection-wrap-around t)
-    )
+    (setq company-selection-wrap-around t))
 
   (add-hook 'after-init-hook 'global-company-mode)
 
 
   (use-package company-box :hook (company-mode . company-box-mode)) ;; Icons in company dropdowns
-
-  (use-package pos-tip)
 
   (use-package company-quickhelp :config (company-quickhelp-mode))
 
@@ -162,8 +157,7 @@ Improve Emacs's built-in docs with more contextual info
     (leader-keys
       "el" 'flycheck-list-errors
       "en" 'flycheck-next-error
-      "ep" 'flycheck-previous-error)
-    )
+      "ep" 'flycheck-previous-error))
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
@@ -173,7 +167,7 @@ Improve Emacs's built-in docs with more contextual info
 
   (use-package posframe)
 
-  (use-package flycheck-posframe
+  (use-package flycheck-posframe ;; Show flycheck messages via posframe
     :after flycheck
     :config
     (setq flycheck-posframe-error-prefix "■ ")
@@ -211,12 +205,13 @@ Improve Emacs's built-in docs with more contextual info
   (use-package editorconfig :config (editorconfig-mode 1))
 #+end_src
 * EVIL mode
+Evil mode provides vim keybindings
 #+begin_src emacs-lisp
-  ;; START --- My evil config uses these packages
+  ;; Group START --- My evil config uses these packages
   (use-package undo-fu :config (global-undo-tree-mode -1))
   (use-package origami :config (global-origami-mode))
   (use-package drag-stuff :config (drag-stuff-mode t)) ;; Used for shortcut to move lines up/down
-  ;; END
+  ;; Group END
 
   (use-package evil
     :init
@@ -244,8 +239,7 @@ Improve Emacs's built-in docs with more contextual info
    "\C-r" 'undo-fu-only-redo
    "gm"   'evil-search-word-forward
    "gl"   'evil-end-of-line
-   "gh"   'evil-beginning-of-line
-   )
+   "gh"   'evil-beginning-of-line)
 
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
@@ -288,7 +282,7 @@ Improve Emacs's built-in docs with more contextual info
   (use-package evil-nerd-commenter)
 #+end_src
 ** Evil Collection
-A set of keybindings for evil-mode
+A set of recommeded keybindings for evil-mode
 #+begin_src emacs-lisp
   (setq evil-want-keybinding nil)
 
@@ -313,6 +307,10 @@ A set of keybindings for evil-mode
     "cc" 'comment-line)
 #+end_src
 * Org mode
+#+begin_quote
+Your life in plain text
+#+end_quote
+https://orgmode.org/
 #+begin_src emacs-lisp
   (add-hook 'org-agenda-mode-hook 'sal-agenda-setup)
 
@@ -845,7 +843,8 @@ This allows us to group buffers and window layouts into different virtual "works
 #+end_src
 * Visuals
 #+begin_src emacs-lisp
-  (use-package rainbow-mode :config (rainbow-mode))
+  (use-package rainbow-mode :config (rainbow-mode)) ;; color in #ffff00
+  (use-package pos-tip) ;; for showing tooltips
 #+end_src
 ** Modeline
 #+begin_src emacs-lisp
