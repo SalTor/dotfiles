@@ -428,29 +428,41 @@ https://orgmode.org/
     "po" 'projectile-switch-project)
 #+end_src
 ** Dired
+Directory Editor--a file manager
 #+begin_src emacs-lisp
+  (setq delete-by-moving-to-trash t
+        trash-directory "~/.Trash/")
+
+  (let ((gls "/usr/local/bin/gls"))
+        (if (file-exists-p gls) (setq insert-directory-program gls)))
+
   (use-package dired
     :ensure nil
     :commands (dired dired-jump)
     :bind (("C-x C-j" . dired-jump))
+    :custom ((dired-listing-switches "-agG"))
     :config
     (setq dired-dwim-target t)
     (evil-collection-define-key 'normal 'dired-mode-map
       "c" 'find-file
       "h" 'dired-up-directory
-      "l" 'dired-find-file)
-    (let ((gls "/usr/local/bin/gls"))
-      (if (file-exists-p gls) (setq insert-directory-program gls))))
+      "l" 'dired-find-file))
 
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
 
-  (use-package dired-open
-    :commands
-    (dired dired-jump)
-    :config
-    (setq dired-open-extensions '(("png" . "feh")
-                                  ("mkv" . "mpv"))))
+  (defun mydired-sort ()
+    "Sort dired listings with directories first."
+    (save-excursion
+      (let (buffer-read-only)
+        (forward-line 2) ;; beyond dir. header
+        (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
+      (set-buffer-modified-p nil)))
+
+  (defadvice dired-readin
+      (after dired-after-updating-hook first () activate)
+    "Sort dired listings with directories first before adding marks."
+    (mydired-sort))
 #+end_src
 ** Magit
 #+begin_src emacs-lisp
