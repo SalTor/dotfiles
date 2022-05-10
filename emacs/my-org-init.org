@@ -111,18 +111,22 @@ Improve Emacs's built-in docs with more contextual info
     :config
     (add-to-list 'marginalia-prompt-categories '("Find file" . file))
     (marginalia-mode))
+
 #+end_src
 * Company mode
 Provides completions as you type in a buffer
 #+begin_src emacs-lisp
+
   (use-package company
     :bind (:map company-mode-map
                 ("C-y" . company-set-selection))
+    :custom
+    (company-idle-delay 0.0)
+    (company-minimum-prefix-length 1)
     :config
     (company-tng-mode)
-    (setq company-minimum-prefix-length 1)
-    (setq company-tooltip-align-annotations t)
-    (setq company-selection-wrap-around t))
+    (setq company-tooltip-align-annotations t
+          company-selection-wrap-around t))
 
   (add-hook 'after-init-hook 'global-company-mode)
 
