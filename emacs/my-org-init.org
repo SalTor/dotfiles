@@ -116,9 +116,11 @@ Improve Emacs's built-in docs with more contextual info
     (selectrum-mode +1))
 
   (use-package selectrum-prescient
+    :custom
+    (prescient-filter-method '(fuzzy))
     :config
     (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
-    (prescient-persist-mode +1)) ;; save command history on disk: sorting gets more intelligent over time
+    (prescient-persist-mode +1))  ;; save command history on disk: sorting gets more intelligent over time
 
   (use-package marginalia ;; Annotate minibuffer commands
     :after evil
@@ -890,9 +892,10 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
   (use-package lsp-jedi
     :config
-    (with-eval-after-load "lsp-mode"
-      (add-to-list 'lsp-disabled-clients 'pyls)
-      (add-to-list 'lsp-enabled-clients 'jedi)))
+    ;; (with-eval-after-load "lsp-mode"
+      ;; (add-to-list 'lsp-disabled-clients 'pyls)
+      ;; (add-to-list 'lsp-enabled-clients 'jedi))
+    )
 
   (use-package pyvenv
     :config
