@@ -132,11 +132,9 @@ Provides completions as you type in a buffer
 #+begin_src emacs-lisp
 
   (use-package company
-    :bind (:map company-mode-map
-                ("C-y" . company-set-selection))
     :custom
-    (company-idle-delay 0.0)
     (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0)
     :config
     (company-tng-mode)
     (setq company-tooltip-align-annotations t
@@ -394,12 +392,12 @@ https://orgmode.org/
           '(("t" "Todo" entry (file+headline "~/org/agenda.org" "Tasks")
              "* TODO %?\n%u\n%a\n  %i")
             ("m" "Meeting" entry (file+headline "~/org/agenda.org" "Meetings")
-             "* MEETING with %? :MEETING:\n%i")
-            ("c" "Calendar" entry (file+datetree "~/org/calendar.org")
-             "* CAL %? :EVENT:\n%i")
+             "* MEETING with %?\n%^t :MEETING:\n%i")
+            ("c" "Calendar" entry (file+olp+datetree "~/org/calendar.org")
+             "* %?\n%^t :EVENT:\n%i")
             ("i" "Idea" entry (file+headline "~/org/agenda.org" "Ideas")
              "* %? :IDEA: \n%u\n%a\n  %i")
-            ("o" "On-Call" entry (file+datetree "~/org/on-call.org")
+            ("o" "On-Call" entry (file+olp+datetree "~/org/on-call.org")
              "* %?\n  %i")
             )))
 
@@ -529,11 +527,27 @@ Directory Editor--a file manager
   (leader-keys "gs" 'magit-status)
 
 #+end_src
-** Neotree
+** Neotree / Treemacs
 #+begin_src emacs-lisp
 
+  (use-package treemacs
+    :defer 1
+    :bind (("C-c f j" . treemacs-find-file))
+    :config
+    (setq treemacs-display-current-project-exclusively t
+          treemacs-project-follow-mode t
+          treemacs-width-is-initially-locked nil
+          treemacs-width 40
+          treemacs-git-mode nil))
+
+  (use-package treemacs-evil
+    :after treemacs)
+
+  ;; (use-package treemacs-icons-dired
+  ;;   :hook (dired-mode . treemacs-icons-dired-enable-once))
+
   (use-package neotree
-    :defer 3
+    :ensure nil
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-hide-cursor t
@@ -711,6 +725,8 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 #+begin_src emacs-lisp
 
   (use-package yasnippet
+    :bind (:map evil-insert-state-map
+                ("C-y" . yas-expand))
     :config
     (yas-global-mode 1)
     (setq yas-snippet-dirs
@@ -749,23 +765,35 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           lsp-diagnostic-package :none
           lsp-log-io nil ;; Don't log everything = speed
           lsp-lens-enable nil
-          lsp-headerline-breadcrumb-enable nil
-          lsp-signature-auto-activate nil
+          lsp-headerline-breadcrumb-enable t
+          lsp-signature-auto-activate t
           lsp-modeline-code-actions-enable nil
           lsp-eslint-enable nil
           lsp-enable-on-type-formatting nil
-          lsp-enable-folding nil
+          lsp-enable-folding t
           lsp-enable-imenu nil
-          lsp-enable-snippet nil
-          read-process-output-max (* 1024 1024)) ;; 1mb
+          lsp-enable-snippet t)
+          ;; read-process-output-max (* 1024 1024)) ;; 1mb
     (add-hook 'web-mode-hook #'lsp-flycheck-enable)
-    (with-eval-after-load 'lsp-mode
-      (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
     :custom
-    (lsp-eldoc-render-all t)
+    (lsp-eldoc-enable-hover nil)
+    (lsp-eldoc-render-all nil)
     (lsp-enable-which-key-integration t)
     (lsp-rust-analyzer-cargo-watch-command "clippy")
     (lsp-rust-analyzer-server-display-inlay-hints t))
+
+  (with-eval-after-load 'lsp-mode
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+
+  (defun sal/lsp-ui-doc-show ()
+    (interactive)
+    (lsp-ui-doc-show)
+    (lsp-ui-doc-focus-frame))
+
+  (defun sal/lsp-ui-doc-hide ()
+    (interactive)
+    (lsp-ui-doc-unfocus-frame)
+    (lsp-ui-doc-hide))
 
   (use-package lsp-ui
     :commands lsp-ui-mode
@@ -774,14 +802,21 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
                 ("M-r" . xref-find-references)
                 ("M-t" . lsp-find-type-definition))
     :config
+    (evil-define-key 'normal 'lsp-ui-doc-mode
+      [?K] #'sal/lsp-ui-doc-show)
+    (evil-define-key 'normal 'lsp-ui-doc-frame-mode
+      [?q] #'sal/lsp-ui-doc-hide)
     (setq lsp-ui-doc-enable t
+          lsp-ui-doc-show-with-cursor nil
           lsp-ui-doc--from-mouse nil
           lsp-ui-doc-use-childframe t
-          lsp-ui-doc-position 'top
+          lsp-ui-doc-header t
+          lsp-ui-doc-max-height 50
+          lsp-ui-doc-max-width 100
+          lsp-ui-doc-position 'at-point
           lsp-ui-doc-include-signature t
           lsp-ui-sideline-enable nil
           lsp-ui-flycheck-enable t
-          lsp-ui-flycheck-list-position 'right
           lsp-ui-flycheck-live-reporting t)
     (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
     (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
@@ -820,12 +855,10 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
 #+end_src
 * REPL
-#+begin_quote
-    *R*ead the user input (your Python commands).
-    *E*valuate your code (to work out what you mean).
-    *P*rint any results (so you can see the computer’s response).
-    *L*oop back to step 1 (to continue the conversation).
-#+end_quote
+1. *R*ead the user input.
+2. *E*valuate your code (to work out what you mean).
+3. *P*rint any results (so you can see the computer’s response).
+4. *L*oop back to step 1 (to continue the conversation).
 - https://codewith.mu/en/tutorials/1.0/repl
 #+begin_src emacs-lisp
 
@@ -850,43 +883,20 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 ** Python
 #+begin_src emacs-lisp
 
-  (setq pyvenv-virtualenvwrapper-python "python3")
-  (setenv "WORKON_HOME" "~/.local/share/virtualenvs/")
+  (use-package python-mode
+    :hook (python-mode . lsp-deferred)
+    :custom
+    (python-shell-interpreter "python3"))
+
+  (use-package lsp-jedi
+    :config
+    (with-eval-after-load "lsp-mode"
+      (add-to-list 'lsp-disabled-clients 'pyls)
+      (add-to-list 'lsp-enabled-clients 'jedi)))
 
   (use-package pyvenv
     :config
-    (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
-    ;; Set correct Python interpreter
-    (setq pyvenv-post-activate-hooks
-          (list (lambda ()
-                  (call-interactively #'lsp-workspace-restart)
-                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
-    (setq pyvenv-post-deactivate-hooks
-          (list (lambda ()
-                  (setq python-shell-interpreter "python3"))))
-    (pyvenv-mode +1))
-
-  (use-package pipenv
-    :hook (python-mode . pipenv-mode)
-    :init
-    (setq
-     pipenv-projectile-after-switch-function
-     #'pipenv-projectile-after-switch-extended))
-
-  (use-package pylint)
-
-  (use-package lsp-python-ms
-    :after (lsp-mode)
-    :hook
-    ((python-mode . (lambda ()
-                      (require 'lsp-python-ms)
-                      (lsp)
-                      (flycheck-add-next-checker 'lsp 'python-flake8)
-                      (flycheck-add-next-checker 'python-flake8 'python-pylint)
-                      (message "Added flycheck checkers."))))
-    :init
-    ;; (setq lsp-python-ms-executable (executable-find "pyls"))
-    (setq lsp-python-ms-auto-install-server t))
+    (pyvenv-mode 1))
 
 #+end_src
 ** Javascript/Typescript
@@ -1066,6 +1076,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
   ;; Parentheses
   (show-paren-mode 1)
   (electric-pair-mode 1)
+  ;; (use-package smartparens)
+  (use-package rainbow-delimiters
+    :hook ((prog-mode . rainbow-delimiters-mode)))
 
   ;; Which column is this?
   (column-number-mode)

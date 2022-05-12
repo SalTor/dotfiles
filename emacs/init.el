@@ -60,7 +60,6 @@
  '(eglot-send-changes-idle-time 1)
  '(exec-path-from-shell-arguments '("-l"))
  '(flycheck-posframe-border-width 10)
- '(flycheck-python-flake8-executable "/Users/sal/Library/Python/3.8/bin/flake8")
  '(js2-strict-inconsistent-return-warning nil)
  '(lsp-auto-execute-action nil)
  '(lsp-diagnostics-provider :flycheck)

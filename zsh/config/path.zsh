@@ -23,6 +23,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/Cellar
 export PATH=$PATH:/usr/local/opt/mysql-client/bin
 export PATH=$PATH:/Users/sal/Library/Python/3.8/bin
+export PATH=$PATH:/Users/sal/Library/Python/3.9/bin
 
 export PATH=$PATH:$HOME/dotfiles/bin
 export PATH=$PATH:$HOME/.cargo/bin
