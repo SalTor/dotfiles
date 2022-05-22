@@ -107,9 +107,7 @@ I've settled on using [[https://github.com/Wilfred/deadgrep][deadgrep]] which pr
 ** 5. Version control
 [[https://magit.vc/][Magit]] is the go-to tool for git. You run ~magit-status~ and can stage/commit/merge/push/pull all within it with minimal keystrokes
 
-Outside of emacs some use the command line, some use [[https://github.com/jesseduffield/lazygit][lazygit]], some use [[https://github.com/tpope/vim-fugitive][vim-fugitive]], and some use a visual GUI for interacting with git
-
-Out of everything I tried, I first thought lazygit was the end-all-be-all git tool. But after using magit I feel it really takes the cake for that title
+Of everything I tried, whether that was [[https://github.com/jesseduffield/lazygit][lazygit]], [[https://github.com/tpope/vim-fugitive][vim-fugitive]], or the many visual GUI's .. I have to say magit takes the cake
 
 ** 6. Visuals
 *** Color schemes
