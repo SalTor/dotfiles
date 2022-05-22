@@ -9,7 +9,7 @@ Some may want to skip to the [[#stuff-i-expect-from-an-editor]["Stuff I expect f
 What precedes that sets some context about emacs that can help understand how it all pieces together
 
 ** Second, my path to emacs
-1. notepad++ / ecplipse (during college and java 101)
+1. notepad++ / eclipse (during college and java 101)
 2. sublime text (2014-2017)
 3. webstorm (2017-2018)
 4. vim/neovim (2018-2021)
@@ -67,37 +67,52 @@ Here we have a few options, the ones that stand out at first are:
 - [[https://github.com/jaypei/emacs-neotree][Neotree]]: Simple, reminds me of NERDTree from vim
 - [[https://github.com/Alexander-Miller/treemacs#treemacs---a-tree-layout-file-explorer-for-emacs][Treemacs]]: It's also compared with NERDTree but feels .. fancier?
 
-For a simpler directory view, similar to ~ls~:
-- [[https://www.emacswiki.org/emacs/DiredMode][dired]] (directory editor)
-  - This is similar to vim's [[https://www.vim.org/scripts/script.php?script_id=1075][netrw]] (often paired with [[https://github.com/tpope/vim-vinegar][vinegar]])
+This is what I was used to and wanted, so I started with the above
 
-In the beginning I was skeptical of something like dired as I got used to editing and viewing files with a tree-like view
+But actually a simpler directory view turns out to be more powerful, in my experience
 
-In time I've changed to love the dired approach. Although, I find a tree-like view to be better for getting acquainted with a new project, so I have both kinds installed but I use dired day-to-day
+That solution is called [[https://www.emacswiki.org/emacs/DiredMode][dired]] and I highly recommend trying it out
+- This is similar to vim's [[https://www.vim.org/scripts/script.php?script_id=1075][netrw]] or [[https://github.com/tpope/vim-vinegar][vinegar]]
+
+In the beginning I was skeptical of something like dired as I got used to editing and viewing files with a tree-like view but in time I've changed to love the dired approach
+
+Although, when you're getting acquainted with a new project I find it's very useful to have the tree-like view
+
 ** 2. File picker
-Often it's preferable to open a prompt and type to search for a file
+Searching for a file is typically done with a fuzzy finder
 
-There is the built-in ~find-file~ command which is decent, but to search in sub-folders it requires you tab-complete, which slows file search down--but it does offer more precise search!
+The answer is the [[https://github.com/bbatsov/projectile][projectile]] package which provides a variety of project-related functions. One of which is project search!
 
-I think the go-to here is to [[https://github.com/bbatsov/projectile][projectile]] which is "Project Interaction Library for Emacs"
+With the ~projectile-find-file~ command you're given a list of all files in the project and you can filter the list as you type
 
-I use the ~projectile-find-file~ command for finding files
+*** The built in approach
+Alternatively, you can use emacs's ~find-file~ command for similar functionality. It's just that to search in sub-folders it requires you tab-complete, which slows down finding your desired file
+
 ** 3. Autocomplete as I type
-Emacs has built-in ~completion-at-point~ functionality
+In my opinion, any editor worth it's salt can provide suggestions as you type
 
-I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion like with various programming tools
+Here I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion--most notable for suggesting variables/functions, which we'll cover later
+
+*** Fun fact
+Some people actually don't like having suggestions happen by default :shrug: To each their own
+
 ** 4. Project-wide search ~(ag, rg, etc)~
 Searching for specific text within a project can be achieved with programs like grep and similar
 
 I've settled on using [[https://github.com/Wilfred/deadgrep][deadgrep]] which provides a nice list of results that you can visit individually after searching
+
 ** 5. Version control
-I use [[https://git-scm.com/][git]] for version control, and it's most often interacted with via the command line with commands like ~git add~, ~git status~, etc. Some users use a GUI tool instead
+I use [[https://git-scm.com/][git]] for version control
 
-In vim land I know many use [[https://github.com/tpope/vim-fugitive][vim-fugitive]] and swear by it
+It's most often interacted with via the command line with commands like ~git add~, ~git status~, etc
 
-Personally, I used [[https://github.com/jesseduffield/lazygit][lazygit]] in a separate terminal window to great effect and felt it was a game changer
+Some users use a GUI tool instead, and in vim land I know many use [[https://github.com/tpope/vim-fugitive][vim-fugitive]]
 
-However, in emacs we have [[https://magit.vc/][magit]] which, too, is a game changer
+When I was using vim, I used [[https://github.com/jesseduffield/lazygit][lazygit]] in a separate terminal window to great effect
+
+In emacs we have [[https://magit.vc/][magit]]. I think you'll agree after using it that it's a game changer
+
+Simply searching for it on youtube provides bountiful tutorials on its usage: [[https://www.youtube.com/results?search_query=magit][see here]]
 ** 6. Visuals
 *** Color schemes
 As with all editors, there's a bountiful list of color schemes to choose from
@@ -117,27 +132,35 @@ We briefly went over ~company~ for some integration of smart autocomplete, and t
 
 Most editors have some of what's called "intellisense" for suggesting variable/function names, properties on classes/objects as you type
 
-Traditionally, editors relied on proprietary tools that enabled this sort of thing or relied on the generation of "tag files" to index a codebase and enable such suggestions
+Traditionally, editors relied on the generation of "tags" to index a codebase and enable such suggestions
 
 Then editors would provide functionality to hook into those solutions but it was very different per language. For example, renaming a variable would have to have been implemented very differently per language and each editor would have to sort out how they'd enable the user to do those actions
 
 More recently, [[https://langserver.org/][language servers]] came onto the scene, enabling a uniform API for implementing such actions regardless of the language; as long as there was a language server running for that language, the langserver API could be used to instruct the server what they wanted to do. This enables each editor to have a uniform API for code editing actions. Want to rename a variable? Check to see if there's a language server for that language running, then send ~some_fn_call()~ to said language server and wait for the result
 
-And to connect this back to ~company~, the [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] package can hook into ~company~ to provide intelligent, code aware suggestions as you type
+Back to ~company~, the [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] package can hook into ~company~ to provide intelligent, code aware suggestions as you type
 ** 8. Editor configuration
-Your configuration is done via ~init.el~ and it's all written in =elisp=, like this:
+Your configuration is done via ~init.el~ and it's all written in ~elisp~, like this:
+
 #+begin_src emacs-lisp
 (message "Hello, World!")
 #+end_src
-If you haven't seen lisp before, there's a lot of parentheses and this is how you run a function
-You can use ~M-x customize~ to interactively set a variety of settings, all of which will get saved to ~init.el~
-I try to not edit ~init.el~ directly since it's often updated interactively and instead write my configurations to ~my-org-init.org~ and I have this line at the start of my ~init.el~ which at startup converts my org file to a ~.el~ file so that emacs can use it for configuration while allowing me to document some notes in a markdown-esque format with plain text as well as code blocks
+
+If you haven't seen lisp before, this is how you run a function
+
+You can use ~M-x customize~ to interactively change settings, all of which will get saved to ~init.el~
+
+I try to not edit ~init.el~ directly since it's often updated interactively. Instead, I write my configurations to ~my-org-init.org~
+
+This ~init.el~ line is what enables me to do that:
+
 #+begin_src emacs-lisp
 (require 'org)
 (org-babel-load-file
  (expand-file-name "~/dotfiles/emacs/my-org-init.org"))
 #+end_src
-On the topic of ~org-mode~ .. you can learn more about it [[https://orgmode.org/][here]] (be warned, it's game a game changer)
+
+It converts the org file into a ~.el~ file (learn more about org-mode [[https://orgmode.org/][here]])
 ** 10. Icons
 Everyone likes icons! Emacs users included ;-)
 
