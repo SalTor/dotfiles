@@ -42,39 +42,41 @@ Many menu lists in emacs can be navigated like so
 
 ~C-g~ can be used across emacs as the ~esc~ key in other programs
 
-* Package manager
-Plugins can be installed with the default ~package-install~ command (accessed with ~M-x~)
+* Stuff I expect from an editor
+Here it is. When considering a new editor, you want to know how to do some basic things
 
-Alternatively, I like using the [[https://github.com/jwiegley/use-package][use-package]] package for managing the installing of plugins and managing their configurations, here's an example of installing a snippet plugin and adding some configurations
+** First, a package manager
+There's a lot emacs can do without plugins, but I refer to a few throughout this doc so I'll lead with this
+
+Plugins can be installed with the built-in ~package-install~ command (accessed with ~M-x~)
+- It looks at a few websites that host the plugins for that plugin, this can be customized later
+
+I like using the [[https://github.com/jwiegley/use-package][use-package]] package for describing what plugins I have installed
+
+Here's an example of how you can install and configure a snippet plugin
 #+begin_src emacs-lisp
 
   (use-package yasnippet
-    :bind (:map evil-insert-state-map
-                ("C-y" . yas-expand))
     :config
-    (yas-global-mode 1)
     (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 #+end_src
-
-* Stuff I expect from an editor
-Here it is. When considering a new editor, you want to know how to do some basic things
 
 ** 1. File explorer
 Most editors have a tree-like view of files
 
 Here we have a few options, the ones that stand out at first are:
 - [[https://github.com/jaypei/emacs-neotree][Neotree]]: Simple, reminds me of NERDTree from vim
-- [[https://github.com/Alexander-Miller/treemacs#treemacs---a-tree-layout-file-explorer-for-emacs][Treemacs]]: It's also compared with NERDTree but feels .. fancier?
+- [[https://github.com/Alexander-Miller/treemacs#treemacs---a-tree-layout-file-explorer-for-emacs][Treemacs]]: Compared with NERDTree and inspired by Eclipse's file tree
 
-This is what I was used to and wanted, so I started with the above
+When I switched to emacs I had only ever used tree-like viewers
 
-But actually a simpler directory view turns out to be more powerful, in my experience
+But a simpler directory view turns out to be pretty powerful too
 
-That solution is called [[https://www.emacswiki.org/emacs/DiredMode][dired]] and I highly recommend trying it out
-- This is similar to vim's [[https://www.vim.org/scripts/script.php?script_id=1075][netrw]] or [[https://github.com/tpope/vim-vinegar][vinegar]]
+That would be [[https://www.emacswiki.org/emacs/DiredMode][dired]] and I highly recommend trying it out
+- It's similar to vim's [[https://www.vim.org/scripts/script.php?script_id=1075][netrw]] or [[https://github.com/tpope/vim-vinegar][vinegar]]
 
-In the beginning I was skeptical of something like dired as I got used to editing and viewing files with a tree-like view but in time I've changed to love the dired approach
+In the beginning I was skeptical of something like ~dired~ but in time I've changed to love the dired approach
 
 Although, when you're getting acquainted with a new project I find it's very useful to have the tree-like view
 
@@ -85,34 +87,33 @@ The answer is the [[https://github.com/bbatsov/projectile][projectile]] package 
 
 With the ~projectile-find-file~ command you're given a list of all files in the project and you can filter the list as you type
 
-*** The built in approach
 Alternatively, you can use emacs's ~find-file~ command for similar functionality. It's just that to search in sub-folders it requires you tab-complete, which slows down finding your desired file
 
 ** 3. Autocomplete as I type
 In my opinion, any editor worth it's salt can provide suggestions as you type
 
-Here I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion--most notable for suggesting variables/functions, which we'll cover later
+Here I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion. Most notable is its usage for suggesting variables/functions, which we'll cover later
 
 *** Fun fact
 Some people actually don't like having suggestions happen by default :shrug: To each their own
 
-** 4. Project-wide search ~(ag, rg, etc)~
+** 4. Project-wide search ~(grep, rg, ack, ag, etc)~
 Searching for specific text within a project can be achieved with programs like grep and similar
 
 I've settled on using [[https://github.com/Wilfred/deadgrep][deadgrep]] which provides a nice list of results that you can visit individually after searching
 
 ** 5. Version control
-I use [[https://git-scm.com/][git]] for version control
+[[https://magit.vc/][Magit]] is the go-to tool for git. You run ~magit-status~ and can stage/commit/merge/push/pull all within it with minimal keystrokes
 
-It's most often interacted with via the command line with commands like ~git add~, ~git status~, etc
+Outside of emacs some use the command line, some use [[https://github.com/jesseduffield/lazygit][lazygit]], some use [[https://github.com/tpope/vim-fugitive][vim-fugitive]], and some use a visual GUI for interacting with git
 
-Some users use a GUI tool instead, and in vim land I know many use [[https://github.com/tpope/vim-fugitive][vim-fugitive]]
+Out of everything I tried, I first thought lazygit was the end-all-be-all git tool. But after using magit I feel it really takes the cake for that title
 
-When I was using vim, I used [[https://github.com/jesseduffield/lazygit][lazygit]] in a separate terminal window to great effect
+*** Note
+I know some prefer seeing which lines in a file were edited
 
-In emacs we have [[https://magit.vc/][magit]]. I think you'll agree after using it that it's a game changer
+And there are plugins that support that, I just happen to not use those
 
-Simply searching for it on youtube provides bountiful tutorials on its usage: [[https://www.youtube.com/results?search_query=magit][see here]]
 ** 6. Visuals
 *** Color schemes
 As with all editors, there's a bountiful list of color schemes to choose from
@@ -120,21 +121,25 @@ As with all editors, there's a bountiful list of color schemes to choose from
 I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes][doomemacs/themes]]
 
 *** Syntax highlighting
-This comes out of the box with a language's ~major-mode~ and it's achieved with regular expressions. It ties in with your colorscheme to provide the precise coloring
+This comes out of the box with a ~major-mode~ (think ~python-mode~)
 
 **** Fun fact
-[[https://tree-sitter.github.io/tree-sitter/][Treesitter]] is a recent change in how this is done, and some colorschemes have support for it. Mostly it's a nice to have and as time goes on more colorschemes have support for it
+Traditionally keywords for a language are identified with regular expression, which color schemes use for coloring
+
+New to the scene here is [[https://tree-sitter.github.io/tree-sitter/][Treesitter]] which is capable of generating syntax trees for a language, quickly and on the fly
+
+There are a number of colorschemes that support coloring via treesitter, which you may find to provide a peformance boost in analyzing files
 
 ** 7. Code editing
-Most editors have some of what's called "intellisense" for suggesting variable/function names, properties on classes/objects as you type, and we have that in emacs too
+Most editors have some of what's called "intellisense" for suggesting variable/function names, properties on classes/objects as you type
 
-Traditionally, editors relied on the generation of "tags" to index a codebase and enable such suggestions
+Emacs has a package called [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] which provides this, and ~company~ can integrate with it to provide intelligent, code-aware suggestions as you type
+- This uses the language server protocol and has support for most languages
 
-After having a tags file, editors would provide functionality to hook into that but it was very different per language
+Traditionally, editors relied on the generation of "tags" for some languages to index a codebase and enable such suggestions
 
 More recently, [[https://langserver.org/][language servers]] came onto the scene, enabling a uniform API for implementing such actions regardless of the language
 
-Back to ~company~, the [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] package can hook into ~company~ to provide intelligent, code aware suggestions as you type
 ** 8. Editor configuration
 Your configuration is done via ~init.el~ and it's all written in ~elisp~, like this:
 
@@ -148,7 +153,7 @@ You can use ~M-x customize~ to interactively change settings, all of which will 
 
 I try to not edit ~init.el~ directly since it's often updated interactively. Instead, I write my configurations to ~my-org-init.org~
 
-This ~init.el~ line is what enables me to do that:
+These lines in ~init.el~ are what enables me to do that:
 
 #+begin_src emacs-lisp
 (require 'org)
