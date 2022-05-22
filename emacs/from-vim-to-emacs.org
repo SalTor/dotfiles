@@ -3,6 +3,11 @@ I'm writing this to answer questions I had when migrating to emacs in hopes of i
 
 I've tried to break it down so that it's applicable to people coming from any editor
 
+** But first ..
+Some may want to skip to the [[#stuff-i-expect-from-an-editor]["Stuff I expect from an editor"]] section to get a sense of how some expectations can be met with emacs
+
+What precedes that sets some context about emacs that can help understand how it all pieces together
+
 ** *My* path to emacs
 1. notepad++ / ecplipse (during college and java 101)
 2. sublime text (2014-2017)
@@ -12,6 +17,8 @@ I've tried to break it down so that it's applicable to people coming from any ed
 5. emacs (2021+)
 
 * Terminology to know / helper intro tips
+Before I walk through some equivalents from other editors, this context is useful when talking about emacs
+
 ~major-mode~ is closely equivalent to a filetype, you will have one activated at a time
 
 ~minor-mode~ is closely equivalent to a plugin, you will have multiple activated at a time
@@ -50,6 +57,8 @@ Alternatively, I like using the [[https://github.com/jwiegley/use-package][use-p
 #+end_src
 
 * Stuff I expect from an editor
+Here it is. When considering a new editor, you want to know how to do some basic things
+
 ** File explorer
 Most editors have a tree-like view of files.
 
