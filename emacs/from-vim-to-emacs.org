@@ -60,8 +60,8 @@ Alternatively, I like using the [[https://github.com/jwiegley/use-package][use-p
 * Stuff I expect from an editor
 Here it is. When considering a new editor, you want to know how to do some basic things
 
-** File explorer
-Most editors have a tree-like view of files.
+** 1. File explorer
+Most editors have a tree-like view of files
 
 Here we have a few options, the ones that stand out at first are:
 - [[https://github.com/jaypei/emacs-neotree][Neotree]]: Simple, reminds me of NERDTree from vim
@@ -74,37 +74,37 @@ For a simpler directory view, similar to ~ls~:
 In the beginning I was skeptical of something like dired as I got used to editing and viewing files with a tree-like view
 
 In time I've changed to love the dired approach. Although, I find a tree-like view to be better for getting acquainted with a new project, so I have both kinds installed but I use dired day-to-day
-** File picker
-Often it's preferable to open a prompt and type to search for a file.
+** 2. File picker
+Often it's preferable to open a prompt and type to search for a file
 
 There is the built-in ~find-file~ command which is decent, but to search in sub-folders it requires you tab-complete, which slows file search down--but it does offer more precise search!
 
 I think the go-to here is to [[https://github.com/bbatsov/projectile][projectile]] which is "Project Interaction Library for Emacs"
 
 I use the ~projectile-find-file~ command for finding files
-** Autocomplete as I type
+** 3. Autocomplete as I type
 Emacs has built-in ~completion-at-point~ functionaliy
 
 I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion like with various programming tools
-** Project-wide search ~(ag, rg, etc)~
-Searching for specific text within a project can be achieved with programs like grep and similar.
+** 4. Project-wide search ~(ag, rg, etc)~
+Searching for specific text within a project can be achieved with programs like grep and similar
 
-I've settled on using [[https://github.com/Wilfred/deadgrep][deadgrep]] which provides a nice list of results that you can visit individually after searching.
-** Version control
-I use [[https://git-scm.com/][git]] for version control, and it's most often interacted with via the command line with commands like ~git add~, ~git status~, etc. Some users use a GUI tool instead.
+I've settled on using [[https://github.com/Wilfred/deadgrep][deadgrep]] which provides a nice list of results that you can visit individually after searching
+** 5. Version control
+I use [[https://git-scm.com/][git]] for version control, and it's most often interacted with via the command line with commands like ~git add~, ~git status~, etc. Some users use a GUI tool instead
 
-In vim land I know many use [[https://github.com/tpope/vim-fugitive][vim-fugitive]] and swear by it.
+In vim land I know many use [[https://github.com/tpope/vim-fugitive][vim-fugitive]] and swear by it
 
-Personally, I used [[https://github.com/jesseduffield/lazygit][lazygit]] in a separate terminal window to great effect and felt it was a game changer.
+Personally, I used [[https://github.com/jesseduffield/lazygit][lazygit]] in a separate terminal window to great effect and felt it was a game changer
 
-However, in emacs we have [[https://magit.vc/][magit]] which, too, is a game changer.
-** Syntax highlighting
-Traditionally, text editors/IDEs used regular expressions per language type to highlight different syntaxes. And most language plugins (minor modes) for emacs provide this.
+However, in emacs we have [[https://magit.vc/][magit]] which, too, is a game changer
+** 6. Syntax highlighting
+Traditionally, text editors/IDEs used regular expressions per language type to highlight different syntaxes. And most language plugins (minor modes) for emacs provide this
 
-More recently, [[https://tree-sitter.github.io/tree-sitter/][treesitter]] came onto the scene which is a better approach to identifying languag syntaxes.
+More recently, [[https://tree-sitter.github.io/tree-sitter/][treesitter]] came onto the scene which is a better approach to identifying languag syntaxes
 
-Between the two approaches, treesitter has fewer color scheme support for syntax highlighting--but this is changing with time.
-** Code editing
+Between the two approaches, treesitter has fewer color scheme support for syntax highlighting--but this is changing with time
+** 7. Code editing
 We briefly went over ~company~ for some integration of smart autocomplete, and that's particularly useful for programming
 
 Most editors have some of what's called "intellisense" for suggesting variable/function names, properties on classes/objects as you type
@@ -116,29 +116,7 @@ Then editors would provide functionality to hook into those solutions but it was
 More recently, [[https://langserver.org/][language servers]] came onto the scene, enabling a uniform API for implementing such actions regardless of the language; as long as there was a language server running for that language, the langserver API could be used to instruct the server what they wanted to do. This enables each editor to have a uniform API for code editing actions. Want to rename a variable? Check to see if there's a language server for that language running, then send ~some_fn_call()~ to said language server and wait for the result
 
 And to connect this back to ~company~, the [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] package can hook into ~company~ to provide intelligent, code aware suggestions as you type
-
-* Vim emulation
-The answer is EVIL mode: https://www.emacswiki.org/emacs/Evil
-
-Many programs offer keyboard navigation that was inspired by vim, like Gmail's ~j/k~ shortcuts for moving down or up
-
-Similarly, many text editors/IDEs offer something similar for file navigation, each with varying levels of implementation.
-
-I would wager that EVIL mode is as close to a complete implementation of vim keybindings that exist anywhere--outside of vim itself, that is.
-
-** surround.vim equivalent
-The ability to easily wrap things in quotes/parentheses/brackets
-
-See: [[https://github.com/emacs-evil/evil-surround][evil-surround]]
-
-** sneak.vim equivalent
-The ability to quickly navigate to any text you see
-
-See: [[https://github.com/abo-abo/avy][avy]]
-
-Similar to [[https://github.com/justinmk/vim-sneak][sneak]] or [[https://github.com/easymotion/vim-easymotion][easymotion]], I've bound ~s~ to ~evil-avy-goto-char-2~
-
-* Editor configuration
+** 8. Editor configuration
 Your configuration is done via ~init.el~ and it's all written in =elisp=, like this:
 #+begin_src emacs-lisp
 (message "Hello, World!")
@@ -152,28 +130,49 @@ I try to not edit ~init.el~ directly since it's often updated interactively and 
  (expand-file-name "~/dotfiles/emacs/my-org-init.org"))
 #+end_src
 On the topic of ~org-mode~ .. you can learn more about it [[https://orgmode.org/][here]] (be warned, it's game a game changer)
-
-* Visuals
-** Modeline
-Every text editor/IDE has some ancillary information around the user interface
-
-In emacs that's the [[https://www.emacswiki.org/emacs/ModeLine][modeline]], in vim that is the [[https://vim.fandom.com/wiki/Status_line_to_display_more_information][statusline]], each by default at the bottom of the screen. This provides info on the current file being viewed, how far in a file you've scrolled, some version control information (like which git branch you're on), etc.
-
-You can install packages like [[https://github.com/seagle0128/doom-modeline][doom-modeline]] (packaged separately from [[https://github.com/doomemacs/doomemacs][Doom Emacs]]) for some nice visual modifications out of the box
-
-I went down the rabbithole of customizing my own but in the end have settled for using the default one
-- The one exception is using [[https://github.com/tarsius/minions][minions]] for condensing the list of active packages to just ~;-~ which in an org file shows up as ~(Org ;-)~ which looks like a winky face haha
-** Icons
-There's a variety of packages that introduce some icons here or there
-
-A few that I use add icons to ~company~'s completions, ~dired~, and the tree-like file viewers
-** Color schemes
+** 9. Color schemes
 As with all editors, there's a bountiful list of color schemes to choose from
 
 I keep an eye out for ones that support using treesitter for their coloring as that often provides more legible coloring of keywords
 
 I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes][doomemacs/themes]]
-** Whichkey
+** 10. Icons
+Everyone likes icons! Emacs users included ;-)
+
+There's a variety of packages that introduce some icons here or there
+
+A few that I use add icons to ~company~'s completions, ~dired~, and the tree-like file viewers
+** 11. Vim emulation
+Many programs offer keyboard navigation that was inspired by vim, like Gmail's ~j/k~ shortcuts for moving down or up
+
+Similarly, many text editors/IDEs offer something similar for file navigation, each with varying levels of implementation
+
+The answer is EVIL mode: https://www.emacswiki.org/emacs/Evil
+
+I would wager that EVIL mode is as close to a complete implementation of vim keybindings that exist anywhere--outside of vim itself, that is
+
+*** surround.vim equivalent
+The ability to easily wrap things in quotes/parentheses/brackets
+
+See: [[https://github.com/emacs-evil/evil-surround][evil-surround]]
+
+*** sneak.vim equivalent
+The ability to quickly navigate to any text you see
+
+See: [[https://github.com/abo-abo/avy][avy]]
+
+Similar to [[https://github.com/justinmk/vim-sneak][sneak]] or [[https://github.com/easymotion/vim-easymotion][easymotion]], I've bound ~s~ to ~evil-avy-goto-char-2~
+* Emacs specific stuff
+*** Modeline
+Every text editor/IDE has some ancillary information around the user interface
+
+In emacs that's the [[https://www.emacswiki.org/emacs/ModeLine][modeline]], in vim that is the [[https://vim.fandom.com/wiki/Status_line_to_display_more_information][statusline]], each by default at the bottom of the screen. This provides info on the current file being viewed, how far in a file you've scrolled, some version control information (like which git branch you're on), etc
+
+You can install packages like [[https://github.com/seagle0128/doom-modeline][doom-modeline]] (packaged separately from [[https://github.com/doomemacs/doomemacs][Doom Emacs]]) for some nice visual modifications out of the box
+
+I went down the rabbithole of customizing my own but in the end have settled for using the default one
+- The one exception is using [[https://github.com/tarsius/minions][minions]] for condensing the list of active packages to just ~;-~ which in an org file shows up as ~(Org ;-)~ which looks like a winky face haha
+*** Whichkey
 Man. I remember while I was still using vim and I saw this emacs package called [[https://github.com/justbur/emacs-which-key][whichkey]] and I knew I *needed* to have it
 
 When you begin a keybinding and pause before pressing the next key, ~whichkey~ will show you what key to press next to get a particular functionality
