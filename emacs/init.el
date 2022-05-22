@@ -53,9 +53,9 @@
   '(consult-ripgrep-command
      "rg --files --heading --hidden --follow --smart-case --sort path")
  '(consult-themes nil)
- '(dashboard-startup-banner "~/dotfiles/emacs/assets/overcome.jpeg")
   '(custom-safe-themes
      '("f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" "db5b906ccc66db25ccd23fc531a213a1afb500d717125d526d8ff67df768f2fc" "2c40f89d1a0a9bcdfe1c6306991165de3b593cca0ae59e1164a0fb574424e6f2" "2b502f6e3bf0cba42fe7bf83a000f2d358a7020a7780a8682fcfed0c9dbffb5f" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "0fe24de6d37ea5a7724c56f0bb01efcbb3fe999a6e461ec1392f3c3b105cc5ac" "08a27c4cde8fcbb2869d71fdc9fa47ab7e4d31c27d40d59bf05729c4640ce834" "aaa4c36ce00e572784d424554dcc9641c82d1155370770e231e10c649b59a074" "5379937b99998e0510bd37ae072c7f57e26da7a11e9fb7bced8b94ccc766c804" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "75b8719c741c6d7afa290e0bb394d809f0cc62045b93e1d66cd646907f8e6d43" "6b80b5b0762a814c62ce858e9d72745a05dd5fc66f821a1c5023b4f2a76bc910" "8f5a7a9a3c510ef9cbb88e600c0b4c53cdcdb502cfe3eb50040b7e13c6f4e78e" "0685ffa6c9f1324721659a9cd5a8931f4bb64efae9ce43a3dba3801e9412b4d8" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default))
+ '(dashboard-startup-banner "~/dotfiles/emacs/assets/overcome.jpeg")
  '(dired-use-ls-dired 'unspecified)
  '(eglot-send-changes-idle-time 1)
  '(exec-path-from-shell-arguments '("-l"))
@@ -72,7 +72,7 @@
  '(persp-show-modestring ''header)
  '(savehist-mode t)
  '(show-trailing-whitespace nil)
- '(treemacs-indentation-string "| ")
+ '(treemacs-indentation-string "  ")
  '(treemacs-no-png-images t)
  '(typescript-indent-level 4)
  '(vterm-buffer-name "*vterm*")

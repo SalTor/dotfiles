@@ -6,8 +6,8 @@
   (define-key org-agenda-mode-map "x" 'org-agenda-archive-default-with-confirmation)
   (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
-  (define-key org-agenda-mode-map "J" 'air-org-agenda-next-header)
-  (define-key org-agenda-mode-map "K" 'air-org-agenda-previous-header)
+  (define-key org-agenda-mode-map "J" 'org-agenda-goto-date)
+  (define-key org-agenda-mode-map "\C-l" 'consult-org-agenda)
   (remove-hook 'org-agenda-mode-hook 'sal-agenda-setup))
 
 (defun sal/org-mode-setup ()
@@ -27,7 +27,7 @@
 (defun air-pop-to-org-agenda (&optional split)
   "Visit the org agenda, in the current window or a SPLIT."
   (interactive "P")
-  (org-agenda nil "d")
+  (org-agenda nil "g")
   (when (not split)
     (delete-other-windows)))
 
@@ -72,9 +72,18 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
       subtree-end
       nil)))
 
-(defun air-org-skip-subtree-if-habit ()
-  "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
-  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-    (if (string= (org-entry-get nil "STYLE") "habit")
-      subtree-end
-      nil)))
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+        (goto-char (point-max))))))
+
+(defun org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))

@@ -116,8 +116,6 @@ Improve Emacs's built-in docs with more contextual info
     (selectrum-mode +1))
 
   (use-package selectrum-prescient
-    :custom
-    (prescient-filter-method '(fuzzy))
     :config
     (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
     (prescient-persist-mode +1))  ;; save command history on disk: sorting gets more intelligent over time
@@ -198,6 +196,7 @@ Provides completions as you type in a buffer
 
     (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
+  (use-package flycheck-aspell)
 #+end_src
 * Code linting & formating
 Via Prettier/Black/Eslint/Editorconfig
@@ -369,45 +368,83 @@ https://orgmode.org/
     :custom
     (org-directory "~/org")
     (org-hide-emphasis-markers t)
-    (org-agenda-files (list "~/org"))
+    (org-agenda-files (list "~/org" "~/org/gtd"))
     :config
+    (add-to-list 'org-modules 'org-habit)
+    (setq org-return-follows-link t
+          org-ellipsis " ▾"
+          org-agenda-skip-scheduled-if-done t
+          org-agenda-timegrid-use-ampm 1
+          org-deadline-warning-days 2
+          org-agenda-skip-deadline-if-done t
+          org-agenda-span 'day)
     (setq org-log-done t)
+    (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+    (setq org-capture-templates
+          '(("t" "Todo"
+             entry (file "~/org/gtd/inbox.org")
+             "* TODO %?")
+            ("c" "Calendar entry"
+             entry (file "~/org/calendar.org")
+             "* %^{Description} %^g\n%^{When}t")
+            ("s" "EOD checkin"
+             entry (file+datetree+prompt "~/org/eod-status.org")
+             "* checkin\n<%(org-read-date nil nil org-read-date-final-answer)>\n%?")
+            ("r" "Read later"
+             entry (file "~/org/read-later.org")
+             "* %?")
+            ("i" "Inbox"
+             entry (file "~/org/gtd/inbox.org")
+             "* %?")
+            )
+          )
     (setq org-agenda-custom-commands
           '(("d" "Daily agenda and all TODOs"
              ((tags "PRIORITY=\"A\""
-                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done 'meeting))
+                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                      (org-agenda-overriding-header "High-priority unfinished tasks:")))
-              (agenda "" ((org-agenda-ndays 1)))
+              (agenda "")
               (alltodo ""
-                       ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
-                                                       (air-org-skip-subtree-if-priority ?A)
+                       ((org-agenda-skip-function '(or (air-org-skip-subtree-if-priority ?A)
                                                        (org-agenda-skip-if nil '(scheduled deadline))))
                         (org-agenda-overriding-header "ALL normal priority tasks:"))))
-             ;; ((org-agenda-compact-blocks t))
-             )))
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "IN-PROGRESS(p)" "WAITING(w)" "MEETING(m)" "|" "DONE(x)")))
-    (setq org-return-follows-link t)
-    (setq org-ellipsis " ▾")
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
-    (setq org-capture-templates
-          '(("t" "Todo" entry (file+headline "~/org/agenda.org" "Tasks")
-             "* TODO %?\n%u\n%a\n  %i")
-            ("m" "Meeting" entry (file+headline "~/org/agenda.org" "Meetings")
-             "* MEETING with %?\n%^t :MEETING:\n%i")
-            ("c" "Calendar" entry (file+olp+datetree "~/org/calendar.org")
-             "* %?\n%^t :EVENT:\n%i")
-            ("i" "Idea" entry (file+headline "~/org/agenda.org" "Ideas")
-             "* %? :IDEA: \n%u\n%a\n  %i")
-            ("o" "On-Call" entry (file+olp+datetree "~/org/on-call.org")
-             "* %?\n  %i")
-            )))
+             )
+            ("g" "GTD view"
+             ((agenda)
+              (todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
+              (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
+              (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
+              (tags "PROJECTS-SOMEDAY" ((org-agenda-overriding-header "Projects:")))
+              ;; (tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")))
+              ))
+            ("1" "GTD Someday Review"
+             ((tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")))
+              ))
+            ("2" "GTD Declutter"
+             ((todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
+              (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
+              (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
+              (tags "PROJECTS-SOMEDAY" ((org-agenda-overriding-header "Projects:")))
+              (tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")))))
+            )
+          )
+    (setq org-refile-targets '(("~/org/gtd/next.org" :maxlevel . 3)
+                               ("~/org/gtd/projects.org" :maxlevel . 3)
+                               ("~/org/gtd/tickler.org" :maxlevel . 2)
+                               ("~/org/readlater.org" :maxlevel . 1)
+                               )
+          ;; org-refile-targets '((org-agenda-files :maxlevel . 3))
+          org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps nil
+          org-refile-allow-creating-parent-nodes 'confirm)
+    )
 
   (use-package deft
     :after org
     :config
     (leader-keys
-      "od" 'deft)
+      'deft)
     :custom
     (deft-recursive t)
     (deft-use-filter-string-for-filename t)
@@ -810,7 +847,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
       [?q] #'sal/lsp-ui-doc-hide)
     (setq lsp-ui-doc-enable t
           lsp-ui-doc-show-with-cursor nil
-          lsp-ui-doc--from-mouse nil
+          lsp-ui-doc-show-with-mouse nil
           lsp-ui-doc-use-childframe t
           lsp-ui-doc-header t
           lsp-ui-doc-max-height 50
@@ -997,7 +1034,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (message "[sal] Setting font faces")
 
     (set-face-attribute 'default nil
-                        :font "Source Code Pro" :weight 'regular :height 130)
+                        :font "Roboto Mono" :weight 'regular :height 130)
     ;; (set-face-attribute 'default nil
     ;; :family "Roboto Mono" :weight 'light :height 130)
     (set-face-attribute 'bold nil
