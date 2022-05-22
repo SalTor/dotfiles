@@ -11,7 +11,9 @@ You can run ~C-h f~ to learn about functions available. You'll see that each fun
 - Similarly ~C-h v~ will tell you about variables that are available to you
 - And ~C-h k~ will wait for you to enter a keybinding then tell you what it runs
 
-~C-s~ can be used to search in a file
+~C-x C-f~ can be used to open a file (runs the ~find-file~ function)
+
+~C-s~ can be used to search in a file (runs the ~isearch-forward~ function)
 
 ~C-x C-c~ will close emacs, prompting you whether you want to save any changed files
 
