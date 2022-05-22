@@ -84,6 +84,7 @@ I think the go-to here is to [[https://github.com/bbatsov/projectile][projectile
 I use the ~projectile-find-file~ command for finding files
 ** Autocomplete as I type
 Emacs has built-in ~completion-at-point~ functionaliy
+
 I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion like with various programming tools
 ** Project-wide search ~(ag, rg, etc)~
 Searching for specific text within a project can be achieved with programs like grep and similar.
@@ -103,7 +104,20 @@ Traditionally, text editors/IDEs used regular expressions per language type to h
 More recently, [[https://tree-sitter.github.io/tree-sitter/][treesitter]] came onto the scene which is a better approach to identifying languag syntaxes.
 
 Between the two approaches, treesitter has fewer color scheme support for syntax highlighting--but this is changing with time.
-** Vim emulation
+** Code editing
+We briefly went over ~company~ for some integration of smart autocomplete, and that's particularly useful for programming
+
+Most editors have some of what's called "intellisense" for suggesting variable/function names, properties on classes/objects as you type
+
+Traditionally, editors relied on proprietary tools that enabled this sort of thing or relied on the generation of "tag files" to index a codebase and enable such suggestions
+
+Then editors would provide functionality to hook into those solutions but it was very different per language. For example, renaming a variable would have to have been implemented very differently per language and each editor would have to sort out how they'd enable the user to do those actions
+
+More recently, [[https://langserver.org/][language servers]] came onto the scene, enabling a uniform API for implementing such actions regardless of the language; as long as there was a language server running for that language, the langserver API could be used to instruct the server what they wanted to do. This enables each editor to have a uniform API for code editing actions. Want to rename a variable? Check to see if there's a language server for that language running, then send ~some_fn_call()~ to said language server and wait for the result
+
+And to connect this back to ~company~, the [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] package can hook into ~company~ to provide intelligent, code aware suggestions as you type
+
+* Vim emulation
 The answer is EVIL mode: https://www.emacswiki.org/emacs/Evil
 
 Many programs offer keyboard navigation that was inspired by vim, like Gmail's ~j/k~ shortcuts for moving down or up
@@ -112,12 +126,12 @@ Similarly, many text editors/IDEs offer something similar for file navigation, e
 
 I would wager that EVIL mode is as close to a complete implementation of vim keybindings that exist anywhere--outside of vim itself, that is.
 
-*** surround.vim equivalent
+** surround.vim equivalent
 The ability to easily wrap things in quotes/parentheses/brackets
 
 See: [[https://github.com/emacs-evil/evil-surround][evil-surround]]
 
-*** sneak.vim equivalent
+** sneak.vim equivalent
 The ability to quickly navigate to any text you see
 
 See: [[https://github.com/abo-abo/avy][avy]]
@@ -125,7 +139,7 @@ See: [[https://github.com/abo-abo/avy][avy]]
 Similar to [[https://github.com/justinmk/vim-sneak][sneak]] or [[https://github.com/easymotion/vim-easymotion][easymotion]], I've bound ~s~ to ~evil-avy-goto-char-2~
 
 * Editor configuration
-Your configuration it done via =init.el= and it's all written in =elisp=, like this:
+Your configuration is done via ~init.el~ and it's all written in =elisp=, like this:
 #+begin_src emacs-lisp
 (message "Hello, World!")
 #+end_src
@@ -138,19 +152,6 @@ I try to not edit ~init.el~ directly since it's often updated interactively and 
  (expand-file-name "~/dotfiles/emacs/my-org-init.org"))
 #+end_src
 On the topic of ~org-mode~ .. you can learn more about it [[https://orgmode.org/][here]] (be warned, it's game a game changer)
-
-* Code editing
-We briefly went over ~company~ for some integration of smart autocomplete, and that's particularly useful for programming
-
-Most editors have some of what's called "intellisense" for suggesting variable/function names, properties on classes/objects as you type
-
-Traditionally, editors relied on proprietary tools that enabled this sort of thing or relied on the generation of "tag files" to index a codebase and enable such suggestions
-
-Then editors would provide functionality to hook into those solutions but it was very different per language. For example, renaming a variable would have to have been implemented very differently per language and each editor would have to sort out how they'd enable the user to do those actions
-
-More recently, [[https://langserver.org/][language servers]] came onto the scene, enabling a uniform API for implementing such actions regardless of the language; as long as there was a language server running for that language, the langserver API could be used to instruct the server what they wanted to do. This enables each editor to have a uniform API for code editing actions. Want to rename a variable? Check to see if there's a language server for that language running, then send ~some_fn_call()~ to said language server and wait for the result
-
-And to connect this back to ~company~, the [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] package can hook into ~company~ to provide intelligent, code aware suggestions as you type
 
 * Visuals
 ** Modeline
