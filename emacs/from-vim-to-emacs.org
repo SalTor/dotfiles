@@ -83,7 +83,7 @@ I think the go-to here is to [[https://github.com/bbatsov/projectile][projectile
 
 I use the ~projectile-find-file~ command for finding files
 ** 3. Autocomplete as I type
-Emacs has built-in ~completion-at-point~ functionaliy
+Emacs has built-in ~completion-at-point~ functionality
 
 I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion like with various programming tools
 ** 4. Project-wide search ~(ag, rg, etc)~
@@ -98,12 +98,20 @@ In vim land I know many use [[https://github.com/tpope/vim-fugitive][vim-fugitiv
 Personally, I used [[https://github.com/jesseduffield/lazygit][lazygit]] in a separate terminal window to great effect and felt it was a game changer
 
 However, in emacs we have [[https://magit.vc/][magit]] which, too, is a game changer
-** 6. Syntax highlighting
-Traditionally, text editors/IDEs used regular expressions per language type to highlight different syntaxes. And most language plugins (minor modes) for emacs provide this
+** 6. Visuals
+*** Color schemes
+As with all editors, there's a bountiful list of color schemes to choose from
 
-More recently, [[https://tree-sitter.github.io/tree-sitter/][treesitter]] came onto the scene which is a better approach to identifying languag syntaxes
+I keep an eye out for ones that support using treesitter for their coloring as that often provides more legible coloring of keywords
 
-Between the two approaches, treesitter has fewer color scheme support for syntax highlighting--but this is changing with time
+I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes][doomemacs/themes]]
+
+*** Syntax highlighting
+This comes out of the box with a language's ~major-mode~ and it's achieved with regular expressions. It ties in with your colorscheme to provide the precise coloring
+
+**** Fun fact
+[[https://tree-sitter.github.io/tree-sitter/][Treesitter]] is a recent change in how this is done, and some colorschemes have support for it. Mostly it's a nice to have and as time goes on more colorschemes have support for it
+
 ** 7. Code editing
 We briefly went over ~company~ for some integration of smart autocomplete, and that's particularly useful for programming
 
@@ -130,12 +138,6 @@ I try to not edit ~init.el~ directly since it's often updated interactively and 
  (expand-file-name "~/dotfiles/emacs/my-org-init.org"))
 #+end_src
 On the topic of ~org-mode~ .. you can learn more about it [[https://orgmode.org/][here]] (be warned, it's game a game changer)
-** 9. Color schemes
-As with all editors, there's a bountiful list of color schemes to choose from
-
-I keep an eye out for ones that support using treesitter for their coloring as that often provides more legible coloring of keywords
-
-I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes][doomemacs/themes]]
 ** 10. Icons
 Everyone likes icons! Emacs users included ;-)
 
