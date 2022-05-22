@@ -1,23 +1,17 @@
-I'm writing this to document info that I think would help others migrate to emacs
+* Intro
+I'm writing this to answer questions I had when migrating to emacs in hopes of it being useful for others interested in doing the same
 
-I wrote this from the perspective of someone whose progression of used editors was:
-1. notepad/eclipse
-2. notepad++
-3. sublime text (2014-2017)
-4. webstorm (2017-2018)
-5. vim/neovim (2018-2021)
-6. emacs (2021+)
+I've tried to break it down so that it's applicable to people coming from any editor
 
-When I switched to vim, it was revolutionary for me and I spent a lot of time configuring it learning the ins and outs of helpful keybindings
-
-Here is a list of stuff I set out to learn as I began using emacs after using vim for three years
-
-The first section here lays some groundwork terminology that is used throughout
+** *My* path to emacs
+1. notepad++ / ecplipse (during college and java 101)
+2. sublime text (2014-2017)
+3. webstorm (2017-2018)
+4. vim/neovim (2018-2021)
+   * When I switched to vim, it was revolutionary for me and I spent a lot of time configuring it learning the ins and outs of helpful keybindings
+5. emacs (2021+)
 
 * Terminology to know / helper intro tips
-:PROPERTIES:
-:ID: terminology
-:END:
 ~major-mode~ is closely equivalent to a filetype, you will have one activated at a time
 
 ~minor-mode~ is closely equivalent to a plugin, you will have multiple activated at a time
@@ -56,9 +50,6 @@ Alternatively, I like using the [[https://github.com/jwiegley/use-package][use-p
 #+end_src
 
 * Stuff I expect from an editor
-:PROPERTIES:
-:ID: stuff-i-expect-from-an-editor
-:END:
 ** File explorer
 Most editors have a tree-like view of files.
 
