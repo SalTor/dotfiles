@@ -117,8 +117,6 @@ Simply searching for it on youtube provides bountiful tutorials on its usage: [[
 *** Color schemes
 As with all editors, there's a bountiful list of color schemes to choose from
 
-I keep an eye out for ones that support using treesitter for their coloring as that often provides more legible coloring of keywords
-
 I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes][doomemacs/themes]]
 
 *** Syntax highlighting
