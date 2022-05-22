@@ -99,9 +99,6 @@ In my opinion, any editor worth it's salt can provide suggestions as you type
 
 Here I find [[https://company-mode.github.io/][company]] to be indispensable as it plugs in with various tools for completion. Most notable is its usage for suggesting variables/functions, which we'll cover later
 
-*** Fun fact
-Some people actually don't like having suggestions happen by default :shrug: To each their own
-
 ** 4. Project-wide search ~(grep, rg, ack, ag, etc)~
 Searching for specific text within a project can be achieved with programs like grep and similar
 
