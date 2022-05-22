@@ -1,6 +1,23 @@
+I'm writing this to document info that I think would help others migrate to emacs
+
+I wrote this from the perspective of someone whose progression of used editors was:
+1. notepad/eclipse
+2. notepad++
+3. sublime text (2014-2017)
+4. webstorm (2017-2018)
+5. vim/neovim (2018-2021)
+6. emacs (2021+)
+
+When I switched to vim, it was revolutionary for me and I spent a lot of time configuring it learning the ins and outs of helpful keybindings
+
 Here is a list of stuff I set out to learn as I began using emacs after using vim for three years
 
+The first section here lays some groundwork terminology that is used throughout
+
 * Terminology to know / helper intro tips
+:PROPERTIES:
+:ID: terminology
+:END:
 ~major-mode~ is closely equivalent to a filetype, you will have one activated at a time
 
 ~minor-mode~ is closely equivalent to a plugin, you will have multiple activated at a time
@@ -23,7 +40,25 @@ Many menu lists in emacs can be navigated like so
 
 ~C-g~ can be used across emacs as the ~esc~ key in other programs
 
+* Package manager
+Plugins can be installed with the default ~package-install~ command (accessed with ~M-x~)
+
+Alternatively, I like using the [[https://github.com/jwiegley/use-package][use-package]] package for managing the installing of plugins and managing their configurations, here's an example of installing a snippet plugin and adding some configurations
+#+begin_src emacs-lisp
+
+  (use-package yasnippet
+    :bind (:map evil-insert-state-map
+                ("C-y" . yas-expand))
+    :config
+    (yas-global-mode 1)
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
+
+#+end_src
+
 * Stuff I expect from an editor
+:PROPERTIES:
+:ID: stuff-i-expect-from-an-editor
+:END:
 ** File explorer
 Most editors have a tree-like view of files.
 
@@ -102,21 +137,6 @@ I try to not edit ~init.el~ directly since it's often updated interactively and 
  (expand-file-name "~/dotfiles/emacs/my-org-init.org"))
 #+end_src
 On the topic of ~org-mode~ .. you can learn more about it [[https://orgmode.org/][here]] (be warned, it's game a game changer)
-
-* Package manager
-Plugins can be installed with the default ~package-install~ command (accessed with ~M-x~)
-
-Alternatively, I like using the [[https://github.com/jwiegley/use-package][use-package]] package for managing the installing of plugins and managing their configurations, here's an example of installing a snippet plugin and adding some configurations
-#+begin_src emacs-lisp
-
-  (use-package yasnippet
-    :bind (:map evil-insert-state-map
-                ("C-y" . yas-expand))
-    :config
-    (yas-global-mode 1)
-    (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
-
-#+end_src
 
 * Code editing
 We briefly went over ~company~ for some integration of smart autocomplete, and that's particularly useful for programming
