@@ -113,11 +113,6 @@ Outside of emacs some use the command line, some use [[https://github.com/jessed
 
 Out of everything I tried, I first thought lazygit was the end-all-be-all git tool. But after using magit I feel it really takes the cake for that title
 
-*** Note
-I know some prefer seeing which lines in a file were edited
-
-And there are plugins that support that, I just happen to not use those
-
 ** 6. Visuals
 *** Color schemes
 As with all editors, there's a bountiful list of color schemes to choose from
@@ -127,7 +122,7 @@ I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes
 *** Syntax highlighting
 This comes out of the box with a ~major-mode~ (think ~python-mode~)
 
-**** Fun fact
+*** Fun fact
 Traditionally keywords for a language are identified with regular expression, which color schemes use for coloring
 
 New to the scene here is [[https://tree-sitter.github.io/tree-sitter/][Treesitter]] which is capable of generating syntax trees for a language, quickly and on the fly
@@ -182,7 +177,7 @@ Many programs offer keyboard navigation that was inspired by vim, like Gmail's ~
 
 Similarly, many text editors/IDEs offer something similar for file navigation, each with varying levels of implementation
 
-As I mentioned in "by path to emacs", EVIL mode is emac's version of this: https://www.emacswiki.org/emacs/Evil
+As I mentioned in "my path to emacs", [[https://www.emacswiki.org/emacs/Evil][EVIL mode]] is emac's version of this
 
 I think that EVIL mode is as close to a complete implementation of vim keybindings that exist anywhere--outside of vim itself, that is
 
@@ -194,18 +189,18 @@ Here are the equivalents:
 
 * Emacs specific stuff
 *** Modeline
-Every text editor/IDE has some ancillary information around the user interface
+Every text editor/IDE has some ancillary information around the user interface like info on the current file being viewed, how far in a file you've scrolled, some version control information (like which git branch you're on), etc
 
-In emacs that's the [[https://www.emacswiki.org/emacs/ModeLine][modeline]], in vim that is the [[https://vim.fandom.com/wiki/Status_line_to_display_more_information][statusline]], each by default at the bottom of the screen. This provides info on the current file being viewed, how far in a file you've scrolled, some version control information (like which git branch you're on), etc
+In emacs that's the [[https://www.emacswiki.org/emacs/ModeLine][modeline]], in vim that is the [[https://vim.fandom.com/wiki/Status_line_to_display_more_information][statusline]], other editors don't allow the customization of this sort of thing
 
 You can install packages like [[https://github.com/seagle0128/doom-modeline][doom-modeline]] (packaged separately from [[https://github.com/doomemacs/doomemacs][Doom Emacs]]) for some nice visual modifications out of the box
 
-I went down the rabbithole of customizing my own but in the end have settled for using the default one
+I have settled for using the default one
 - The one exception is using [[https://github.com/tarsius/minions][minions]] for condensing the list of active packages to just ~;-~ which in an org file shows up as ~(Org ;-)~ which looks like a winky face haha
 
 *** Whichkey
-Man. I remember while I was still using vim and I saw this emacs package called [[https://github.com/justbur/emacs-which-key][whichkey]] and I knew I *needed* to have it
-
-When you begin a keybinding and pause before pressing the next key, ~whichkey~ will show you what key to press next to get a particular functionality
+When you begin a keybinding and pause before pressing the next key, [[https://github.com/justbur/emacs-which-key][whichkey]] will show you a list of additional keys you can press and what command they will run
 
 Additionally, you can run the ~which-key-show-keymap~ command on its own to reveal all the available keybindings for whichever mode you're in
+
+I remember while I was still using vim and I saw this emacs package and I knew I *needed* to have it and did find a vim package for it, but to be honest it doesn't live up to the real thing
