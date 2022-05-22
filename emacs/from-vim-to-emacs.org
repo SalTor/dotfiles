@@ -17,7 +17,7 @@ Before Emacs, I had been using vim for about 3 years, here's my editor progressi
 4. vim/neovim (2018-2021)
 5. emacs (2021+)
 
-Maybe a 1-1.5 years before trying emacs I saw the talk: [[https://www.youtube.com/watch?v=JWD1Fpdd4Pc]["Evil Mode: Or, How I Learned to Stop Worrying and Love Emacs"]]
+I first saw [[https://www.youtube.com/watch?v=JWD1Fpdd4Pc]["Evil Mode: Or, How I Learned to Stop Worrying and Love Emacs"]] maybe around 2019
 
 When I watched that video I was perfectly comfortable with vim and was pretty happy with the state of my setup, but it definitely got my attention and I used it as a resource when I decided to take an actual look at emacs and how it would serve my workflow as a programmer
 
