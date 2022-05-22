@@ -9,13 +9,17 @@ Some may want to skip to the [[#stuff-i-expect-from-an-editor]["Stuff I expect f
 What precedes that sets some context about emacs that can help understand how it all pieces together
 
 ** Second, my path to emacs
+Before Emacs, I had been using vim for about 3 years, here's my editor progression
+
 1. notepad++ / eclipse (during college and java 101)
 2. sublime text (2014-2017)
 3. webstorm (2017-2018)
 4. vim/neovim (2018-2021)
 5. emacs (2021+)
-   * I tried out emacs out of curiosity after watching [[https://www.youtube.com/watch?v=JWD1Fpdd4Pc]["Evil Mode: Or, How I Learned to Stop Worrying and Love Emacs"]]
-   * At this point I was in love with vim and I heard cool & intimidating things about emacs, so knowing that someone else made the switch eased the idea of doing it myself
+
+Maybe a 1-1.5 years before trying emacs I saw the talk: [[https://www.youtube.com/watch?v=JWD1Fpdd4Pc]["Evil Mode: Or, How I Learned to Stop Worrying and Love Emacs"]]
+
+When I watched that video I was perfectly comfortable with vim and was pretty happy with the state of my setup, but it definitely got my attention and I used it as a resource when I decided to take an actual look at emacs and how it would serve my workflow as a programmer
 
 * Terminology to know / helper intro tips
 Before I walk through some equivalents from other editors, this context is useful when talking about emacs
