@@ -116,7 +116,7 @@ As with all editors, there's a bountiful list of color schemes to choose from
 I like to use ~gruvbox~ which I access via [[https://github.com/doomemacs/themes][doomemacs/themes]]
 
 *** Syntax highlighting
-This comes out of the box with a ~major-mode~ (think ~python-mode~)
+This comes out of the box with a ~major-mode~ (think ~python-mode~ or ~css-mode~)
 
 *** Fun fact
 Traditionally keywords for a language are identified with regular expression, which color schemes use for coloring
