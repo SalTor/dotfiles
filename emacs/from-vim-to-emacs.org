@@ -53,9 +53,9 @@ Here it is. When considering a new editor, you want to know how to do some basic
 There's a lot emacs can do without plugins, but I refer to a few throughout this doc so I'll lead with this
 
 Plugins can be installed with the built-in ~package-install~ command (accessed with ~M-x~)
-- It looks at a few websites that host the plugins for that plugin, this can be customized later
+- It looks at a few websites that host the plugins, this can be customized later
 
-I like using the [[https://github.com/jwiegley/use-package][use-package]] package for describing what plugins I have installed
+Personally, I like using the [[https://github.com/jwiegley/use-package][use-package]] package for describing what plugins I have installed
 
 Here's an example of how you can install and configure a snippet plugin
 #+begin_src emacs-lisp
@@ -80,14 +80,14 @@ But a simpler directory view turns out to be pretty powerful too
 That would be [[https://www.emacswiki.org/emacs/DiredMode][dired]] and I highly recommend trying it out
 - It's similar to vim's [[https://www.vim.org/scripts/script.php?script_id=1075][netrw]] or [[https://github.com/tpope/vim-vinegar][vinegar]]
 
-In the beginning I was skeptical of something like ~dired~ but in time I've changed to love the dired approach
+In the beginning I was skeptical of something like ~dired~ but in time I've changed to love the its approach
 
-Although, when you're getting acquainted with a new project I find it's very useful to have the tree-like view
+Although, when you're getting acquainted with a new project I find it's very useful to have the tree-like view, so maybe install both!
 
 ** 2. File picker
-Searching for a file is typically done with a fuzzy finder
+Most editors have a file search functionality
 
-The answer is the [[https://github.com/bbatsov/projectile][projectile]] package which provides a variety of project-related functions. One of which is project search!
+For emacs that's the [[https://github.com/bbatsov/projectile][projectile]] package which provides a variety of project-related functions. One of which is project search!
 
 With the ~projectile-find-file~ command you're given a list of all files in the project and you can filter the list as you type
 
@@ -140,6 +140,7 @@ Most editors have some of what's called "intellisense" for suggesting variable/f
 Emacs has a package called [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] which provides this, and ~company~ can integrate with it to provide intelligent, code-aware suggestions as you type
 - This uses the language server protocol and has support for most languages
 
+*** Fun fact
 Traditionally, editors relied on the generation of "tags" for some languages to index a codebase and enable such suggestions
 
 More recently, [[https://langserver.org/][language servers]] came onto the scene, enabling a uniform API for implementing such actions regardless of the language
@@ -166,32 +167,31 @@ These lines in ~init.el~ are what enables me to do that:
 #+end_src
 
 It converts the org file into a ~.el~ file (learn more about org-mode [[https://orgmode.org/][here]])
-** 10. Icons
+
+** 9. Icons
 Everyone likes icons! Emacs users included ;-)
 
 There's a variety of packages that introduce some icons here or there
 
 A few that I use add icons to ~company~'s completions, ~dired~, and the tree-like file viewers
-** 11. Vim emulation
+
+I'm not listing them here since it's simple enough to find them and there's a few options to pick from
+
+** 10. Vim emulation
 Many programs offer keyboard navigation that was inspired by vim, like Gmail's ~j/k~ shortcuts for moving down or up
 
 Similarly, many text editors/IDEs offer something similar for file navigation, each with varying levels of implementation
 
-The answer is EVIL mode: https://www.emacswiki.org/emacs/Evil
+As I mentioned in "by path to emacs", EVIL mode is emac's version of this: https://www.emacswiki.org/emacs/Evil
 
-I would wager that EVIL mode is as close to a complete implementation of vim keybindings that exist anywhere--outside of vim itself, that is
+I think that EVIL mode is as close to a complete implementation of vim keybindings that exist anywhere--outside of vim itself, that is
 
-*** surround.vim equivalent
-The ability to easily wrap things in quotes/parentheses/brackets
+For anyone familiar with vim, there are two plugins often used there: ~surround.vim~ and ~sneak.vim~
 
-See: [[https://github.com/emacs-evil/evil-surround][evil-surround]]
+Here are the equivalents:
+- ~surround.vim~ <> [[https://github.com/emacs-evil/evil-surround][evil-surround]]
+- ~sneak.vim~    <> [[https://github.com/abo-abo/avy][avy]]
 
-*** sneak.vim equivalent
-The ability to quickly navigate to any text you see
-
-See: [[https://github.com/abo-abo/avy][avy]]
-
-Similar to [[https://github.com/justinmk/vim-sneak][sneak]] or [[https://github.com/easymotion/vim-easymotion][easymotion]], I've bound ~s~ to ~evil-avy-goto-char-2~
 * Emacs specific stuff
 *** Modeline
 Every text editor/IDE has some ancillary information around the user interface
@@ -202,6 +202,7 @@ You can install packages like [[https://github.com/seagle0128/doom-modeline][doo
 
 I went down the rabbithole of customizing my own but in the end have settled for using the default one
 - The one exception is using [[https://github.com/tarsius/minions][minions]] for condensing the list of active packages to just ~;-~ which in an org file shows up as ~(Org ;-)~ which looks like a winky face haha
+
 *** Whichkey
 Man. I remember while I was still using vim and I saw this emacs package called [[https://github.com/justbur/emacs-which-key][whichkey]] and I knew I *needed* to have it
 
