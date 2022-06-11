@@ -88,7 +88,7 @@ In the beginning I was skeptical of something like ~dired~ but in time I've chan
 Although, when you're getting acquainted with a new project I find it's very useful to have the tree-like view, so maybe install both!
 
 ** 2. File picker
-Most editors have a file search functionality
+Most editors have a file search functionality like this
 
 [[./assets/filefinder.jpg]]
 
