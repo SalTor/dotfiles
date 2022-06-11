@@ -88,6 +88,7 @@ Although, when you're getting acquainted with a new project I find it's very use
 
 ** 2. File picker
 Most editors have a file search functionality
+[[file:assets/filefinder.jpg]]
 
 For emacs that's the [[https://github.com/bbatsov/projectile][projectile]] package which provides a variety of project-related functions. One of which is project search!
 
