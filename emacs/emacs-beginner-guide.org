@@ -92,11 +92,11 @@ Most editors have a file search functionality like this
 
 [[./assets/filefinder.jpg]]
 
-For emacs that's the [[https://github.com/bbatsov/projectile][projectile]] package which provides a variety of project-related functions. One of which is project search!
+You can use emacs's ~find-file~ or ~project-find-file~ commands to find files, both of which are built into emacs
 
-With the ~projectile-find-file~ command you're given a list of all files in the project and you can filter the list as you type
+What I use is [[https://github.com/bbatsov/projectile][projectile]]. It too enables finding files&mdash;and not just files, actually. Either way, searching for files is a breeze. Here's what it looks like for me:
 
-Alternatively, you can use emacs's ~find-file~ command for similar functionality. It's just that to search in sub-folders it requires you tab-complete, which slows down finding your desired file
+[[./assets/emacs-filefinder.jpg]]
 
 ** 3. Autocomplete as I type
 In my opinion, any editor worth it's salt can provide suggestions as you type
