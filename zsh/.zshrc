@@ -1,7 +1,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME='amuse'
-plugins=(git zsh-autosuggestions)
+# ZSH_THEME='amuse'
+plugins=(git zsh-autosuggestions starship)
 
 DEFAULT_USER=`whoami`
 ENABLE_CORRECTION='true'
@@ -38,7 +38,7 @@ stty -ixon # Disable ctrl-s and ctrl-q.
 
 if [[ -t 0 ]] && [[ -s $HOME/.avn/bin/avn.sh ]]; then
     # load avn
-    . $HOME/.avn/bin/avn.sh
+    # . $HOME/.avn/bin/avn.sh
 fi
 
 # Pull in env vars necessary for Capsule development
@@ -46,3 +46,5 @@ source /Users/sal/.config/cia/.cia_envvars
 
 export PNPM_HOME="/Users/sal/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+
+eval "$(starship init zsh)"
