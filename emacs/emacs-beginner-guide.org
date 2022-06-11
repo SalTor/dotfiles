@@ -69,6 +69,7 @@ Here's an example of how you can install and configure a snippet plugin
 
 ** 1. File explorer
 Most editors have a tree-like view of files on either side of the editor
+
 [[./assets/filetree.jpg]]
 
 Here we have a few options, the ones that stand out at first are:
@@ -88,6 +89,7 @@ Although, when you're getting acquainted with a new project I find it's very use
 
 ** 2. File picker
 Most editors have a file search functionality
+
 [[./assets/filefinder.jpg]]
 
 For emacs that's the [[https://github.com/bbatsov/projectile][projectile]] package which provides a variety of project-related functions. One of which is project search!
