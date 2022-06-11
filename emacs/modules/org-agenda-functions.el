@@ -6,9 +6,88 @@
   (define-key org-agenda-mode-map "x" 'org-agenda-archive-default-with-confirmation)
   (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
   (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
-  (define-key org-agenda-mode-map "J" 'org-agenda-goto-date)
+  (define-key org-agenda-mode-map "J" 'org-agenda-next-line)
+  (define-key org-agenda-mode-map "K" 'org-agenda-previous-line)
+  (define-key org-agenda-mode-map "D" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "\C-l" 'consult-org-agenda)
-  (remove-hook 'org-agenda-mode-hook 'sal-agenda-setup))
+  (remove-hook 'org-agenda-mode-hook 'sal-agenda-setup)
+
+  (setq org-capture-templates
+    '(("t" "Todo"
+        entry (file "~/org/gtd/inbox.org")
+        "* %?")
+
+       ("m" "Meeting"
+         entry (file+olp+datetree "~/org/calendar.org" "Meetings")
+         "* %^{Description} :MEETING:\n%^{When}t")
+
+       ("c" "Calendar entry"
+         entry (file "~/org/calendar.org")
+         "* %^{Description} %^g\n%^{When}t")
+
+       ("s" "EOD checkin"
+         entry (file+olp+datetree "~/org/calendar.org" "EOD Status")
+         "* checkin\n%t\n%?")
+
+       ("r" "Read later" entry (file "~/org/readlater.org") "* %?")
+       ))
+
+  (setq org-agenda-custom-commands
+    '(("g" "GTD view"
+         ((agenda)
+           (todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
+           (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
+           (tags "inbox"
+             ((org-agenda-prefix-format "  %?-12t% s")
+               (org-agenda-overriding-header "Inbox:")))
+           (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
+           ))
+       ("d" "GTD Declutter"
+         ((tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
+                                     (org-agenda-prefix-format "  %?-12t% s")))
+           (tags "SOMEDAY" ((org-agenda-prefix-format "  %?-12t% s")
+                             (org-agenda-overriding-header "Someday/maybe:")))))
+       ("r" "GTD Someday Review"
+         ((tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")
+                            (org-agenda-prefix-format "  %?-12t% s")))
+           ))
+       ))
+  )
+
+(defun org-agenda-delete-empty-blocks ()
+  "Remove empty agenda blocks.
+  A block is identified as empty if there are fewer than 2
+  non-empty lines in the block (excluding the line with
+  `org-agenda-block-separator' characters)."
+  (when org-agenda-compact-blocks
+    (user-error "Cannot delete empty compact blocks"))
+  (setq buffer-read-only nil)
+  (save-excursion
+    (goto-char (point-min))
+    (let* ((blank-line-re "^\\s-*$")
+            (content-line-count (if (looking-at-p blank-line-re) 0 1))
+            (start-pos (point))
+            (block-re (format "%c\\{10,\\}" org-agenda-block-separator)))
+      (while (and (not (eobp)) (forward-line))
+        (cond
+          ((looking-at-p block-re)
+            (when (< content-line-count 2)
+              (delete-region start-pos (1+ (point-at-bol))))
+            (setq start-pos (point))
+            (forward-line)
+            (setq content-line-count (if (looking-at-p blank-line-re) 0 1)))
+          ((not (looking-at-p blank-line-re))
+            (setq content-line-count (1+ content-line-count)))))
+      (when (< content-line-count 2)
+        (delete-region start-pos (point-max)))
+      (goto-char (point-min))
+      ;; The above strategy can leave a separator line at the beginning
+      ;; of the buffer.
+      (when (looking-at-p block-re)
+        (delete-region (point) (1+ (point-at-eol))))))
+  (setq buffer-read-only t)
+  )
+;; (add-hook 'org-agenda-finalize-hook #'org-agenda-delete-empty-blocks)
 
 (defun sal/org-mode-setup ()
   "Org mode setup."

@@ -68,7 +68,7 @@ Here's an example of how you can install and configure a snippet plugin
 #+end_src
 
 ** 1. File explorer
-Most editors have a tree-like view of files
+Most editors have a tree-like view of files on either side of the editor
 
 Here we have a few options, the ones that stand out at first are:
 - [[https://github.com/jaypei/emacs-neotree][Neotree]]: Simple, reminds me of NERDTree from vim

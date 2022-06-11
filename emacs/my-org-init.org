@@ -377,62 +377,22 @@ https://orgmode.org/
           org-agenda-timegrid-use-ampm 1
           org-deadline-warning-days 2
           org-agenda-skip-deadline-if-done t
-          org-agenda-span 'day)
+          org-agenda-hide-tags-regexp (rx (or "PROJECT" "UPCOMING" "SOMEDAY" "inbox"))
+          org-agenda-span 'day
+          org-agenda-prefix-format
+          '((agenda . " %i %-12:c%?-12t% s")
+            (todo   . " %i %-12:c")
+            (tags   . " %i %-12:c")
+            (search . " %i %-12:c")))
     (setq org-log-done t)
     (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-default-notes-file (concat org-directory "/notes.org"))
-    (setq org-capture-templates
-          '(("t" "Todo"
-             entry (file "~/org/gtd/inbox.org")
-             "* TODO %?")
-            ("c" "Calendar entry"
-             entry (file "~/org/calendar.org")
-             "* %^{Description} %^g\n%^{When}t")
-            ("s" "EOD checkin"
-             entry (file+datetree+prompt "~/org/eod-status.org")
-             "* checkin\n<%(org-read-date nil nil org-read-date-final-answer)>\n%?")
-            ("r" "Read later"
-             entry (file "~/org/read-later.org")
-             "* %?")
-            ("i" "Inbox"
-             entry (file "~/org/gtd/inbox.org")
-             "* %?")
-            )
-          )
-    (setq org-agenda-custom-commands
-          '(("d" "Daily agenda and all TODOs"
-             ((tags "PRIORITY=\"A\""
-                    ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                     (org-agenda-overriding-header "High-priority unfinished tasks:")))
-              (agenda "")
-              (alltodo ""
-                       ((org-agenda-skip-function '(or (air-org-skip-subtree-if-priority ?A)
-                                                       (org-agenda-skip-if nil '(scheduled deadline))))
-                        (org-agenda-overriding-header "ALL normal priority tasks:"))))
-             )
-            ("g" "GTD view"
-             ((agenda)
-              (todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
-              (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
-              (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
-              (tags "PROJECTS-SOMEDAY" ((org-agenda-overriding-header "Projects:")))
-              ;; (tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")))
-              ))
-            ("1" "GTD Someday Review"
-             ((tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")))
-              ))
-            ("2" "GTD Declutter"
-             ((todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
-              (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
-              (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
-              (tags "PROJECTS-SOMEDAY" ((org-agenda-overriding-header "Projects:")))
-              (tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")))))
-            )
-          )
-    (setq org-refile-targets '(("~/org/gtd/next.org" :maxlevel . 3)
-                               ("~/org/gtd/projects.org" :maxlevel . 3)
+    ;; org-capture-templates & org-agenda-custom-commands are set in ./modules/org-agenda-functions.el
+    (setq org-refile-targets '(("~/org/gtd/projects.org" :maxlevel . 3)
                                ("~/org/gtd/tickler.org" :maxlevel . 2)
+                               ("~/org/gtd/reference.org" :maxlevel . 2)
                                ("~/org/readlater.org" :maxlevel . 1)
+                               (org-agenda-files :maxlevel . 2)
                                )
           ;; org-refile-targets '((org-agenda-files :maxlevel . 3))
           org-refile-use-outline-path 'file
@@ -554,6 +514,7 @@ Directory Editor--a file manager
       "C-k" 'magit-section-backward
       "M-j" 'magit-section-forward-sibling
       "M-k" 'magit-section-backward-sibling)
+    (setq magit-diff-refine-hunk (quote nil))
     (setq magit-refresh-status-buffer nil)
     ;; When 'C-c C-c' is pressed in the magit commit message buffer,
     ;;   delete the magit-diff buffer related to the current repo.
@@ -683,6 +644,19 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     "wl" 'evil-window-right
     "w=" 'balance-windows)
 
+#+end_src
+** Popper.el
+[[https://github.com/karthink/popper][This]] marks some buffers as being popups so you can quickly manage their visibility without disrupting your window layout
+#+begin_src emacs-lisp
+  (use-package popper
+    :config
+    (setq popper-group-function #'popper-group-by-perspective) ; group by perspective
+    (setq popper-reference-buffers
+      '("^\\*vterm.*\\*$" vterm-mode
+        "\\*Messages\\*"))
+    (global-set-key (kbd "C-`") 'popper-toggle-latest)
+    (global-set-key (kbd "M-`") 'popper-cycle)
+    (global-set-key (kbd "C-M-`") 'popper-toggle-type))
 #+end_src
 * Terminal in emacs
 #+begin_src emacs-lisp
@@ -1042,9 +1016,11 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (set-face-attribute 'italic nil
                         :family "Victor Mono" :weight 'light :slant 'italic)
     (set-fontset-font t 'unicode
-                      (font-spec :name "Inconsolata Light" :size 16) nil)
+                      (font-spec :name "Hack Nerd Font" :size 16) nil 'prepend)
     (set-fontset-font t '(#xe000 . #xffdd)
-                      (font-spec :name "RobotoMono Nerd Font" :size 12) nil))
+                      (font-spec :name "Hack Nerd Font" :size 12) nil)
+    (set-fontset-font t 'symbol "Apple Color Emoji")
+    )
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions
