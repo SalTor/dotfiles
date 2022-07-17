@@ -11,47 +11,6 @@
   (define-key org-agenda-mode-map "D" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "\C-l" 'consult-org-agenda)
   (remove-hook 'org-agenda-mode-hook 'sal-agenda-setup)
-
-  (setq org-capture-templates
-    '(("t" "Todo"
-        entry (file "~/org/gtd/inbox.org")
-        "* %?")
-
-       ("m" "Meeting"
-         entry (file+olp+datetree "~/org/calendar.org" "Meetings")
-         "* %^{Description} :MEETING:\n%^{When}t")
-
-       ("c" "Calendar entry"
-         entry (file "~/org/calendar.org")
-         "* %^{Description} %^g\n%^{When}t")
-
-       ("s" "EOD checkin"
-         entry (file+olp+datetree "~/org/calendar.org" "EOD Status")
-         "* checkin\n%t\n%?")
-
-       ("r" "Read later" entry (file "~/org/readlater.org") "* %?")
-       ))
-
-  (setq org-agenda-custom-commands
-    '(("g" "GTD view"
-         ((agenda)
-           (todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
-           (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
-           (tags "inbox"
-             ((org-agenda-prefix-format "  %?-12t% s")
-               (org-agenda-overriding-header "Inbox:")))
-           (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
-           ))
-       ("d" "GTD Declutter"
-         ((tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
-                                     (org-agenda-prefix-format "  %?-12t% s")))
-           (tags "SOMEDAY" ((org-agenda-prefix-format "  %?-12t% s")
-                             (org-agenda-overriding-header "Someday/maybe:")))))
-       ("r" "GTD Someday Review"
-         ((tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")
-                            (org-agenda-prefix-format "  %?-12t% s")))
-           ))
-       ))
   )
 
 (defun org-agenda-delete-empty-blocks ()

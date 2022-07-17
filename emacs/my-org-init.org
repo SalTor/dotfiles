@@ -170,8 +170,7 @@ Provides completions as you type in a buffer
                                                 ;; new-line
                                                 mode-enabled)
           flycheck-display-errors-delay 0.3
-          flycheck-flake8rc '(".flake8")
-          flycheck-javascript-eslint-executable "eslint_d")
+          flycheck-flake8rc '(".flake8"))
 
     (leader-keys
       "el" 'flycheck-list-errors
@@ -208,6 +207,10 @@ Via Prettier/Black/Eslint/Editorconfig
 #+begin_src emacs-lisp
 
   (use-package apheleia
+    :straight '(apheleia
+                :type git
+                :host github
+                :repo "radian-software/apheleia")
     :hook ((web-mode
             typescript-mode
             typescript-tsx-mode
@@ -217,18 +220,17 @@ Via Prettier/Black/Eslint/Editorconfig
             vue-mode
             json-mode) . apheleia-mode)
     :config
-    (apheleia-global-mode +1)
     (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode prettier))
     (add-to-list 'apheleia-mode-alist '(python black)))
 
-  (use-package eslintd-fix
-    :hook ((web-mode
-            typescript-mode
-            typescript-tsx-mode
-            css-mode
-            scss-mode
-            rjsx-mode
-            json-mode) . eslintd-fix-mode))
+  ;; (use-package eslintd-fix
+  ;;   :hook ((web-mode
+  ;;           typescript-mode
+  ;;           typescript-tsx-mode
+  ;;           css-mode
+  ;;           scss-mode
+  ;;           rjsx-mode
+  ;;           json-mode) . eslintd-fix-mode))
 
   (use-package editorconfig :config (editorconfig-mode 1))
 
@@ -362,16 +364,18 @@ https://orgmode.org/
            (org-mode . org-indent-mode)
            (org-mode . (lambda () (setq-local evil-auto-indent nil))))
     :bind (:map org-mode-map
-           ("C-c e" . org-edit-special)
-           :map org-src-mode-map
-           ("C-c s" . org-edit-src-exit))
+                ("C-c e" . org-edit-special)
+                ("C-l" . consult-org-heading)
+                :map org-src-mode-map
+                ("C-c s" . org-edit-src-exit))
     :custom
     (org-directory "~/org")
     (org-hide-emphasis-markers t)
-    (org-agenda-files (list "~/org" "~/org/gtd"))
+    (org-agenda-files (list "~/org" "~/org/gtd" "~/org/notes/notes.org"))
     :config
     (add-to-list 'org-modules 'org-habit)
     (setq org-return-follows-link t
+          org-archive-location "~/org/archive.org_archive::"
           org-ellipsis " ▾"
           org-agenda-skip-scheduled-if-done t
           org-agenda-timegrid-use-ampm 1
@@ -384,14 +388,57 @@ https://orgmode.org/
             (todo   . " %i %-12:c")
             (tags   . " %i %-12:c")
             (search . " %i %-12:c")))
+    (setq org-agenda-custom-commands
+          '(("g" "GTD view"
+             ((agenda)
+              (todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
+              (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
+              (tags "inbox"
+                    ((org-agenda-prefix-format "  %?-12t% s")
+                     (org-agenda-overriding-header "Inbox:")))
+              (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
+              ))
+            ("d" "GTD Declutter"
+             ((tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
+                                       (org-agenda-prefix-format "  %?-12t% s")))
+              (tags "SOMEDAY" ((org-agenda-prefix-format "  %?-12t% s")
+                               (org-agenda-overriding-header "Someday/maybe:")))))
+            ("r" "GTD Someday Review"
+             ((tags "SOMEDAY" ((org-agenda-overriding-header "Someday/maybe:")
+                               (org-agenda-prefix-format "  %?-12t% s")))
+              ))
+            ))
+    (setq org-capture-templates
+          '(("t" "Todo"
+             entry (file "~/org/gtd/inbox.org")
+             "* %?")
+
+            ("m" "Meeting"
+             entry (file+olp+datetree "~/org/calendar.org" "Meetings")
+             "* %^{Description} :MEETING:\n%^{When}t")
+
+            ("c" "Calendar entry"
+             entry (file "~/org/calendar.org")
+             "* %^{Description} %^g\n%^{When}t")
+
+            ("s" "EOD checkin"
+             entry (file+olp+datetree "~/org/calendar.org" "EOD Status")
+             "* checkin\n%t\n%?")
+
+            ("j" "Journal" entry (file+datetree "~/org/notes/journal.org") "* %?\n%U")
+
+            ("n" "Notes" entry (file+datetree "~/org/notes/notes.org") "* Notes\n%t\n%?")
+
+            ("r" "Resource" entry (file "~/org/resources.org") "* %?")
+            ))
     (setq org-log-done t)
     (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
-    ;; org-capture-templates & org-agenda-custom-commands are set in ./modules/org-agenda-functions.el
+    (setq org-default-notes-file (concat org-directory "/notes/notes.org"))
     (setq org-refile-targets '(("~/org/gtd/projects.org" :maxlevel . 3)
                                ("~/org/gtd/tickler.org" :maxlevel . 2)
                                ("~/org/gtd/reference.org" :maxlevel . 2)
                                ("~/org/readlater.org" :maxlevel . 1)
+                               ("~/org/resources.org" :maxlevel . 1)
                                (org-agenda-files :maxlevel . 2)
                                )
           ;; org-refile-targets '((org-agenda-files :maxlevel . 3))
@@ -431,6 +478,19 @@ https://orgmode.org/
     (org-roam-mode))
 
 #+end_src
+* MU4E
+Email via emacs
+* Kubernetes
+** Kubel.el
+#+begin_src emacs-lisp
+
+  (use-package kubel)
+
+#+end_src
+* Terraform
+#+begin_src emacs-lisp
+  (use-package terraform-mode)
+#+end_src
 * Project/file management
 #+begin_src emacs-lisp
 
@@ -450,6 +510,7 @@ https://orgmode.org/
 
   (use-package projectile
     :diminish projectile-mode
+    :bind ("M-," . projectile-find-file)
     :config
     (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
     (projectile-mode))
@@ -472,7 +533,10 @@ Directory Editor--a file manager
   (use-package dired
     :ensure nil
     :commands (dired dired-jump)
-    :bind (("C-x C-j" . dired-jump))
+    :bind (
+           ("C-x C-j" . dired-jump)
+           (:map dired-mode-map
+                 ("M-s" . persp-switch)))
     :custom ((dired-listing-switches "-agG"))
     :config
     (setq dired-dwim-target t)
@@ -481,6 +545,8 @@ Directory Editor--a file manager
       "h" 'dired-up-directory
       "l" 'dired-find-file))
 
+  (use-package all-the-icons
+    :custom ((all-the-icons-dired-monochrome nil)))
   (use-package all-the-icons-dired
     :hook (dired-mode . all-the-icons-dired-mode))
 
@@ -516,6 +582,9 @@ Directory Editor--a file manager
       "M-k" 'magit-section-backward-sibling)
     (setq magit-diff-refine-hunk (quote nil))
     (setq magit-refresh-status-buffer nil)
+    (setq auto-revert-buffer-list-filter
+          'magit-auto-revert-repository-buffer-p)
+    (setq magit-auto-revert-tracked-only t)
     ;; When 'C-c C-c' is pressed in the magit commit message buffer,
     ;;   delete the magit-diff buffer related to the current repo.
     (add-hook 'git-commit-setup-hook
@@ -543,11 +612,11 @@ Directory Editor--a file manager
   (use-package treemacs-evil
     :after treemacs)
 
-  ;; (use-package treemacs-icons-dired
-  ;;   :hook (dired-mode . treemacs-icons-dired-enable-once))
+  (use-package treemacs-icons-dired
+    :hook (treemacs-icons-dired))
 
   (use-package neotree
-    :ensure nil
+    :ensure t
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-hide-cursor t
@@ -573,6 +642,8 @@ Directory Editor--a file manager
 
   (global-set-key (kbd "C-;") 'ibuffer)
   (global-set-key (kbd "C-/") 'ibuffer)
+
+  (global-set-key (kbd "M-/") 'switch-to-buffer)
 
   (leader-keys
     ";" 'switch-to-buffer
@@ -609,6 +680,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     :commands persp-state-load
     :custom
     (persp-state-default-file "~/Documents/perspective-saves")
+    :bind (("M-s" . persp-switch))
     :init
     (persp-mode))
 
@@ -651,12 +723,11 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
   (use-package popper
     :config
     (setq popper-group-function #'popper-group-by-perspective) ; group by perspective
-    (setq popper-reference-buffers
-      '("^\\*vterm.*\\*$" vterm-mode
-        "\\*Messages\\*"))
+    (setq popper-reference-buffers nil)
     (global-set-key (kbd "C-`") 'popper-toggle-latest)
     (global-set-key (kbd "M-`") 'popper-cycle)
-    (global-set-key (kbd "C-M-`") 'popper-toggle-type))
+    (global-set-key (kbd "C-M-`") 'popper-toggle-type)
+    (popper-mode))
 #+end_src
 * Terminal in emacs
 #+begin_src emacs-lisp
@@ -667,9 +738,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (setq vterm-max-scrollback 10000)
     :hook
     (vterm-mode . (lambda ()
-                    (setq-local hl-line-mode nil)
-                    (setq-local line-number-mode nil)
-                    (setq-local column-number-mode nil))))
+                    (setq-local hl-line-mode nil
+                                line-number-mode nil
+                                column-number-mode nil))))
 
   (use-package multi-vterm
     :config
@@ -677,38 +748,38 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
     (setq vterm-keymap-exceptions nil)
     (general-define-key
-      :states  '(insert)
-      :keymaps 'vterm-mode-map
-      "C-e" 'vterm--self-insert
-      "C-f" 'vterm--self-insert
-      "C-a" 'vterm--self-insert
-      "C-v" 'vterm--self-insert
-      "C-b" 'vterm--self-insert
-      "C-w" 'vterm--self-insert
-      "C-u" 'vterm--self-insert
-      "C-n" 'vterm--self-insert
-      "C-m" 'vterm--self-insert
-      "C-p" 'vterm--self-insert
-      "C-j" 'vterm--self-insert
-      "C-k" 'vterm--self-insert
-      "C-r" 'vterm--self-insert
-      "C-t" 'vterm--self-insert
-      "C-g" 'vterm--self-insert
-      "C-c" 'vterm--self-insert
-      "C-SPC" 'vterm--self-insert
-
-      "C-d" #'evil-normal-state)
+     :states  '(insert)
+     :keymaps 'vterm-mode-map
+     "C-e" 'vterm--self-insert
+     "C-f" 'vterm--self-insert
+     "C-a" 'vterm--self-insert
+     "C-v" 'vterm--self-insert
+     "C-b" 'vterm--self-insert
+     "C-w" 'vterm--self-insert
+     "C-u" 'vterm--self-insert
+     "C-n" 'vterm--self-insert
+     "C-m" 'vterm--self-insert
+     "C-p" 'vterm--self-insert
+     "C-j" 'vterm--self-insert
+     "C-k" 'vterm--self-insert
+     "C-r" 'vterm--self-insert
+     "C-t" 'vterm--self-insert
+     "C-g" 'vterm--self-insert
+     "C-c" 'vterm--self-insert
+     "C-SPC" 'vterm--self-insert
+     "C-z" #'evil-normal-state)
 
     (general-define-key
-      :states  '(normal)
-      :keymaps 'vterm-mode-map
-      ",c"        'multi-vterm-prev
-      "i"         'evil-insert-resume
-      "<return>"  'evil-insert-resume
-      "<prior>"   'scroll-down-command
-      "<next>"    'scroll-up-command
+     :states  '(normal)
+     :keymaps 'vterm-mode-map
+     ",c"        'multi-vterm-prev
+     "i"         'evil-insert-resume
+     "<return>"  'evil-insert-resume
+     "<prior>"   'scroll-down-command
+     "<next>"    'scroll-up-command
+     "M-s"       'persp-switch
 
-      "C-d"       #'evil-scroll-down)
+     "C-d"       #'evil-scroll-down)
     )
 
   (use-package eterm-256color :hook (vterm-mode . eterm-256color-mode))
@@ -985,8 +1056,58 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
   (use-package minions :config (minions-mode))
 
-  ;; (use-package nano-modeline
-  ;;  :hook ((org-agenda-mode . nano-modeline-mode)))
+  (defun sal-nano-modeline-default-mode (&optional icon)
+    (let ((icon (or icon
+                    (plist-get (cdr (assoc 'text-mode nano-modeline-mode-formats)) :icon)))
+          ;; We take into account the case of narrowed buffers
+          (buffer-name (cond
+                        ((and (derived-mode-p 'org-mode)
+                              (buffer-narrowed-p)
+                              (buffer-base-buffer))
+                         (format"%s [%s]" (buffer-base-buffer)
+                                (org-link-display-format
+                                 (substring-no-properties (or (org-get-heading 'no-tags)
+                                                              "-")))))
+                        ((and (buffer-narrowed-p)
+                              (buffer-base-buffer))
+                         (format"%s [narrow]" (buffer-base-buffer)))
+                        (t
+                         (format-mode-line "%b"))))
+
+          (mode-name   (nano-modeline-mode-name))
+          (branch      (nano-modeline-vc-branch))
+          (position    (format-mode-line "%l:%c"))
+          (vim-state   (concat
+                        " <"
+                        (cond
+                         (( eq evil-state 'visual) "V")
+                         (( eq evil-state 'normal) "N")
+                         (( eq evil-state 'insert) "I")
+                         (( eq evil-state 'emacs) "E")
+                         (t "*"))
+                        "> ")))
+      (nano-modeline-render icon
+                            buffer-name
+                            (concat
+                             (if branch (concat "(" branch ")") "")
+                             vim-state
+                             (format-mode-line global-mode-string)
+                             )
+                            position)))
+
+  (use-package nano-modeline
+    :straight '(nano-modeline
+                :type git
+                :host github
+                :repo "rougier/nano-modeline")
+    :custom ((nano-modeline-default-mode-format 'sal-nano-modeline-default-mode)
+             (nano-modeline-position 'bottom)
+             (nano-modeline-prefix 'default))
+    :custom-face
+    (nano-modeline-active-secondary ((t (:inherit nano-modeline-active))))
+    (nano-modeline-inactive ((t (:inherit mode-line-inactive))))
+    :config
+    (nano-modeline-mode))
 
 #+end_src
 ** Line numbers
@@ -1004,24 +1125,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 ** Theme
 #+begin_src emacs-lisp
 
-  (defun sal/set-font-faces ()
-    (message "[sal] Setting font faces")
-
-    (set-face-attribute 'default nil
-                        :font "Roboto Mono" :weight 'regular :height 130)
-    ;; (set-face-attribute 'default nil
-    ;; :family "Roboto Mono" :weight 'light :height 130)
-    (set-face-attribute 'bold nil
-                        :family "Roboto Mono" :weight 'regular)
-    (set-face-attribute 'italic nil
-                        :family "Victor Mono" :weight 'light :slant 'italic)
-    (set-fontset-font t 'unicode
-                      (font-spec :name "Hack Nerd Font" :size 16) nil 'prepend)
-    (set-fontset-font t '(#xe000 . #xffdd)
-                      (font-spec :name "Hack Nerd Font" :size 12) nil)
-    (set-fontset-font t 'symbol "Apple Color Emoji")
-    )
-
+  ;; We need to set these in a specific way when running daemon mode
   (if (daemonp)
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
@@ -1031,13 +1135,41 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
   (setq custom-safe-themes t)
 
-  ;; modus is an emacs provided theme
-  ;; (load-theme 'modus-operandi)
+  ;; Configure the Modus Themes' appearance
+  (setq modus-themes-mode-line '(accented)
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-fringes nil
+        modus-themes-tabs-accented t
+        modus-themes-paren-match '(bold intense)
+        modus-themes-prompts '(bold intense)
+        modus-themes-completions 'opinionated
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-scale-headings t
+        modus-themes-region '(bg-only)
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.4))
+          (2 . (rainbow background 1.3))
+          (3 . (rainbow bold 1.2))
+          (t . (semilight 1.1))))
+
+  ;; Load the dark theme by default
+  (load-theme 'modus-vivendi t)
+
+  (use-package emojify
+    :hook ((after-init . global-emojify-mode))
+    :config
+    (when (member "Hack Nerd Font" (font-family-list))
+      (set-fontset-font
+       t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+    (setq emojify-display-style 'unicode)
+    (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
+
   (use-package doom-themes
     :init
     (setq doom-themes-treemacs-theme "doom-colors")
     :config
-    (load-theme 'doom-gruvbox t)
+    ;; (load-theme 'doom-gruvbox t)
     (doom-themes-visual-bell-config))
 
   (straight-use-package '(nano-theme :type git :host github
@@ -1053,13 +1185,13 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           dashboard-startup-banner 'logo
           dashboard-center-content nil
           dashboard-set-navigator t
-          dashboard-set-file-icons t)
-    (setq dashboard-items '((recents  . 10)
+          dashboard-set-file-icons t
+          dashboard-items '((recents  . 10)
                             (bookmarks . 5)
                             (projects . 5)))
     (dashboard-setup-startup-hook))
 
-  (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
+  ;; (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
 
 #+end_src
 ** Whichkey
