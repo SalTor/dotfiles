@@ -1,5 +1,5 @@
 function! saltor#colors#tweak_colors()
-    luafile $VIM_PLUG_CONFIG/colors.lua
+    " luafile $VIM_PLUG_CONFIG/colors.lua
 
     " Called when autocmd ColorScheme is run on VimEnter which calls saltor#colors#CheckColorScheme
     highlight clear SpellBad

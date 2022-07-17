@@ -1,14 +1,3 @@
-" colemak remaps
-noremap n j
-noremap e k
-noremap m h
-noremap i l
-
-noremap j e
-noremap k n
-noremap h m
-noremap l i
-
 " Quick command mode nnoremap, this is unbound in ftplugin/qf.vim
 nnoremap <CR> :
 
