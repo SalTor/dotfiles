@@ -1,14 +1,6 @@
-name: vesto
-root: ~/capsule/vesto/
+name: hbc
+root: ~/capsule/heartbeat-comms-ui/
 attach: true
 windows:
-  - SERVERS:
-      layout: even-horizontal
-      panes:
-        - DJANGO:
-          - pipenv shell "make up"
-        - WEBPACK:
-          - cd vesto/frontend
-          - npm run dev
-  - CODE: nvim
-  - LAZYGIT: lazygit
+  - SERVERS: npm run watch-dev
+  - CODE: emacsclient -c -n -a ''

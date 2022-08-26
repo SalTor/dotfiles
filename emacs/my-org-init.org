@@ -1,9 +1,8 @@
-#+title: My emacs configuration via org mode!
 #+author: Me. Your friendly neighborhood web developer
+#+title: My emacs configuration via org mode!
 
 * Load my custom scripts
 #+begin_src emacs-lisp
-
   (load-file "~/dotfiles/emacs/modules/sal-functions.el")
   (load-file "~/dotfiles/emacs/modules/org-agenda-functions.el")
 
@@ -142,7 +141,6 @@ Provides completions as you type in a buffer
 
   (add-hook 'after-init-hook 'global-company-mode)
 
-
   (use-package company-box :hook (company-mode . company-box-mode)) ;; Icons in company dropdowns
 
   (use-package company-quickhelp :config (company-quickhelp-mode))
@@ -157,12 +155,13 @@ Provides completions as you type in a buffer
     :init
     (add-hook 'after-init-hook #'global-flycheck-mode)
     :config
+    (setq flycheck-javascript-eslint-executable "eslint_d")
     (setq-default flycheck-emacs-lisp-load-path 'inherit
                   flycheck-disabled-checker '(emacs-list-checkdoc)
                   flycheck-temp-prefix ".flycheck"
                   flycheck-disabled-checkers
-                  (append flycheck-disabled-checkers
-                          '(javascript-jshint json-jsonlist)))
+                  (append flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
+                  )
     (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories
                                                   flycheck-locate-config-file-by-path)
           flycheck-check-syntax-automatically '(save
@@ -215,22 +214,23 @@ Via Prettier/Black/Eslint/Editorconfig
             typescript-mode
             typescript-tsx-mode
             css-mode
+            python-mode
             scss-mode
             rjsx-mode
             vue-mode
             json-mode) . apheleia-mode)
     :config
-    (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode prettier))
-    (add-to-list 'apheleia-mode-alist '(python black)))
+    (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode . prettier))
+    )
 
-  ;; (use-package eslintd-fix
-  ;;   :hook ((web-mode
-  ;;           typescript-mode
-  ;;           typescript-tsx-mode
-  ;;           css-mode
-  ;;           scss-mode
-  ;;           rjsx-mode
-  ;;           json-mode) . eslintd-fix-mode))
+  (use-package eslintd-fix
+    :hook ((web-mode
+            typescript-mode
+            typescript-tsx-mode
+            css-mode
+            scss-mode
+            rjsx-mode
+            json-mode) . eslintd-fix-mode))
 
   (use-package editorconfig :config (editorconfig-mode 1))
 
@@ -240,7 +240,7 @@ Evil mode provides vim keybindings
 #+begin_src emacs-lisp
 
   ;; Group START --- My evil config uses these packages
-  (use-package undo-fu :config (global-undo-tree-mode -1))
+  (use-package undo-fu)
   (use-package origami :config (global-origami-mode))
   (use-package drag-stuff :config (drag-stuff-mode t)) ;; Used for shortcut to move lines up/down
   ;; Group END
@@ -249,7 +249,6 @@ Evil mode provides vim keybindings
     :init
     (setq evil-want-keybinding nil)
     (setq-default evil-symbol-word-search t)
-    (add-hook 'evil-local-mode-hook 'turn-on-undo-tree-mode)
     :custom
     (evil-want-C-u-scroll t)
     (evil-want-C-i-jump t)
@@ -323,18 +322,18 @@ A set of recommeded keybindings for evil-mode
   (use-package evil-collection
     :custom
     (evil-collection-magit-state 'emacs)
-    (evil-collection-want-unimpaired-p nil))
-
-  (evil-collection-init)
+    (evil-collection-want-unimpaired-p nil)
+    :config
+    (evil-collection-init))
 
 #+end_src
 ** Evil leader
 =<leader>= key for evil-mode
 #+begin_src emacs-lisp
 
-  (use-package evil-leader :config (global-evil-leader-mode))
+  (use-package evil-leader :config (global-evil-leader-mode)
 
-  (evil-leader/set-leader "SPC")
+  (evil-leader/set-leader "SPC"))
 
   (leader-keys
     "u"  'universal-argument       ;; <C-u> is the default, I use that for scrolling up
@@ -396,6 +395,11 @@ https://orgmode.org/
               (tags "inbox"
                     ((org-agenda-prefix-format "  %?-12t% s")
                      (org-agenda-overriding-header "Inbox:")))
+              (tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
+                                       (org-agenda-prefix-format "  %?-12t% s")
+                                       (org-agenda-skip-function
+                                        '(or (org-agenda-skip-entry-if 'todo '("NEXT" "WAITING" "DONE"))
+                                             (org-agenda-skip-if nil '(scheduled deadline))))))
               (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
               ))
             ("d" "GTD Declutter"
@@ -439,7 +443,7 @@ https://orgmode.org/
                                ("~/org/gtd/reference.org" :maxlevel . 2)
                                ("~/org/readlater.org" :maxlevel . 1)
                                ("~/org/resources.org" :maxlevel . 1)
-                               (org-agenda-files :maxlevel . 2)
+                               (org-agenda-files :maxlevel . 5)
                                )
           ;; org-refile-targets '((org-agenda-files :maxlevel . 3))
           org-refile-use-outline-path 'file
@@ -448,7 +452,6 @@ https://orgmode.org/
     )
 
   (use-package deft
-    :after org
     :config
     (leader-keys
       'deft)
@@ -459,23 +462,15 @@ https://orgmode.org/
     (deft-directory "~/org-roam/"))
 
   (use-package org-roam
-    :after (org deft)
     :custom
     (org-roam-directory "~/org-roam")
     (org-roam-completion-everywhere t)
-    :bind-keymap ("C-c n" . org-roam-dailies-map)
-    :bind ((:map org-roam-dailies-map
-                 ("n" . org-roam-dailies-capture-today) ;; neumonic "now"; This is provided by default
-                 ("t" . org-roam-dailies-capture-tomorrow)
-                 ("y" . org-roam-dailies-capture-yesterday)))
     :config
     (leader-keys
       "or" 'org-roam
-      "of" 'org-roam-find-file
+      "of" 'org-roam-node-find
       "oc" 'org-roam-capture
-      "oi" 'org-roam-insert)
-    :init
-    (org-roam-mode))
+      "oi" 'org-roam-insert))
 
 #+end_src
 * MU4E
@@ -517,7 +512,8 @@ Email via emacs
 
   (leader-keys
     "," 'projectile-find-file
-    "po" 'projectile-switch-project)
+    "po" 'projectile-switch-project
+    "pv" 'dired-jump)
 
 #+end_src
 ** Dired
@@ -680,6 +676,8 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     :commands persp-state-load
     :custom
     (persp-state-default-file "~/Documents/perspective-saves")
+    :config
+    (setq persp-suppress-no-prefix-key-warning t)
     :bind (("M-s" . persp-switch))
     :init
     (persp-mode))
@@ -744,8 +742,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
   (use-package multi-vterm
     :config
-    (define-key vterm-mode-map [return] #'vterm-send-return)
-
     (setq vterm-keymap-exceptions nil)
     (general-define-key
      :states  '(insert)
@@ -768,7 +764,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
      "C-c" 'vterm--self-insert
      "C-SPC" 'vterm--self-insert
      "C-z" #'evil-normal-state)
-
     (general-define-key
      :states  '(normal)
      :keymaps 'vterm-mode-map
@@ -778,11 +773,8 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
      "<prior>"   'scroll-down-command
      "<next>"    'scroll-up-command
      "M-s"       'persp-switch
-
      "C-d"       #'evil-scroll-down)
-    )
-
-  (use-package eterm-256color :hook (vterm-mode . eterm-256color-mode))
+    (define-key vterm-mode-map [return] #'vterm-send-return))
 
   ;; Terminal
   (leader-keys
@@ -845,8 +837,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           lsp-restart 'auto-restart
           lsp-enable-completion-at-point t
           lsp-enable-symbol-highlighting t
-          lsp-modeline-diagnostics-enable t
+          lsp-modeline-diagnostics-enable nil
           lsp-diagnostic-package :none
+          lsp-diagnostic-provider :none
           lsp-log-io nil ;; Don't log everything = speed
           lsp-lens-enable nil
           lsp-headerline-breadcrumb-enable t
@@ -857,8 +850,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           lsp-enable-folding t
           lsp-enable-imenu nil
           lsp-enable-snippet t)
-          ;; read-process-output-max (* 1024 1024)) ;; 1mb
-    (add-hook 'web-mode-hook #'lsp-flycheck-enable)
     :custom
     (lsp-eldoc-enable-hover nil)
     (lsp-eldoc-render-all nil)
@@ -901,9 +892,11 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           lsp-ui-doc-include-signature t
           lsp-ui-sideline-enable nil
           lsp-ui-flycheck-enable t
-          lsp-ui-flycheck-live-reporting t)
+          lsp-ui-flycheck-live-reporting nil)
     (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
     (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+    ;; (require 'lsp-diagnostics)
+    ;; (lsp-diagnostics-flycheck-enable)
     :custom
     (lsp-ui-peek-enable t)
     (lsp-ui-peek-show-directory t)
@@ -911,8 +904,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (lsp-ui-peek-peek-height 25)
     (lsp-ui-peek-fontify 'on-demand))
 
-  (require 'lsp-diagnostics)
-  (lsp-diagnostics-flycheck-enable)
 
 #+end_src
 * Web mode
@@ -966,7 +957,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 * Languages
 ** Python
 #+begin_src emacs-lisp
-
   (use-package python-mode
     :hook (python-mode . lsp-deferred)
     :custom
@@ -978,6 +968,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
       ;; (add-to-list 'lsp-disabled-clients 'pyls)
       ;; (add-to-list 'lsp-enabled-clients 'jedi))
     )
+
+  (add-to-list 'flycheck-checkers 'python-mypy t)
+  (flycheck-add-next-checker 'python-flake8 'python-mypy t)
 
   (use-package pyvenv
     :config
@@ -997,7 +990,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     :mode ("\\.tsx?\\'" . typescript-tsx-mode)
     :hook ((typescript-tsx-mode . (lambda ()
                                     (lsp-deferred)
-                                    ;; (flycheck-add-next-checker 'lsp 'javascript-eslint)
+                                    ;; (flycheck-add-next-checker 'javascript-eslint 'lsp)
                                     ))))
 
 #+end_src
@@ -1125,55 +1118,56 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 ** Theme
 #+begin_src emacs-lisp
 
-  ;; We need to set these in a specific way when running daemon mode
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (with-selected-frame frame
-                    (sal/set-font-faces))))
-    (sal/set-font-faces))
+        ;; We need to set these in a specific way when running daemon mode
+        (if (daemonp)
+            (add-hook 'after-make-frame-functions
+                      (lambda (frame)
+                        (with-selected-frame frame
+                          (sal/set-font-faces))))
+          (sal/set-font-faces))
 
-  (setq custom-safe-themes t)
+        (setq custom-safe-themes t)
 
-  ;; Configure the Modus Themes' appearance
-  (setq modus-themes-mode-line '(accented)
-        modus-themes-bold-constructs t
-        modus-themes-italic-constructs t
-        modus-themes-fringes nil
-        modus-themes-tabs-accented t
-        modus-themes-paren-match '(bold intense)
-        modus-themes-prompts '(bold intense)
-        modus-themes-completions 'opinionated
-        modus-themes-org-blocks 'tinted-background
-        modus-themes-scale-headings t
-        modus-themes-region '(bg-only)
-        modus-themes-headings
-        '((1 . (rainbow overline background 1.4))
-          (2 . (rainbow background 1.3))
-          (3 . (rainbow bold 1.2))
-          (t . (semilight 1.1))))
 
-  ;; Load the dark theme by default
-  (load-theme 'modus-vivendi t)
+        (use-package modus-themes
+          :config
+          (load-theme 'modus-vivendi t)
+        ;; Configure the Modus Themes' appearance
+      (setq modus-themes-mode-line '(accented)
+            modus-themes-bold-constructs t
+            modus-themes-italic-constructs t
+            modus-themes-fringes nil
+            modus-themes-tabs-accented t
+            modus-themes-paren-match '(bold intense)
+            modus-themes-prompts '(bold intense)
+            modus-themes-completions 'opinionated
+            modus-themes-org-blocks 'tinted-background
+            modus-themes-scale-headings t
+            modus-themes-region '(bg-only)
+            modus-themes-headings
+            '((1 . (rainbow overline background 1.4))
+              (2 . (rainbow background 1.3))
+              (3 . (rainbow bold 1.2))
+              (t . (semilight 1.1)))))
 
-  (use-package emojify
-    :hook ((after-init . global-emojify-mode))
-    :config
-    (when (member "Hack Nerd Font" (font-family-list))
-      (set-fontset-font
-       t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-    (setq emojify-display-style 'unicode)
-    (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
+        (use-package emojify
+          :hook ((after-init . global-emojify-mode))
+          :config
+          (when (member "Hack Nerd Font" (font-family-list))
+            (set-fontset-font
+             t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+          (setq emojify-display-style 'unicode)
+          (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
 
-  (use-package doom-themes
-    :init
-    (setq doom-themes-treemacs-theme "doom-colors")
-    :config
-    ;; (load-theme 'doom-gruvbox t)
-    (doom-themes-visual-bell-config))
+        (use-package doom-themes
+          :init
+          (setq doom-themes-treemacs-theme "doom-colors")
+          :config
+          ;; (load-theme 'doom-gruvbox t)
+          (doom-themes-visual-bell-config))
 
-  (straight-use-package '(nano-theme :type git :host github
-                                     :repo "rougier/nano-theme"))
+        (straight-use-package '(nano-theme :type git :host github
+                                           :repo "rougier/nano-theme"))
 
 #+end_src
 ** Dashboard
@@ -1189,9 +1183,10 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           dashboard-items '((recents  . 10)
                             (bookmarks . 5)
                             (projects . 5)))
-    (dashboard-setup-startup-hook))
+    (dashboard-setup-startup-hook)
+    )
 
-  ;; (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
+  (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
 
 #+end_src
 ** Whichkey
