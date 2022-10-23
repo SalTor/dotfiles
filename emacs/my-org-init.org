@@ -132,16 +132,20 @@ Provides completions as you type in a buffer
 
   (use-package company
     :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0)
+    (company-idle-delay 0)
+    (company-dabbrev-downcase nil)
     :config
     (company-tng-mode)
     (setq company-tooltip-align-annotations t
+          company-selection-wrap-around t
           company-selection-wrap-around t))
 
   (add-hook 'after-init-hook 'global-company-mode)
 
-  (use-package company-box :hook (company-mode . company-box-mode)) ;; Icons in company dropdowns
+  (use-package company-box ;; Icons in company dropdowns
+    :hook (company-mode . company-box-mode)
+    :custom
+    (company-box-icons-alist 'company-box-icons-all-the-icons))
 
   (use-package company-quickhelp :config (company-quickhelp-mode))
 
@@ -155,20 +159,14 @@ Provides completions as you type in a buffer
     :init
     (add-hook 'after-init-hook #'global-flycheck-mode)
     :config
-    (setq flycheck-javascript-eslint-executable "eslint_d")
     (setq-default flycheck-emacs-lisp-load-path 'inherit
                   flycheck-disabled-checker '(emacs-list-checkdoc)
                   flycheck-temp-prefix ".flycheck"
                   flycheck-disabled-checkers
                   (append flycheck-disabled-checkers '(javascript-jshint json-jsonlist))
                   )
-    (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories
-                                                  flycheck-locate-config-file-by-path)
-          flycheck-check-syntax-automatically '(save
-                                                ;; idle-change
-                                                ;; new-line
-                                                mode-enabled)
-          flycheck-display-errors-delay 0.3
+    (setq flycheck-locate-config-file-functions '(flycheck-locate-config-file-ancestor-directories flycheck-locate-config-file-by-path)
+          flycheck-javascript-eslint-executable "eslint_d"
           flycheck-flake8rc '(".flake8"))
 
     (leader-keys
@@ -178,21 +176,20 @@ Provides completions as you type in a buffer
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
-  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
 
   (use-package posframe)
 
-  (use-package flycheck-posframe ;; Show flycheck messages via posframe
-    :after flycheck
-    :config
-    (setq flycheck-posframe-error-prefix "■ ")
-    (setq flycheck-posframe-info-prefix "■ ")
-    (setq flycheck-posframe-prefix "■ ")
-    (setq flycheck-posframe-warning-prefix "■ ")
+  ;; (use-package flycheck-posframe ;; Show flycheck messages via posframe
+  ;;   :after flycheck
+  ;;   :config
+  ;;   (setq flycheck-posframe-error-prefix "■ ")
+  ;;   (setq flycheck-posframe-info-prefix "■ ")
+  ;;   (setq flycheck-posframe-prefix "■ ")
+  ;;   (setq flycheck-posframe-warning-prefix "■ ")
 
-    (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  ;;   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
   (use-package flycheck-aspell)
 #+end_src
@@ -216,7 +213,6 @@ Via Prettier/Black/Eslint/Editorconfig
             css-mode
             python-mode
             scss-mode
-            rjsx-mode
             vue-mode
             json-mode) . apheleia-mode)
     :config
@@ -229,7 +225,6 @@ Via Prettier/Black/Eslint/Editorconfig
             typescript-tsx-mode
             css-mode
             scss-mode
-            rjsx-mode
             json-mode) . eslintd-fix-mode))
 
   (use-package editorconfig :config (editorconfig-mode 1))
@@ -390,20 +385,27 @@ https://orgmode.org/
     (setq org-agenda-custom-commands
           '(("g" "GTD view"
              ((agenda)
-              (todo "NEXT" ((org-agenda-overriding-header "Next actions:")))
+              (todo "NEXT" ((org-agenda-overriding-header "Next actions:")
+                            (org-agenda-skip-function
+                                          '(or (org-agenda-skip-if nil '(scheduled deadline))))))
               (todo "WAITING" ((org-agenda-overriding-header "Waiting on:")))
               (tags "inbox"
                     ((org-agenda-prefix-format "  %?-12t% s")
-                     (org-agenda-overriding-header "Inbox:")))
+                     (org-agenda-overriding-header "* * Inbox * *")
+                     (org-agenda-skip-function
+                      '(or (org-agenda-skip-entry-if 'todo '("DONE" "CANCELLED"))))))
               (tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
                                        (org-agenda-prefix-format "  %?-12t% s")
                                        (org-agenda-skip-function
-                                        '(or (org-agenda-skip-entry-if 'todo '("NEXT" "WAITING" "DONE"))
+                                        '(or (org-agenda-skip-entry-if 'todo '("NEXT" "WAITING" "DONE" "CANCELLED"))
                                              (org-agenda-skip-if nil '(scheduled deadline))))))
-              (todo "DONE" ((org-agenda-overriding-header "Completed items:")))
+              (todo "DONE|CANCELLED" ((org-agenda-overriding-header "Completed items:")))
               ))
             ("d" "GTD Declutter"
-             ((tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
+             ((tags "inbox"
+                    ((org-agenda-prefix-format "  %?-12t% s")
+                     (org-agenda-overriding-header "* * Inbox * *")))
+              (tags "PROJECT-SOMEDAY" ((org-agenda-overriding-header "Projects:")
                                        (org-agenda-prefix-format "  %?-12t% s")))
               (tags "SOMEDAY" ((org-agenda-prefix-format "  %?-12t% s")
                                (org-agenda-overriding-header "Someday/maybe:")))))
@@ -429,9 +431,13 @@ https://orgmode.org/
              entry (file+olp+datetree "~/org/calendar.org" "EOD Status")
              "* checkin\n%t\n%?")
 
-            ("j" "Journal" entry (file+datetree "~/org/notes/journal.org") "* %?\n%U")
+            ("j" "Journal"
+             entry (file+datetree "~/org/notes/journal.org")
+             "* %U\nWhat did you accomplish?\n- %^{Accomplishment}\n\nWas there anything you didn't do that you wanted to?\n- %^{Incomplete}")
 
-            ("n" "Notes" entry (file+datetree "~/org/notes/notes.org") "* Notes\n%t\n%?")
+            ("n" "Notes"
+             entry (file+datetree "~/org/notes/notes.org")
+             "* Notes\n%t\n")
 
             ("r" "Resource" entry (file "~/org/resources.org") "* %?")
             ))
@@ -466,11 +472,13 @@ https://orgmode.org/
     (org-roam-directory "~/org-roam")
     (org-roam-completion-everywhere t)
     :config
+    (org-roam-db-autosync-mode)
     (leader-keys
       "or" 'org-roam
       "of" 'org-roam-node-find
-      "oc" 'org-roam-capture
-      "oi" 'org-roam-insert))
+      "oi" 'org-roam-node-insert
+      "oc" 'org-roam-dailies-capture-today
+      "od" 'org-roam-dailies-goto-date))
 
 #+end_src
 * MU4E
@@ -800,13 +808,13 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 * YASnippets
 #+begin_src emacs-lisp
 
-  (use-package yasnippet
-    :bind (:map evil-insert-state-map
-                ("C-y" . yas-expand))
-    :config
-    (yas-global-mode 1)
-    (setq yas-snippet-dirs
-        '("~/.emacs.d/snippets")))
+  ;; (use-package yasnippet
+  ;;   :bind (:map evil-insert-state-map
+  ;;               ("C-y" . yas-expand))
+  ;;   :config
+  ;;   (yas-global-mode 1)
+  ;;   (setq yas-snippet-dirs
+  ;;       '("~/.emacs.d/snippets")))
 
 #+end_src
 * Tree Sitter
@@ -815,13 +823,15 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 
   (use-package tree-sitter
     :hook ((typescript-mode . tree-sitter-hl-mode)
-           (typescript-tsx-mode . tree-sitter-hl-mode)))
+           (typescript-tsx-mode . tree-sitter-hl-mode)
+           (python-mode . tree-sitter-hl-mode)))
 
   (use-package tree-sitter-langs
     :after tree-sitter
     :config
     (tree-sitter-require 'tsx)
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
     (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
 
 #+end_src
@@ -832,14 +842,11 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :config
-    (setq lsp-idle-delay 0.5
+    (setq lsp-idle-delay 0.25
           lsp-auto-guess-root t
           lsp-restart 'auto-restart
           lsp-enable-completion-at-point t
           lsp-enable-symbol-highlighting t
-          lsp-modeline-diagnostics-enable nil
-          lsp-diagnostic-package :none
-          lsp-diagnostic-provider :none
           lsp-log-io nil ;; Don't log everything = speed
           lsp-lens-enable nil
           lsp-headerline-breadcrumb-enable t
@@ -895,8 +902,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
           lsp-ui-flycheck-live-reporting nil)
     (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
     (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-    ;; (require 'lsp-diagnostics)
-    ;; (lsp-diagnostics-flycheck-enable)
     :custom
     (lsp-ui-peek-enable t)
     (lsp-ui-peek-show-directory t)
@@ -943,15 +948,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
      "rl" 'nodejs-repl-send-line
      "rr" 'nodejs-repl-send-region
      "rb" 'nodejs-repl-send-buffer))
-
-#+end_src
-* RJSX mode
-#+begin_src emacs-lisp
-
-  (use-package rjsx-mode
-    :hook (rjsx-mode . lsp-deferred)
-    :mode (("\\.js\\'" . rjsx-mode)
-           ("\\.jsx\\'" .  rjsx-mode)))
 
 #+end_src
 * Languages
@@ -1020,8 +1016,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 #+begin_src emacs-lisp
 
   (use-package lua-mode
-    :config
-    (setq lsp-lua-diagnostics-disable '("lowercase-global"))
     :hook ((lua-mode . (lambda ()
                          (lsp-deferred)))))
 

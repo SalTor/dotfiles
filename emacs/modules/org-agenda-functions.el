@@ -10,6 +10,7 @@
   (define-key org-agenda-mode-map "K" 'org-agenda-previous-line)
   (define-key org-agenda-mode-map "D" 'org-agenda-goto-date)
   (define-key org-agenda-mode-map "\C-l" 'consult-org-agenda)
+  (define-key org-agenda-mode-map "\C-k" nil)
   (remove-hook 'org-agenda-mode-hook 'sal-agenda-setup)
   )
 
