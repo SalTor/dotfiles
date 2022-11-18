@@ -5,17 +5,13 @@
 #+begin_src emacs-lisp
   (load-file "~/dotfiles/emacs/modules/sal-functions.el")
   (load-file "~/dotfiles/emacs/modules/org-agenda-functions.el")
-
 #+end_src
 * Package management
 #+begin_src emacs-lisp
-
   (straight-use-package 'use-package)
-
 #+end_src
 * Use $PATH
 #+begin_src emacs-lisp
-
   (use-package exec-path-from-shell
     :config
     (setenv "SHELL" "/bin/zsh")
@@ -27,14 +23,11 @@
 #+end_src
 * Search via Ripgrep/Deadgrep
 #+begin_src emacs-lisp
-
   (use-package ripgrep)
   (use-package deadgrep)
-
 #+end_src
 * Keybindings via General.el + Hydra + Embark
 #+begin_src emacs-lisp
-
   (use-package general
     :config
     (general-create-definer leader-keys
@@ -80,12 +73,10 @@
             (which-key--show-keymap "Embark" map nil nil 'no-paging)
             #'which-key--hide-popup-ignore-command)
           embark-become-indicator embark-action-indicator))
-
 #+end_src
 * Improved help docs
 Improve Emacs's built-in docs with more contextual info
 #+begin_src emacs-lisp
-
   (use-package helpful
     :commands (helpful-callable helpful-variable helpful-command helpful-key))
 
@@ -98,11 +89,9 @@ Improve Emacs's built-in docs with more contextual info
   (global-set-key (kbd "C-h k") #'helpful-key)
 
   (leader-keys "h" 'help-command)
-
 #+end_src
 * Menu Completion
 #+begin_src emacs-lisp
-
   (use-package consult
     :config
     (setq consult-preview-key (kbd "C-\\")))
@@ -124,12 +113,10 @@ Improve Emacs's built-in docs with more contextual info
     :config
     (add-to-list 'marginalia-prompt-categories '("Find file" . file))
     (marginalia-mode))
-
 #+end_src
 * Company mode
 Provides completions as you type in a buffer
 #+begin_src emacs-lisp
-
   (use-package company
     :custom
     (company-idle-delay 0)
@@ -150,11 +137,9 @@ Provides completions as you type in a buffer
   (use-package company-quickhelp :config (company-quickhelp-mode))
 
   (eval-after-load 'company '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-
 #+end_src
 * Syntax checking via Flycheck
 #+begin_src emacs-lisp
-
   (use-package flycheck
     :init
     (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -200,8 +185,8 @@ Via Prettier/Black/Eslint/Editorconfig
 - https://eslint.org/
   - https://github.com/mantoni/eslint_d.js/
 - https://editorconfig.org/
-#+begin_src emacs-lisp
 
+#+begin_src emacs-lisp
   (use-package apheleia
     :straight '(apheleia
                 :type git
@@ -228,12 +213,10 @@ Via Prettier/Black/Eslint/Editorconfig
             json-mode) . eslintd-fix-mode))
 
   (use-package editorconfig :config (editorconfig-mode 1))
-
 #+end_src
 * EVIL mode
 Evil mode provides vim keybindings
 #+begin_src emacs-lisp
-
   ;; Group START --- My evil config uses these packages
   (use-package undo-fu)
   (use-package origami :config (global-origami-mode))
@@ -306,7 +289,6 @@ Evil mode provides vim keybindings
           evil-goggles-enable-record-macro nil))
 
   (use-package evil-nerd-commenter)
-
 #+end_src
 ** Evil Collection
 A set of recommeded keybindings for evil-mode
@@ -341,9 +323,10 @@ A set of recommeded keybindings for evil-mode
 #+begin_quote
 Your life in plain text
 #+end_quote
-https://orgmode.org/
-#+begin_src emacs-lisp
 
+https://orgmode.org/
+
+#+begin_src emacs-lisp
   (add-hook 'org-agenda-mode-hook 'sal-agenda-setup)
 
   (general-define-key
@@ -479,16 +462,6 @@ https://orgmode.org/
       "oi" 'org-roam-node-insert
       "oc" 'org-roam-dailies-capture-today
       "od" 'org-roam-dailies-goto-date))
-
-#+end_src
-* MU4E
-Email via emacs
-* Kubernetes
-** Kubel.el
-#+begin_src emacs-lisp
-
-  (use-package kubel)
-
 #+end_src
 * Terraform
 #+begin_src emacs-lisp
@@ -496,7 +469,6 @@ Email via emacs
 #+end_src
 * Project/file management
 #+begin_src emacs-lisp
-
   (leader-keys
     "sp" 'deadgrep
     "fe" 'neotree-projectile-action
@@ -506,11 +478,9 @@ Email via emacs
     "fs" 'evil-write-all
     "fy" 'show-file-name
     "f.s" 'save-buffer)
-
 #+end_src
 ** Projectile
 #+begin_src emacs-lisp
-
   (use-package projectile
     :diminish projectile-mode
     :bind ("M-," . projectile-find-file)
@@ -522,12 +492,10 @@ Email via emacs
     "," 'projectile-find-file
     "po" 'projectile-switch-project
     "pv" 'dired-jump)
-
 #+end_src
 ** Dired
 Directory Editor--a file manager
 #+begin_src emacs-lisp
-
   (setq delete-by-moving-to-trash t
         trash-directory "~/.Trash/")
 
@@ -566,11 +534,9 @@ Directory Editor--a file manager
       (after dired-after-updating-hook first () activate)
     "Sort dired listings with directories first before adding marks."
     (mydired-sort))
-
 #+end_src
 ** Magit
 #+begin_src emacs-lisp
-
   (setq auto-revert-check-vc-info t) ;; modeline integration
 
   (use-package magit
@@ -598,11 +564,9 @@ Directory Editor--a file manager
                           nil t))))  ; the t is important
 
   (leader-keys "gs" 'magit-status)
-
 #+end_src
 ** Neotree / Treemacs
 #+begin_src emacs-lisp
-
   (use-package treemacs
     :defer 1
     :bind (("C-c f j" . treemacs-find-file))
@@ -639,11 +603,9 @@ Directory Editor--a file manager
              "h" 'neotree-select-up-node
              "l" 'neotree-enter
              "q" 'neotree-hide))
-
 #+end_src
 * Buffer management
 #+begin_src emacs-lisp
-
   (global-set-key (kbd "C-;") 'ibuffer)
   (global-set-key (kbd "C-/") 'ibuffer)
 
@@ -663,23 +625,20 @@ Directory Editor--a file manager
   (general-define-key
     :states '(normal visual)
     "s" 'avy-goto-char-2)
-
 #+end_src
 ** Ibuffer
 #+begin_src emacs-lisp
-
   (use-package ibuffer-projectile)
   (add-hook 'ibuffer-hook
       (lambda ()
         (ibuffer-projectile-set-filter-groups)))
 
   (add-hook 'ibuffer-hook #'ibuffer-jump-to-last-buffer)
-
 #+end_src
 ** Perspective.el
 Enables the organization of buffers into "workspaces". Useful when working on multiple projects
-#+begin_src emacs-lisp
 
+#+begin_src emacs-lisp
   (use-package perspective
     :commands persp-state-load
     :custom
@@ -695,11 +654,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     "s/" 'persp-switch
     "ss" 'persp-set-buffer
     "sr" 'persp-rename)
-
 #+end_src
 * Window management
 #+begin_src emacs-lisp
-
   (winner-mode +1)
 
   (defhydra hydra-winner (:timeout 4)
@@ -721,10 +678,10 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     "wk" 'evil-window-up
     "wl" 'evil-window-right
     "w=" 'balance-windows)
-
 #+end_src
 ** Popper.el
 [[https://github.com/karthink/popper][This]] marks some buffers as being popups so you can quickly manage their visibility without disrupting your window layout
+
 #+begin_src emacs-lisp
   (use-package popper
     :config
@@ -737,7 +694,6 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
 #+end_src
 * Terminal in emacs
 #+begin_src emacs-lisp
-
   (use-package vterm
     :commands vterm
     :config
@@ -803,24 +759,11 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
            (other-window 1)
            (sal-cd-project-root)
            (multi-vterm)))
-
-#+end_src
-* YASnippets
-#+begin_src emacs-lisp
-
-  ;; (use-package yasnippet
-  ;;   :bind (:map evil-insert-state-map
-  ;;               ("C-y" . yas-expand))
-  ;;   :config
-  ;;   (yas-global-mode 1)
-  ;;   (setq yas-snippet-dirs
-  ;;       '("~/.emacs.d/snippets")))
-
 #+end_src
 * Tree Sitter
-- https://tree-sitter.github.io/tree-sitter/
-#+begin_src emacs-lisp
+https://tree-sitter.github.io/tree-sitter/
 
+#+begin_src emacs-lisp
   (use-package tree-sitter
     :hook ((typescript-mode . tree-sitter-hl-mode)
            (typescript-tsx-mode . tree-sitter-hl-mode)
@@ -833,12 +776,11 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
     (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
     (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
-
 #+end_src
 * Language Server Protocol
-- https://emacs-lsp.github.io/lsp-mode/
-#+begin_src emacs-lisp
+https://emacs-lsp.github.io/lsp-mode/
 
+#+begin_src emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :config
@@ -908,23 +850,19 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (lsp-ui-peek-list-width 60)
     (lsp-ui-peek-peek-height 25)
     (lsp-ui-peek-fontify 'on-demand))
-
-
 #+end_src
 * Web mode
 #+begin_src emacs-lisp
-
   (use-package web-mode
     :defer 2
     :hook (web-mode . lsp-deferred)
     :mode (("\\.html\\'" . web-mode))
     :commands web-mode)
-
 #+end_src
 * Emmet mode
-- https://www.emmet.io/
-#+begin_src emacs-lisp
+https://www.emmet.io/
 
+#+begin_src emacs-lisp
   (use-package emmet-mode
     :hook ((typescript-tsx-mode . emmet-mode)
            (web-mode . emmet-mode)
@@ -932,23 +870,22 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
            (scss-mode . emmet-mode)))
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
-
 #+end_src
 * REPL
 1. *R*ead the user input.
 2. *E*valuate your code (to work out what you mean).
 3. *P*rint any results (so you can see the computer’s response).
 4. *L*oop back to step 1 (to continue the conversation).
-- https://codewith.mu/en/tutorials/1.0/repl
-#+begin_src emacs-lisp
 
+https://codewith.mu/en/tutorials/1.0/repl
+
+#+begin_src emacs-lisp
   (use-package nodejs-repl
     :config
     (leader-keys
      "rl" 'nodejs-repl-send-line
      "rr" 'nodejs-repl-send-region
      "rb" 'nodejs-repl-send-buffer))
-
 #+end_src
 * Languages
 ** Python
@@ -971,11 +908,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
   (use-package pyvenv
     :config
     (pyvenv-mode 1))
-
 #+end_src
 ** Javascript/Typescript
 #+begin_src emacs-lisp
-
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
 
@@ -988,59 +923,47 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
                                     (lsp-deferred)
                                     ;; (flycheck-add-next-checker 'javascript-eslint 'lsp)
                                     ))))
-
 #+end_src
 ** Vue
 #+begin_src emacs-lisp
-
   (use-package vue-mode :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"))
 
   (use-package vue-mode
     :mode "\\.vue\\'"
     :config
     (add-hook 'vue-mode-hook #'lsp))
-
 #+end_src
 ** C#
 #+begin_src emacs-lisp
-
   (use-package csharp-mode
     :hook ((csharp-mode . lsp-deferred))
     :config
     (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode)))
 
   (setq lsp-csharp-server-path "~/.emacs.d/.cache/lsp/omnisharp-roslyn/latest/run")
-
 #+end_src
 ** Lua
 #+begin_src emacs-lisp
-
   (use-package lua-mode
     :hook ((lua-mode . (lambda ()
                          (lsp-deferred)))))
-
 #+end_src
 ** Rust
 #+begin_src emacs-lisp
-
   (use-package rustic
     :bind (:map rustic-mode-map
                 ("M-j" . lsp-ui-imenu))
     :config
     (setq rustic-lsp-server 'rust-analyzer)
     (setq rustic-format-on-save t))
-
 #+end_src
 * Visuals
 #+begin_src emacs-lisp
-
   (use-package rainbow-mode :config (rainbow-mode)) ;; color in #ffff00
   (use-package pos-tip) ;; for showing tooltips
-
 #+end_src
 ** Modeline
 #+begin_src emacs-lisp
-
   (use-package minions :config (minions-mode))
 
   (defun sal-nano-modeline-default-mode (&optional icon)
@@ -1095,11 +1018,9 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (nano-modeline-inactive ((t (:inherit mode-line-inactive))))
     :config
     (nano-modeline-mode))
-
 #+end_src
 ** Line numbers
 #+begin_src emacs-lisp
-
   (global-hl-line-mode 1)
 
   (add-hook 'prog-mode-hook 'sal-enable-linum)
@@ -1107,66 +1028,61 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
   (global-linum-mode -1)
 
   (setq display-line-numbers 'absolute)
-
 #+end_src
 ** Theme
 #+begin_src emacs-lisp
+    ;; We need to set these in a specific way when running daemon mode
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                    (with-selected-frame frame
+                      (sal/set-font-faces))))
+      (sal/set-font-faces))
 
-        ;; We need to set these in a specific way when running daemon mode
-        (if (daemonp)
-            (add-hook 'after-make-frame-functions
-                      (lambda (frame)
-                        (with-selected-frame frame
-                          (sal/set-font-faces))))
-          (sal/set-font-faces))
+    (setq custom-safe-themes t)
 
-        (setq custom-safe-themes t)
+    (use-package modus-themes
+      :config
+      (load-theme 'modus-vivendi t)
+    ;; Configure the Modus Themes' appearance
+  (setq modus-themes-mode-line '(accented)
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-fringes nil
+        modus-themes-tabs-accented t
+        modus-themes-paren-match '(bold intense)
+        modus-themes-prompts '(bold intense)
+        modus-themes-completions 'opinionated
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-scale-headings t
+        modus-themes-region '(bg-only)
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.4))
+          (2 . (rainbow background 1.3))
+          (3 . (rainbow bold 1.2))
+          (t . (semilight 1.1)))))
 
+    (use-package emojify
+      :hook ((after-init . global-emojify-mode))
+      :config
+      (when (member "Hack Nerd Font" (font-family-list))
+        (set-fontset-font
+         t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+      (setq emojify-display-style 'unicode)
+      (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
 
-        (use-package modus-themes
-          :config
-          (load-theme 'modus-vivendi t)
-        ;; Configure the Modus Themes' appearance
-      (setq modus-themes-mode-line '(accented)
-            modus-themes-bold-constructs t
-            modus-themes-italic-constructs t
-            modus-themes-fringes nil
-            modus-themes-tabs-accented t
-            modus-themes-paren-match '(bold intense)
-            modus-themes-prompts '(bold intense)
-            modus-themes-completions 'opinionated
-            modus-themes-org-blocks 'tinted-background
-            modus-themes-scale-headings t
-            modus-themes-region '(bg-only)
-            modus-themes-headings
-            '((1 . (rainbow overline background 1.4))
-              (2 . (rainbow background 1.3))
-              (3 . (rainbow bold 1.2))
-              (t . (semilight 1.1)))))
+    (use-package doom-themes
+      :init
+      (setq doom-themes-treemacs-theme "doom-colors")
+      :config
+      ;; (load-theme 'doom-gruvbox t)
+      (doom-themes-visual-bell-config))
 
-        (use-package emojify
-          :hook ((after-init . global-emojify-mode))
-          :config
-          (when (member "Hack Nerd Font" (font-family-list))
-            (set-fontset-font
-             t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-          (setq emojify-display-style 'unicode)
-          (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
-
-        (use-package doom-themes
-          :init
-          (setq doom-themes-treemacs-theme "doom-colors")
-          :config
-          ;; (load-theme 'doom-gruvbox t)
-          (doom-themes-visual-bell-config))
-
-        (straight-use-package '(nano-theme :type git :host github
-                                           :repo "rougier/nano-theme"))
-
+    (straight-use-package '(nano-theme :type git :host github
+                                       :repo "rougier/nano-theme"))
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
-
   (use-package dashboard
     :config
     (setq dashboard-set-heading-icons t
@@ -1180,27 +1096,21 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     (dashboard-setup-startup-hook)
     )
 
-  (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
-
+  ;; (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
 #+end_src
 ** Whichkey
 #+begin_src emacs-lisp
-
   (use-package which-key :config (which-key-mode))
-
 #+end_src
 ** Whitespace
 #+begin_src emacs-lisp
-
   (whitespace-mode)
   (use-package whitespace-cleanup-mode
     :config
     (global-whitespace-cleanup-mode))
-
 #+end_src
 * Other settings
 #+begin_src emacs-lisp
-
   ;; Minimal UI
   (scroll-bar-mode -1)
   (tool-bar-mode   -1)
@@ -1247,5 +1157,4 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
   ;; (setq gc-cons-threshold most-positive-fixnum)
 
   (add-hook 'emacs-startup-hook #'sal-display-startup-time)
-
 #+end_src
