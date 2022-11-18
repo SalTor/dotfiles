@@ -329,13 +329,8 @@ https://orgmode.org/
 #+begin_src emacs-lisp
   (add-hook 'org-agenda-mode-hook 'sal-agenda-setup)
 
-  (general-define-key
-   :prefix "C-c"
-   "a" 'air-pop-to-org-agenda
-   "t" 'air-org-agenda-capture
-   "c" 'org-capture)
-
   (use-package org
+    :defer 2
     :hook ((org-mode . sal/org-mode-setup)
            (org-mode . visual-line-mode)
            (org-mode . org-indent-mode)
@@ -441,9 +436,7 @@ https://orgmode.org/
     )
 
   (use-package deft
-    :config
-    (leader-keys
-      'deft)
+    :after (org)
     :custom
     (deft-recursive t)
     (deft-use-filter-string-for-filename t)
@@ -451,6 +444,7 @@ https://orgmode.org/
     (deft-directory "~/org-roam/"))
 
   (use-package org-roam
+    :after (org)
     :custom
     (org-roam-directory "~/org-roam")
     (org-roam-completion-everywhere t)
@@ -461,7 +455,12 @@ https://orgmode.org/
       "of" 'org-roam-node-find
       "oi" 'org-roam-node-insert
       "oc" 'org-roam-dailies-capture-today
-      "od" 'org-roam-dailies-goto-date))
+      "od" 'org-roam-dailies-goto-date)
+    (general-define-key
+     :prefix "C-c"
+     "a" 'air-pop-to-org-agenda
+     "t" 'air-org-agenda-capture
+     "c" 'org-capture))
 #+end_src
 * Terraform
 #+begin_src emacs-lisp
