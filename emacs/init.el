@@ -9,7 +9,8 @@
 ;; Initialize package sources
 (require 'package)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+(setq package-archives '(
+                         ;; ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
@@ -49,7 +50,7 @@
  '(avy-keys
     '(104 107 108 121 117 105 111 112 110 109 44 113 119 101 114 116 122 120 99 118 98 97 115 100 103 106 102 59))
  '(company-frontends
-    '(company-tng-frontend company-echo-metadata-frontend company-pseudo-tooltip-frontend))
+    '(company-echo-metadata-frontend company-pseudo-tooltip-frontend))
  '(consult-ripgrep-command
     "rg --files --heading --hidden --follow --smart-case --sort path")
  '(consult-themes nil)
@@ -59,7 +60,6 @@
  '(dired-use-ls-dired 'unspecified)
  '(eglot-send-changes-idle-time 1)
  '(exec-path-from-shell-arguments '("-l"))
- '(flycheck-posframe-border-width 10)
  '(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
  '(lsp-auto-execute-action nil)
@@ -91,9 +91,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(fixed-pitch ((t (:family "Source Code Pro" :height 130 :weight regular))))
- '(flycheck-posframe-background-face ((t nil)))
- '(flycheck-posframe-border-face ((t (:foreground "light green"))))
- '(flycheck-posframe-info-face ((t (:inherit flycheck-posframe-face :foreground "SpringGreen2"))))
  '(helm-rg-file-match-face ((t (:foreground "MediumOrchid1"))))
  '(lsp-details-face ((t (:inherit shadow :height 0.8 :family "Source Code Pro"))))
  '(nano-modeline-active-secondary ((t (:inherit nano-modeline-active))))

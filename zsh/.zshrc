@@ -48,3 +48,7 @@ export PNPM_HOME="/Users/sal/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 eval "$(starship init zsh)"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi

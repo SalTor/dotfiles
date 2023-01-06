@@ -119,10 +119,11 @@ Provides completions as you type in a buffer
 #+begin_src emacs-lisp
   (use-package company
     :custom
-    (company-idle-delay 0)
     (company-dabbrev-downcase nil)
+    :bind (:map company-mode-map
+                ("<Tab>" . company-complete))
     :config
-    (company-tng-mode)
+    ;; (company-tng-mode)
     (setq company-tooltip-align-annotations t
           company-selection-wrap-around t
           company-selection-wrap-around t))
@@ -196,7 +197,7 @@ Via Prettier/Black/Eslint/Editorconfig
             typescript-mode
             typescript-tsx-mode
             css-mode
-            python-mode
+            ;; python-mode
             scss-mode
             vue-mode
             json-mode) . apheleia-mode)
@@ -205,8 +206,7 @@ Via Prettier/Black/Eslint/Editorconfig
     )
 
   (use-package eslintd-fix
-    :hook ((web-mode
-            typescript-mode
+    :hook ((typescript-mode
             typescript-tsx-mode
             css-mode
             scss-mode
@@ -331,8 +331,7 @@ https://orgmode.org/
 
   (use-package org
     :defer 2
-    :hook ((org-mode . sal/org-mode-setup)
-           (org-mode . visual-line-mode)
+    :hook ((org-mode . visual-line-mode)
            (org-mode . org-indent-mode)
            (org-mode . (lambda () (setq-local evil-auto-indent nil))))
     :bind (:map org-mode-map
@@ -411,7 +410,7 @@ https://orgmode.org/
 
             ("j" "Journal"
              entry (file+datetree "~/org/notes/journal.org")
-             "* %U\nWhat did you accomplish?\n- %^{Accomplishment}\n\nWas there anything you didn't do that you wanted to?\n- %^{Incomplete}")
+             "* ")
 
             ("n" "Notes"
              entry (file+datetree "~/org/notes/notes.org")
@@ -855,8 +854,7 @@ https://emacs-lsp.github.io/lsp-mode/
   (use-package web-mode
     :defer 2
     :hook (web-mode . lsp-deferred)
-    :mode (("\\.html\\'" . web-mode))
-    :commands web-mode)
+    :mode (("\\.html\\'" . web-mode)))
 #+end_src
 * Emmet mode
 https://www.emmet.io/
@@ -955,6 +953,11 @@ https://codewith.mu/en/tutorials/1.0/repl
     :config
     (setq rustic-lsp-server 'rust-analyzer)
     (setq rustic-format-on-save t))
+#+end_src
+** PHP
+#+begin_src emacs-lisp
+  (use-package php-mode
+    :hook (php-mode . lsp-deferred))
 #+end_src
 * Visuals
 #+begin_src emacs-lisp
