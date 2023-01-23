@@ -956,8 +956,8 @@ https://codewith.mu/en/tutorials/1.0/repl
 #+end_src
 ** PHP
 #+begin_src emacs-lisp
-  (use-package php-mode
-    :hook (php-mode . lsp-deferred))
+  ;; (use-package php-mode
+  ;;   :hook (php-mode . lsp-deferred))
 #+end_src
 * Visuals
 #+begin_src emacs-lisp

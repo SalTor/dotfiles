@@ -82,6 +82,7 @@
  '(treemacs-no-png-images t)
  '(typescript-indent-level 4)
  '(vterm-buffer-name "*vterm*")
+ '(warning-suppress-log-types '((lsp-mode) (perspective)))
  '(warning-suppress-types '((perspective)))
  '(widget-image-enable nil)
  '(x-underline-at-descent-line t))
