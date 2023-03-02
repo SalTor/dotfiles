@@ -16,7 +16,7 @@ source $HOME/dotfiles/zsh/config/custom_scripts.zsh
 
 source $HOME/dotfiles/zsh/config/capsule.zsh
 
-# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[-f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(pyenv init -)"
 
@@ -37,6 +37,9 @@ if [[ -t 0 ]] && [[ -s $HOME/.avn/bin/avn.sh ]]; then
     # . $HOME/.avn/bin/avn.sh
 fi
 
+# Pull in env vars necessary for Capsule development
+# source /Users/sal/.config/cia/.cia_envvars
+
 export PNPM_HOME="/Users/sal/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
@@ -46,9 +49,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
 
-# pnpm
-export PNPM_HOME="/Users/salvatoretorcivia/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
-
 source "$HOME/.cargo/env"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
