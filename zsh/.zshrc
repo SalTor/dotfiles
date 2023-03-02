@@ -1,17 +1,13 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # ZSH_THEME='amuse'
-plugins=(git zsh-autosuggestions starship)
+plugins=(git zsh-autosuggestions)
 
 DEFAULT_USER=`whoami`
 ENABLE_CORRECTION='true'
 
 source $ZSH/oh-my-zsh.sh
-
-source $HOME/dotfiles/zsh/config/path.zsh
-
-source $HOME/.aliases
-
+source $HOME/dotfiles/config/.aliases
 source $HOME/dotfiles/zsh/config/colors.zsh
 source $HOME/dotfiles/zsh/config/misc.zsh
 source $HOME/dotfiles/zsh/config/fzf.zsh
@@ -20,7 +16,7 @@ source $HOME/dotfiles/zsh/config/custom_scripts.zsh
 
 source $HOME/dotfiles/zsh/config/capsule.zsh
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(pyenv init -)"
 
@@ -41,9 +37,6 @@ if [[ -t 0 ]] && [[ -s $HOME/.avn/bin/avn.sh ]]; then
     # . $HOME/.avn/bin/avn.sh
 fi
 
-# Pull in env vars necessary for Capsule development
-source /Users/sal/.config/cia/.cia_envvars
-
 export PNPM_HOME="/Users/sal/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
@@ -52,3 +45,10 @@ eval "$(starship init zsh)"
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
+
+# pnpm
+export PNPM_HOME="/Users/salvatoretorcivia/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+source "$HOME/.cargo/env"

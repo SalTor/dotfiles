@@ -10,3 +10,4 @@ fi
 export PATH=$PATH:$HOME/.rvm/bin
 
 source $HOME/dotfiles/zsh/config/path.zsh
+. "$HOME/.cargo/env"

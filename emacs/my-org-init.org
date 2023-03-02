@@ -96,17 +96,26 @@ Improve Emacs's built-in docs with more contextual info
     :config
     (setq consult-preview-key (kbd "C-\\")))
 
-  (use-package selectrum
-    :bind (:map selectrum-minibuffer-map
-                ("C-j" . selectrum-next-candidate)
-                ("C-k" . selectrum-previous-candidate))
-    :config
-    (selectrum-mode +1))
+  (use-package vertico
+    :straight (:files (:defaults "extensions/*"))
+    :init
+    (vertico-mode))
 
-  (use-package selectrum-prescient
+  (use-package vertico-prescient
     :config
-    (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
-    (prescient-persist-mode +1))  ;; save command history on disk: sorting gets more intelligent over time
+    (vertico-prescient-mode 1))
+
+  ;; (use-package selectrum
+  ;;   :bind (:map selectrum-minibuffer-map
+  ;;               ("C-j" . selectrum-next-candidate)
+  ;;               ("C-k" . selectrum-previous-candidate))
+  ;;   :config
+  ;;   (selectrum-mode +1))
+  ;;
+  ;; (use-package selectrum-prescient
+  ;;   :config
+  ;;   (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
+  ;;   (prescient-persist-mode +1))  ;; save command history on disk: sorting gets more intelligent over time
 
   (use-package marginalia ;; Annotate minibuffer commands
     :after evil
@@ -162,6 +171,7 @@ Provides completions as you type in a buffer
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (flycheck-add-mode 'javascript-eslint 'javascript-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
 
@@ -196,6 +206,7 @@ Via Prettier/Black/Eslint/Editorconfig
     :hook ((web-mode
             typescript-mode
             typescript-tsx-mode
+            javascript-mode
             css-mode
             ;; python-mode
             scss-mode
@@ -208,6 +219,7 @@ Via Prettier/Black/Eslint/Editorconfig
   (use-package eslintd-fix
     :hook ((typescript-mode
             typescript-tsx-mode
+            javascript-mode
             css-mode
             scss-mode
             json-mode) . eslintd-fix-mode))
@@ -772,6 +784,7 @@ https://tree-sitter.github.io/tree-sitter/
     :config
     (tree-sitter-require 'tsx)
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(javascript-mode . tsx))
     (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
     (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
 #+end_src
@@ -868,6 +881,11 @@ https://www.emmet.io/
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
 #+end_src
+* Tailwind
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss"))
+#+end_src
 * REPL
 1. *R*ead the user input.
 2. *E*valuate your code (to work out what you mean).
@@ -915,7 +933,8 @@ https://codewith.mu/en/tutorials/1.0/repl
     :init
     (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
     :config
-    :mode ("\\.tsx?\\'" . typescript-tsx-mode)
+    :mode (("\\.tsx?\\'" . typescript-tsx-mode)
+           ("\\.jsx?\\'" . typescript-tsx-mode))
     :hook ((typescript-tsx-mode . (lambda ()
                                     (lsp-deferred)
                                     ;; (flycheck-add-next-checker 'javascript-eslint 'lsp)
