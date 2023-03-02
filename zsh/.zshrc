@@ -1,7 +1,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # ZSH_THEME='amuse'
-plugins=(git zsh-autosuggestions starship)
+plugins=(git zsh-autosuggestions)
 
 DEFAULT_USER=`whoami`
 ENABLE_CORRECTION='true'
@@ -20,7 +20,7 @@ source $HOME/dotfiles/zsh/config/custom_scripts.zsh
 
 source $HOME/dotfiles/zsh/config/capsule.zsh
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(pyenv init -)"
 
@@ -42,7 +42,7 @@ if [[ -t 0 ]] && [[ -s $HOME/.avn/bin/avn.sh ]]; then
 fi
 
 # Pull in env vars necessary for Capsule development
-source /Users/sal/.config/cia/.cia_envvars
+# source /Users/sal/.config/cia/.cia_envvars
 
 export PNPM_HOME="/Users/sal/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
@@ -52,3 +52,5 @@ eval "$(starship init zsh)"
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
