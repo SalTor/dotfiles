@@ -76,7 +76,7 @@ function! saltor#colors#CheckColorScheme()
         endif
     else
         set background=dark
-        color base16-default-dark
+        " color base16-default-dark
         echo "Config file not found" . s:config
     endif
 

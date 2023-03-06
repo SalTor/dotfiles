@@ -44,9 +44,6 @@ fi
 # Pull in env vars necessary for Capsule development
 # source /Users/sal/.config/cia/.cia_envvars
 
-export PNPM_HOME="/Users/sal/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-
 eval "$(starship init zsh)"
 
 if command -v pyenv 1>/dev/null 2>&1; then
@@ -54,3 +51,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# pnpm
+export PNPM_HOME="/Users/storcivia/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

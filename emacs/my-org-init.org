@@ -959,6 +959,11 @@ https://codewith.mu/en/tutorials/1.0/repl
   ;; (use-package php-mode
   ;;   :hook (php-mode . lsp-deferred))
 #+end_src
+** Prisma
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(prisma-mode :type git :host github :repo "pimeys/emacs-prisma-mode"))
+#+end_src
 * Visuals
 #+begin_src emacs-lisp
   (use-package rainbow-mode :config (rainbow-mode)) ;; color in #ffff00

@@ -66,7 +66,14 @@ install_brew tmux
 install_brew ripgrep
 install_brew coreutils
 install_brew cmake
+install_brew neovim
+install_brew pnpm
+install_brew fzf
 
 touch ~/.profile
 linkdotfile zsh/.zshrc
 linkdotfile zsh/.zprofile
+
+echo "Install fonts RobotoMono + Source Code Pro + Hacknerd + Victormono"
+
+curl -fsSL https://get.pnpm.io/install.sh | sh -
