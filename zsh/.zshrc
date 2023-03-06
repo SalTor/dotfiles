@@ -7,11 +7,7 @@ DEFAULT_USER=`whoami`
 ENABLE_CORRECTION='true'
 
 source $ZSH/oh-my-zsh.sh
-
-source $HOME/dotfiles/zsh/config/path.zsh
-
-source $HOME/.aliases
-
+source $HOME/dotfiles/config/.aliases
 source $HOME/dotfiles/zsh/config/colors.zsh
 source $HOME/dotfiles/zsh/config/misc.zsh
 source $HOME/dotfiles/zsh/config/fzf.zsh
@@ -20,7 +16,7 @@ source $HOME/dotfiles/zsh/config/custom_scripts.zsh
 
 source $HOME/dotfiles/zsh/config/capsule.zsh
 
-source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[-f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(pyenv init -)"
 
@@ -49,6 +45,8 @@ eval "$(starship init zsh)"
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
+
+source "$HOME/.cargo/env"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 

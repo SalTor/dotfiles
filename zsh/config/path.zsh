@@ -1,4 +1,4 @@
-source $HOME/dotfiles/config/.secrets
+[ -f $HOME/dotfiles/config/.secrets ] && source $HOME/dotfiles/config/.secrets
 
 export EDITOR="emacsclient -c -n -a emacs"
 
