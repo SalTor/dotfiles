@@ -62,7 +62,7 @@
  '(eglot-send-changes-idle-time 1)
  '(eldoc-documentation-functions nil t)
  '(exec-path-from-shell-arguments '("-l"))
- '(initial-frame-alist '((fullscreen . maximized)))
+ ;;'(initial-frame-alist '((fullscreen . maximized)))
  '(js2-strict-inconsistent-return-warning nil)
  '(lsp-auto-execute-action nil)
  '(lsp-diagnostics-provider :flycheck)
