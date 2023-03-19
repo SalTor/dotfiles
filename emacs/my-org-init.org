@@ -96,6 +96,8 @@ Improve Emacs's built-in docs with more contextual info
 
   (use-package vertico
     :straight (:files (:defaults "extensions/*"))
+    :config
+    (setq vertico-cycle t)
     :init
     (vertico-mode))
 
