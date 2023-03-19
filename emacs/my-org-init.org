@@ -92,9 +92,7 @@ Improve Emacs's built-in docs with more contextual info
 #+end_src
 * Menu Completion
 #+begin_src emacs-lisp
-  (use-package consult
-    :config
-    (setq consult-preview-key (kbd "C-\\")))
+  (use-package consult)
 
   (use-package vertico
     :straight (:files (:defaults "extensions/*"))
