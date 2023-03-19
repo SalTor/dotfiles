@@ -101,21 +101,10 @@ Improve Emacs's built-in docs with more contextual info
     :init
     (vertico-mode))
 
-  (use-package vertico-prescient
-    :config
-    (vertico-prescient-mode 1))
-
-  ;; (use-package selectrum
-  ;;   :bind (:map selectrum-minibuffer-map
-  ;;               ("C-j" . selectrum-next-candidate)
-  ;;               ("C-k" . selectrum-previous-candidate))
+  ;; (use-package vertico-prescient
   ;;   :config
-  ;;   (selectrum-mode +1))
-  ;;
-  ;; (use-package selectrum-prescient
-  ;;   :config
-  ;;   (selectrum-prescient-mode +1) ;; make sorting and filtering more intelligent
-  ;;   (prescient-persist-mode +1))  ;; save command history on disk: sorting gets more intelligent over time
+  ;;   (vertico-prescient-mode 1)
+  ;;   (prescient-persist-mode +1))
 
   (use-package marginalia ;; Annotate minibuffer commands
     :after evil
