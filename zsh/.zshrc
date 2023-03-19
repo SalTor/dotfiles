@@ -16,7 +16,7 @@ source $HOME/dotfiles/zsh/config/custom_scripts.zsh
 
 source $HOME/dotfiles/zsh/config/capsule.zsh
 
-[-f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(pyenv init -)"
 
