@@ -111,6 +111,27 @@ Improve Emacs's built-in docs with more contextual info
     :config
     (add-to-list 'marginalia-prompt-categories '("Find file" . file))
     (marginalia-mode))
+
+  (use-package fussy
+    :config
+    (push 'fussy completion-styles)
+    (setq
+     ;; For example, project-find-file uses 'project-files which uses
+     ;; substring completion by default. Set to nil to make sure it's using
+     ;; flx.
+     completion-category-defaults nil
+     completion-category-overrides nil))
+
+  (use-package fzf-native
+    :ensure t
+    :straight
+    (fzf-native
+     :repo "dangduc/fzf-native"
+     :host github
+     :files (:defaults "bin"))
+    :config
+    (setq fussy-score-fn 'fussy-fzf-native-score)
+    (fzf-native-load-dyn))
 #+end_src
 * Company mode
 Provides completions as you type in a buffer
@@ -217,6 +238,20 @@ Via Prettier/Black/Eslint/Editorconfig
 #+end_src
 * EVIL mode
 Evil mode provides vim keybindings
+** Evil Collection
+A set of recommeded keybindings for evil-mode
+#+begin_src emacs-lisp
+  (setq evil-want-keybinding nil)
+
+  (use-package evil-collection
+    :custom
+    (evil-collection-magit-state 'emacs)
+    (evil-collection-want-unimpaired-p nil)
+    :config
+    (evil-collection-init))
+#+end_src
+
+** The basics
 #+begin_src emacs-lisp
   ;; Group START --- My evil config uses these packages
   (use-package undo-fu)
@@ -243,21 +278,21 @@ Evil mode provides vim keybindings
   (general-evil-setup t) ;; integrate w/ general.el
 
   (general-define-key
-   :states '(normal)
-   "u"    'undo-fu-only-undo
-   "U"    'undo-fu-only-redo
-   "\C-r" 'undo-fu-only-redo
-   "gm"   'evil-search-word-forward
-   "gl"   'evil-end-of-line
-   "gh"   'evil-beginning-of-line)
+    :states '(normal)
+    "u"    'undo-fu-only-undo
+    "U"    'undo-fu-only-redo
+    "\C-r" 'undo-fu-only-redo
+    "gm"   'evil-search-word-forward
+    "gl"   'evil-end-of-line
+    "gh"   'evil-beginning-of-line)
 
   (define-key evil-normal-state-map (kbd "[ SPC") 'insert-line-above)
   (define-key evil-normal-state-map (kbd "] SPC") 'insert-line-below)
 
   (general-define-key
-   :states '(visual)
-   "J" 'drag-stuff-down
-   "K" 'drag-stuff-up)
+    :states '(visual)
+    "J" 'drag-stuff-down
+    "K" 'drag-stuff-up)
 
   ;; Use <escape> like you use <C-g> across emacs
   (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
@@ -290,20 +325,6 @@ Evil mode provides vim keybindings
           evil-goggles-enable-record-macro nil))
 
   (use-package evil-nerd-commenter)
-#+end_src
-** Evil Collection
-A set of recommeded keybindings for evil-mode
-#+begin_src emacs-lisp
-
-  (setq evil-want-keybinding nil)
-
-  (use-package evil-collection
-    :custom
-    (evil-collection-magit-state 'emacs)
-    (evil-collection-want-unimpaired-p nil)
-    :config
-    (evil-collection-init))
-
 #+end_src
 ** Evil leader
 =<leader>= key for evil-mode
@@ -451,10 +472,11 @@ https://orgmode.org/
     :config
     (org-roam-db-autosync-mode)
     (leader-keys
-      "or" 'org-roam
+      "or" 'org-roam-buffer-toggle
       "of" 'org-roam-node-find
       "oi" 'org-roam-node-insert
       "oc" 'org-roam-dailies-capture-today
+      "ot" 'org-roam-dailies-goto-today
       "od" 'org-roam-dailies-goto-date)
     (general-define-key
      :prefix "C-c"
@@ -519,7 +541,7 @@ Directory Editor--a file manager
   (use-package all-the-icons
     :custom ((all-the-icons-dired-monochrome nil)))
   (use-package all-the-icons-dired
-    :hook (dired-mode . all-the-icons-dired-mode))
+    :hook ((dired-mode . all-the-icons-dired-mode)))
 
   (defun mydired-sort ()
     "Sort dired listings with directories first."
@@ -579,8 +601,8 @@ Directory Editor--a file manager
   (use-package treemacs-evil
     :after treemacs)
 
-  (use-package treemacs-icons-dired
-    :hook (treemacs-icons-dired))
+  ;; (use-package treemacs-icons-dired
+  ;;   :hook ((dired-mode . treemacs-icons-dired-mode)))
 
   (use-package neotree
     :ensure t
@@ -855,8 +877,8 @@ https://emacs-lsp.github.io/lsp-mode/
 #+begin_src emacs-lisp
   (use-package web-mode
     :defer 2
-    :hook (web-mode . lsp-deferred)
-    :mode (("\\.html\\'" . web-mode)))
+    :mode (("\\.liquid\\'" . web-mode)
+           ("\\.html\\'" . web-mode)))
 #+end_src
 * Emmet mode
 https://www.emmet.io/
@@ -960,7 +982,9 @@ https://codewith.mu/en/tutorials/1.0/repl
                 ("M-j" . lsp-ui-imenu))
     :config
     (setq rustic-lsp-server 'rust-analyzer)
-    (setq rustic-format-on-save t))
+    (setq rustic-format-on-save t)
+    :custom
+    (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
 #+end_src
 ** PHP
 #+begin_src emacs-lisp
