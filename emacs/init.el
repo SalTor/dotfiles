@@ -67,6 +67,7 @@
  '(lsp-auto-execute-action nil)
  '(lsp-diagnostics-provider :flycheck)
  '(lsp-symbol-highlighting-skip-current t)
+ '(make-backup-files nil)
  '(modus-themes-fringes nil t)
  '(org-cycle-separator-lines -1)
  '(package-selected-packages
