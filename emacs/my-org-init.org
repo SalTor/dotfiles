@@ -676,6 +676,36 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     "ss" 'persp-set-buffer
     "sr" 'persp-rename)
 #+end_src
+** Harpoon
+#+begin_src emacs-lisp
+  (use-package harpoon
+    :straight '(harpoon
+                :type git
+                :host github
+                :repo "otavioschwanck/harpoon.el")
+    :config
+    ;; On vanilla (You can use another prefix instead C-c h)
+
+    ;; You can use this hydra menu that have all the commands
+    (global-set-key (kbd "C-c h") 'harpoon-quick-menu-hydra)
+
+    (leader-keys
+      "m" '(:ignore t :which-key "marks")
+      "mf" 'harpoon-add-file
+      "m/" 'harpoon-toggle-quick-menu
+      "mc" 'harpoon-clear
+      "m RET" 'harpoon-toggle-file
+      "ma" 'harpoon-go-to-1
+      "mda" 'harpoon-delete-1
+      "mr" 'harpoon-go-to-2
+      "mdr" 'harpoon-delete-2
+      "ms" 'harpoon-go-to-3
+      "mds" 'harpoon-delete-3
+      "mt" 'harpoon-go-to-4
+      "mdt" 'harpoon-delete-4
+      )
+    )
+#+end_src
 * Window management
 #+begin_src emacs-lisp
   (winner-mode +1)
