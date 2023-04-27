@@ -59,19 +59,12 @@
     "ts" '(hydra-scroll-page/body :which-key "scroll page"))
 
   (use-package embark ;; Keybinds for minibuffer commands
-    :bind (("C-." . embark-act))
-    :config
-    (embark-define-keymap sal-embark-file-map
-                          "Keymap for actions for tab-bar tabs (when mentioned by name)."
-                          ("-" sal-split-below)
-                          ("/" sal-split-right))
-    (add-to-list 'embark-keymap-alist '(file . sal-embark-file-map))
+    :bind (("C-." . embark-act)))
 
-    (setq embark-action-indicator
-          (lambda (map _target)
-            (which-key--show-keymap "Embark" map nil nil 'no-paging)
-            #'which-key--hide-popup-ignore-command)
-          embark-become-indicator embark-action-indicator))
+  (use-package embark-consult
+    :ensure t ; only need to install it, embark loads it after consult if found
+    :hook
+    (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 * Improved help docs
 Improve Emacs's built-in docs with more contextual info
