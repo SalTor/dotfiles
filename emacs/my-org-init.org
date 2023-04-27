@@ -908,11 +908,6 @@ https://www.emmet.io/
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
 #+end_src
-* Tailwind
-#+begin_src emacs-lisp
-  (straight-use-package
-   '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss"))
-#+end_src
 * REPL
 1. *R*ead the user input.
 2. *E*valuate your code (to work out what you mean).
