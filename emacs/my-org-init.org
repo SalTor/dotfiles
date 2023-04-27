@@ -109,7 +109,6 @@ Improve Emacs's built-in docs with more contextual info
      completion-category-overrides nil))
 
   (use-package fzf-native
-    :ensure t
     :straight
     (fzf-native
      :repo "dangduc/fzf-native"
@@ -504,6 +503,7 @@ https://orgmode.org/
 Directory Editor--a file manager
 #+begin_src emacs-lisp
   (setq delete-by-moving-to-trash t
+        dired-use-ls-dired t
         trash-directory "~/.Trash/")
 
   (let ((gls "/usr/local/bin/gls"))
@@ -591,7 +591,6 @@ Directory Editor--a file manager
   ;;   :hook ((dired-mode . treemacs-icons-dired-mode)))
 
   (use-package neotree
-    :ensure t
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-hide-cursor t
