@@ -204,7 +204,7 @@ Via Prettier/Black/Eslint/Editorconfig
             javascript-mode
             css-mode
             ;; python-mode
-            scss-mode
+            sass-mode
             vue-mode
             json-mode) . apheleia-mode)
     :config
@@ -216,7 +216,7 @@ Via Prettier/Black/Eslint/Editorconfig
             typescript-tsx-mode
             javascript-mode
             css-mode
-            scss-mode
+            sass-mode
             json-mode) . eslintd-fix-mode))
 
   (use-package editorconfig :config (editorconfig-mode 1))
@@ -894,6 +894,9 @@ https://emacs-lsp.github.io/lsp-mode/
     :defer 2
     :mode (("\\.liquid\\'" . web-mode)
            ("\\.html\\'" . web-mode)))
+
+  (use-package sass-mode)
+  (add-to-list 'auto-mode-alist '("\\.scss\\'" . sass-mode))
 #+end_src
 * Emmet mode
 https://www.emmet.io/
@@ -903,7 +906,7 @@ https://www.emmet.io/
     :hook ((typescript-tsx-mode . emmet-mode)
            (web-mode . emmet-mode)
            (css-mode . emmet-mode)
-           (scss-mode . emmet-mode)))
+           (sass-mode . emmet-mode)))
 
   (define-key evil-insert-state-map (kbd "C-,") 'emmet-expand-line)
 #+end_src
