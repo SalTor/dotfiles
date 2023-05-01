@@ -83,6 +83,7 @@ Improve Emacs's built-in docs with more contextual info
   (leader-keys "h" 'help-command)
 #+end_src
 * Menu Completion
+Marginalia for annotating minibuffer commands
 #+begin_src emacs-lisp
   (use-package consult)
 
@@ -93,7 +94,7 @@ Improve Emacs's built-in docs with more contextual info
     :init
     (vertico-mode))
 
-  (use-package marginalia ;; Annotate minibuffer commands
+  (use-package marginalia
     :after evil
     :config
     (add-to-list 'marginalia-prompt-categories '("Find file" . file))
@@ -229,6 +230,7 @@ A set of recommeded keybindings for evil-mode
   (setq evil-want-keybinding nil)
 
   (use-package evil-collection
+    :after evil
     :custom
     (evil-collection-magit-state 'emacs)
     (evil-collection-want-unimpaired-p nil)
@@ -256,9 +258,13 @@ A set of recommeded keybindings for evil-mode
     (evil-split-window-below t)
     (evil-vsplit-window-right t)
     :config
-    (evil-set-initial-state 'Custom-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal)
-    (evil-mode 1))
+    (dolist (p '((minibuffer-inactive-mode . emacs)
+	       (ibuffer-mode . emacs)
+	       (dashboard-mode . normal)
+	       (messages-buffer-mode . normal)))
+    (evil-set-initial-state (car p) (cdr p)))
+    (evil-mode 1)
+    )
 
   (general-evil-setup t) ;; integrate w/ general.el
 
@@ -290,24 +296,24 @@ A set of recommeded keybindings for evil-mode
     :config
     (evil-goggles-mode)
     (setq evil-goggles-duration 0.500
-          evil-goggles-blocking-duration 0.001
-          evil-goggles-async-duration 0.900
-          evil-goggles-enable-paste nil
-          evil-goggles-enable-delete nil
-          evil-goggles-enable-change nil
-          evil-goggles-enable-indent nil
-          evil-goggles-enable-join nil
-          evil-goggles-enable-fill-and-move nil
-          evil-goggles-enable-paste nil
-          evil-goggles-enable-shift nil
-          evil-goggles-enable-surround nil
-          evil-goggles-enable-commentary nil
-          evil-goggles-enable-nerd-commenter nil
-          evil-goggles-enable-replace-with-register nil
-          evil-goggles-enable-set-marker nil
-          evil-goggles-enable-undo nil
-          evil-goggles-enable-redo nil
-          evil-goggles-enable-record-macro nil))
+	  evil-goggles-blocking-duration 0.001
+	  evil-goggles-async-duration 0.900
+	  evil-goggles-enable-paste nil
+	  evil-goggles-enable-delete nil
+	  evil-goggles-enable-change nil
+	  evil-goggles-enable-indent nil
+	  evil-goggles-enable-join nil
+	  evil-goggles-enable-fill-and-move nil
+	  evil-goggles-enable-paste nil
+	  evil-goggles-enable-shift nil
+	  evil-goggles-enable-surround nil
+	  evil-goggles-enable-commentary nil
+	  evil-goggles-enable-nerd-commenter nil
+	  evil-goggles-enable-replace-with-register nil
+	  evil-goggles-enable-set-marker nil
+	  evil-goggles-enable-undo nil
+	  evil-goggles-enable-redo nil
+	  evil-goggles-enable-record-macro nil))
 
   (use-package evil-nerd-commenter)
 #+end_src
@@ -964,6 +970,11 @@ https://codewith.mu/en/tutorials/1.0/repl
                                     ;; (flycheck-add-next-checker 'javascript-eslint 'lsp)
                                     ))))
 #+end_src
+** JSON
+#+begin_src emacs-lisp
+  ;; (defconst json-mode-comments-re (rx (group "//" (zero-or-more nonl) line-end)))
+  ;; (push (list json-mode-comments-re 1 font-lock-comment-face) json-font-lock-keywords-1)
+#+end_src
 ** Vue
 #+begin_src emacs-lisp
   (use-package vue-mode :straight (vue-mode :type git :host github :repo "AdamNiederer/vue-mode"))
@@ -1083,55 +1094,56 @@ https://codewith.mu/en/tutorials/1.0/repl
 #+end_src
 ** Theme
 #+begin_src emacs-lisp
-    ;; We need to set these in a specific way when running daemon mode
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-                  (lambda (frame)
-                    (with-selected-frame frame
-                      (sal/set-font-faces))))
-      (sal/set-font-faces))
+  ;; We need to set these in a specific way when running daemon mode
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (with-selected-frame frame
+                    (sal/set-font-faces))))
+    (sal/set-font-faces))
 
-    (setq custom-safe-themes t)
+  (setq custom-safe-themes t)
 
-    (use-package modus-themes
-      :config
-      (load-theme 'modus-vivendi t)
+  (use-package emojify
+    :hook ((after-init . global-emojify-mode))
+    :config
+    (when (member "Hack Nerd Font" (font-family-list))
+      (set-fontset-font
+       t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+    (setq emojify-display-style 'unicode)
+    (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
+
+  (use-package doom-themes
+    :init
+    (setq doom-themes-treemacs-theme "doom-colors")
+    :config
+    ;; (load-theme 'doom-gruvbox t)
+    (doom-themes-visual-bell-config))
+
+  (straight-use-package '(nano-theme :type git :host github
+                                     :repo "rougier/nano-theme"))
+
+  (use-package modus-themes
+    :config
+    (load-theme 'modus-vivendi t)
     ;; Configure the Modus Themes' appearance
-  (setq modus-themes-mode-line '(accented)
-        modus-themes-bold-constructs t
-        modus-themes-italic-constructs t
-        modus-themes-fringes nil
-        modus-themes-tabs-accented t
-        modus-themes-paren-match '(bold intense)
-        modus-themes-prompts '(bold intense)
-        modus-themes-completions 'opinionated
-        modus-themes-org-blocks 'tinted-background
-        modus-themes-scale-headings t
-        modus-themes-region '(bg-only)
-        modus-themes-headings
-        '((1 . (rainbow overline background 1.4))
-          (2 . (rainbow background 1.3))
-          (3 . (rainbow bold 1.2))
-          (t . (semilight 1.1)))))
-
-    (use-package emojify
-      :hook ((after-init . global-emojify-mode))
-      :config
-      (when (member "Hack Nerd Font" (font-family-list))
-        (set-fontset-font
-         t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-      (setq emojify-display-style 'unicode)
-      (setq emojify-emoji-styles '(unicode))) ; override binding in any mode
-
-    (use-package doom-themes
-      :init
-      (setq doom-themes-treemacs-theme "doom-colors")
-      :config
-      ;; (load-theme 'doom-gruvbox t)
-      (doom-themes-visual-bell-config))
-
-    (straight-use-package '(nano-theme :type git :host github
-                                       :repo "rougier/nano-theme"))
+    (setq modus-themes-mode-line '(accented)
+          modus-themes-bold-constructs t
+          modus-themes-common-palette-overrides
+          '((bg-region bg-ochre) ;; try to replace `bg-ochre' with `bg-lavender', `bg-sage'
+            (fg-region unspecified))
+          modus-themes-italic-constructs t
+          modus-themes-fringes nil
+          modus-themes-tabs-accented t
+          modus-themes-paren-match '(bold intense)
+          modus-themes-prompts '(bold intense)
+          modus-themes-org-blocks 'tinted-background
+          modus-themes-scale-headings t
+          modus-themes-headings
+          '((1 . (rainbow overline background 1.4))
+            (2 . (rainbow background 1.3))
+            (3 . (rainbow bold 1.2))
+            (t . (semilight 1.1)))))
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
@@ -1145,8 +1157,7 @@ https://codewith.mu/en/tutorials/1.0/repl
           dashboard-items '((recents  . 10)
                             (bookmarks . 5)
                             (projects . 5)))
-    (dashboard-setup-startup-hook)
-    )
+    (dashboard-setup-startup-hook))
 
   ;; (add-hook 'dashboard-after-initialize-hook 'air-pop-to-org-agenda)
 #+end_src
