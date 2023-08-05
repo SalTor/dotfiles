@@ -9,4 +9,5 @@ __WINCENT[ITALIC_OFF]=$'\e[23m'
 
 autoload -U colors && colors
 source $HOME/dotfiles/zsh/colors.zsh
+color gruvbox-dark-soft
 # ---- Colors: END ----

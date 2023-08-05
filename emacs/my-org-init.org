@@ -168,20 +168,10 @@ Provides completions as you type in a buffer
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (flycheck-add-mode 'javascript-eslint 'javascript-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-tsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-ts-mode)
+  (flycheck-add-mode 'javascript-eslint 'tsx-ts-mode)
 
   (use-package posframe)
-
-  ;; (use-package flycheck-posframe ;; Show flycheck messages via posframe
-  ;;   :after flycheck
-  ;;   :config
-  ;;   (setq flycheck-posframe-error-prefix "■ ")
-  ;;   (setq flycheck-posframe-info-prefix "■ ")
-  ;;   (setq flycheck-posframe-prefix "■ ")
-  ;;   (setq flycheck-posframe-warning-prefix "■ ")
-
-  ;;   (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
   (use-package flycheck-aspell)
 #+end_src
@@ -199,28 +189,29 @@ Via Prettier/Black/Eslint/Editorconfig
                 :type git
                 :host github
                 :repo "radian-software/apheleia")
-    :hook ((web-mode
-            typescript-mode
-            typescript-tsx-mode
-            javascript-mode
-            css-mode
-            ;; python-mode
-            sass-mode
-            vue-mode
-            json-mode) . apheleia-mode)
-    :config
-    (add-to-list 'apheleia-mode-alist '(typescript-tsx-mode . prettier))
+    ;; :hook ((typescript-ts-mode
+    ;;         tsx-ts-mode
+    ;;         javascript-mode
+    ;;         css-mode
+    ;;         python-mode
+    ;;         sass-mode
+    ;;         vue-mode
+    ;;         jsonc-mode) . apheleia-mode)
+    ;; :config
+    ;; (setf (alist-get 'prettier apheleia-formatters)
+    ;;       '(npx "prettier"
+    ;;             file))
+    ;; (add-to-list 'apheleia-mode-alist '(typescript-ts-mode . prettier))
+    ;; (add-to-list 'apheleia-mode-alist '(tsx-ts-mode . prettier))
     )
+  (apheleia-global-mode +1)
 
-  (use-package eslintd-fix
-    :hook ((typescript-mode
-            typescript-tsx-mode
-            javascript-mode
-            css-mode
-            sass-mode
-            json-mode) . eslintd-fix-mode))
+  ;; (use-package eslintd-fix
+  ;;   :hook ((typescript-ts-mode
+  ;;           tsx-ts-mode) . eslintd-fix-mode))
 
-  (use-package editorconfig :config (editorconfig-mode 1))
+  (use-package editorconfig
+    :config (editorconfig-mode 1))
 #+end_src
 * EVIL mode
 Evil mode provides vim keybindings
@@ -242,7 +233,7 @@ A set of recommeded keybindings for evil-mode
 #+begin_src emacs-lisp
   ;; Group START --- My evil config uses these packages
   (use-package undo-fu)
-  (use-package origami :config (global-origami-mode))
+  ;; (use-package origami :config (global-origami-mode))
   (use-package drag-stuff :config (drag-stuff-mode t)) ;; Used for shortcut to move lines up/down
   ;; Group END
 
@@ -578,7 +569,18 @@ Directory Editor--a file manager
                           #'kill-magit-diff-buffer-in-current-repo
                           nil t))))  ; the t is important
 
-  (leader-keys "gs" 'magit-status)
+  (defhydra hydra-smerge ()
+    "Simple-Merge"
+    ("n" smerge-next "Next conflict")
+    ("p" smerge-prev "Previous conflict")
+    ("l" smerge-keep-lower "Keep lower")
+    ("u" smerge-keep-upper "Keep upper")
+    ("f" nil "finished" :exit t)
+    )
+
+  (leader-keys
+    "gs" 'magit-status
+    "g," '(hydra-smerge/body :which-key "Simple-Merge"))
 #+end_src
 ** Neotree / Treemacs
 #+begin_src emacs-lisp
@@ -656,6 +658,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
     :commands persp-state-load
     :custom
     (persp-state-default-file "~/Documents/perspective-saves")
+    (persp-mode-prefix-key (kbd "C-."))
     :config
     (setq persp-suppress-no-prefix-key-warning t)
     :bind (("M-s" . persp-switch))
@@ -796,7 +799,7 @@ Enables the organization of buffers into "workspaces". Useful when working on mu
            (other-window 1)
            (sal-cd-project-root)
            (multi-vterm))
-    "td" (lambda ()
+    "t-" (lambda ()
            (interactive)
            (split-window-below)
            (other-window 1)
@@ -808,18 +811,51 @@ https://tree-sitter.github.io/tree-sitter/
 
 #+begin_src emacs-lisp
   (use-package tree-sitter
-    :hook ((typescript-mode . tree-sitter-hl-mode)
-           (typescript-tsx-mode . tree-sitter-hl-mode)
-           (python-mode . tree-sitter-hl-mode)))
+    :hook
+    ((css-mode
+      javascript-mode
+      jsonc-mode
+      typescript-ts-mode
+      tsx-ts-mode
+      python-mode
+      rustic-mode
+      html-mode) . tree-sitter-mode)
+    :custom
+    (tree-sitter-debug-jump-buttons t)
+    (tree-sitter-debug-highlight-jump-region t)
+    )
 
   (use-package tree-sitter-langs
     :after tree-sitter
     :config
-    (tree-sitter-require 'tsx)
-    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(javascript-mode . tsx))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-ts-mode . tsx))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-ts-mode . typescript))
     (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust))
+    :hook
+    (tree-sitter-after-on . tree-sitter-hl-mode)
+    )
+
+  (use-package ts-fold
+    :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
+    :config
+    (global-ts-fold-mode)
+    (add-to-list 'ts-fold-range-alist '(tsx-ts-mode
+                                       (jsx_element . ts-fold-range-html)
+                                       (jsx_expression . ts-fold-range-seq)
+                                       (export_clause . ts-fold-range-seq)
+                                       (statement_block . ts-fold-range-seq)
+                                       (object . ts-fold-range-seq)
+                                       (array . ts-fold-range-seq)
+                                       (comment . ts-fold-range-c-like-comment)))
+    (add-to-list 'ts-fold-range-alist '(typescript-ts-mode
+                                       (export_clause . ts-fold-range-seq)
+                                       (statement_block . ts-fold-range-seq)
+                                       (object . ts-fold-range-seq)
+                                       (array . ts-fold-range-seq)
+                                       (comment . ts-fold-range-c-like-comment)))
+    (add-to-list 'ts-fold-summary-parsers-alist
+                 '(tsx-ts-mode . ts-fold-summary-javadoc)))
 #+end_src
 * Language Server Protocol
 https://emacs-lsp.github.io/lsp-mode/
@@ -827,31 +863,39 @@ https://emacs-lsp.github.io/lsp-mode/
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
+    :hook ((typescript-ts-mode
+            tsx-ts-mode) . lsp-deferred)
     :config
     (setq lsp-idle-delay 0.25
-          lsp-auto-guess-root t
+          lsp-auto-guess-root t ;; Automatically guess the project root using projectile/project.
           lsp-restart 'auto-restart
-          lsp-enable-completion-at-point t
+          lsp-completion-enable t
+          lsp-enable-indentation nil
           lsp-enable-symbol-highlighting t
-          lsp-log-io nil ;; Don't log everything = speed
+          lsp-log-io t ;; Don't log everything = speed
           lsp-lens-enable nil
           lsp-headerline-breadcrumb-enable t
-          lsp-signature-auto-activate t
           lsp-modeline-code-actions-enable nil
-          lsp-eslint-enable nil
           lsp-enable-on-type-formatting nil
           lsp-enable-folding t
           lsp-enable-imenu nil
-          lsp-enable-snippet t)
+          lsp-enable-snippet t
+          )
+    ;; (flycheck-add-next-checker 'javascript-eslint 'lsp)
     :custom
+    (lsp-clients-typescript-prefer-use-project-ts-server nil)
+    (lsp-clients-deno-enable-lint nil)
     (lsp-eldoc-enable-hover nil)
     (lsp-eldoc-render-all nil)
     (lsp-enable-which-key-integration t)
     (lsp-rust-analyzer-cargo-watch-command "clippy")
-    (lsp-rust-analyzer-server-display-inlay-hints t))
+    (lsp-rust-Analyzer-server-display-inlay-hints t)
+    )
 
   (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+    (add-hook 'lsp-mode-hook #'yas-minor-mode)
+    (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+    (mapc #'lsp-flycheck-add-mode '(typescript-ts-mode tsx-ts-mode js-mode css-mode vue-html-mode)))
 
   (defun sal/lsp-ui-doc-show ()
     (interactive)
@@ -865,15 +909,9 @@ https://emacs-lsp.github.io/lsp-mode/
 
   (use-package lsp-ui
     :commands lsp-ui-mode
-    :bind (:map lsp-mode-map
-                ("M-d" . xref-find-definitions)
-                ("M-r" . xref-find-references)
-                ("M-t" . lsp-find-type-definition))
     :config
-    (evil-define-key 'normal 'lsp-ui-doc-mode
-      [?K] #'sal/lsp-ui-doc-show)
-    (evil-define-key 'normal 'lsp-ui-doc-frame-mode
-      [?q] #'sal/lsp-ui-doc-hide)
+    (evil-define-key 'normal 'lsp-ui-doc-mode [?K] #'sal/lsp-ui-doc-show)
+    (evil-define-key 'normal 'lsp-ui-doc-frame-mode [?q] #'sal/lsp-ui-doc-hide)
     (setq lsp-ui-doc-enable t
           lsp-ui-doc-show-with-cursor nil
           lsp-ui-doc-show-with-mouse nil
@@ -884,8 +922,7 @@ https://emacs-lsp.github.io/lsp-mode/
           lsp-ui-doc-position 'at-point
           lsp-ui-doc-include-signature t
           lsp-ui-sideline-enable nil
-          lsp-ui-flycheck-enable t
-          lsp-ui-flycheck-live-reporting nil)
+          )
     (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
     (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
     :custom
@@ -904,13 +941,22 @@ https://emacs-lsp.github.io/lsp-mode/
 
   (use-package sass-mode)
   (add-to-list 'auto-mode-alist '("\\.scss\\'" . sass-mode))
+
+  (use-package lsp-tailwindcss
+    :straight (lsp-tailwindcss
+               :type git
+               :host github
+               :repo "merrickluo/lsp-tailwindcss")
+    :init
+    (setq lsp-tailwindcss-add-on-mode t))
 #+end_src
 * Emmet mode
 https://www.emmet.io/
 
 #+begin_src emacs-lisp
   (use-package emmet-mode
-    :hook ((typescript-tsx-mode . emmet-mode)
+    :hook ((typescript-ts-mode . emmet-mode)
+           (tsx-ts-mode . emmet-mode)
            (web-mode . emmet-mode)
            (css-mode . emmet-mode)
            (sass-mode . emmet-mode)))
@@ -948,8 +994,8 @@ https://codewith.mu/en/tutorials/1.0/repl
       ;; (add-to-list 'lsp-enabled-clients 'jedi))
     )
 
-  (add-to-list 'flycheck-checkers 'python-mypy t)
-  (flycheck-add-next-checker 'python-flake8 'python-mypy t)
+  ;; (add-to-list 'flycheck-checkers 'python-mypy t)
+  ;; (flycheck-add-next-checker 'python-flake8 'python-mypy t)
 
   (use-package pyvenv
     :config
@@ -960,21 +1006,23 @@ https://codewith.mu/en/tutorials/1.0/repl
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
 
-  (use-package typescript-mode
-    :init
-    (define-derived-mode typescript-tsx-mode typescript-mode "tsx")
-    :config
-    :mode (("\\.tsx?\\'" . typescript-tsx-mode)
-           ("\\.jsx?\\'" . typescript-tsx-mode))
-    :hook ((typescript-tsx-mode . (lambda ()
-                                    (lsp-deferred)
-                                    ;; (flycheck-add-next-checker 'javascript-eslint 'lsp)
-                                    ))))
+  (use-package tsx-ts-helper-mode
+    :straight (tsx-ts-helper-mode
+               :type git
+               :host codeberg
+               :repo "ckruse/tsx-ts-helper-mode")
+    :commands (tsx-ts-helper-mode)
+    :custom (tsx-ts-helper-mode-keymap-prefix (kbd "C-c C-t"))
+    :hook (tsx-ts-mode . tsx-ts-helper-mode))
 #+end_src
 ** JSON
 #+begin_src emacs-lisp
-  ;; (defconst json-mode-comments-re (rx (group "//" (zero-or-more nonl) line-end)))
-  ;; (push (list json-mode-comments-re 1 font-lock-comment-face) json-font-lock-keywords-1)
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . jsonc-mode))
+  (add-to-list 'auto-mode-alist '("\\.cjs\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'"  . typescript-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
 #+end_src
 ** Vue
 #+begin_src emacs-lisp
@@ -1089,7 +1137,7 @@ https://codewith.mu/en/tutorials/1.0/repl
 
   (add-hook 'prog-mode-hook 'sal-enable-linum)
 
-  (global-linum-mode -1)
+  ;; (global-linum-mode -1)
 
   (setq display-line-numbers 'absolute)
 #+end_src

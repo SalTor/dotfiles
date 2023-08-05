@@ -1,0 +1,6 @@
+echo "clone kickstarter repo"
+echo "cd ~/.config/nvim"
+echo "ln -s ~/dotfiles/coming-back-to-neovim/ftplugin"
+echo "cd ./lua/custom/"
+echo "ln -s ~/dotfiles/coming-back-to-neovim/plugins"
+echo "ln -s ~/dotfiles/coming-back-to-neovim/my-customizations.lua"

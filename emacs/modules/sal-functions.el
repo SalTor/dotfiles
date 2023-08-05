@@ -69,13 +69,13 @@
   (message "[sal] Setting font faces")
 
   (set-face-attribute 'default nil
-    :font "JetBrains Mono" :weight 'regular :height 130)
-    ;; :font "Roboto Mono" :weight 'regular :height 130)
+    ;; :font "JetBrains Mono" :weight 'regular :height 130)
+    :font "Roboto Mono" :weight 'regular :height 130)
   ;; (set-face-attribute 'default nil
   ;; :family "Roboto Mono" :weight 'light :height 130)
   (set-face-attribute 'bold nil
-    :family "JetBrains Mono" :weight 'regular)
-    ;; :family "Roboto Mono" :weight 'regular)
+    ;; :family "JetBrains Mono" :weight 'regular)
+    :family "Roboto Mono" :weight 'regular)
   (set-face-attribute 'italic nil
     :family "Victor Mono" :weight 'light :slant 'italic)
   ;; (set-fontset-font t 'symbol "Apple Color Emoji")
@@ -85,4 +85,4 @@
   ;;   (font-spec :name "Hack Nerd Font" :size 12) nil)
   ;; Use 'prepend for the NS and Mac ports or Emacs will crash.
 
-  (message "[sal] ☑ Font faces set"))
+  (message "[sal] Success: Font faces set"))

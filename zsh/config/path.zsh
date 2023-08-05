@@ -14,6 +14,7 @@ export LIBRARY_PATH=/usr/local/opt/openssl/lib
 export BASE16_SHELL=$HOME/.config/base16-shell/
 export VIM_PLUG_CONFIG=$HOME/.config/nvim/plug-config/
 export NVIM=$HOME/.config/nvim/
+export STARSHIP_CONFIG=~/dotfiles/zsh/config/starship.toml
 
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/Cellar/python@3.7/3.7.9/bin/python3.7
@@ -24,6 +25,7 @@ export PATH=$PATH:/usr/local/Cellar
 export PATH=$PATH:/usr/local/opt/mysql-client/bin
 export PATH=$PATH:/Users/sal/Library/Python/3.8/bin
 export PATH=$PATH:/Users/sal/Library/Python/3.9/bin
+export PATH=$PATH:/Users/storcivia/Library/pnpm
 
 export PATH=$PATH:$HOME/dotfiles/bin
 export PATH=$PATH:$HOME/.cargo/bin

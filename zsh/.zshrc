@@ -28,6 +28,8 @@ if [[ -t 0 ]] && [[ -s "$NVM_DIR/nvm.sh" ]]; then
     . $NVM_DIR/nvm.sh
 fi
 
+# eval "$(fnm env --use-on-cd)"
+
 stty -ixon # Disable ctrl-s and ctrl-q.
 
 if [[ -t 0 ]] && [[ -s $HOME/.avn/bin/avn.sh ]]; then
