@@ -57,3 +57,5 @@ export PATH="$PNPM_HOME:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+[ -f "/Users/storcivia/.ghcup/env" ] && source "/Users/storcivia/.ghcup/env" # ghcup-env

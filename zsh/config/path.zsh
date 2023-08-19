@@ -1,6 +1,7 @@
 [ -f $HOME/dotfiles/config/.secrets ] && source $HOME/dotfiles/config/.secrets
 
-export EDITOR="emacsclient -c -n -a emacs"
+export EDITOR="nvim"
+# export EDITOR="emacsclient -c -n -a emacs"
 
 export ARTIFACTORY_CREDENTIALS_USR=$SECRET_ARTIFACTORY_CREDENTIALS_USR
 export ARTIFACTORY_CREDENTIALS_PSW=$SECRET_ARTIFACTORY_CREDENTIALS_PSW
