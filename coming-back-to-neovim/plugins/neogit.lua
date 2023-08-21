@@ -1,3 +1,5 @@
+require('saltor')
+
 return {
   "NeogitOrg/neogit",
   dependencies = {
@@ -5,5 +7,9 @@ return {
     "nvim-telescope/telescope.nvim", -- optional
     "sindrets/diffview.nvim",        -- optional
   },
-  config = true
+  config = true,
+  init = function()
+    local nmap = SalTor_map_normal
+    nmap('<leader>gs', '<cmd>Neogit<CR>')
+  end
 }

@@ -2,16 +2,8 @@ vim.o.cursorline = true
 vim.o.relativenumber = true
 vim.o.swapfile = false
 
--- CUSTOMIZATIONS I ADDED
-local map = function(mode, keys, cmd, desc, opts)
-  local options = { noremap = true, silent = true, desc = desc }
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  vim.keymap.set(mode, keys, cmd, options)
-  -- vim.api.nvim_set_keymap(mode, keys, cmd, options)
-end
-local nmap = function(keys, cmd, desc, opts)
-  map('n', keys, cmd, desc, opts)
-end
+require('saltor')
+local nmap = SalTor_map_normal
 
 local utils = require "telescope.utils"
 local myfunc = function()
@@ -33,7 +25,6 @@ nmap('<leader><Tab>', '<C-^>', 'Alternate file')
 
 -- f files
 nmap('<leader>fs', ':wa<CR>', 'Save all')
-nmap('<leader>fj', '<cmd>Explore<CR>', 'Explore')
 nmap('<leader>f.s', ':w<CR>', 'Save current file')
 nmap('<leader>f.%', ':so %<CR>', 'Source current file')
 
@@ -48,10 +39,6 @@ nmap('<leader>sf', ':Telescope current_buffer_fuzzy_find<CR>', 'Search file')
 nmap('gm', '*', 'Find next occurrence', { silent = false })
 nmap('gh', '0', 'Start of line')
 nmap('gl', '$', 'End of line')
-
--- g git
-nmap('<leader>gs', ':Git<CR>', 'Git Status')
-nmap('<leader>gd', ':Git diff<CR>', 'Git Diff')
 
 -- w window
 nmap('<leader>w-', ':split<CR><C-w>j', 'Split below')
