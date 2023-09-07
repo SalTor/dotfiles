@@ -1,0 +1,14 @@
+return {}
+-- require('saltor')
+--
+-- return {
+--   "X3eRo0/dired.nvim",
+--   dependencies = {
+--     "MunifTanjim/nui.nvim",
+--   },
+--   config = true,
+--   init = function ()
+--     local nmap = SalTor_map_normal
+--     nmap('<leader>fj', '<cmd>Dired %:p:h<CR>', 'Explore')
+--   end
+-- }

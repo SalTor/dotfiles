@@ -1,6 +1,9 @@
 vim.o.cursorline = true
 vim.o.relativenumber = true
 vim.o.swapfile = false
+vim.o.shiftwidth = 4
+vim.o.tabstop = 4
+vim.o.expandtab = true
 
 require('saltor')
 local nmap = SalTor_map_normal
@@ -49,6 +52,7 @@ nmap('<leader>wk', '<C-w>k', 'Window K')
 nmap('<leader>wl', '<C-w>l', 'Window L')
 nmap('<leader>wq', '<C-w>q', 'Close window')
 nmap('<leader>wo', '<C-w>o', 'Maximize window')
+nmap('<leader>wr', '<C-w>r', 'Rotate windows')
 
 -- h help
 nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')
