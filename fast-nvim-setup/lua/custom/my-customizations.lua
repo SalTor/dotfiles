@@ -7,6 +7,7 @@ vim.o.expandtab = true
 
 require('saltor')
 local nmap = SalTor_map_normal
+local map = SalTor_map
 
 local utils = require "telescope.utils"
 local myfunc = function()
@@ -30,6 +31,7 @@ nmap('<leader><Tab>', '<C-^>', 'Alternate file')
 nmap('<leader>fs', ':wa<CR>', 'Save all')
 nmap('<leader>f.s', ':w<CR>', 'Save current file')
 nmap('<leader>f.%', ':so %<CR>', 'Source current file')
+vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 
 -- b buffers
 nmap('<leader>bd', ':bdelete<CR>', 'Delete buffer')
@@ -39,9 +41,11 @@ nmap('<leader>sp', ':Telescope live_grep<CR>', 'Search project')
 nmap('<leader>sf', ':Telescope current_buffer_fuzzy_find<CR>', 'Search file')
 
 -- g go
-nmap('gm', '*', 'Find next occurrence', { silent = false })
+nmap('gm', '*zz', 'Find next occurrence', { silent = false })
 nmap('gh', '0', 'Start of line')
 nmap('gl', '$', 'End of line')
+map('v', 'gh', '0', 'Start of line')
+map('v', 'gl', '$', 'Start of line')
 
 -- w window
 nmap('<leader>w-', ':split<CR><C-w>j', 'Split below')
@@ -78,16 +82,4 @@ nmap('<leader>cl', ':copen<CR>', 'View quickfix')
 
 nmap('[ ', 'O<ESC>j', 'Create line above')
 nmap('] ', 'o<ESC>k', 'Create line below')
-
-
--- HARPOON
-nmap('<leader>ha', ':lua require("harpoon.mark").add_file()<CR>')
-nmap('`l', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
-nmap('`a', ':lua require("harpoon.ui").nav_file(1)<CR>')
-nmap('`1', ':lua require("harpoon.ui").nav_file(1)<CR>')
-nmap('`r', ':lua require("harpoon.ui").nav_file(2)<CR>')
-nmap('`2', ':lua require("harpoon.ui").nav_file(2)<CR>')
-nmap('`s', ':lua require("harpoon.ui").nav_file(3)<CR>')
-nmap('`3', ':lua require("harpoon.ui").nav_file(3)<CR>')
-nmap('`t', ':lua require("harpoon.ui").nav_file(4)<CR>')
-nmap('`4', ':lua require("harpoon.ui").nav_file(4)<CR>')
+-- nmap('n', 'nzz', 'Next occurrence (centered)')
