@@ -4,6 +4,7 @@ vim.o.swapfile = false
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 vim.o.expandtab = true
+vim.o.scrolloff = 3
 
 require('saltor')
 local nmap = SalTor_map_normal

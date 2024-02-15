@@ -5,6 +5,7 @@ return {
     local nmap = SalTor_map_normal
     nmap("<leader>ha", "<cmd>lua require('harpoon.mark').add_file()<CR>")
     nmap("<leader>hl", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
+    nmap("<leader>nm", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
 
     nmap("<leader>h1", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>")
     nmap("<leader>nn", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>")

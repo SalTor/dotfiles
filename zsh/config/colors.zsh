@@ -7,7 +7,7 @@ typeset -A __WINCENT
 __WINCENT[ITALIC_ON]=$'\e[3m'
 __WINCENT[ITALIC_OFF]=$'\e[23m'
 
-autoload -U colors && colors
-source $HOME/dotfiles/zsh/colors.zsh
-color gruvbox-dark-soft
+# autoload -U colors && colors
+# source $HOME/dotfiles/zsh/colors.zsh
+# color gruvbox-dark-soft
 # ---- Colors: END ----
