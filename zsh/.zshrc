@@ -59,3 +59,4 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [ -f "/Users/storcivia/.ghcup/env" ] && source "/Users/storcivia/.ghcup/env" # ghcup-env
+eval "$(zoxide init zsh)"
