@@ -38,8 +38,25 @@ vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { des
 nmap('<leader>bd', ':bdelete<CR>', 'Delete buffer')
 
 -- s search
+function Sal_SearchProject()
+  local text = vim.getVisualSelection()
+  require("telescope.builtin").live_grep({ default_text = text })
+end
+function vim.getVisualSelection()
+	vim.cmd('noau normal! "vy"')
+	local text = vim.fn.getreg('v')
+	vim.fn.setreg('v', {})
+
+	text = string.gsub(text, "\n", "")
+	if #text > 0 then
+		return text
+	else
+		return ''
+	end
+end
 nmap('<leader>sp', ':Telescope live_grep<CR>', 'Search project')
 nmap('<leader>sf', ':Telescope current_buffer_fuzzy_find<CR>', 'Search file')
+map('v', '<leader>sp', Sal_SearchProject, 'Search project (selection)')
 
 -- g go
 nmap('gm', '*zz', 'Find next occurrence', { silent = false })

@@ -109,7 +109,7 @@ require('lazy').setup({
       return {
         window = {
           completion = require('cmp').config.window.bordered()
-        }
+        },
       }
     end
   },
@@ -545,8 +545,11 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'nvim_lsp' },
-    -- { name = 'luasnip' },
+    { name = "copilot",  group_index = 2 },
+    { name = 'nvim_lsp', group_index = 1 },
+    -- { name = 'vsnip',    group_index = 2 },
+    { name = "buffer",   keyword_length = 4, group_index = 2 },
+    { name = "path",     group_index = 2 },
   },
 }
 
