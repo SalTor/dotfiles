@@ -1,6 +1,8 @@
 return {
   "mhartington/formatter.nvim",
   config = function()
+    local util = require "formatter.util"
+
     local formatterGroup = vim.api.nvim_create_augroup("FormatAutogroup", { clear = true })
     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
       pattern = "*",

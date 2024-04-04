@@ -6,15 +6,15 @@ vim.o.tabstop = 4
 vim.o.expandtab = true
 vim.o.scrolloff = 3
 
-require('saltor')
+require 'saltor'
 local nmap = SalTor_map_normal
 local map = SalTor_map
 
-local utils = require "telescope.utils"
+local utils = require 'telescope.utils'
 local myfunc = function()
-  local git_root = utils.get_os_command_output({ "git", "rev-parse", "--show-toplevel", "%:p:h" })
+  local git_root = utils.get_os_command_output { 'git', 'rev-parse', '--show-toplevel', '%:p:h' }
   print(git_root)
-  if git_root == "0" then
+  if git_root == '0' then
     -- print("we are in a git repo")
   else
     -- print("not in a git repo")
@@ -40,19 +40,19 @@ nmap('<leader>bd', ':bdelete<CR>', 'Delete buffer')
 -- s search
 function Sal_SearchProject()
   local text = vim.getVisualSelection()
-  require("telescope.builtin").live_grep({ default_text = text })
+  require('telescope.builtin').live_grep { default_text = text }
 end
 function vim.getVisualSelection()
-	vim.cmd('noau normal! "vy"')
-	local text = vim.fn.getreg('v')
-	vim.fn.setreg('v', {})
+  vim.cmd 'noau normal! "vy"'
+  local text = vim.fn.getreg 'v'
+  vim.fn.setreg('v', {})
 
-	text = string.gsub(text, "\n", "")
-	if #text > 0 then
-		return text
-	else
-		return ''
-	end
+  text = string.gsub(text, '\n', '')
+  if #text > 0 then
+    return text
+  else
+    return ''
+  end
 end
 nmap('<leader>sp', ':Telescope live_grep<CR>', 'Search project')
 nmap('<leader>sf', ':Telescope current_buffer_fuzzy_find<CR>', 'Search file')
