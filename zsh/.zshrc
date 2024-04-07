@@ -48,7 +48,9 @@ fi
 
 source "$HOME/.cargo/env"
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # pnpm
 export PNPM_HOME="/Users/storcivia/Library/pnpm"
@@ -59,4 +61,8 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [ -f "/Users/storcivia/.ghcup/env" ] && source "/Users/storcivia/.ghcup/env" # ghcup-env
+
+export PATH="$PATH:/root/.local/bin"
 eval "$(zoxide init zsh)"
+
+export PATH="$PATH:/opt/nvim-linux64/bin"
