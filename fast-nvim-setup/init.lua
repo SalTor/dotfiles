@@ -137,6 +137,8 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
+vim.cmd.colorscheme 'catppuccin-frappe'
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -177,6 +179,7 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
 -- [[ Basic Keymaps ]]
 
