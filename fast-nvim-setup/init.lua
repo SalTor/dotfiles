@@ -355,6 +355,8 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
+    local util = require 'lspconfig/util'
+
     if server_name == 'tsserver' then
       local function organize_imports()
         local params = {
@@ -375,6 +377,20 @@ mason_lspconfig.setup_handlers {
           },
         },
       }
+    elseif server_name == 'rust_analyzer' then
+      require('lspconfig').rust_analyzer.setup {
+        on_atttach = on_attach,
+        capabilities = capabilities,
+        filetypes = { 'rust' },
+        root_dir = util.root_pattern 'Cargo.toml',
+        settings = {
+          ['rust_analyzer'] = {
+            cargo = {
+              allFeatures = true,
+            },
+          },
+        },
+      }
     else
       require('lspconfig')[server_name].setup {
         capabilities = capabilities,
@@ -389,16 +405,16 @@ mason_lspconfig.setup_handlers {
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
--- local luasnip = require 'luasnip'
--- require('luasnip.loaders.from_vscode').lazy_load()
--- luasnip.config.setup {}
+local luasnip = require 'luasnip'
+require('luasnip.loaders.from_vscode').lazy_load()
+luasnip.config.setup {}
 
 cmp.setup {
-  -- snippet = {
-  --   expand = function(args)
-  --     -- luasnip.lsp_expand(args.body)
-  --   end,
-  -- },
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -412,8 +428,8 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      -- elseif luasnip.expand_or_locally_jumpable() then
-      --   luasnip.expand_or_jump()
+      elseif luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -421,8 +437,8 @@ cmp.setup {
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      -- elseif luasnip.locally_jumpable(-1) then
-      --   luasnip.jump(-1)
+      elseif luasnip.locally_jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
@@ -431,7 +447,7 @@ cmp.setup {
   sources = {
     { name = 'copilot', group_index = 2 },
     { name = 'nvim_lsp', group_index = 1 },
-    -- { name = 'vsnip',    group_index = 2 },
+    { name = 'vsnip', group_index = 2 },
     { name = 'buffer', keyword_length = 4, group_index = 2 },
     { name = 'path', group_index = 2 },
   },
