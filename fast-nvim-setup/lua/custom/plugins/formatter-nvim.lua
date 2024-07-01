@@ -63,12 +63,20 @@ return {
           require('formatter.filetypes.typescript').prettierd,
         },
 
+        javascript = {
+          require('formatter.filetypes.typescript').prettierd,
+        },
+
         markdown = {
           require('formatter.filetypes.markdown').prettierd,
         },
 
         rust = {
           require('formatter.filetypes.rust').rustfmt(),
+        },
+        python = {
+          require('formatter.filetypes.python').black(),
+          require('formatter.filetypes.python').isort(),
         },
       },
     }
