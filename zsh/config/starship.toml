@@ -1,20 +1,20 @@
-format = """$git_branch$nodejs
-️$directory\
-$git_status$character"""
-
-# [nodejs]
-# format = 'node [$symbol($version)]($style) '
+# format = """$git_branch$nodejs
+# ️$directory\
+# $git_status$character"""
+#
+# # [nodejs]
+# # format = 'node [$symbol($version)]($style) '
+# # symbol = ''
+#
+# [username]
+# format = 'sal'
+#
+# [directory]
+# truncation_symbol = '…/'
+# home_symbol = '~'
+#
+# [git_branch]
+# truncation_length = 16
+# truncation_symbol = '*'
 # symbol = ''
-
-[username]
-format = 'sal'
-
-[directory]
-truncation_symbol = '…/'
-home_symbol = '~'
-
-[git_branch]
-truncation_length = 16
-truncation_symbol = '*'
-symbol = ''
-format = '[$symbol$branch(:$remote_branch)]($style) '
+# format = '[$symbol$branch(:$remote_branch)]($style) '
