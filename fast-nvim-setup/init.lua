@@ -14,6 +14,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.python3_host_prog = '/opt/homebrew/bin/python3'
+
 require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -79,6 +81,13 @@ require('lazy').setup({
   },
 
   { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
+  {
+    'L3MON4D3/LuaSnip',
+    -- follow latest release.
+    version = 'v2.*', -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = 'make install_jsregexp',
+  },
 
   {
     'nvim-telescope/telescope.nvim',
@@ -390,6 +399,25 @@ mason_lspconfig.setup_handlers {
             },
           },
         },
+      }
+    elseif server_name == 'pylsp' then
+      require('lspconfig').pylsp.setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          pylsp = {
+            plugins = {
+              pylsp_black = { enabled = true },
+              isort = { enabled = true, profile = 'black' },
+              autopep8 = { enabled = false },
+              pycodestyle = { enabled = false },
+              -- jedi = {
+              --   environment = '/Users/storcivia/code/etl-pipelines',
+              -- },
+            },
+          },
+        },
+        filetypes = (servers['pylsp'] or {}).filetypes,
       }
     else
       require('lspconfig')[server_name].setup {

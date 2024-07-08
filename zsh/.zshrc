@@ -66,3 +66,4 @@ export PATH="$PATH:/root/.local/bin"
 eval "$(zoxide init zsh)"
 
 export PATH="$PATH:/opt/nvim-linux64/bin"
+source $HOME/dotfiles/zsh/config/path.zsh

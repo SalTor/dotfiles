@@ -18,4 +18,15 @@ return {
     },
     branch = '1.x.x',
   },
+  {
+    'AckslD/swenv.nvim',
+    'linux-cultist/venv-selector.nvim',
+    config = function()
+      require('venv-selector').setup {
+        -- Your options go here
+        -- name = "venv",
+        -- auto_refresh = false
+      }
+    end,
+  },
 }
