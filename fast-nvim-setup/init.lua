@@ -92,11 +92,21 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+        -- This will not install any breaking changes.
+        -- For major updates, this must be adjusted manually.
+        version = '^1.0.0',
+      },
+    },
     config = function()
+      local telescope = require 'telescope'
+
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
-      require('telescope').setup {
+      telescope.setup {
         defaults = {
           mappings = {
             i = {
@@ -106,6 +116,8 @@ require('lazy').setup({
           },
         },
       }
+
+      telescope.load_extension 'live_grep_args'
 
       -- Enable telescope fzf native, if installed
       pcall(require('telescope').load_extension, 'fzf')
@@ -125,6 +137,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+      vim.keymap.set('n', '<leader>fg', require('telescope').extensions.live_grep_args.live_grep_args, { desc = '[S]earch [D]iagnostics (args)' })
     end,
   },
   {
@@ -277,6 +290,10 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+vim.diagnostic.config {
+  float = { border = 'rounded' },
+}
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
@@ -366,6 +383,11 @@ mason_lspconfig.setup_handlers {
   function(server_name)
     local util = require 'lspconfig/util'
 
+    local handlers = {
+      ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
+      ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+    }
+
     if server_name == 'tsserver' then
       local function organize_imports()
         local params = {
@@ -377,6 +399,7 @@ mason_lspconfig.setup_handlers {
       end
 
       require('lspconfig').tsserver.setup {
+        handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
         commands = {
@@ -388,6 +411,7 @@ mason_lspconfig.setup_handlers {
       }
     elseif server_name == 'rust_analyzer' then
       require('lspconfig').rust_analyzer.setup {
+        handlers = handlers,
         on_atttach = on_attach,
         capabilities = capabilities,
         filetypes = { 'rust' },
@@ -402,6 +426,7 @@ mason_lspconfig.setup_handlers {
       }
     elseif server_name == 'pylsp' then
       require('lspconfig').pylsp.setup {
+        handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {
@@ -421,6 +446,7 @@ mason_lspconfig.setup_handlers {
       }
     else
       require('lspconfig')[server_name].setup {
+        handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
         settings = servers[server_name],
@@ -473,7 +499,7 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'copilot', group_index = 2 },
+    { name = 'supermaven', group_index = 2 },
     { name = 'nvim_lsp', group_index = 1 },
     { name = 'vsnip', group_index = 2 },
     { name = 'buffer', keyword_length = 4, group_index = 2 },
