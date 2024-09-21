@@ -18,7 +18,9 @@ source $HOME/dotfiles/zsh/config/capsule.zsh
 
 [ -f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 if [[ -t 0 ]] && [[ -r $NVM_DIR/bash_completion ]]; then
     . $NVM_DIR/bash_completion

@@ -412,7 +412,7 @@ mason_lspconfig.setup_handlers {
     elseif server_name == 'rust_analyzer' then
       require('lspconfig').rust_analyzer.setup {
         handlers = handlers,
-        on_atttach = on_attach,
+        on_attach = on_attach,
         capabilities = capabilities,
         filetypes = { 'rust' },
         root_dir = util.root_pattern 'Cargo.toml',
