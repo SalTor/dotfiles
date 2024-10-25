@@ -81,6 +81,7 @@ nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')
 
 -- e errors
 nmap('<leader>en', ':lua vim.diagnostic.goto_next()<CR>', 'Next Diagnostic')
+nmap('<leader>eo', ':lua vim.diagnostic.open_float()<CR>', 'Open Diagnostic')
 -- nmap('<leader>en', my_goto_next_with::vim.diagnostic.open_float(), 'Next Diagnostic')
 nmap('<leader>ep', ':lua vim.diagnostic.goto_prev()<CR>', 'Prev Diagnostic')
 -- nmap('<leader>ep', my_goto_prev_with::vim.diagnostic.open_float(), 'Prev Diagnostic')

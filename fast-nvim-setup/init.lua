@@ -40,7 +40,10 @@ require('lazy').setup({
     dependencies = { 'hrsh7th/cmp-nvim-lsp' },
     opts = function()
       return {
-        window = { completion = require('cmp').config.window.bordered() },
+        window = {
+          completion = require('cmp').config.window.bordered(),
+        },
+        sources = {},
       }
     end,
   },
@@ -103,6 +106,7 @@ require('lazy').setup({
     },
     config = function()
       local telescope = require 'telescope'
+      local actions = require 'telescope.actions'
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
@@ -112,6 +116,12 @@ require('lazy').setup({
             i = {
               ['<C-u>'] = false,
               ['<C-d>'] = false,
+              ['<C-j>'] = actions.move_selection_next,
+              ['<C-k>'] = actions.move_selection_previous,
+              ['<C-o>'] = function(p_bufnr)
+                require('telescope.actions').send_selected_to_qflist(p_bufnr)
+                vim.cmd.cfdo 'edit'
+              end,
             },
           },
         },
@@ -363,6 +373,20 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+
+  tailwindcss = {
+    tailwindCSS = {
+      experimental = {
+        classRegex = {
+          { '(["\'`][^"\'`]*.*?["\'`])', '["\'`]([^"\'`]*).*?["\'`]' },
+          { 'tv\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+          { 'Styles \\=([^;]*);', "'([^']*)'" },
+          { 'Styles \\=([^;]*);', '"([^"]*)"' },
+          { 'Styles \\=([^;]*);', '\\`([^\\`]*)\\`' },
+        },
+      },
+    },
+  },
 }
 
 -- Setup neovim lua configuration
@@ -500,7 +524,7 @@ cmp.setup {
   },
   sources = {
     { name = 'supermaven', group_index = 2 },
-    { name = 'nvim_lsp', group_index = 1 },
+    { name = 'nvim_lsp', group_index = 1, max_item_count = 15 },
     { name = 'vsnip', group_index = 2 },
     { name = 'buffer', keyword_length = 4, group_index = 2 },
     { name = 'path', group_index = 2 },
