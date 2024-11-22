@@ -83,7 +83,7 @@ require('lazy').setup({
     },
   },
 
-  { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
+  { 'numToStr/Comment.nvim', opts = { mappings = { basic = true, extra = false } } }, -- "gc" to comment visual regions/lines
   {
     'L3MON4D3/LuaSnip',
     -- follow latest release.
@@ -303,12 +303,6 @@ require('nvim-treesitter.configs').setup {
 vim.diagnostic.config {
   float = { border = 'rounded' },
 }
-
--- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)

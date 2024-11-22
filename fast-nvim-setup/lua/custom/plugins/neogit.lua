@@ -7,8 +7,6 @@ return {
   },
   config = true,
   init = function()
-    require 'saltor'
-    local nmap = SalTor_map_normal
-    nmap('<leader>gs', '<cmd>Neogit<CR>')
+    require('saltor').nmap('<leader>gs', '<cmd>Neogit<CR>')
   end,
 }

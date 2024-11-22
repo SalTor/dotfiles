@@ -9,9 +9,7 @@ return {
       require('refactoring').setup()
     end,
   },
-  {
-    'tpope/vim-surround',
-  },
+  { 'tpope/vim-surround' },
   {
     'christoomey/vim-tmux-navigator',
     cmd = {
@@ -38,8 +36,7 @@ return {
   {
     'ThePrimeagen/harpoon',
     config = function()
-      require 'saltor'
-      local nmap = SalTor_map_normal
+      local nmap = require('saltor').nmap
       nmap('<leader>ha', "<cmd>lua require('harpoon.mark').add_file()<CR>")
       nmap('<leader>hl', "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
       nmap('<leader>nm', "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
@@ -69,10 +66,10 @@ return {
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
-  {
-    'ggandor/leap.nvim',
-    config = function()
-      require('leap').add_default_mappings()
-    end,
-  },
+  -- {
+  --   'ggandor/leap.nvim',
+  --   config = function()
+  --     require('leap').add_default_mappings()
+  --   end,
+  -- },
 }

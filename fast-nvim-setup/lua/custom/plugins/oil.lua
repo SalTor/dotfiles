@@ -1,5 +1,4 @@
 -- Oil is a file manager for Neovim
-require 'saltor'
 
 return {
   'stevearc/oil.nvim',
@@ -133,6 +132,6 @@ return {
       },
     }
 
-    SalTor_map_normal('<leader>fj', ':Oil<CR>', 'Folder explorer')
+    require('saltor').nmap('<leader>fj', ':Oil<CR>', 'Folder explorer')
   end,
 }
