@@ -29,6 +29,7 @@ return {
   },
   {
     'numToStr/Comment.nvim',
+    opts = { mappings = { basic = true, extra = false } },
     config = function()
       require('Comment').setup()
     end,

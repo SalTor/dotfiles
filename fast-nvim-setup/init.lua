@@ -83,7 +83,6 @@ require('lazy').setup({
     },
   },
 
-  { 'numToStr/Comment.nvim', opts = { mappings = { basic = true, extra = false } } }, -- "gc" to comment visual regions/lines
   {
     'L3MON4D3/LuaSnip',
     -- follow latest release.
