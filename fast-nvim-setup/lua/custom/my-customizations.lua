@@ -14,7 +14,6 @@ nmap('[ ', 'O<ESC>j', 'Create line above')
 nmap('] ', 'o<ESC>k', 'Create line below')
 nmap('<leader>,', ':Telescope git_files<CR>', 'File finder')
 nmap('<leader>/', ':Telescope buffers<CR>', 'Buffers')
-nmap('<leader><Space>', ':', 'Command mode', { silent = false })
 nmap('<leader>qq', ':qa<CR>', 'Exit')
 nmap('<leader><Tab>', '<C-^>', 'Alternate file')
 -- ^^ Uncategorized ^^
@@ -57,11 +56,6 @@ nmap('<C-l>', ':lopen<CR>', 'Location list')
 nmap('<leader>cn', ':cnext<CR>', 'Next quickfix')
 nmap('<leader>cp', ':cprev<CR>', 'Prev quickfix')
 nmap('<leader>cl', ':copen<CR>', 'View quickfix')
-
--- s search
-nmap('<leader>sp', ':Telescope live_grep<CR>', 'Search project')
-nmap('<leader>sf', ':Telescope current_buffer_fuzzy_find<CR>', 'Search file')
-map('v', '<leader>sp', sal.searchProject, 'Search project (selection)')
 
 -- w window
 nmap('<leader>w-', ':split<CR><C-w>j', 'Split below')

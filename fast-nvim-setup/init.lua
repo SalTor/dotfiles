@@ -118,7 +118,7 @@ require('lazy').setup({
               ['<C-j>'] = actions.move_selection_next,
               ['<C-k>'] = actions.move_selection_previous,
               ['<C-o>'] = function(p_bufnr)
-                require('telescope.actions').send_selected_to_qflist(p_bufnr)
+                actions.send_selected_to_qflist(p_bufnr)
                 vim.cmd.cfdo 'edit'
               end,
             },
@@ -129,24 +129,20 @@ require('lazy').setup({
       telescope.load_extension 'live_grep_args'
 
       -- Enable telescope fzf native, if installed
-      pcall(require('telescope').load_extension, 'fzf')
+      pcall(telescope.load_extension, 'fzf')
 
-      vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-      vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>/', function()
-        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
+      local builtin = require 'telescope.builtin'
+      local themes = require 'telescope.themes'
+      local nmap = require('saltor').nmap
 
-      vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-      -- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>fg', require('telescope').extensions.live_grep_args.live_grep_args, { desc = '[S]earch [D]iagnostics (args)' })
+      nmap('<leader>sp', ':Telescope live_grep<CR>', 'Search project')
+      nmap('<leader>sf', function()
+        builtin.current_buffer_fuzzy_find(themes.get_ivy { previewer = false })
+      end, '[/] Fuzzily search in current buffer')
+
+      nmap('<leader>gf', builtin.git_files, 'Search [G]it [F]iles')
+      nmap('<leader>sh', builtin.help_tags, '[S]earch [H]elp')
+      nmap('<leader>sd', builtin.diagnostics, '[S]earch [D]iagnostics')
     end,
   },
   {
@@ -324,7 +320,6 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
