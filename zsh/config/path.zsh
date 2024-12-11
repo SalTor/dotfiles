@@ -34,6 +34,8 @@ export PATH=$PATH:/usr/homebrew/bin/python3
 export PATH=$PATH:/opt/homebrew/bin/pip3
 export PYENV_ROOT=$HOME/.pyenv
 
+export PATH="/opt/homebrew/opt/php@8.3/bin:$PATH"
+
 export NVM_DIR=$XDG_CONFIG_HOME/nvm
 export NVM_DEFAULT_ALIAS="$NVM_DIR/alias/default"
 export PATH=$PATH:"$NVM_DIR/versions/node/v$(<$NVM_DEFAULT_ALIAS)/bin"
