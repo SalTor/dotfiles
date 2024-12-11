@@ -134,6 +134,8 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       local themes = require 'telescope.themes'
       local nmap = require('saltor').nmap
+      local map = require('saltor').map
+      local searchProject = require('saltor').searchProject
 
       nmap('<leader>sp', ':Telescope live_grep<CR>', 'Search project')
       nmap('<leader>sf', function()
@@ -143,6 +145,7 @@ require('lazy').setup({
       nmap('<leader>gf', builtin.git_files, 'Search [G]it [F]iles')
       nmap('<leader>sh', builtin.help_tags, '[S]earch [H]elp')
       nmap('<leader>sd', builtin.diagnostics, '[S]earch [D]iagnostics')
+      map('v', '<leader>sp', searchProject, 'Search project (selection)')
     end,
   },
   {
