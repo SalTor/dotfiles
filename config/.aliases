@@ -1,3 +1,4 @@
+# vi: ft=shell
 source $HOME/dotfiles/zsh/functions.zsh
 
 alias e='exit'
@@ -14,18 +15,6 @@ if [[ $OSTYPE != darwin* ]]; then
 else
     alias ls='/opt/homebrew/bin/gls -h --group-directories-first'
 fi
-
-# Utils
-alias c='clear'
-alias psaux='ps aux | grep'
-
-alias edit_vim='cd ~/dotfiles/vim/ && vim .vimrc'
-
-alias edit_zsh='cd ~/dotfiles/zsh/ && vim .zshrc'
-alias source_zsh='source ~/.zshrc'
-
-alias edit_tmux='cd ~/dotfiles/tmux/ && vim .tmux.conf'
-alias source_tmux='tmux source ~/.tmux.conf'
 
 alias gbx='git checkout $(gb | fzf)'
 

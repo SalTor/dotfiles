@@ -1,6 +1,0 @@
-name: hbc
-root: ~/capsule/heartbeat-comms-ui/
-attach: true
-windows:
-  - SERVERS: npm run watch-dev
-  - CODE: emacsclient -c -n -a ''

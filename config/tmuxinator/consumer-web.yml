@@ -1,7 +1,0 @@
-name: consumer-web
-root: ~/capsule/consumer-web/
-attach: true
-windows:
-  - SERVER: npm start
-  - CODE: nvim
-  - LAZYGIT: lazygit
