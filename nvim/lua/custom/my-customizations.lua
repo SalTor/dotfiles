@@ -1,5 +1,4 @@
 vim.o.cursorline = true
-vim.o.relativenumber = true
 vim.o.swapfile = false
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
