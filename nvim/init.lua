@@ -17,7 +17,12 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.python3_host_prog = '/opt/homebrew/bin/python3'
 
 require('lazy').setup({
-  'tpope/vim-fugitive',
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      require('saltor').nmap('<leader>gs', '<cmd>Git<CR>')
+    end,
+  },
   'tpope/vim-rhubarb',
 
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
