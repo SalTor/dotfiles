@@ -107,7 +107,13 @@ require('lazy').setup({
       telescope.setup {
         defaults = {
           mappings = {
+            n = {
+              ['<up>'] = false,
+              ['<down>'] = false,
+            },
             i = {
+              ['<up>'] = false,
+              ['<down>'] = false,
               ['<C-u>'] = false,
               ['<C-d>'] = false,
               ['<C-j>'] = actions.move_selection_next,
