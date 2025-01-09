@@ -16,11 +16,12 @@ font-feature = -dlig
 window-padding-x = 10
 window-padding-y = 10
 
-# keybind = global:cmd+/=toggle_quick_terminal
-# quick-terminal-animation-duration = 0.1
-
 mouse-hide-while-typing = true
 
 # My tmux bindings
-# keybind = global:cmd+]=csi:0x02 0x70
-# keybind = global:cmd+]=csi:0x02 0x6E
+# Sends Ctrl-b N for tmux next window
+keybind = cmd+]=text:\x02n
+# Sends Ctrl-b P for tmux previous window
+keybind = cmd+[=text:\x02p
+# Sends Ctrl-b S for tmux show sessions
+keybind = cmd+;=text:\x02s
