@@ -7,8 +7,6 @@ return {
   },
   config = true,
   init = function()
-    require('saltor').nmap('<leader>gs', function()
-      require('neogit').open { kind = 'vsplit' }
-    end)
+    require('saltor').nmap('<leader>gs', require('neogit').open)
   end,
 }
