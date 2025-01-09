@@ -20,7 +20,9 @@ require('lazy').setup({
   {
     'tpope/vim-fugitive',
     config = function()
-      require('saltor').nmap('<leader>gs', '<cmd>Git<CR>')
+      local nmap = require('saltor').nmap
+      -- nmap('<leader>gs', '<cmd>Git<CR>')
+      nmap('<leader>gb', '<cmd>Git blame<CR>')
     end,
   },
   'tpope/vim-rhubarb',
