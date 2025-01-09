@@ -141,6 +141,8 @@ require('lazy').setup({
       nmap('<leader>sh', builtin.help_tags, '[S]earch [H]elp')
       nmap('<leader>sd', builtin.diagnostics, '[S]earch [D]iagnostics')
       map('v', '<leader>sp', searchProject, 'Search project (selection)')
+      nmap('<leader>,', builtin.git_files, 'File finder')
+      nmap('<leader>/', builtin.buffers, 'Buffers')
     end,
   },
   {

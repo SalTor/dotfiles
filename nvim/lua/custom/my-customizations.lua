@@ -11,8 +11,6 @@ local nmap, map = sal.nmap, sal.map
 -- vv Uncategorized vv
 nmap('[ ', 'O<ESC>j', 'Create line above')
 nmap('] ', 'o<ESC>k', 'Create line below')
-nmap('<leader>,', ':Telescope git_files<CR>', 'File finder')
-nmap('<leader>/', ':Telescope buffers<CR>', 'Buffers')
 nmap('<leader>qq', ':qa<CR>', 'Exit')
 nmap('<leader><Tab>', '<C-^>', 'Alternate file')
 -- ^^ Uncategorized ^^
