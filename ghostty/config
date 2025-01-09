@@ -1,0 +1,26 @@
+macos-titlebar-style = hidden
+theme = catppuccin-frappe
+
+# font-family = JetBrainsMono NFM # this is the default
+font-style = Regular
+font-size = 12
+font-thicken = false
+# adjust-cell-height = 0
+
+# Disable ligatures
+font-feature = -liga
+font-feature = -calt
+font-feature = -dlig
+
+# Comfortable margins
+window-padding-x = 10
+window-padding-y = 10
+
+# keybind = global:cmd+/=toggle_quick_terminal
+# quick-terminal-animation-duration = 0.1
+
+mouse-hide-while-typing = true
+
+# My tmux bindings
+# keybind = global:cmd+]=csi:0x02 0x70
+# keybind = global:cmd+]=csi:0x02 0x6E
