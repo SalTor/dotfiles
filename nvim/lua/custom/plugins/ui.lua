@@ -18,6 +18,29 @@ return {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
+    config = function()
+      require('catppuccin').setup {
+        flavour = 'frappe', -- latte, frappe, macchiato, mocha
+        integrations = {
+          native_lsp = {
+            enabled = true,
+            virtual_text = {
+              errors = { 'italic' },
+              hints = { 'italic' },
+              warnings = { 'italic' },
+              information = { 'italic' },
+            },
+            underlines = {
+              errors = { 'undercurl' },
+              hints = { 'undercurl' },
+              warnings = { 'undercurl' },
+              information = { 'undercurl' },
+            },
+          },
+        },
+      }
+      vim.cmd.colorscheme 'catppuccin'
+    end,
   },
   {
     'stevearc/dressing.nvim',
