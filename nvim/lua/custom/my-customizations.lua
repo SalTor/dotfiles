@@ -25,10 +25,16 @@ nmap('[d', vim.diagnostic.goto_prev, 'Go to previous diagnostic message')
 nmap(']d', vim.diagnostic.goto_next, 'Go to next diagnostic message')
 
 -- e Errors
-nmap('<leader>en', vim.diagnostic.goto_next, 'Next Diagnostic')
-nmap('<leader>eo', vim.diagnostic.open_float, 'Open Diagnostic')
-nmap('<leader>ep', vim.diagnostic.goto_prev, 'Prev Diagnostic')
-nmap('<leader>el', ':lua vim.diagnostic.setloclist(vim.diagnostic.get())<CR>', 'List Diagnostics')
+nmap('<leader>en', function()
+  vim.diagnostic.goto_next { severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN } }
+end, 'Next Diagnostic')
+nmap('<leader>ep', function()
+  vim.diagnostic.goto_prev { severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN } }
+end, 'Prev Diagnostic')
+nmap('<leader>el', function()
+  local errors = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.setloclist(errors)
+end, 'List Diagnostics')
 
 -- f files
 nmap('<leader>fs', ':wa<CR>', 'Save all')
