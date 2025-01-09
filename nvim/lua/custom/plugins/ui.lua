@@ -110,14 +110,16 @@ return {
     end,
   },
   {
-    'nvim-treesitter/nvim-treesitter-context',
+    'nvim-treesitter/nvim-treesitter-context', -- Shows which function you're in the middle of
     init = function()
-      require('treesitter-context').setup {
-        enable = true,
-      }
-      vim.keymap.set('n', '[c', function()
-        require('treesitter-context').go_to_context(vim.v.count1)
-      end, { silent = true })
+      local tsctx = require 'treesitter-context'
+      local nmap = require('saltor').nmap
+
+      tsctx.setup { enable = true }
+
+      nmap('[c', function()
+        tsctx.go_to_context(vim.v.count1)
+      end, 'Go to start of context', { silent = true })
     end,
   },
   -- Only installing this as a dependency of something else
