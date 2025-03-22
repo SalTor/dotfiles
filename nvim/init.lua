@@ -123,9 +123,10 @@ require('lazy').setup({
               ['<C-d>'] = false,
               ['<C-j>'] = actions.move_selection_next,
               ['<C-k>'] = actions.move_selection_previous,
-              ['<C-o>'] = function(p_bufnr)
-                actions.send_selected_to_qflist(p_bufnr)
+              ['<C-q>'] = function(p_bufnr)
+                actions.smart_send_to_qflist(p_bufnr)
                 vim.cmd.cfdo 'edit'
+                actions.open_qflist(p_bufnr)
               end,
             },
           },
