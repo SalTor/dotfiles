@@ -2,10 +2,10 @@ macos-titlebar-style = hidden
 theme = catppuccin-frappe
 
 # font-family = JetBrainsMono NFM # this is the default
-font-style = Regular
+# font-style = Regular
 font-size = 12
 font-thicken = false
-# adjust-cell-height = 0
+freetype-load-flags=no-hinting
 
 # Disable ligatures
 font-feature = -liga
