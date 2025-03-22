@@ -114,10 +114,14 @@ return {
     init = function()
       local tsctx = require 'treesitter-context'
       local nmap = require('saltor').nmap
+      local map = require('saltor').map
 
       tsctx.setup { enable = true }
 
       nmap('[c', function()
+        tsctx.go_to_context(vim.v.count1)
+      end, 'Go to start of context', { silent = true })
+      map('v', '[c', function()
         tsctx.go_to_context(vim.v.count1)
       end, 'Go to start of context', { silent = true })
     end,
