@@ -43,7 +43,12 @@ require('lazy').setup({
     end,
   },
 
-  { 'folke/which-key.nvim', opts = {} },
+  {
+    'folke/which-key.nvim',
+    opts = {
+      delay = 1000,
+    },
+  },
 
   {
     'lewis6991/gitsigns.nvim',
