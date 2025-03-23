@@ -89,6 +89,7 @@ require('lazy').setup({
     version = 'v2.*', -- Replace <CurrentMajor> by the latest released major (first number of latest release)
     -- install jsregexp (optional!).
     build = 'make install_jsregexp',
+    dependencies = { 'rafamadriz/friendly-snippets', 'saadparwaiz1/cmp_luasnip' },
   },
 
   {
@@ -232,7 +233,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load { paths = { './snippets' } }
 luasnip.config.setup {}
 
 cmp.setup {
@@ -271,11 +272,11 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'supermaven', group_index = 2 },
-    { name = 'nvim_lsp', group_index = 1, max_item_count = 15 },
-    { name = 'vsnip', group_index = 2 },
-    { name = 'buffer', keyword_length = 4, group_index = 2 },
-    { name = 'path', group_index = 2 },
+    { name = 'luasnip' },
+    { name = 'nvim_lsp', max_item_count = 5 },
+    { name = 'supermaven' },
+    { name = 'path' },
+    { name = 'buffer', keyword_length = 4 },
   },
 }
 
