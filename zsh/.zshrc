@@ -69,3 +69,6 @@ eval "$(zoxide init zsh)"
 
 export PATH="$PATH:/opt/nvim-linux64/bin"
 source $HOME/dotfiles/zsh/config/path.zsh
+
+# opencode
+export PATH=/Users/storcivia/.opencode/bin:$PATH
