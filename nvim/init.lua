@@ -273,7 +273,13 @@ cmp.setup {
   },
   sources = {
     { name = 'luasnip' },
-    { name = 'nvim_lsp', max_item_count = 5 },
+    {
+      name = 'nvim_lsp',
+      max_item_count = 20,
+      entry_filter = function(entry)
+        return require('cmp').lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+      end,
+    },
     { name = 'supermaven' },
     { name = 'path' },
     { name = 'buffer', keyword_length = 4 },
