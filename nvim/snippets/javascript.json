@@ -1,6 +1,6 @@
 {
   "Pretty Print": {
     "prefix": "pp",
-    "body": "console.debug(JSON.stringify($1, null, 2))"
+    "body": "console.info(JSON.stringify($1, null, 2))"
   }
 }
