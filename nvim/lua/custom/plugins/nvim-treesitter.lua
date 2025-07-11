@@ -83,19 +83,19 @@ return {
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
       end
 
-      local builtin = require 'telescope.builtin'
-
-      nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-      nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+      local telescopeBuiltin = require 'telescope.builtin'
 
       nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-      nmap('gr', builtin.lsp_references, '[G]oto [R]eferences')
-      nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+      nmap('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+      nmap('gra', vim.lsp.buf.code_action, '[C]ode [A]ction')
+      nmap('grr', telescopeBuiltin.lsp_references, '[G]oto [R]eferences')
+      nmap('gri', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+      nmap('g0', vim.lsp.buf.document_symbol, 'Document Symbol')
+
       nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-      nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
-      nmap('<leader>ws', builtin.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-      nmap('<leader>,', builtin.git_files, 'File finder')
-      nmap('<leader>/', builtin.buffers, 'Buffers')
+      nmap('<leader>ws', telescopeBuiltin.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+      nmap('<leader>,', telescopeBuiltin.git_files, 'File finder')
+      nmap('<leader>/', telescopeBuiltin.buffers, 'Buffers')
 
       -- See `:help K` for why this keymap
       nmap('K', vim.lsp.buf.hover, 'Hover Documentation')

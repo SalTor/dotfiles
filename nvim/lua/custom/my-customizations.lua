@@ -26,10 +26,10 @@ nmap('[d', vim.diagnostic.goto_prev, 'Go to previous diagnostic message')
 nmap(']d', vim.diagnostic.goto_next, 'Go to next diagnostic message')
 
 -- e Errors
-nmap('<leader>en', function()
+nmap(']e', function()
   vim.diagnostic.goto_next { severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN } }
 end, 'Next Diagnostic')
-nmap('<leader>ep', function()
+nmap('[e', function()
   vim.diagnostic.goto_prev { severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN } }
 end, 'Prev Diagnostic')
 nmap('<leader>el', function()
@@ -54,13 +54,13 @@ map('v', 'gl', '$', 'Start of line')
 nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')
 
 -- location list
-nmap('<C-n>', ':lnext<CR>', 'Next location')
-nmap('<C-p>', ':lprev<CR>', 'Prev location')
+nmap(']l', ':lnext<CR>', 'Next location')
+nmap('[l', ':lprev<CR>', 'Prev location')
 nmap('<C-l>', ':lopen<CR>', 'Location list')
 
 -- quickfix list
-nmap('<leader>cn', ':cnext<CR>', 'Next quickfix')
-nmap('<leader>cp', ':cprev<CR>', 'Prev quickfix')
+nmap(']q', ':cnext<CR>', 'Next quickfix')
+nmap('[q', ':cprev<CR>', 'Prev quickfix')
 nmap('<leader>cl', ':copen<CR>', 'View quickfix')
 
 -- w window
