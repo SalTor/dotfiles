@@ -221,6 +221,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+vim.keymap.set('n', '<leader>ih', function()
+  local is_enabled = vim.lsp.inlay_hint.is_enabled()
+  if is_enabled then
+    print 'Disabling inline-hints.'
+  else
+    print 'Enabling inline-hints.'
+  end
+  vim.lsp.inlay_hint.enable(not is_enabled)
+end)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
