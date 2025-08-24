@@ -85,6 +85,21 @@ return {
 
       local telescopeBuiltin = require 'telescope.builtin'
 
+      local function dump(o)
+        if type(o) == 'table' then
+          local s = '{ '
+          for k, v in pairs(o) do
+            if type(k) ~= 'number' then
+              k = '"' .. k .. '"'
+            end
+            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+          end
+          return s .. '} '
+        else
+          return tostring(o)
+        end
+      end
+
       nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
       nmap('grn', vim.lsp.buf.rename, '[R]e[n]ame')
       nmap('gra', vim.lsp.buf.code_action, '[C]ode [A]ction')
@@ -162,9 +177,10 @@ return {
     -- Setup neovim lua configuration
     require('neodev').setup()
 
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    -- -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+    -- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     -- Ensure the servers above are installed
     local mason_lspconfig = require 'mason-lspconfig'
