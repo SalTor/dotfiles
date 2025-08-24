@@ -73,3 +73,17 @@ nmap('<leader>wl', '<C-w>l', 'Window L')
 nmap('<leader>wq', '<C-w>q', 'Close window')
 nmap('<leader>wo', '<C-w>o', 'Maximize window')
 nmap('<leader>wr', '<C-w>r', 'Rotate windows')
+-- tmux
+vim.keymap.set('n', '<leader>O', function()
+  require('helpers-tmux').open_or_jump_to_window 'opencode'
+end, { desc = 'Open or jump to Opencode in tmux' })
+
+vim.keymap.set('n', '<leader>gg', function()
+  require('helpers-tmux').open_or_jump_to_window 'lazygit'
+end, { desc = 'Open or jump to Lazygit in tmux' })
+
+vim.keymap.set('n', '<leader>T', function()
+  require('helpers-tmux').open_or_jump_to_window('CI=1 pnpm test', {
+    window_name = 'pnpm test',
+  })
+end, { desc = 'Run tests in tmux' })
