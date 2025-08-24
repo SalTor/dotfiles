@@ -73,6 +73,11 @@ nmap('<leader>wl', '<C-w>l', 'Window L')
 nmap('<leader>wq', '<C-w>q', 'Close window')
 nmap('<leader>wo', '<C-w>o', 'Maximize window')
 nmap('<leader>wr', '<C-w>r', 'Rotate windows')
+
+-- tabs
+nmap('[b', ':tabprevious<cr>', 'Tab left')
+nmap(']b', ':tabnext<cr>', 'Tab right')
+
 -- tmux
 vim.keymap.set('n', '<leader>O', function()
   require('helpers-tmux').open_or_jump_to_window 'opencode'
