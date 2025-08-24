@@ -130,9 +130,9 @@ return {
       -- rust_analyzer = {},
       -- tsserver = {},
       -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-      emmet_ls = {
-        filetypes = { 'html', 'typescriptreact' },
-      },
+      -- emmet_ls = {
+      --   filetypes = { 'html', 'typescriptreact' },
+      -- },
 
       lua_ls = {
         Lua = {
