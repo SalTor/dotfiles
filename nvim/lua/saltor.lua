@@ -38,4 +38,14 @@ function vim.getVisualSelection()
   end
 end
 
+function M.is_inside_git_repo()
+  local handle = io.popen 'git rev-parse --is-inside-work-tree 2>/dev/null'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    return result:match 'true' ~= nil
+  end
+  return false
+end
+
 return M
