@@ -1,23 +1,22 @@
 macos-titlebar-style = hidden
 theme = catppuccin-frappe
 
-# font-family = JetBrainsMono NFM # this is the default
-# font-style = Regular
-font-size = 12
+font-family = Maple Mono NF
+font-size = 15
 font-thicken = true
-freetype-load-flags=no-hinting
+adjust-cell-height = 2
+
+window-padding-x = 10
+window-padding-y = 10
 
 # Disable ligatures
 font-feature = -liga
 font-feature = -calt
 font-feature = -dlig
 
-# Comfortable margins
-window-padding-x = 10
-window-padding-y = 10
-
 mouse-hide-while-typing = true
 
+keybind = ctrl+shift+r=reload_config
 # My tmux bindings
 # Sends Ctrl-b N for tmux next window
 keybind = cmd+]=text:\x02n
