@@ -1,3 +1,5 @@
+local nmap = require('saltor').nmap
+
 local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 vim.diagnostic.config {
@@ -7,10 +9,6 @@ vim.diagnostic.config {
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
-    local function nmap(keys, func, desc)
-      vim.keymap.set('n', keys, func, { buffer = event.buf, desc = desc })
-    end
-
     local telescopeBuiltin = require 'telescope.builtin'
 
     nmap('gd', vim.lsp.buf.definition, 'LSP: [G]oto [D]efinition')
