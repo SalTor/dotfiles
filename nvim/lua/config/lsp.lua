@@ -7,7 +7,7 @@ vim.diagnostic.config {
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
-    local nmap = function(keys, func, desc)
+    local function nmap(keys, func, desc)
       if desc then
         desc = 'LSP: ' .. desc
       end
