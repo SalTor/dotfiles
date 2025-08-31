@@ -48,7 +48,6 @@ end, 'List Diagnostics')
 nmap('<leader>fs', ':wa<CR>', 'Save all')
 nmap('<leader>f.s', ':w<CR>', 'Save current file')
 nmap('<leader>f.%', ':so %<CR>', 'Source current file')
-vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 
 -- g Go
 nmap('gm', '*zz', 'Find next occurrence', { silent = false })
