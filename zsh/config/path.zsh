@@ -10,6 +10,7 @@ export HOMEBREW_GITHUB_API_TOKEN=$HOMEBREW_GITHUB_API_TOKEN
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/.ripgreprc
 export LIBRARY_PATH=/usr/local/opt/openssl/lib
 export BASE16_SHELL=$XDG_CONFIG_HOME/base16-shell/
 export VIM_PLUG_CONFIG=$XDG_CONFIG_HOME/nvim/plug-config/
