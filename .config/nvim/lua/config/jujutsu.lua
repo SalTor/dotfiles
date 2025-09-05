@@ -109,7 +109,8 @@ local function jj_log()
 
   -- drop into terminal-mode so less receives keys
   vim.cmd 'startinsert'
+  -- vim.cmd 'startinsert'
 end
 
-nmap('jd', jj_edit_desc, 'Edit Jujutsu description')
-nmap('jl', jj_log, 'Jujutsu log')
+nmap('<leader>jd', jj_edit_desc, 'Edit Jujutsu description')
+nmap('<leader>jl', jj_log, 'Jujutsu log')
