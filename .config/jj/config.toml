@@ -1,0 +1,60 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[ui]
+default-command = ["log", "--limit", "8"]
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+# diff-editor = ["git", "diff", "--no-index", "$left", "$right", "|", "git-split-diffs", "--color"]
+paginate = "never"
+
+[user]
+name = "saltor"
+email = "storcivia@fastgrowingtrees.com"
+
+[defaults]
+log.limit = 8
+
+[revsets]
+log = 'stack(mine() | @) | trunk() | @ | git_head()::'
+
+[revset-aliases]
+"immutable_heads()" = "builtin_immutable_heads() | remote_bookmarks()"
+
+"recent_work" = "ancestors(visible_heads(), 3) & mutable()"
+"user(x)" = 'author(x) | committer(x)'
+
+"mine()" = 'user("storcivia@fastgrowingtrees.com") | user("github+0019@saltor.nyc")'
+
+# stack(x, n) is the set of mutable commits reachable from 'x', with 'n'
+# parents. 'n' is often useful to customize the display and return set for
+# certain operations. 'x' can be used to target the set of 'roots' to traverse,
+# e.g. @ is the current stack.
+'stack()' = 'stack(@)'
+'stack(x)' = 'stack(x, 2)'
+'stack(x, n)' = 'ancestors(reachable(x, mutable()), n)'
+
+# The current set of "open" works. It is defined as: all stacks that are
+# reachable from my working copy, or any other commit I wrote.
+# n = 1, meaning that nothing from `trunk()` is included, so all resulting
+# commits are mutable by definition.
+'open()' = 'stack(mine() | @, 1)'
+
+[template-aliases]
+# template to add names of modified files to log entry for mutable entries
+log_with_files = '''
+if(root,
+  format_root_commit(self),
+  label(if(current_working_copy, "working_copy"),
+    concat(
+      format_short_commit_header(self) ++ "\n",
+      separate(" ",
+        if(empty, label("empty", "(empty)")),
+        if(description,
+          description.first_line(),
+          label(if(empty, "empty"), description_placeholder),
+        ),
+      ) ++ "\n",
+      if(self.contained_in("recent_work"), diff.summary()),
+    ),
+  )
+)
+'''
