@@ -55,4 +55,61 @@ local function jj_edit_desc()
   })
 end
 
+local function jj_log()
+  -- Toggle: if a jjlog terminal is visible, close it
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local b = vim.api.nvim_win_get_buf(win)
+    if vim.api.nvim_buf_is_loaded(b) and vim.bo[b].buftype == 'terminal' and vim.bo[b].filetype == 'jjlog' then
+      vim.api.nvim_win_close(win, true)
+      return
+    end
+  end
+
+  -- Remember current window, open a vsplit, and make it current
+  local prev_win = vim.api.nvim_get_current_win()
+  vim.cmd 'vsplit'
+  local win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_width(win, math.max(20, math.floor(vim.o.columns * 0.30)))
+  vim.wo[win].winfixwidth = true
+
+  -- Ensure the split has a fresh, unnamed buffer and set simple opts
+  vim.cmd 'enew'
+  local buf = vim.api.nvim_get_current_buf()
+  vim.bo[buf].filetype = 'jjlog'
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].swapfile = false
+
+  -- START the terminal job IN THIS WINDOW
+  -- Use env.PAGER so jj uses less; no shell needed
+  local jid = vim.fn.jobstart(
+    { 'jj', 'log', '-r', '::@' }, -- adjust revset as you like
+    {
+      term = true, -- ← attach a real terminal to *current* window
+      env = { PAGER = 'less -R' },
+      on_exit = function(_, _)
+        if vim.api.nvim_win_is_valid(win) then
+          vim.schedule(function()
+            pcall(vim.api.nvim_win_close, win, true)
+          end)
+        end
+      end,
+    }
+  )
+
+  if jid <= 0 then
+    vim.notify('Failed to start `jj log` terminal', vim.log.levels.ERROR)
+    -- go back to previous window if something failed
+    if vim.api.nvim_win_is_valid(prev_win) then
+      vim.api.nvim_set_current_win(prev_win)
+    end
+    return
+  else
+    vim.notify 'Successfully started `jj log` terminal'
+  end
+
+  -- drop into terminal-mode so less receives keys
+  vim.cmd 'startinsert'
+end
+
 nmap('jd', jj_edit_desc, 'Edit Jujutsu description')
+nmap('jl', jj_log, 'Jujutsu log')
