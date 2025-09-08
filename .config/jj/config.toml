@@ -1,7 +1,7 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 [ui]
-default-command = "log"
+default-command = ["log", "--limit", "8"]
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 # diff-editor = ["git", "diff", "--no-index", "$left", "$right", "|", "git-split-diffs", "--color"]
 paginate = "never"
@@ -21,6 +21,7 @@ log = "stack(mine() | @) | trunk() | @"
 
 [revset-aliases]
 "immutable_heads()" = "builtin_immutable_heads()"
+"why_immutable(r)" = "r | roots(r:: & immutable_heads())"
 "closest_bookmark(to)" = "heads(::to & bookmarks())"
 "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:'') & (~empty() | merges()))"
 
