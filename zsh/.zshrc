@@ -21,9 +21,9 @@ if [ -f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-# if [[ "$OSTYPE" == "darwin"* ]]; then
-#     eval "$(/opt/homebrew/bin/brew shellenv)"
-# fi
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # if [ -f "/Users/storcivia/.ghcup/env" ]; then
 #   source "/Users/storcivia/.ghcup/env" # ghcup-env
