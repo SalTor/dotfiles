@@ -1,2 +1,7 @@
 [tools]
 node = "22"
+"ubi:ajeetdsouza/zoxide" = "latest"
+"ubi:pnpm/pnpm" = "latest"
+"aqua:BurntSushi/ripgrep" = "latest"
+"aqua:neovim/neovim" = "latest"
+"ubi:jj-vcs/jj" = "latest"
