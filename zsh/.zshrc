@@ -34,3 +34,5 @@ fi
 export DB_UI_REDSHIFT_PROD="postgresql://redshift-prod-ro.fgt.sdm.network:5439/analyticsprod"
 export DB_UI_REDSHIFT_DEV="postgresql://redshift-dev-rw.fgt.sdm.network:5439/analyticsprod"
 export DB_UI_REDSHIFT_DEV_ADMIN="postgresql://redshift-dev-sqladmin.fgt.sdm.network:5439/analyticsprod"
+
+source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
