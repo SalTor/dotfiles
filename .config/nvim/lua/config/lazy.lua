@@ -27,18 +27,18 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      local function jj_description()
-        local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
-        if first_line then
-          local result = first_line:read '*a'
-          first_line:close()
-          if type(result) == 'string' and string.len(result) > 0 then
-            return result
-          else
-            return '(empty)'
-          end
-        end
-      end
+      -- local function jj_description()
+      --   local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
+      --   if first_line then
+      --     local result = first_line:read '*a'
+      --     first_line:close()
+      --     if type(result) == 'string' and string.len(result) > 0 then
+      --       return result
+      --     else
+      --       return '(empty)'
+      --     end
+      --   end
+      -- end
       require('lualine').setup {
         options = {
           icons_enabled = false,
@@ -46,9 +46,9 @@ require('lazy').setup({
           component_separators = '|',
           section_separators = '',
         },
-        sections = {
-          lualine_b = { jj_description, 'diff', 'diagnostics' },
-        },
+        -- sections = {
+        --   lualine_b = { jj_description, 'diff', 'diagnostics' },
+        -- },
       }
     end,
   },
