@@ -1,20 +1,19 @@
-# format = """$git_branch$nodejs
-# ️$directory\
-# $git_status$character"""
-#
-# # [nodejs]
-# # format = 'node [$symbol($version)]($style) '
-# # symbol = ''
-#
-# [username]
-# format = 'sal'
-#
-# [directory]
-# truncation_symbol = '…/'
-# home_symbol = '~'
-#
-# [git_branch]
-# truncation_length = 16
-# truncation_symbol = '*'
-# symbol = ''
-# format = '[$symbol$branch(:$remote_branch)]($style) '
+format = """${custom.jj_change}\
+️$directory\
+${custom.jj_git_not_insync}\
+$git_status$character"""
+
+[git_commit]
+only_detached = false
+
+[custom.jj_change]
+when = "jj workspace root --ignore-working-copy >/dev/null 2>&1"
+style = "none"                # keep jj’s own ANSI colors
+format = "$output"            # don’t wrap in extra brackets/colors
+command = "jj-change"
+
+[custom.jj_git_notinsync]
+when = '[ -n "${jj_git_head:=$(jj log -T commit_id --no-graph --ignore-working-copy -r HEAD@git)}" ] && [ -n "${git_head:=$(git rev-parse HEAD)}" ] && [ "$git_head" != "$jj_git_head" ]'
+command = 'jj log -T "commit_id.short()" --no-graph --ignore-working-copy -r HEAD@git'
+symbol = 'jj:git≠'
+style = 'bold red'
