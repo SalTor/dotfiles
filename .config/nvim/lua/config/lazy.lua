@@ -27,18 +27,43 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      -- local function jj_description()
-      --   local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
-      --   if first_line then
-      --     local result = first_line:read '*a'
-      --     first_line:close()
-      --     if type(result) == 'string' and string.len(result) > 0 then
-      --       return result
-      --     else
-      --       return '(empty)'
-      --     end
-      --   end
-      -- end
+      local function in_jj_repo()
+        local ok = os.execute 'jj --ignore-working-copy root >/dev/null 2>&1'
+        -- os.execute returns true/nil in Lua 5.4+, or a status code in older versions
+        return ok == true or ok == 0
+      end
+
+      local function jj_state()
+        if in_jj_repo() then
+          local change_id =
+            io.popen [[ jj log -r @ -n1 --ignore-working-copy --no-graph -T "" --stat | tail -n1 | sd "(\d+) files? changed, (\d+) insertions?\(\+\), (\d+) deletions?\(-\)" ' ${1}m ${2}+ ${3}-' | sd " 0." "" ]]
+          if change_id then
+            local result = change_id:read '*a'
+            change_id:close()
+            return result
+          end
+        else
+          return ''
+        end
+      end
+
+      local function jj_description()
+        if in_jj_repo() then
+          local first_line = io.popen 'jj --color=never log --ignore-working-copy --no-graph -r @ -T "description.first_line()" 2>/dev/null'
+          if first_line then
+            local result = first_line:read '*a'
+            first_line:close()
+            if type(result) == 'string' and string.len(result) > 0 then
+              return result
+            else
+              return '(empty)'
+            end
+          end
+        else
+          return ''
+        end
+      end
+
       require('lualine').setup {
         options = {
           icons_enabled = false,
@@ -46,9 +71,9 @@ require('lazy').setup({
           component_separators = '|',
           section_separators = '',
         },
-        -- sections = {
-        --   lualine_b = { jj_description, 'diff', 'diagnostics' },
-        -- },
+        sections = {
+          lualine_b = { jj_state, jj_description, 'diff', 'diagnostics' },
+        },
       }
     end,
   },
