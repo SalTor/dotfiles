@@ -12,6 +12,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local telescopeBuiltin = require 'telescope.builtin'
 
     nmap('gd', vim.lsp.buf.definition, 'LSP: [G]oto [D]efinition')
+    nmap('gy', vim.lsp.buf.type_definition, 'LSP: [G]oto t[y]pe definition')
     nmap('grn', vim.lsp.buf.rename, 'LSP: [R]e[n]ame')
     nmap('gra', vim.lsp.buf.code_action, 'LSP: [C]ode [A]ction')
     nmap('grr', telescopeBuiltin.lsp_references, 'LSP: [G]oto [R]eferences')
