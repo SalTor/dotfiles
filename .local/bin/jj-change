@@ -8,4 +8,4 @@ fi
 
 # Force color because stdout isn't a TTY under Starship
 exec jj --color=always log --ignore-working-copy --no-graph \
-  -r @ -T 'format_short_change_id(change_id)'
+  -r @ -T 'format_short_change_id(change_id) '

@@ -1,7 +1,8 @@
-format = """${custom.jj_change} ${custom.jj_description}\
-️$directory\
-${custom.jj_git_not_insync}\
-$git_status$character"""
+# format = """${custom.jj_change}${custom.jj_description}$directory${custom.jj_git_not_insync}$git_status$character"""
+format = '''
+[┌───────────────────>](bold green) ${custom.jj_change} ${custom.jj_description} ${custom.jj_git_not_insync}
+[│](bold green)$directory$git_status
+[└─$character](bold green)'''
 
 [git_commit]
 only_detached = false
@@ -23,3 +24,4 @@ when = '[ -n "${jj_git_head:=$(jj log -T commit_id --no-graph --ignore-working-c
 command = 'jj log -T "commit_id.short()" --no-graph --ignore-working-copy -r HEAD@git'
 symbol = 'jj:git≠'
 style = 'bold red'
+format = '$output '
