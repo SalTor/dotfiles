@@ -15,6 +15,7 @@ log.limit = 20
 
 [aliases]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@)", "--to", "closest_pushable(@)"]
+logtag = ["log", "-r", "trunk()..@"]
 
 [revsets]
 log = "stack(mine() | @) | trunk() | @"
