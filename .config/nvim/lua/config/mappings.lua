@@ -1,5 +1,5 @@
 local sal = require 'saltor'
-local nmap, map = sal.nmap, sal.map
+local map, nmap, vmap = sal.map, sal.nmap, sal.vmap
 
 -- vv Uncategorized vv
 nmap('[ ', 'O<ESC>j', 'Create line above')
@@ -53,8 +53,8 @@ nmap('<leader>f.%', ':so %<CR>', 'Source current file')
 nmap('gm', '*zz', 'Find next occurrence', { silent = false })
 nmap('gh', '0', 'Start of line')
 nmap('gl', '$', 'End of line')
-map('v', 'gh', '0', 'Start of line')
-map('v', 'gl', '$', 'Start of line')
+vmap('gh', '0', 'Start of line')
+vmap('gl', '$', 'Start of line')
 
 -- h Help
 nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')
