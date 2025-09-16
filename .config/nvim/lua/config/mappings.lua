@@ -9,6 +9,8 @@ nmap('<leader><Tab>', '<C-^>', 'Alternate file')
 nmap('<leader>tr', function()
   vim.o.relativenumber = not vim.o.relativenumber
 end, 'Toggle relativenumber')
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+
 -- ^^ Uncategorized ^^
 
 -- b buffers
