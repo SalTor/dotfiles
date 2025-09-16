@@ -8,6 +8,7 @@ node = "22"
 "ubi:dandavison/delta" = "latest"
 "aqua:helix-editor/helix" = "latest"
 "aqua:chmln/sd" = "latest"
+"core:bun" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
