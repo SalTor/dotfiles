@@ -16,13 +16,16 @@ font-feature = -dlig
 
 mouse-hide-while-typing = true
 
-keybind = ctrl+shift+r=reload_config
+keybind = performable:ctrl+shift+r=reload_config
+
 # My tmux bindings
 # Sends Ctrl-b N for tmux next window
-keybind = cmd+]=text:\x02n
-keybind = cmd+shift+]=text:\x02n
+keybind = cmd+right_bracket=text:\x02n
+keybind = cmd+shift+right_bracket=text:\x02n
+
 # Sends Ctrl-b P for tmux previous window
-keybind = cmd+[=text:\x02p
-keybind = cmd+shift+[=text:\x02p
+keybind = cmd+left_bracket=text:\x02p
+keybind = cmd+shift+left_bracket=text:\x02p
+
 # Sends Ctrl-b S for tmux show sessions
 keybind = cmd+;=text:\x02s
