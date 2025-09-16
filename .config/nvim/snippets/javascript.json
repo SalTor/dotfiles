@@ -1,4 +1,8 @@
 {
+  "console.info": {
+    "prefix": "ci",
+    "body": "console.info($1)"
+  },
   "Pretty Print": {
     "prefix": "pp",
     "body": "console.info(JSON.stringify($1, null, 2))"
