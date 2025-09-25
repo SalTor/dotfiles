@@ -13,8 +13,20 @@ email = "storcivia@fastgrowingtrees.com"
 [defaults]
 log.limit = 20
 
+[merge-tools.diffconflicts]
+program = "nvim"
+merge-args = ["-c", "JJDiffConflicts", "$output"]
+merge-tool-edits-conflict-markers = true
+
 [aliases]
+# Pull the closest bookmark to where the working copy is
 tug = ["bookmark", "move", "--from", "closest_bookmark(@)", "--to", "closest_pushable(@)"]
+
+# 'jj sandwich xyz' to move xyz into the megamerge in parallel to everything
+# else. See notes on 'megamerge()' above for how it's resolved.
+sandwich = [ "rebase", "-B", "megamerge()", "-A", "trunk()", "-r"]
+
+# Log everything between here and where we forked from trunk
 logtag = ["log", "-r", "trunk()..@"]
 
 [revsets]
@@ -25,6 +37,7 @@ log = "stack(mine() | @) | trunk() | @"
 "why_immutable(r)" = "r | roots(r:: & immutable_heads())"
 "closest_bookmark(to)" = "heads(::to & bookmarks())"
 "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:'') & (~empty() | merges()))"
+"chunk(x)" = "heads(::x- & bookmarks())..roots(x:: & bookmarks())"
 
 "recent_work" = "ancestors(visible_heads(), 3) & mutable()"
 "user(x)" = 'author(x) | committer(x)'
@@ -48,3 +61,6 @@ log = "stack(mine() | @) | trunk() | @"
 # n = 1, meaning that nothing from `trunk()` is included, so all resulting
 # commits are mutable by definition.
 "open()" = "stack(mine() | @, 1)"
+
+[template-aliases]
+'format_short_signature(signature)' = ''
