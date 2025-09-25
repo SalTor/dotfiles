@@ -1,0 +1,11 @@
+#!/bin/sh
+# Print the short change-id for @ with colors, or nothing if not in a jj repo.
+
+# Quietly bail if we're not in a jj workspace
+if ! jj workspace root --ignore-working-copy >/dev/null 2>&1; then
+  exit 0
+fi
+
+# Force color because stdout isn't a TTY under Starship
+exec jj --color=always log --ignore-working-copy --no-graph \
+  -r @ -T 'format_short_change_id(change_id)'
