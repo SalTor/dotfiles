@@ -1,22 +1,30 @@
+local nmap = require('saltor').nmap
+
 return {
   {
     'tpope/vim-fugitive',
     config = function()
-      local nmap = require('saltor').nmap
       -- nmap('<leader>gs', '<cmd>Git<CR>')
-      nmap('<leader>gb', '<cmd>Git blame<CR>')
     end,
   },
   {
     'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
+    config = function()
+      local gitsigns = require 'gitsigns'
+
+      gitsigns.setup {
+        signs = {
+          add = { text = '+' },
+          change = { text = '~' },
+          delete = { text = '_' },
+          topdelete = { text = '‾' },
+          changedelete = { text = '~' },
+        },
+      }
+
+      nmap(']h', gitsigns.next_hunk, 'Next hunk')
+      nmap('[h', gitsigns.prev_hunk, 'Prev hunk')
+      nmap('<leader>gb', gitsigns.blame_line, 'Git blame')
+    end,
   },
 }
