@@ -44,6 +44,13 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      per_filetype = {
+        sql = { 'snippets', 'dadbod', 'buffer' },
+      },
+      -- optionally disable cmdline completions
+      providers = {
+        dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
+      },
     },
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
