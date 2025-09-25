@@ -12,6 +12,10 @@ function M.nmap(keys, cmd, desc, opts)
   M.map('n', keys, cmd, desc, opts)
 end
 
+function M.vmap(keys, cmd, desc, opts)
+  M.map('v', keys, cmd, desc, opts)
+end
+
 function M.bnmap(keys, cmd, desc, opts)
   local options = { buffer = true }
   if opts then
