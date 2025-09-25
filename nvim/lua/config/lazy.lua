@@ -15,35 +15,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  {
-    'tpope/vim-fugitive',
-    config = function()
-      local nmap = require('saltor').nmap
-      -- nmap('<leader>gs', '<cmd>Git<CR>')
-      nmap('<leader>gb', '<cmd>Git blame<CR>')
-    end,
-  },
-  'tpope/vim-rhubarb',
-
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   {
     'folke/which-key.nvim',
     opts = {
       delay = 1000,
-    },
-  },
-
-  {
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
     },
   },
 
