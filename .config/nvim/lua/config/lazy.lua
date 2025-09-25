@@ -26,21 +26,17 @@ require('lazy').setup({
 
   {
     'nvim-lualine/lualine.nvim',
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'catppuccin',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
     config = function()
       local function jj_description()
         local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
         if first_line then
           local result = first_line:read '*a'
           first_line:close()
-          return result
+          if type(result) == 'string' and string.len(result) > 0 then
+            return result
+          else
+            return '(empty)'
+          end
         end
       end
       require('lualine').setup {
