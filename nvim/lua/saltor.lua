@@ -20,12 +20,7 @@ function M.bnmap(keys, cmd, desc, opts)
   M.map('n', keys, cmd, desc, options)
 end
 
-function M.searchProject()
-  local text = vim.getVisualSelection()
-  require('telescope.builtin').live_grep { default_text = text }
-end
-
-function vim.getVisualSelection()
+local function getVisualSelection()
   vim.cmd 'noau normal! "vy"'
   local text = vim.fn.getreg 'v'
   vim.fn.setreg('v', {})
@@ -36,6 +31,11 @@ function vim.getVisualSelection()
   else
     return ''
   end
+end
+
+function M.searchProject()
+  local text = getVisualSelection()
+  require('telescope.builtin').live_grep { default_text = text }
 end
 
 function M.is_inside_git_repo()
