@@ -1,10 +1,3 @@
-vim.o.cursorline = true
-vim.o.swapfile = false
-vim.o.shiftwidth = 4
-vim.o.tabstop = 4
-vim.o.expandtab = true
-vim.o.scrolloff = 3
-
 local sal = require 'saltor'
 local nmap, map = sal.nmap, sal.map
 
@@ -22,18 +15,32 @@ end, 'Toggle relativenumber')
 nmap('<leader>bd', ':bdelete<CR>', 'Delete buffer')
 
 -- d Diagnostic
-nmap('[d', vim.diagnostic.goto_prev, 'Go to previous diagnostic message')
-nmap(']d', vim.diagnostic.goto_next, 'Go to next diagnostic message')
+nmap('[d', vim.diagnostic.get_prev, 'Go to previous diagnostic message')
+nmap(']d', vim.diagnostic.get_next, 'Go to next diagnostic message')
 
 -- e Errors
+local severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN }
+
 nmap(']e', function()
-  vim.diagnostic.goto_next { severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN } }
+  local diagnostic = vim.diagnostic.get_next { severity = severity }
+  if diagnostic then
+    vim.diagnostic.jump { diagnostic = diagnostic, float = true }
+  else
+    print 'No diagnostics found.'
+  end
 end, 'Next Diagnostic')
+
 nmap('[e', function()
-  vim.diagnostic.goto_prev { severity = { vim.diagnostic.severity.ERROR, vim.diagnostic.severity.WARN } }
+  local diagnostic = vim.diagnostic.get_prev { severity = severity }
+  if diagnostic then
+    vim.diagnostic.jump { diagnostic = diagnostic, float = true }
+  else
+    print 'No diagnostics found.'
+  end
 end, 'Prev Diagnostic')
+
 nmap('<leader>el', function()
-  local errors = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  local errors = vim.diagnostic.get(0, severity)
   vim.diagnostic.setloclist(errors)
 end, 'List Diagnostics')
 

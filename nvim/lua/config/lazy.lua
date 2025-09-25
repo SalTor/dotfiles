@@ -1,0 +1,155 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
+
+require('lazy').setup({
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      local nmap = require('saltor').nmap
+      -- nmap('<leader>gs', '<cmd>Git<CR>')
+      nmap('<leader>gb', '<cmd>Git blame<CR>')
+    end,
+  },
+  'tpope/vim-rhubarb',
+
+  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+
+  {
+    'folke/which-key.nvim',
+    opts = {
+      delay = 1000,
+    },
+  },
+
+  {
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+    },
+  },
+
+  {
+    'nvim-lualine/lualine.nvim',
+    opts = {
+      options = {
+        icons_enabled = false,
+        theme = 'catppuccin',
+        component_separators = '|',
+        section_separators = '',
+      },
+    },
+  },
+
+  {
+    'L3MON4D3/LuaSnip',
+    -- follow latest release.
+    version = 'v2.*', -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = 'make install_jsregexp',
+    dependencies = { 'rafamadriz/friendly-snippets', 'saadparwaiz1/cmp_luasnip' },
+  },
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make',
+    cond = function()
+      return vim.fn.executable 'make' == 1
+    end,
+  },
+
+  {
+    'julienvincent/hunk.nvim',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'nvim-mini/mini.icons',
+    },
+    cmd = { 'DiffEditor' },
+    config = function()
+      local hunk = require 'hunk'
+      hunk.setup {
+        keys = {
+          global = {
+            quit = { 'q' },
+            accept = { '<leader><Cr>' },
+            focus_tree = { '<leader>e' },
+          },
+
+          tree = {
+            expand_node = { 'l', '<Right>' },
+            collapse_node = { 'h', '<Left>' },
+
+            open_file = { '<Cr>' },
+
+            toggle_file = { 'a' },
+          },
+
+          diff = {
+            toggle_hunk = { 'A' },
+            toggle_line = { 'a' },
+            -- This is like toggle_line but it will also toggle the line on the other
+            -- 'side' of the diff.
+            toggle_line_pair = { 's' },
+
+            prev_hunk = { '[h' },
+            next_hunk = { ']h' },
+
+            -- Jump between the left and right diff view
+            toggle_focus = { '<Tab>' },
+          },
+        },
+
+        ui = {
+          tree = {
+            -- Mode can either be `nested` or `flat`
+            mode = 'nested',
+            width = 35,
+          },
+          --- Can be either `vertical` or `horizontal`
+          layout = 'vertical',
+        },
+
+        icons = {
+          selected = '󰡖',
+          deselected = '',
+          partially_selected = '󰛲',
+
+          folder_open = '',
+          folder_closed = '',
+        },
+
+        -- Called right after each window and buffer are created.
+        hooks = {
+          ---@param _context { buf: number, tree: NuiTree, opts: table }
+          on_tree_mount = function(_context) end,
+          ---@param _context { buf: number, win: number }
+          on_diff_mount = function(_context) end,
+        },
+      }
+    end,
+  },
+
+  { import = 'plugins' },
+}, {})
+
+require 'config.options'
+require 'config.lsp'
+require 'config.mappings'

@@ -14,6 +14,5 @@ _comp_options+=(globdots)
 bindkey '^X^X' edit-command-line
 autoload edit-command-line; zle -N edit-command-line
 
-bindkey '^l' autosuggest-accept
+bindkey '^y' autosuggest-accept
 bindkey '^\' autosuggest-accept
-bindkey '^X^ ' autosuggest-execute
