@@ -5,3 +5,7 @@ node = "22"
 "aqua:BurntSushi/ripgrep" = "latest"
 "aqua:neovim/neovim" = "latest"
 "ubi:jj-vcs/jj" = "latest"
+"ubi:dandavison/delta" = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = []

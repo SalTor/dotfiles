@@ -3,8 +3,8 @@
 [ui]
 default-command = ["log", "--limit", "8"]
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
-# diff-editor = ["git", "diff", "--no-index", "$left", "$right", "|", "git-split-diffs", "--color"]
-paginate = "never"
+pager = "delta"
+diff-formatter = ":git"
 
 [user]
 name = "saltor"
