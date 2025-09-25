@@ -4,7 +4,6 @@ export ZSH=$HOME/.oh-my-zsh
 plugins=(git zsh-autosuggestions vi-mode)
 
 DEFAULT_USER=`whoami`
-ENABLE_CORRECTION='true'
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/dotfiles/config/.aliases
