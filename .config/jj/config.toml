@@ -46,4 +46,4 @@ log = "stack(mine() | @) | trunk() | @"
 # reachable from my working copy, or any other commit I wrote.
 # n = 1, meaning that nothing from `trunk()` is included, so all resulting
 # commits are mutable by definition.
-'open()' = 'stack(mine() | @, 1)'
+"open()" = "stack(mine() | @, 1)"
