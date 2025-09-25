@@ -15,7 +15,7 @@ nmap('<leader>ot', ':terminal<CR>', 'Open new terminal')
 -- ^^ Uncategorized ^^
 
 -- b buffers
-nmap('<leader>bd', ':bdelete<CR>', 'Delete buffer')
+nmap('<leader>bd', ':bprevious|bdelete#<CR>', 'Delete buffer') -- Deletes buffer while maintaining window placement
 
 -- d Diagnostic
 nmap('[d', vim.diagnostic.get_prev, 'Go to previous diagnostic message')
