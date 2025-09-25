@@ -83,6 +83,7 @@ local function jj_log()
   -- Use env.PAGER so jj uses less; no shell needed
   local jid = vim.fn.jobstart(
     { 'jj', 'log', '-r', '::@' }, -- adjust revset as you like
+    { 'jj', 'log', '-r', '"stack()"' }, -- adjust revset as you like
     {
       term = true, -- ← attach a real terminal to *current* window
       env = { PAGER = 'less -R' },
@@ -112,5 +113,42 @@ local function jj_log()
   -- vim.cmd 'startinsert'
 end
 
+function Jdiff(revision)
+  if not revision or revision == '' then
+    revision = '@-'
+  end
+  local change_id = vim.fn.system(string.format("jj show --no-patch -T 'change_id.shortest()' %s", vim.fn.shellescape(revision)))
+  -- Save the current buffer's filename
+  local filename = vim.api.nvim_buf_get_name(0)
+  -- Create a new vertical split with a scratch buffer
+  vim.cmd 'vert new'
+  vim.opt_local.buftype = 'nofile'
+  vim.opt_local.bufhidden = 'wipe'
+  vim.opt_local.swapfile = false
+  vim.api.nvim_buf_set_name(0, string.format('%s:%s(%s)', filename, revision, change_id))
+  -- Execute the command and insert its output into the buffer
+  local cmd = string.format('jj file show -r %s %s', vim.fn.shellescape(revision), vim.fn.shellescape(filename))
+  local output = vim.fn.system(cmd)
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, '\n'))
+  -- Make the new buffer read-only
+  vim.cmd 'setlocal readonly'
+  -- Enable diff mode for both buffers
+  vim.cmd 'diffthis'
+  vim.cmd 'wincmd p'
+  vim.cmd 'diffthis'
+  vim.cmd 'wincmd p'
+
+  local scratch_buf = vim.api.nvim_get_current_buf()
+
+  vim.keymap.set('n', 'q', function()
+    vim.cmd 'diffoff' -- turn off diff mode for both windows
+    vim.cmd 'close' -- then close this scratch buffer
+  end, { buffer = scratch_buf, silent = true })
+end
+vim.api.nvim_create_user_command('Jdiff', function(opts)
+  Jdiff(opts.args)
+end, { nargs = '?' })
+
 nmap('<leader>jd', jj_edit_desc, 'Edit Jujutsu description')
 nmap('<leader>jl', jj_log, 'Jujutsu log')
+nmap('<leader>gs', Jdiff, 'Jujutsu Diff')
