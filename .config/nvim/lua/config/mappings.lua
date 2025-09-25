@@ -65,7 +65,7 @@ nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')
 -- location list
 nmap(']l', ':lnext<CR>', 'Next location')
 nmap('[l', ':lprev<CR>', 'Prev location')
-nmap('<C-l>', ':lopen<CR>', 'Location list')
+-- nmap('<C-l>', ':lopen<CR>', 'Location list')
 
 -- quickfix list
 nmap(']q', ':cnext<CR>', 'Next quickfix')
