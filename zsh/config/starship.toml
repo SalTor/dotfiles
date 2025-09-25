@@ -1,23 +1,39 @@
-# format = """${custom.jj_change}${custom.jj_description}$directory${custom.jj_git_not_insync}$git_status$character"""
-format = '''
-[┌───────────────────>](bold green) ${custom.jj_change} ${custom.jj_description} ${custom.jj_git_not_insync}
-[│](bold green)$directory$git_status
-[└─$character](bold green)'''
+[aws]
+disabled = true
+
+[rust]
+disabled = true
+
+[node]
+disabled = true
+
+[docker]
+disabled = true
 
 [git_commit]
-only_detached = false
+when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1 && ! jj --ignore-working-copy root >/dev/null 2>&1"
 
-[custom.jj_change]
-when = "jj workspace root --ignore-working-copy >/dev/null 2>&1"
-style = "none" # keep jj’s own ANSI colors
-format = "$output" # don’t wrap in extra brackets/colors
-command = "jj-change"
+[custom.jj]
+command = '''
+jj log --revisions @ --limit 1 --ignore-working-copy --no-graph --color always  --template '
+  separate(" ",
+    bookmarks.map(|x| truncate_end(10, x.name(), "…")).join(" "),
+    tags.map(|x| truncate_end(10, x.name(), "…")).join(" "),
+    surround("\"", "\"", truncate_end(24, description.first_line(), "…")),
+    if(conflict, "conflict"),
+    if(divergent, "divergent"),
+    if(hidden, "hidden"),
+  )
+'
+'''
+when = "jj --ignore-working-copy root"
+symbol = 'jj '
 
-[custom.jj_description]
-when = "jj workspace root --ignore-working-copy >/dev/null 2>&1"
-style = "none" # keep jj’s own ANSI colors
-format = "$output" # don’t wrap in extra brackets/colors
-command = "jj-description"
+[custom.jjstate]
+when = "jj --ignore-working-copy root"
+command = '''
+jj log -r@ -n1 --ignore-working-copy --no-graph -T "" --stat | tail -n1 | sd "(\d+) files? changed, (\d+) insertions?\(\+\), (\d+) deletions?\(-\)" ' ${1}m ${2}+ ${3}-' | sd " 0." ""
+'''
 
 [custom.jj_git_notinsync]
 when = '[ -n "${jj_git_head:=$(jj log -T commit_id --no-graph --ignore-working-copy -r HEAD@git)}" ] && [ -n "${git_head:=$(git rev-parse HEAD)}" ] && [ "$git_head" != "$jj_git_head" ]'
