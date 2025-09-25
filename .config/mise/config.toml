@@ -6,6 +6,7 @@ node = "22"
 "aqua:neovim/neovim" = "latest"
 "ubi:jj-vcs/jj" = "latest"
 "ubi:dandavison/delta" = "latest"
+"aqua:helix-editor/helix" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
