@@ -1,7 +1,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # ZSH_THEME='amuse'
-plugins=(zsh-autosuggestions vi-mode)
+plugins=(zsh-autosuggestions vi-mode mise)
 
 DEFAULT_USER=`whoami`
 
@@ -71,3 +71,5 @@ source $HOME/dotfiles/zsh/config/path.zsh
 
 # opencode
 export PATH=/Users/storcivia/.opencode/bin:$PATH
+
+eval "$(/Users/storcivia/.local/bin/mise activate zsh)"
