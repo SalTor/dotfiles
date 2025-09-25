@@ -30,3 +30,5 @@ fi
 # fi
 
 # export PATH="$PATH:/opt/nvim-linux64/bin"
+
+source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
