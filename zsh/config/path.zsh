@@ -28,6 +28,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/Cellar
 export PATH=$PATH:/usr/local/opt/mysql-client/bin
+export PATH=$HOME/.opencode/bin:$PATH
 
 export PATH=$PATH:$HOME/dotfiles/bin
 export PATH=$PATH:$HOME/.cargo/bin

@@ -62,5 +62,5 @@ log = "stack(mine() | @) | trunk() | @"
 # commits are mutable by definition.
 "open()" = "stack(mine() | @, 1)"
 
-[template-aliases]
-'format_short_signature(signature)' = ''
+# [template-aliases]
+# 'format_short_signature(signature)' = ''
