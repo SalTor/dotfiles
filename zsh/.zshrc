@@ -2,8 +2,8 @@ stty -ixon # Disable ctrl-s and ctrl-q.
 DEFAULT_USER=`whoami`
 
 export ZSH=$HOME/.oh-my-zsh
-source $ZSH/oh-my-zsh.sh
 plugins=(zsh-autosuggestions vi-mode mise)
+source $ZSH/oh-my-zsh.sh
 
 eval "$(/Users/storcivia/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
