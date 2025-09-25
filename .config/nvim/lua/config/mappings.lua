@@ -6,9 +6,7 @@ nmap('[ ', 'O<ESC>j', 'Create line above')
 nmap('] ', 'o<ESC>k', 'Create line below')
 nmap('<leader>qq', ':qa<CR>', 'Exit')
 nmap('<leader><Tab>', '<C-^>', 'Alternate file')
-nmap('<leader>tr', function()
-  vim.o.relativenumber = not vim.o.relativenumber
-end, 'Toggle relativenumber')
+nmap('<leader>tr', sal.toggle_relativenumber, 'Toggle relativenumber')
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 nmap('<leader>ot', ':terminal<CR>', 'Open new terminal')
 

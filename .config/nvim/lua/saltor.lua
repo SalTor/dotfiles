@@ -67,4 +67,18 @@ function M.dump(o)
   end
 end
 
+local session_relativenumber = vim.o.relativenumber
+
+function M.toggle_relativenumber()
+  session_relativenumber = not session_relativenumber
+
+  vim.o.relativenumber = session_relativenumber
+
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.wo[win].number then -- only if absolute numbers are on
+      vim.wo[win].relativenumber = session_relativenumber
+    end
+  end
+end
+
 return M
