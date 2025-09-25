@@ -1,5 +1,4 @@
 -- [[ Basic Keymaps ]]
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
