@@ -34,6 +34,27 @@ require('lazy').setup({
         section_separators = '',
       },
     },
+    config = function()
+      local function jj_description()
+        local first_line = io.popen 'jj log -T "description.first_line()" --no-graph --color=never --ignore-working-copy -r @'
+        if first_line then
+          local result = first_line:read '*a'
+          first_line:close()
+          return result
+        end
+      end
+      require('lualine').setup {
+        options = {
+          icons_enabled = false,
+          theme = 'catppuccin',
+          component_separators = '|',
+          section_separators = '',
+        },
+        sections = {
+          lualine_b = { jj_description, 'diff', 'diagnostics' },
+        },
+      }
+    end,
   },
 
   {
