@@ -101,3 +101,4 @@ require 'config.options'
 require 'config.lsp'
 require 'config.mappings'
 require 'config.jujutsu'
+require('quicklog').setup()
