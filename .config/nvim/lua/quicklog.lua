@@ -28,9 +28,16 @@ local function append_line(path, line)
   vim.fn.writefile({ line }, path, 'a')
 end
 
+local function bottom_input(opts, on_confirm)
+  vim.fn.inputsave()
+  local answer = vim.fn.input(opts.prompt or '', opts.default or '')
+  vim.fn.inputrestore()
+  on_confirm(answer)
+end
+
 function M.add_entry()
   local file = expand(filepath)
-  vim.ui.input({ prompt = 'Description: ' }, function(description)
+  bottom_input({ prompt = 'Description: ' }, function(description)
     if not description or description == '' then
       vim.notify('QuickLog: empty description, aborted.', vim.log.levels.WARN)
       return
