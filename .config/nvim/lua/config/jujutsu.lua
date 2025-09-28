@@ -82,7 +82,6 @@ local function jj_log()
   -- START the terminal job IN THIS WINDOW
   -- Use env.PAGER so jj uses less; no shell needed
   local jid = vim.fn.jobstart(
-    { 'jj', 'log', '-r', '::@' }, -- adjust revset as you like
     { 'jj', 'log', '-r', '"stack()"' }, -- adjust revset as you like
     {
       term = true, -- ← attach a real terminal to *current* window
