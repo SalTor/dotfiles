@@ -52,10 +52,6 @@ function M.setup()
   vim.api.nvim_create_user_command('QuickLog', function()
     M.add_entry()
   end, { desc = 'Prompt for description and append to quicklog file' })
-
-  vim.api.nvim_create_user_command('QuickLogOpen', function()
-    M.open()
-  end, { desc = 'Open quicklog file in floating window' })
 end
 
 nmap('<leader>qn', M.add_entry, 'Take a quick note')
