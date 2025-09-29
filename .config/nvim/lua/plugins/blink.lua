@@ -10,10 +10,6 @@ return {
   -- If you use nix, you can build from source using latest nightly rust with:
   -- build = 'nix run .#build-plugin',
 
-  enabled = function()
-    return not vim.tbl_contains({ "quicklog" }, vim.bo.filetype)
-  end,
-
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
