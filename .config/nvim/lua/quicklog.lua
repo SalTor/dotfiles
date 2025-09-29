@@ -28,9 +28,16 @@ local function append_line(path, line)
   vim.fn.writefile({ line }, path, 'a')
 end
 
+local function bottom_input(opts, on_confirm)
+  vim.fn.inputsave()
+  local answer = vim.fn.input(opts.prompt or '', opts.default or '')
+  vim.fn.inputrestore()
+  on_confirm(answer)
+end
+
 function M.add_entry()
   local file = expand(filepath)
-  vim.ui.input({ prompt = 'Description: ' }, function(description)
+  bottom_input({ prompt = 'Quicklog: ' }, function(description)
     if not description or description == '' then
       vim.notify('QuickLog: empty description, aborted.', vim.log.levels.WARN)
       return
@@ -39,55 +46,6 @@ function M.add_entry()
     append_line(file, line)
     vim.notify('QuickLog: appended to ' .. file, vim.log.levels.INFO)
   end)
-end
-
-function M.open()
-  local file = expand(filepath)
-  ensure_parent_dir(file)
-
-  -- check if buffer already exists
-  local buf = vim.fn.bufnr(file, false)
-  if buf == -1 then
-    -- create new buffer and load file
-    buf = vim.api.nvim_create_buf(true, false)
-    if vim.fn.filereadable(file) == 1 then
-      local lines = vim.fn.readfile(file)
-      vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    end
-    vim.api.nvim_buf_set_name(buf, file)
-    vim.bo[buf].buftype = ''
-    vim.bo[buf].bufhidden = 'hide'
-    vim.bo[buf].swapfile = true
-  end
-
-  vim.bo[buf].filetype = 'quicklog'
-
-  -- floating window size & position
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.8)
-  local row = math.floor((vim.o.lines - height) / 2 - 1)
-  local col = math.floor((vim.o.columns - width) / 2)
-
-  local win = vim.api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    style = 'minimal',
-    border = 'rounded',
-  })
-
-  -- buffer-local q mapping
-  vim.keymap.set('n', 'q', function()
-    if vim.api.nvim_win_is_valid(win) then
-      vim.api.nvim_win_close(win, true)
-    end
-    -- optional: wipe buffer when closing
-    -- if vim.api.nvim_buf_is_valid(buf) then
-    --   vim.api.nvim_buf_delete(buf, { force = true })
-    -- end
-  end, { buffer = buf, nowait = true })
 end
 
 function M.setup()
@@ -101,6 +59,6 @@ function M.setup()
 end
 
 nmap('<leader>qn', M.add_entry, 'Take a quick note')
-nmap('<leader>qo', M.open, 'Open quicklog in floating window')
+nmap('<leader>ql', '<cmd>! cat ' .. filepath .. '<cr>', 'Log contents of quicklog file')
 
 return M
