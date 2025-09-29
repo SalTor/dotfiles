@@ -60,6 +60,8 @@ function M.open()
     vim.bo[buf].swapfile = true
   end
 
+  vim.bo[buf].filetype = 'quicklog'
+
   -- floating window size & position
   local width = math.floor(vim.o.columns * 0.8)
   local height = math.floor(vim.o.lines * 0.8)
