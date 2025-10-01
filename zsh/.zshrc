@@ -30,3 +30,5 @@ fi
 # fi
 
 source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+
+source <(COMPLETE=zsh jj)
