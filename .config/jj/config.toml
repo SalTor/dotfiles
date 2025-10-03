@@ -126,3 +126,6 @@ log = "stack(mine() | @) | trunk() | @"
 "format_short_signature(signature)" = '''
 coalesce(signature.name(), signature.email(), 'unknown')
 '''
+
+[git]
+private-commits = 'blacklist()'
