@@ -72,9 +72,6 @@ local function edit_description()
   -- Close with Escape or q
   vim.keymap.set('n', '<Esc>', close_without_save, { buffer = buf, silent = true })
   vim.keymap.set('n', 'q', close_without_save, { buffer = buf, silent = true })
-
-  -- Start in insert mode
-  vim.cmd 'startinsert'
 end
 
 local function open_jj_status()
