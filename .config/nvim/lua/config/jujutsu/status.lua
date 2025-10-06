@@ -43,7 +43,7 @@ local function edit_description(refresh_callback)
         save_handle:close()
         vim.notify('Description updated', vim.log.levels.INFO)
         vim.bo[buf].modified = false
-        vim.cmd 'bdelete'
+        vim.api.nvim_buf_delete(buf, { force = true }) -- Delete the buffer
         if refresh_callback then
           refresh_callback()
         end
@@ -63,8 +63,9 @@ local function edit_description(refresh_callback)
     end,
   })
 
-  -- Switch to the buffer
-  vim.cmd('buffer ' .. buf)
+  -- Open in vertical split above current window
+  vim.cmd 'above split'
+  vim.api.nvim_win_set_buf(0, buf)
 end
 
 local function edit_commit_message(refresh_callback)
@@ -95,7 +96,7 @@ local function edit_commit_message(refresh_callback)
         commit_handle:close()
         vim.notify('Committed successfully', vim.log.levels.INFO)
         vim.bo[buf].modified = false
-        vim.cmd 'bdelete'
+        vim.api.nvim_buf_delete(buf, { force = true }) -- Delete the buffer
         if refresh_callback then
           refresh_callback()
         end
@@ -115,8 +116,9 @@ local function edit_commit_message(refresh_callback)
     end,
   })
 
-  -- Switch to the buffer
-  vim.cmd('buffer ' .. buf)
+  -- Open in vertical split above current window
+  vim.cmd 'above split'
+  vim.api.nvim_win_set_buf(0, buf)
 end
 
 local function open_jj_status()
@@ -229,9 +231,10 @@ local function open_jj_status()
     nowait = true,
   })
 
-  -- Create/reuse window
-  local current_win = vim.api.nvim_get_current_win()
-  vim.api.nvim_win_set_buf(current_win, buf)
+  -- Open status in a small vertical split above
+  vim.cmd 'above split'
+  vim.cmd 'resize 15'
+  vim.api.nvim_win_set_buf(0, buf)
 end
 
 function M.config()
