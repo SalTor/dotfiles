@@ -12,8 +12,12 @@ local function edit_description(refresh_callback)
   local current_desc = handle:read('*a'):gsub('\n$', '') -- Remove trailing newline
   handle:close()
 
+  -- Get current working directory for jj-fugitive URI
+  local cwd = vim.fn.getcwd()
+  local dir_name = vim.fn.fnamemodify(cwd, ':t')
+  local buf_name = string.format('jj-fugitive://%s//.jj-describe', dir_name)
+  
   -- Create or switch to edit buffer
-  local buf_name = 'JJ_DESCRIBE_EDITMSG'
   local existing_buf = vim.fn.bufnr(buf_name)
   local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
 
@@ -43,7 +47,12 @@ local function edit_description(refresh_callback)
         save_handle:close()
         vim.notify('Description updated', vim.log.levels.INFO)
         vim.bo[buf].modified = false
-        vim.api.nvim_buf_delete(buf, { force = true }) -- Delete the buffer
+        -- Schedule buffer deletion to avoid :wq conflicts
+        vim.schedule(function()
+          if vim.api.nvim_buf_is_valid(buf) then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+        end)
         if refresh_callback then
           refresh_callback()
         end
@@ -69,8 +78,21 @@ local function edit_description(refresh_callback)
 end
 
 local function edit_commit_message(refresh_callback)
+  -- Get current description
+  local handle = io.popen 'jj log -r @ --no-graph -T description'
+  if not handle then
+    vim.notify('Failed to get current description', vim.log.levels.ERROR)
+    return
+  end
+  local current_desc = handle:read('*a'):gsub('\n$', '') -- Remove trailing newline
+  handle:close()
+
+  -- Get current working directory for jj-fugitive URI
+  local cwd = vim.fn.getcwd()
+  local dir_name = vim.fn.fnamemodify(cwd, ':t')
+  local buf_name = string.format('jj-fugitive://%s//.jj-commit', dir_name)
+  
   -- Create or switch to commit buffer
-  local buf_name = 'JJ_COMMIT_EDITMSG'
   local existing_buf = vim.fn.bufnr(buf_name)
   local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
 
@@ -81,6 +103,10 @@ local function edit_commit_message(refresh_callback)
   vim.bo[buf].bufhidden = 'wipe'
   vim.bo[buf].swapfile = false
   vim.bo[buf].filetype = 'jjdescription'
+
+  -- Set initial content with current description
+  local lines = vim.split(current_desc, '\n')
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
   -- Set up autocmd to commit on write
   vim.api.nvim_create_autocmd('BufWriteCmd', {
@@ -96,7 +122,12 @@ local function edit_commit_message(refresh_callback)
         commit_handle:close()
         vim.notify('Committed successfully', vim.log.levels.INFO)
         vim.bo[buf].modified = false
-        vim.api.nvim_buf_delete(buf, { force = true }) -- Delete the buffer
+        -- Schedule buffer deletion to avoid :wq conflicts
+        vim.schedule(function()
+          if vim.api.nvim_buf_is_valid(buf) then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+        end)
         if refresh_callback then
           refresh_callback()
         end
@@ -130,8 +161,12 @@ local function open_jj_status()
   local result = handle:read '*a'
   handle:close()
 
+  -- Get current working directory for jj-fugitive URI
+  local cwd = vim.fn.getcwd()
+  local dir_name = vim.fn.fnamemodify(cwd, ':t')
+  local buf_name = string.format('jj-fugitive://%s//.jj-status', dir_name)
+  
   -- Create or reuse buffer
-  local buf_name = '__JJ_STATUS__'
   local existing_buf = vim.fn.bufnr(buf_name)
   local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
 
