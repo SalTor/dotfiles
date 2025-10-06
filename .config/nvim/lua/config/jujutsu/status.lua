@@ -246,6 +246,8 @@ local function open_jj_status()
       local current_file_lines = vim.b[buf].file_lines or {}
       local file = current_file_lines[line_nr]
       if file then
+        -- Open file in the other split, not in the status buffer
+        vim.cmd('wincmd p') -- Switch to previous window
         vim.cmd('edit ' .. vim.fn.fnameescape(file))
       end
     end,
