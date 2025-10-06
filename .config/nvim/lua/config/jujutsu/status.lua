@@ -134,13 +134,11 @@ local function open_jj_status()
     end,
   })
 
-  -- Set d to edit description
-  vim.api.nvim_buf_set_keymap(buf, 'n', 'd', '', {
-    noremap = true,
+  -- Set d to edit description (override vim's d operator for this buffer)
+  vim.keymap.set({ 'n', 'v', 'o' }, 'd', edit_description, {
+    buffer = buf,
     silent = true,
-    callback = function()
-      edit_description()
-    end,
+    nowait = true,
   })
 
   -- Create/reuse window
