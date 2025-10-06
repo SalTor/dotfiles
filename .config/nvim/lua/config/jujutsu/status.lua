@@ -12,137 +12,111 @@ local function edit_description(refresh_callback)
   local current_desc = handle:read('*a'):gsub('\n$', '') -- Remove trailing newline
   handle:close()
 
-  -- Create floating window
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.6)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  -- Create or switch to edit buffer
+  local buf_name = 'JJ_DESCRIBE_EDITMSG'
+  local existing_buf = vim.fn.bufnr(buf_name)
+  local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
 
-  local buf = vim.api.nvim_create_buf(false, true)
-  local win = vim.api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    border = 'rounded',
-    title = ' Edit Description ',
-    title_pos = 'center',
-  })
+  vim.api.nvim_buf_set_name(buf, buf_name)
 
   -- Set buffer options
-  vim.bo[buf].buftype = 'nofile'
+  vim.bo[buf].buftype = 'acwrite'
   vim.bo[buf].bufhidden = 'wipe'
   vim.bo[buf].swapfile = false
-  vim.bo[buf].filetype = 'markdown'
+  vim.bo[buf].filetype = 'jjdescription'
 
   -- Set initial content
   local lines = vim.split(current_desc, '\n')
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
-  -- Set keymaps
-  local function save_and_close()
-    local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-    local new_desc = table.concat(content, '\n')
-
-    -- Save description
-    local cmd = string.format('jj describe -m %s', vim.fn.shellescape(new_desc))
-    local save_handle = io.popen(cmd)
-    if save_handle then
-      save_handle:close()
-      vim.notify('Description updated', vim.log.levels.INFO)
-    else
-      vim.notify('Failed to update description', vim.log.levels.ERROR)
-    end
-
-    vim.api.nvim_win_close(win, true)
-    if refresh_callback then
-      refresh_callback()
-    end
-  end
-
-  local function close_without_save()
-    vim.api.nvim_win_close(win, true)
-    if refresh_callback then
-      refresh_callback()
-    end
-  end
-
-  -- Save with Ctrl+S or :w
-  vim.keymap.set('n', '<leader>fs', save_and_close, { buffer = buf, silent = true })
+  -- Set up autocmd to save description on write
   vim.api.nvim_create_autocmd('BufWriteCmd', {
     buffer = buf,
-    callback = save_and_close,
+    callback = function()
+      local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+      local new_desc = table.concat(content, '\n')
+
+      -- Save description
+      local cmd = string.format('jj describe -m %s', vim.fn.shellescape(new_desc))
+      local save_handle = io.popen(cmd)
+      if save_handle then
+        save_handle:close()
+        vim.notify('Description updated', vim.log.levels.INFO)
+        vim.bo[buf].modified = false
+        vim.cmd 'bdelete'
+        if refresh_callback then
+          refresh_callback()
+        end
+      else
+        vim.notify('Failed to update description', vim.log.levels.ERROR)
+      end
+    end,
   })
 
-  -- Close with Escape or q
-  vim.keymap.set('n', '<Esc>', close_without_save, { buffer = buf, silent = true })
-  vim.keymap.set('n', 'q', close_without_save, { buffer = buf, silent = true })
+  -- Set up autocmd to refresh on buffer close without saving
+  vim.api.nvim_create_autocmd('BufWipeout', {
+    buffer = buf,
+    callback = function()
+      if refresh_callback then
+        refresh_callback()
+      end
+    end,
+  })
+
+  -- Switch to the buffer
+  vim.cmd('buffer ' .. buf)
 end
 
 local function edit_commit_message(refresh_callback)
-  -- Create floating window
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.6)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
+  -- Create or switch to commit buffer
+  local buf_name = 'JJ_COMMIT_EDITMSG'
+  local existing_buf = vim.fn.bufnr(buf_name)
+  local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
 
-  local buf = vim.api.nvim_create_buf(false, true)
-  local win = vim.api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    border = 'rounded',
-    title = ' Commit Message ',
-    title_pos = 'center',
-  })
+  vim.api.nvim_buf_set_name(buf, buf_name)
 
   -- Set buffer options
-  vim.bo[buf].buftype = 'nofile'
+  vim.bo[buf].buftype = 'acwrite'
   vim.bo[buf].bufhidden = 'wipe'
   vim.bo[buf].swapfile = false
-  vim.bo[buf].filetype = 'markdown'
+  vim.bo[buf].filetype = 'jjdescription'
 
-  -- Set keymaps
-  local function commit_and_close()
-    local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-    local commit_msg = table.concat(content, '\n')
-
-    -- Commit with message
-    local cmd = string.format('jj commit -m %s', vim.fn.shellescape(commit_msg))
-    local commit_handle = io.popen(cmd)
-    if commit_handle then
-      commit_handle:close()
-      vim.notify('Committed successfully', vim.log.levels.INFO)
-    else
-      vim.notify('Failed to commit', vim.log.levels.ERROR)
-    end
-
-    vim.api.nvim_win_close(win, true)
-    if refresh_callback then
-      refresh_callback()
-    end
-  end
-
-  local function close_without_commit()
-    vim.api.nvim_win_close(win, true)
-    if refresh_callback then
-      refresh_callback()
-    end
-  end
-
-  -- Save with Ctrl+S or :w
-  vim.keymap.set('n', '<leader>fs', commit_and_close, { buffer = buf, silent = true })
+  -- Set up autocmd to commit on write
   vim.api.nvim_create_autocmd('BufWriteCmd', {
     buffer = buf,
-    callback = commit_and_close,
+    callback = function()
+      local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+      local commit_msg = table.concat(content, '\n')
+
+      -- Commit with message
+      local cmd = string.format('jj commit -m %s', vim.fn.shellescape(commit_msg))
+      local commit_handle = io.popen(cmd)
+      if commit_handle then
+        commit_handle:close()
+        vim.notify('Committed successfully', vim.log.levels.INFO)
+        vim.bo[buf].modified = false
+        vim.cmd 'bdelete'
+        if refresh_callback then
+          refresh_callback()
+        end
+      else
+        vim.notify('Failed to commit', vim.log.levels.ERROR)
+      end
+    end,
   })
 
-  -- Close with Escape or q
-  vim.keymap.set('n', '<Esc>', close_without_commit, { buffer = buf, silent = true })
-  vim.keymap.set('n', 'q', close_without_commit, { buffer = buf, silent = true })
+  -- Set up autocmd to refresh on buffer close without saving
+  vim.api.nvim_create_autocmd('BufWipeout', {
+    buffer = buf,
+    callback = function()
+      if refresh_callback then
+        refresh_callback()
+      end
+    end,
+  })
+
+  -- Switch to the buffer
+  vim.cmd('buffer ' .. buf)
 end
 
 local function open_jj_status()
