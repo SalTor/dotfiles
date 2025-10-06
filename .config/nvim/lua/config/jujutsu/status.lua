@@ -16,7 +16,7 @@ local function edit_description(refresh_callback)
   local cwd = vim.fn.getcwd()
   local dir_name = vim.fn.fnamemodify(cwd, ':t')
   local buf_name = string.format('jj-fugitive://%s//.jj-describe', dir_name)
-  
+
   -- Create or switch to edit buffer
   local existing_buf = vim.fn.bufnr(buf_name)
   local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
@@ -91,7 +91,7 @@ local function edit_commit_message(refresh_callback)
   local cwd = vim.fn.getcwd()
   local dir_name = vim.fn.fnamemodify(cwd, ':t')
   local buf_name = string.format('jj-fugitive://%s//.jj-commit', dir_name)
-  
+
   -- Create or switch to commit buffer
   local existing_buf = vim.fn.bufnr(buf_name)
   local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
@@ -157,7 +157,7 @@ local function open_jj_status()
   local cwd = vim.fn.getcwd()
   local dir_name = vim.fn.fnamemodify(cwd, ':t')
   local buf_name = string.format('jj-fugitive://%s//.jj-status', dir_name)
-  
+
   -- Check if buffer already exists and is displayed in a window
   local existing_buf = vim.fn.bufnr(buf_name)
   if existing_buf ~= -1 then
@@ -247,7 +247,7 @@ local function open_jj_status()
       local file = current_file_lines[line_nr]
       if file then
         -- Open file in the other split, not in the status buffer
-        vim.cmd('wincmd p') -- Switch to previous window
+        vim.cmd 'wincmd p' -- Switch to previous window
         vim.cmd('edit ' .. vim.fn.fnameescape(file))
       end
     end,
@@ -282,7 +282,6 @@ local function open_jj_status()
 
   -- Open status in a small vertical split above
   vim.cmd 'above split'
-  vim.cmd 'resize 15'
   vim.api.nvim_win_set_buf(0, buf)
 end
 
