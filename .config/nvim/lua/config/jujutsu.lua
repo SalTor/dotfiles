@@ -150,4 +150,4 @@ end, { nargs = '?' })
 
 nmap('<leader>jd', jj_edit_desc, 'Edit Jujutsu description')
 nmap('<leader>jl', jj_log, 'Jujutsu log')
-nmap('<leader>gs', Jdiff, 'Jujutsu Diff')
+require('config/jujutsu/status').config()
