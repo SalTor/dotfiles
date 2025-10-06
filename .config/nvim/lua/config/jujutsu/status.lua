@@ -153,6 +153,24 @@ local function edit_commit_message(refresh_callback)
 end
 
 local function open_jj_status()
+  -- Get current working directory for jj-fugitive URI
+  local cwd = vim.fn.getcwd()
+  local dir_name = vim.fn.fnamemodify(cwd, ':t')
+  local buf_name = string.format('jj-fugitive://%s//.jj-status', dir_name)
+  
+  -- Check if buffer already exists and is displayed in a window
+  local existing_buf = vim.fn.bufnr(buf_name)
+  if existing_buf ~= -1 then
+    -- Check if buffer is displayed in any window
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win) == existing_buf then
+        -- Buffer is already displayed, just focus that window
+        vim.api.nvim_set_current_win(win)
+        return
+      end
+    end
+  end
+
   -- Run jj status
   local handle = io.popen 'jj status'
   if not handle then
@@ -161,13 +179,7 @@ local function open_jj_status()
   local result = handle:read '*a'
   handle:close()
 
-  -- Get current working directory for jj-fugitive URI
-  local cwd = vim.fn.getcwd()
-  local dir_name = vim.fn.fnamemodify(cwd, ':t')
-  local buf_name = string.format('jj-fugitive://%s//.jj-status', dir_name)
-  
   -- Create or reuse buffer
-  local existing_buf = vim.fn.bufnr(buf_name)
   local buf = existing_buf ~= -1 and existing_buf or vim.api.nvim_create_buf(false, true)
 
   local function refresh_status()
