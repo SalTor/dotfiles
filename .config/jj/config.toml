@@ -30,7 +30,7 @@ sandwich = [ "rebase", "-B", "megamerge()", "-A", "trunk()", "-r"]
 current = ["log", "-r", "trunk()::heads(bookmarks() & @::)"]
 
 # Get all open stacks of work
-open = ["log", "-r", "open()"]
+open = ["log", "-r", "heads(open() & ~empty())"]
 
 # Retrunk the current stack of work.
 reheat = ["rebase", "-d", "trunk()", "-s", "roots(trunk()..stack(@))"]
