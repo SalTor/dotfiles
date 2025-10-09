@@ -64,6 +64,8 @@ back = ["util", "exec", "--", "bash", "-c", """
     done
 """, "jj-back"]
 
+sudo = ["--ignore-immutable"]
+
 [revsets]
 log = "stack(mine() | @) | trunk() | @"
 
