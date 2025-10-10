@@ -19,6 +19,9 @@ merge-args = ["-c", "JJDiffConflicts", "$output"]
 merge-tool-edits-conflict-markers = true
 
 [aliases]
+fetch = ["git", "fetch"]
+push = ["git", "push"]
+
 # Pull the closest bookmark to where the working copy is
 tug = ["bookmark", "move", "--from", "closest_bookmark(@)", "--to", "closest_pushable(@)"]
 
