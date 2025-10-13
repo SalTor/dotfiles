@@ -26,3 +26,7 @@ alias gdf=fzf_git_diff_changed
 alias gaf=fzf_git_add_changed
 alias gchf=fzf_git_checkout_changed
 alias gcof=fzf_git_checkout_branch
+
+expand() {
+  jj log -r "stack($1)"
+}
