@@ -11,4 +11,4 @@ node = "22"
 "core:bun" = "latest"
 
 [settings]
-idiomatic_version_file_enable_tools = ["node"]
+idiomatic_version_file_enable_tools = []
