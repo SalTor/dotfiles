@@ -5,6 +5,10 @@ export ZSH=$HOME/.oh-my-zsh
 plugins=(zsh-autosuggestions vi-mode mise)
 source $ZSH/oh-my-zsh.sh
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 eval "$(/Users/storcivia/.local/bin/mise activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
@@ -19,10 +23,6 @@ source $HOME/dotfiles/zsh/config/path.zsh
 
 if [ -f ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # if [ -f "/Users/storcivia/.ghcup/env" ]; then
