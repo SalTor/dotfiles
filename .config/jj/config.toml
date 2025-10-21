@@ -21,6 +21,7 @@ merge-tool-edits-conflict-markers = true
 [aliases]
 fetch = ["git", "fetch"]
 push = ["git", "push"]
+spr = ["util", "exec", "--", "jj-spr"]
 
 # Pull the closest bookmark to where the working copy is
 tug = ["bookmark", "move", "--from", "closest_bookmark(@)", "--to", "closest_pushable(@)"]
