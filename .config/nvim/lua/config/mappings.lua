@@ -60,6 +60,25 @@ vmap('gl', '$', 'Start of line')
 -- h Help
 nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')
 
+-- i info
+nmap('[i', function()
+  local diagnostic = vim.diagnostic.get_prev { severity = { vim.diagnostic.severity.INFO, vim.diagnostic.severity.HINT } }
+  if diagnostic then
+    vim.diagnostic.jump { diagnostic = diagnostic, float = true }
+  else
+    print 'No diagnostics found.'
+  end
+end, 'Prev info diagnostic')
+
+nmap(']i', function()
+  local diagnostic = vim.diagnostic.get_next { severity = { vim.diagnostic.severity.INFO, vim.diagnostic.severity.HINT } }
+  if diagnostic then
+    vim.diagnostic.jump { diagnostic = diagnostic, float = true }
+  else
+    print 'No diagnostics found.'
+  end
+end, 'Next info diagnostic')
+
 -- location list
 nmap(']l', ':lnext<CR>', 'Next location')
 nmap('[l', ':lprev<CR>', 'Prev location')
