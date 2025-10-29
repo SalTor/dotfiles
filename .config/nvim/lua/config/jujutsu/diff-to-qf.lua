@@ -5,7 +5,7 @@ vim.api.nvim_create_user_command('JJDiffQuickfix', function()
   local files = {}
   for _, line in ipairs(output) do
     -- Skip lines starting with "D "
-    if not line:match '^D ' then
+    if not line:match '^D ' and not line:match '^R ' then
       local path = line:match '%S+%s+(.*)'
       if path then
         table.insert(files, { filename = path })
