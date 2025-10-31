@@ -288,7 +288,7 @@ end
 function M.config()
   vim.api.nvim_create_user_command('JJStatus', open_jj_status, {})
 
-  nmap('<leader>gs', '<cmd>JJStatus<cr>', 'View current Jujutsu status')
+  -- nmap('<leader>gs', '<cmd>JJStatus<cr>', 'View current Jujutsu status')
 end
 
 return M

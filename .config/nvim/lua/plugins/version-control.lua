@@ -133,4 +133,15 @@ return {
       }
     end,
   },
+  {
+    'zschreur/telescope-jj.nvim',
+    config = function()
+      local telescope = require 'telescope'
+      telescope.load_extension 'jj'
+      nmap('<leader>gs', telescope.extensions.jj.diff)
+      -- nmap('<leader>gc', function()
+      --   telescope.extensions.jj.conflict()
+      -- end)
+    end,
+  },
 }
