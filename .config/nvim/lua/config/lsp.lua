@@ -5,6 +5,40 @@ vim.diagnostic.config {
   virtual_lines = false,
 }
 
+-- Spell check
+vim.lsp.config('harper_ls', {
+  filetypes = { 'jjdescription', 'gitcommit' },
+  settings = {
+    ['harper-ls'] = {
+      enabled = false,
+      dialect = 'American',
+      linters = {
+        SpellCheck = true,
+        SpelledNumbers = false,
+        AnA = true,
+        SentenceCapitalization = true,
+        UnclosedQuotes = true,
+        WrongQuotes = false,
+        LongSentences = true,
+        RepeatedWords = true,
+        Spaces = true,
+        Matcher = true,
+        CorrectNumberSuffix = true,
+      },
+      codeActions = {
+        ForceStable = true,
+      },
+      markdown = {
+        IgnoreLinkTitle = false,
+      },
+      diagnosticSeverity = 'hint',
+      isolateEnglish = true,
+      maxFileLength = 120000,
+      ignoredLintsPath = {},
+    },
+  },
+})
+
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
     local telescopeBuiltin = require 'telescope.builtin'
