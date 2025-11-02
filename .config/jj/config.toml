@@ -35,8 +35,12 @@ current = ["log", "-r", "trunk()::heads(bookmarks() & @::)"]
 
 # Get all open stacks of work
 open = ["log", "-r", "heads(open() & ~empty())"]
+wip = ["log", "-r", "heads(blacklist() & mine())"]
 
-# Retrunk the current stack of work.
+# Retrunk -all- stacks of work
+restack = ["rebase", "-d", "trunk()", "-s", "roots(trunk()..) & stack()"]
+
+# Retrunk only the -current- stack of work.
 reheat = ["rebase", "-d", "trunk()", "-s", "roots(trunk()..stack(@))"]
 
 # "Back" button for the working directory: go back to (edit) the last (or Nth
@@ -72,6 +76,8 @@ sudo = ["--ignore-immutable"]
 
 [revsets]
 log = "stack(mine() | @) | trunk() | @"
+# Prioritize the current bookmark
+# short-prefixes = "(main..@)::"
 
 [revset-aliases]
 "immutable_heads()" = "builtin_immutable_heads()"
@@ -101,7 +107,7 @@ log = "stack(mine() | @) | trunk() | @"
 # reachable from my working copy, or any other commit I wrote.
 # n = 1, meaning that nothing from `trunk()` is included, so all resulting
 # commits are mutable by definition.
-"open()" = "stack(mine() | @, 1)"
+"open()" = "stack((mine() | @) & ~blacklist(), 1)"
 
 # Find the megamerge. Mostly useful in combination with other aliases, primarily
 # 'sandwich'. Normally when there's only one megamerge, sandwich works perfectly
