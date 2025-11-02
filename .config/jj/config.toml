@@ -128,6 +128,19 @@ log = "stack(mine() | @) | trunk() | @"
 # will always work correctly.
 'megamerge()' = 'coalesce(present(megamerge), reachable(stack(), merges()))'
 
+[templates]
+draft_commit_description = '''
+concat(
+  coalesce(description, default_commit_description, "\n"),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.stat(72)),
+  ),
+  "\nJJ: ignore-rest\n",
+  diff.git(),
+)
+'''
+
 [template-aliases]
 "format_short_signature(signature)" = '''
 coalesce(signature.name(), signature.email(), 'unknown')
