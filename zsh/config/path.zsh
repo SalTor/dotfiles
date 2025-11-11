@@ -37,5 +37,5 @@ export PATH=$PATH:$HOME/.rbenv/plugins/ruby-build/bin
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH=$PATH:/usr/homebrew/bin/python3
 export PATH=$PATH:/opt/homebrew/bin/pip3
-export PATH=$PATH:/opt/homebrew/opt/php@8.3/bin
+export PATH=$PATH:/opt/homebrew/bin/php
 export PATH=$PATH:$NVM_DIR/versions/node/v$(<$NVM_DEFAULT_ALIAS)/bin
