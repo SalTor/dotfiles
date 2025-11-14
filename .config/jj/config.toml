@@ -43,6 +43,7 @@ current = ["log", "-r", "trunk()::heads(bookmarks() & @::)"]
 # Get all open stacks of work
 open = ["log", "-r", "heads(open() & ~empty())"]
 wip = ["log", "-r", "heads(blacklist() & mine())"]
+floaters = ["log", "-r", "~trunk() & mine()"]
 
 # Retrunk -all- stacks of work
 restack = ["rebase", "-d", "trunk()", "-s", "roots(trunk()..) & stack()"]
