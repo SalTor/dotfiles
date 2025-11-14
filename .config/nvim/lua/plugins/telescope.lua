@@ -70,7 +70,6 @@ return {
 
     nmap('<leader>gf', builtin.git_files, 'Search [G]it [F]iles')
     nmap('<leader>sh', builtin.help_tags, '[S]earch [H]elp')
-    nmap('<leader>sd', builtin.diagnostics, '[S]earch [D]iagnostics')
     map('v', '<leader>sp', searchProject, 'Search project (selection)')
     nmap('<leader>,', function()
       if require('saltor').is_inside_git_repo() then
