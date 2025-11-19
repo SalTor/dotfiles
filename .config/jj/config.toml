@@ -30,6 +30,7 @@ fetch = ["git", "fetch"]
 push = ["git", "push"]
 spr = ["util", "exec", "--", "jj-spr"]
 solve = ["resolve", "--tool", "mergiraf"]
+summary = ["show", "--summary"]
 
 # Pull the closest bookmark to where the working copy is
 tug = ["bookmark", "move", "--from", "closest_bookmark(@)", "--to", "closest_pushable(@)"]
