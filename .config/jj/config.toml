@@ -11,8 +11,8 @@ editor = ["nvim", "--cmd", "let g:flatten_wait=1"]
 name = "saltor"
 email = "storcivia@fastgrowingtrees.com"
 
-[defaults]
-log.limit = 20
+# [defaults]
+# log.limit = 20
 
 # [merge-tools.diffconflicts]
 # program = "nvim"
@@ -84,10 +84,10 @@ back = ["util", "exec", "--", "bash", "-c", """
 
 sudo = ["--ignore-immutable"]
 
-[revsets]
-log = "stack(mine() | @) | trunk() | @"
+# [revsets]
+# log = "stack(mine() | @) | trunk() | @"
 # Prioritize the current bookmark
-short-prefixes = "(trunk()..@)::"
+# short-prefixes = "(trunk()..@)::"
 
 [revset-aliases]
 "immutable_heads()" = "builtin_immutable_heads()"
