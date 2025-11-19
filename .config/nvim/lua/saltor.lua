@@ -67,9 +67,9 @@ function M.dump(o)
   end
 end
 
-local session_relativenumber = vim.o.relativenumber
-
 function M.toggle_relativenumber()
+  local session_relativenumber = vim.o.relativenumber
+
   session_relativenumber = not session_relativenumber
 
   vim.o.relativenumber = session_relativenumber
