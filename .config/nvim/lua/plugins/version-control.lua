@@ -22,8 +22,6 @@ return {
         },
       }
 
-      nmap(']h', gitsigns.next_hunk, 'Next hunk')
-      nmap('[h', gitsigns.prev_hunk, 'Prev hunk')
       nmap('<leader>gb', gitsigns.blame_line, 'Git blame')
     end,
   },
@@ -40,10 +38,8 @@ return {
       -- stylua: ignore start
       nmap('[r', function() actions.target_older_commit(0, vim.v.count1) end, 'Move diff target back')
       nmap(']r', function() actions.target_newer_commit(0, vim.v.count1) end, 'Move diff target forward')
-      nmap('[c', function() actions.hunk_prev(0, vim.v.count1) end, 'Go to previous hunk')
-      nmap(']c', function() actions.hunk_next(0, vim.v.count1) end, 'Go to next hunk')
-      nmap('[C', function() actions.hunk_prev(0, 9999) end, 'Go to first hunk')
-      nmap(']C', function() actions.hunk_next(0, 9999) end, 'Go to last hunk')
+      nmap('[h', function() actions.hunk_prev(0, vim.v.count1) end, 'Go to previous hunk')
+      nmap(']h', function() actions.hunk_next(0, vim.v.count1) end, 'Go to next hunk')
       nmap('<leader>sd', function() actions.toggle_hunk_diff(0) end, 'Show hunk diffs inline in the current buffer')
       -- stylua: ignore end
     end,
@@ -116,9 +112,6 @@ return {
             -- This is like toggle_line but it will also toggle the line on the other
             -- 'side' of the diff.
             toggle_line_pair = { 's' },
-
-            prev_hunk = { '[h' },
-            next_hunk = { ']h' },
 
             -- Jump between the left and right diff view
             toggle_focus = { '<Tab>' },
