@@ -99,7 +99,7 @@ short-prefixes = "(trunk()..@)::"
 
 "mine()" = 'user("storcivia@fastgrowingtrees.com") | user("github+0019@saltor.nyc")'
 
-"wip()" = "description(glob-i:'wip:*') | description(glob-i:'[[]WIP[]]*')"
+"wip()" = "description(glob-i:'wip:*') | description(glob-i:'[[]WIP[]]*') | description(glob-i:'wip(*)*')"
 "private()" = "description(glob-i:'private:*') | description(glob-i:'[[]PRIVATE[]]*')"
 "blacklist()" = "wip() | private()"
 
