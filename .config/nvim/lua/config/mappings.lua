@@ -1,5 +1,12 @@
 local sal = require 'saltor'
-local map, nmap, vmap = sal.map, sal.nmap, sal.vmap
+local nmap, vmap = sal.nmap, sal.vmap
+
+vim.cmd [[
+  nnoremap hh <nop>
+  nnoremap ll <nop>
+  vnoremap hh <nop>
+  vnoremap ll <nop>
+]]
 
 -- vv Uncategorized vv
 nmap('[ ', 'O<ESC>j', 'Create line above')
