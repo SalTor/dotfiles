@@ -43,8 +43,8 @@ sandwich = [ "rebase", "-B", "megamerge()", "-A", "trunk()", "-r"]
 current = ["log", "-r", "trunk()::heads(bookmarks() & @::)"]
 
 # Get all open stacks of work
-open = ["log", "-r", "open() & ~empty()"] #  "heads(open() & ~empty())"
-wip = ["log", "-r", "wip() & mine() & mutable()"] #  "heads(wip() & mine())"
+open = ["log", "-r", "open()"] #  "heads(open() & ~empty())"
+wip = ["log", "-r", "wip()"] #  "heads(wip() & mine())"
 floaters = ["log", "-r", "~trunk() & mine()"]
 
 # Retrunk -all- stacks of work
@@ -101,7 +101,7 @@ sudo = ["--ignore-immutable"]
 
 "mine()" = 'user("storcivia@fastgrowingtrees.com") | user("github+0019@saltor.nyc")'
 
-"wip()" = "description(glob-i:'wip:*') | description(glob-i:'[[]WIP[]]*') | description(glob-i:'wip(*)*')"
+"wip()" = "stack((description(glob-i:'wip:*') | description(glob-i:'[[]WIP[]]*') | description(glob-i:'wip(*)*')) & mine() & mutable())"
 "private()" = "description(glob-i:'private:*') | description(glob-i:'[[]PRIVATE[]]*')"
 "blacklist()" = "private()"
 
@@ -117,7 +117,7 @@ sudo = ["--ignore-immutable"]
 # reachable from my working copy, or any other commit I wrote.
 # n = 1, meaning that nothing from `trunk()` is included, so all resulting
 # commits are mutable by definition.
-"open()" = "stack((mine() | @) & ~blacklist() & ~wip(), 1)"
+"open()" = "stack((mine() | @) & ~blacklist() & ~wip())"
 
 # Find the megamerge. Mostly useful in combination with other aliases, primarily
 # 'sandwich'. Normally when there's only one megamerge, sandwich works perfectly
