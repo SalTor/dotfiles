@@ -12,3 +12,4 @@ emacs/external-packages/
 emacs/project-setups/
 .DS_Store
 .git/*
+.config/jjui/themes
