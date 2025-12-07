@@ -145,6 +145,7 @@ sudo = ["--ignore-immutable"]
 'megamerge()' = 'coalesce(present(megamerge), reachable(stack(), merges()))'
 
 [templates]
+git_push_bookmark = '"saltor/" ++ change_id.short()'
 draft_commit_description = '''
 concat(
   coalesce(description, default_commit_description, "\n"),
