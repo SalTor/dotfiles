@@ -1,2 +1,2 @@
 [revisions]
-revset = "stack()"
+revset = "stack() | trunk()"
