@@ -101,7 +101,7 @@ sudo = ["--ignore-immutable"]
 
 "mine()" = 'user(exact:"storcivia@fastgrowingtrees.com") | user(exact:"github+0019@saltor.nyc")'
 
-"wip()" = "stack((description(glob-i:'wip:*') | description(glob-i:'[[]WIP[]]*') | description(glob-i:'wip(*)*')) & mine() & mutable())"
+"wip()" = "stack(description(glob-i:'draft:*') & mine() & mutable())"
 "private()" = "description(glob-i:'private:*') | description(glob-i:'[[]PRIVATE[]]*')"
 "blacklist()" = "private()"
 
