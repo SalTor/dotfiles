@@ -53,8 +53,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     nmap('<leader>D', vim.lsp.buf.type_definition, 'LSP: Type [D]efinition')
     nmap('<leader>ws', telescopeBuiltin.lsp_dynamic_workspace_symbols, 'LSP: [W]orkspace [S]ymbols')
-    nmap('<leader>,', telescopeBuiltin.git_files, 'File finder')
-    nmap('<leader>/', telescopeBuiltin.buffers, 'Buffers')
+    -- nmap('<leader>,', telescopeBuiltin.git_files, 'File finder')
+    -- nmap('<leader>/', telescopeBuiltin.buffers, 'Buffers')
 
     -- See `:help K` for why this keymap
     nmap('K', vim.lsp.buf.hover, 'LSP: Hover Documentation')
