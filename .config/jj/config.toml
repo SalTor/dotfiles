@@ -1,7 +1,7 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 [ui]
-default-command = ["log", "-r", "stack()"]
+default-command = ["log", "-r", "stack() | trunk()"]
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 pager = "delta"
 diff-formatter = ["difft", "--color=always", "$left", "$right"] # ":git"
@@ -84,10 +84,10 @@ back = ["util", "exec", "--", "bash", "-c", """
 
 sudo = ["--ignore-immutable"]
 
-# [revsets]
+[revsets]
 # log = "stack(mine() | @) | trunk() | @"
 # Prioritize the current bookmark
-# short-prefixes = "(trunk()..@)::"
+short-prefixes = "@ | trunk() | ancestors(reachable((mine() & mutable()) | @, mutable()), 2)"
 
 [revset-aliases]
 "immutable_heads()" = "builtin_immutable_heads()"
@@ -117,7 +117,7 @@ sudo = ["--ignore-immutable"]
 # reachable from my working copy, or any other commit I wrote.
 # n = 1, meaning that nothing from `trunk()` is included, so all resulting
 # commits are mutable by definition.
-"open()" = "stack((mine() | @) & ~blacklist() & ~wip())"
+"open()" = "stack((mine() | @))"
 
 # Find the megamerge. Mostly useful in combination with other aliases, primarily
 # 'sandwich'. Normally when there's only one megamerge, sandwich works perfectly
