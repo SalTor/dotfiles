@@ -45,7 +45,7 @@
   "tsc.nvim": { "branch": "main", "commit": "e083bcf1e54bc3af7df92b33235efb334e8c782c" },
   "vclib.nvim": { "branch": "main", "commit": "4febfa0480d253eff0557c6bc8b594bc37040672" },
   "vcmarkers.nvim": { "branch": "main", "commit": "72cacfb245f7664242c5e085ce9b0995f260df97" },
-  "vcsigns.nvim": { "branch": "main", "commit": "b1de15bcecda12a924a39cee6e65acaf1e039993" },
+  "vcsigns.nvim": { "branch": "main", "commit": "3e1569ebd2eb532148741484636e9bac1ac804bc" },
   "venv-selector.nvim": { "branch": "main", "commit": "321dbbbfc3f1d25dad24c289e853cacd0666f77f" },
   "vim-dadbod": { "branch": "master", "commit": "6d1d41da4873a445c5605f2005ad2c68c99d8770" },
   "vim-dadbod-completion": { "branch": "master", "commit": "a8dac0b3cf6132c80dc9b18bef36d4cf7a9e1fe6" },
