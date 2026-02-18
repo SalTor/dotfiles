@@ -1,3 +1,4 @@
 --hidden
+--no-require-git
 --glob=!.git/*
 --glob=!.jj/*

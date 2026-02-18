@@ -45,3 +45,7 @@ opt.shiftwidth = 4
 opt.tabstop = 4
 opt.expandtab = true
 opt.scrolloff = 3
+
+-- Use ripgrep for :grep (works in non-git jj workspaces too)
+opt.grepprg = "rg --vimgrep --smart-case --hidden --no-require-git --glob=!.git/* --glob=!.jj/*"
+opt.grepformat = '%f:%l:%c:%m'

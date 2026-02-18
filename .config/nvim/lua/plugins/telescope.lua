@@ -18,6 +18,19 @@ return {
     -- See `:help telescope` and `:help telescope.setup()`
     telescope.setup {
       defaults = {
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '--hidden',
+          '--no-require-git',
+          '--glob=!.git/*',
+          '--glob=!.jj/*',
+        },
         layout_strategy = 'flex',
         layout_config = {
           prompt_position = 'bottom',
@@ -47,6 +60,18 @@ return {
               -- vim.cmd.cfdo 'edit'
               actions.open_qflist(p_bufnr)
             end,
+          },
+        },
+      },
+      pickers = {
+        find_files = {
+          find_command = {
+            'rg',
+            '--files',
+            '--hidden',
+            '--no-require-git',
+            '--glob=!.git/*',
+            '--glob=!.jj/*',
           },
         },
       },
