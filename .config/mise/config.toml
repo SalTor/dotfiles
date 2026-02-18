@@ -12,3 +12,6 @@ node = "22"
 
 [settings]
 idiomatic_version_file_enable_tools = []
+
+[env]
+_.path = ["~/.cache/.bun/bin"]
