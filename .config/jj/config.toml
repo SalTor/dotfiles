@@ -90,7 +90,7 @@ sudo = ["--ignore-immutable"]
 short-prefixes = "@ | trunk() | ancestors(reachable((mine() & mutable()) | @, mutable()), 2)"
 
 [revset-aliases]
-"immutable_heads()" = "builtin_immutable_heads()"
+"immutable_heads()" = "builtin_immutable_heads() | ~mine()"
 "why_immutable(r)" = "r | roots(r:: & immutable_heads())"
 "closest_bookmark(to)" = "heads(::to & bookmarks())"
 "closest_pushable(to)" = "heads(::to & mutable() & ~description(exact:'') & (~empty() | merges()))"

@@ -30,7 +30,6 @@ return {
     config = function()
       local vcsigns = require 'vcsigns'
 
-      -- Nice default for jj with new+squash flow.
       vcsigns.setup { target_commit = 0 }
 
       local actions = vcsigns.actions
