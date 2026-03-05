@@ -63,6 +63,7 @@ nmap('gh', '0', 'Start of line')
 nmap('gl', '$', 'End of line')
 vmap('gh', '0', 'Start of line')
 vmap('gl', '$', 'Start of line')
+nmap('<leader>gb', ':JJBlamePopup<CR>', 'Open Jujutsu blame popup')
 
 -- h Help
 nmap('<leader>hf', ':Telescope help_tags<CR>', 'Help tags')

@@ -22,7 +22,7 @@ return {
         },
       }
 
-      nmap('<leader>gb', gitsigns.blame_line, 'Git blame')
+      -- nmap('<leader>gb', gitsigns.blame_line, 'Git blame')
     end,
   },
   {
