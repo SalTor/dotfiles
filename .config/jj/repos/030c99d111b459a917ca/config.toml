@@ -1,0 +1,5 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[revset-aliases]
+"trunk()" = "master@origin"
+"immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine())"
