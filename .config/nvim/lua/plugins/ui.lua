@@ -136,4 +136,18 @@ return {
   {
     'L3MON4D3/LuaSnip',
   },
+  {
+    'folke/zen-mode.nvim',
+    config = function()
+      local nmap = require('saltor').nmap
+
+      nmap('<leader>z', ':ZenMode<CR>', 'Zen mode')
+    end,
+    opts = {
+      plugins = {
+        gitsigns = { enabled = false },
+        vcsigns = { enabled = false },
+      },
+    },
+  },
 }
