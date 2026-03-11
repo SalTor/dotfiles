@@ -1,7 +1,8 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 [ui]
-default-command = ["log", "-r", "stack() | trunk()"]
+default-command = ["util", "exec", "--", "jjui"]
+# default-command = ["log", "-r", "stack() | trunk()"]
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 pager = "delta"
 diff-formatter = ["difft", "--color=always", "$left", "$right"] # ":git"
