@@ -1,2 +1,16 @@
 [revisions]
 revset = "stack() | trunk()"
+
+[[actions]]
+name = "workspace-refresh"
+lua = '''
+jj("workspace", "update-stale");
+revisions.refresh();
+flash("Successfully ran update-stale");
+'''
+
+[[bindings]]
+action = "workspace-refresh"
+key = "ctrl+h"
+scope="revisions"
+desc = "Run workspace update-stale"
