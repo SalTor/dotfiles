@@ -1,11 +1,11 @@
 ---
 name: pr
-description: Create a GitHub pull request with gh using Jujutsu workflows
+description: Create a pull/merge request (GitHub or GitLab) using Jujutsu workflows
 ---
 
-# pr - Create a GitHub Pull Request
+# pr - Create a Pull/Merge Request
 
-Create a GitHub PR using `gh`, defaulting to Jujutsu workflows. This covers pushing a bookmark, creating the PR, and formatting the PR body without literal `\n` characters.
+Create a GitHub PR (`gh`) or GitLab MR (`glab`), defaulting to Jujutsu workflows. This covers reviewing changes, describing the change, pushing a bookmark, creating the PR/MR, and formatting the body without literal `\n` characters.
 
 ## Usage
 
@@ -22,7 +22,21 @@ Examples:
 1. **Determine repo root**
    - Use current working directory or the repo containing recent file edits.
 
-2. **Review current change (align with review prompt)**
+2. **Detect forge and CLI**
+   - Check origin remote host:
+     ```bash
+     git remote get-url origin
+     ```
+   - If host is GitHub, use `gh`.
+   - If host is GitLab, use `glab`.
+   - Verify auth before creation:
+     ```bash
+     gh auth status
+     glab auth status
+     ```
+   - If unauthenticated, ask user to authenticate before continuing.
+
+3. **Review current change (align with review prompt)**
    ```bash
    jj status
    jj diff -r @ --color never
@@ -33,7 +47,7 @@ Examples:
      git diff --color=never
      ```
 
-3. **Update change description with a Conventional Commit (align with commit prompt)**
+4. **Update change description with a Conventional Commit (align with commit prompt)**
    - Check recent commit messages to detect scope usage:
      ```bash
      jj log -n 20 --no-graph --template 'description ++ "\n"'
@@ -42,9 +56,12 @@ Examples:
      ```bash
      jj describe -m "<message>"
      ```
-   - If `jj` fails, fall back to `git commit -m "<message>"`.
+   - If needed for a specific revision:
+     ```bash
+     jj describe -r <rev> -m "<message>"
+     ```
 
-4. **Create or reuse a bookmark (branch)**
+5. **Create or reuse a bookmark (branch)**
    - If none exists, create one for `@`:
      ```bash
      jj bookmark create <name> -r @
@@ -53,50 +70,58 @@ Examples:
      ```bash
      jj bookmark track <name> --remote origin
      ```
+   - Prefer `saltor/` prefix for bookmark names.
 
-5. **Push the bookmark**
+6. **Push the bookmark**
    ```bash
    jj git push --bookmark <name>
    ```
 
-6. **Check for a pull request template**
-   - Look for common locations:
+7. **Check for a PR/MR template**
+   - Look for template files in this order:
+     - `docs/pull-request-template.md`
      - `.github/pull_request_template.md`
      - `.github/PULL_REQUEST_TEMPLATE.md`
      - `.github/PULL_REQUEST_TEMPLATE/`
      - `PULL_REQUEST_TEMPLATE.md`
-   - If a template exists, follow its structure in the PR body.
+   - If a template exists, follow its structure exactly in the body.
 
-7. **Create the PR with `gh`**
-   - Ask for the base branch if not provided.
+8. **Create PR/MR**
+   - Ask for base branch if not provided.
    - Use a well-formed title/body.
-   - **Avoid literal `\n` in the PR body** by using ANSI-C quoting or a here-doc:
-     ```bash
-     gh pr create --base <base> --head <name> \
-       --title "<title>" \
-       --body $'## Summary\n- item\n\n## Testing\n- command'
-     ```
-     or:
-     ```bash
-     gh pr create --base <base> --head <name> --title "<title>" --body "$(cat <<'EOF'
-     ## Summary
-     - item
+   - **Avoid literal `\n` rendering issues** by using ANSI-C quoting or a here-doc.
 
-     ## Testing
-     - command
-     EOF
-     )"
-     ```
+   **GitHub (`gh`)**
+   ```bash
+   gh pr create --base <base> --head <name> \
+     --title "<title>" \
+     --body $'## Summary\n- item\n\n## Testing\n- command'
+   ```
 
-8. **If the PR body renders incorrectly**
-   - Update it in-place:
+   **GitLab (`glab`)**
+   ```bash
+   glab mr create \
+     --source-branch <name> \
+     --target-branch <base> \
+     --title "<title>" \
+     --description $'## Summary\n- item\n\n## Testing\n- command'
+   ```
+
+9. **If body renders incorrectly, update it in-place**
+   - GitHub:
      ```bash
      gh pr edit <number> --body $'...'
+     ```
+   - GitLab:
+     ```bash
+     glab mr update <iid> --description $'...'
      ```
 
 ## Notes / Learned Behavior
 
-- `gh pr create --body "text\nmore"` can produce literal `\n` on GitHub if not using ANSI-C quotes or a here-doc.
-- When including code examples in the PR body, wrap them in triple backticks so GitHub renders them correctly.
-- Prefer Jujutsu for VCS operations (create bookmark, track, push).
+- `gh pr create --body "text\nmore"` can render literal `\n`; use ANSI-C quotes or here-doc.
+- Use the same approach with `glab mr create --description` to keep formatting reliable.
+- When including code examples in the body, wrap in triple backticks.
+- Prefer Jujutsu for VCS operations (describe, bookmark, track, push).
 - Ask for base branch if not specified; default to `main` only when appropriate.
+- In repos with `docs/pull-request-template.md`, prefer that template over GitHub defaults.
