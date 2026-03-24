@@ -97,13 +97,21 @@ return {
     nmap('<leader>sh', builtin.help_tags, '[S]earch [H]elp')
     map('v', '<leader>sp', searchProject, 'Search project (selection)')
     nmap('<leader>,', function()
-      telescope.load_extension 'jj'
-      telescope.extensions.jj.files()
-      -- if require('saltor').is_inside_git_repo() then
-      --   builtin.git_files()
-      -- else
-      --   builtin.find_files()
-      -- end
+      local saltor = require 'saltor'
+
+      if saltor.is_inside_jj_repo() then
+        local ok = pcall(telescope.load_extension, 'jj')
+        if ok and telescope.extensions.jj then
+          telescope.extensions.jj.files()
+          return
+        end
+      end
+
+      if saltor.is_inside_git_repo() then
+        builtin.git_files()
+      else
+        builtin.find_files()
+      end
     end, 'File finder')
     nmap('<leader>/', builtin.buffers, 'Buffers')
   end,

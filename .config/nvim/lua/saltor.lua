@@ -52,6 +52,16 @@ function M.is_inside_git_repo()
   return false
 end
 
+function M.is_inside_jj_repo()
+  local handle = io.popen 'jj --ignore-working-copy root 2>/dev/null'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    return result ~= nil and result:gsub('%s+', '') ~= ''
+  end
+  return false
+end
+
 function M.dump(o)
   if type(o) == 'table' then
     local s = '{ '
