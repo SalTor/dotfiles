@@ -5,8 +5,9 @@ revset = "stack() | trunk()"
 name = "workspace-refresh"
 lua = '''
 jj("workspace", "update-stale");
+jj("git", "export");
 revisions.refresh();
-flash("Successfully ran update-stale");
+flash("Successfully ran update-stale and `git export`");
 '''
 
 [[bindings]]

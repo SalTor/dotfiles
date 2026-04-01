@@ -84,6 +84,7 @@ back = ["util", "exec", "--", "bash", "-c", """
 """, "jj-back"]
 
 sudo = ["--ignore-immutable"]
+pr = ["util", "exec", "--", "jj-vine"]
 
 [revsets]
 # log = "stack(mine() | @) | trunk() | @"
@@ -102,7 +103,7 @@ short-prefixes = "@ | trunk() | ancestors(reachable((mine() & mutable()) | @, mu
 
 "mine()" = 'user(exact:"storcivia@fastgrowingtrees.com") | user(exact:"github+0019@saltor.nyc")'
 
-"wip" = "stack(description(glob-i:'draft:*') & mine() & mutable())"
+"wip" = "stack((description(glob-i:'draft:*') | description(glob-i:'TODO:*')) & mine() & mutable())"
 "private()" = "description(glob-i:'private:*') | description(glob-i:'[[]PRIVATE[]]*')"
 "blacklist()" = "private()"
 
