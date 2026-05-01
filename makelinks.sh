@@ -55,6 +55,10 @@ ln -s $HOME/dotfiles/zsh/.zshrc    $HOME/.zshrc
 ln -s $HOME/dotfiles/zsh/.zprofile $HOME/.zprofile
 ln -s $HOME/dotfiles/zsh/.oh-my-zsh/custom $HOME/.oh-my-zsh/custom
 
+mkdir -p $HOME/.agents
+ln -s $HOME/dotfiles/.agents/skills $HOME/.agents/skills
+ln -s $HOME/.agents/skills $HOME/.claude/skills
+
 echo 'Install Alfred at: https://www.alfredapp.com/'
 echo 'Install Magnet (window management) at: https://magnet.crowdcafe.com/'
 echo 'Install Source Code Pro fonts'
