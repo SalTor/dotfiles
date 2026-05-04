@@ -27,5 +27,5 @@ keybind = cmd+shift+]=text:\x02n
 keybind = cmd+[=text:\x02p
 keybind = cmd+shift+[=text:\x02p
 
-# Sends Ctrl-b S for tmux show sessions
-keybind = cmd+;=text:\x02s
+# Sends Ctrl-b a
+keybind = cmd+;=text:\x02a
