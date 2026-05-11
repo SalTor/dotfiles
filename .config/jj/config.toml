@@ -87,7 +87,7 @@ sudo = ["--ignore-immutable"]
 pr = ["util", "exec", "--", "jj-vine"]
 
 [revsets]
-# log = "stack(mine() | @) | trunk() | @"
+log = "stack() | trunk()"
 # Prioritize the current bookmark
 short-prefixes = "@ | trunk() | ancestors(reachable((mine() & mutable()) | @, mutable()), 2)"
 
