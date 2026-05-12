@@ -48,7 +48,30 @@ If no revset is given, default to `trunk()..@`.
    - Read the full diff. Don't review from filenames or commit messages alone.
    - Cite **Jujutsu change IDs** in findings, not git commit hashes.
 
-4. **Staff Engineer review**
+4. **Pull existing PR/MR feedback**
+   - If a PR/MR exists for the revset, fetch its comments first so the review doesn't duplicate ongoing discussion.
+   - Detect the forge from origin:
+     ```bash
+     git remote get-url origin
+     ```
+   - **GitHub** (`gh`) — run from the bookmark's branch, or pass `<number>`:
+     ```bash
+     # PR metadata + top-level conversation + review threads (with resolution state)
+     gh pr view [<number>] --json number,url,title,state,reviews,reviewThreads,comments
+     # Inline code-review comments with file/line anchors
+     gh api repos/{owner}/{repo}/pulls/{number}/comments
+     ```
+   - **GitLab** (`glab`):
+     ```bash
+     glab mr view [<iid>] --comments
+     ```
+   - When forming findings:
+     - Skip anything already raised by a reviewer, **including resolved threads** — don't relitigate decided issues.
+     - If you'd reinforce or push back on an existing comment, call out the thread explicitly ("agree with X's comment on `<file>:<line>`") rather than restating it as a fresh finding.
+     - Note unresolved threads the author hasn't addressed yet so the recommendation reflects them.
+   - If no PR/MR exists (pre-push or local-only stack), skip this step and say so.
+
+5. **Staff Engineer review**
 
    Focus on:
    - correctness and edge cases
@@ -60,14 +83,15 @@ If no revset is given, default to `trunk()..@`.
 
    Classify findings by severity: **blocker**, **major**, **minor**, **nit**.
 
-5. **Questions for the author**
+6. **Questions for the author**
 
    Capture things you'd want confirmed before approving but aren't outright findings — hidden assumptions, unclear intent, missing context. Keep these separate from severity-classified findings.
 
-6. **Final summary**
-   - Header: revset reviewed, change count, overall recommendation (`approve`, `approve with follow-ups`, or `changes required`).
+7. **Final summary**
+   - Header: revset reviewed, change count, PR/MR link (if any), overall recommendation (`approve`, `approve with follow-ups`, or `changes required`).
    - Findings grouped by severity, each tied to a change ID.
    - Questions section.
+   - Note any unresolved existing review threads that block approval.
    - If nothing to flag, say so explicitly.
 
 ## Notes
