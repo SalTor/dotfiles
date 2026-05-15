@@ -12,6 +12,9 @@ editor = ["nvim", "--cmd", "let g:flatten_wait=1"]
 name = "saltor"
 email = "storcivia@fastgrowingtrees.com"
 
+[workspace]
+auto-update-stale = true
+
 # [defaults]
 # log.limit = 20
 
