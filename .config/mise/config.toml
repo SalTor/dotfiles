@@ -10,6 +10,7 @@ node = "20.17.0"
 "aqua:chmln/sd" = "latest"
 "core:bun" = "latest"
 go = "latest"
+"github:agavra/tuicr" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
