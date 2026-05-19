@@ -31,7 +31,13 @@ fi
 
 source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 
-source <(COMPLETE=zsh jj)
+_jj_completion_cache="${XDG_CACHE_HOME:-$HOME/.cache}/jj-completion.zsh"
+if [[ ! -s $_jj_completion_cache || $(command -v jj) -nt $_jj_completion_cache ]]; then
+  mkdir -p "${_jj_completion_cache:h}"
+  COMPLETE=zsh jj > "$_jj_completion_cache" 2>/dev/null
+fi
+source "$_jj_completion_cache"
+unset _jj_completion_cache
 
 # pnpm
 export PNPM_HOME="/Users/storcivia/Library/pnpm"
