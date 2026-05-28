@@ -17,6 +17,10 @@ return {
       -- for redshift
       vim.g.db_ui_use_postgres_views = 0
     end,
+    config = function()
+      -- :DBTableExport [csv|json] [path] + <leader>de in result buffers
+      require('dbout-export').setup()
+    end,
     keys = {
       { '<leader>da', '<cmd>DBUIToggle<cr>', desc = 'open dbui (dadbod)' },
     },
