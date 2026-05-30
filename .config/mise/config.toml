@@ -4,13 +4,14 @@ node = "20.17.0"
 "ubi:pnpm/pnpm" = "latest"
 "aqua:BurntSushi/ripgrep" = "latest"
 "aqua:neovim/neovim" = "latest"
-"ubi:jj-vcs/jj" = "latest"
+"aqua:jj-vcs/jj" = "latest"
 "ubi:dandavison/delta" = "latest"
 "aqua:helix-editor/helix" = "latest"
 "aqua:chmln/sd" = "latest"
 "core:bun" = "latest"
 go = "latest"
 "github:agavra/tuicr" = "latest"
+"aqua:idursun/jjui" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
