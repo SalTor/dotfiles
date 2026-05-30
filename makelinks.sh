@@ -55,6 +55,14 @@ ln -s $HOME/dotfiles/zsh/.zshrc    $HOME/.zshrc
 ln -s $HOME/dotfiles/zsh/.zprofile $HOME/.zprofile
 ln -s $HOME/dotfiles/zsh/.oh-my-zsh/custom $HOME/.oh-my-zsh/custom
 
+# Per-file symlinks so fish-managed state (fish_variables) and tool-generated
+# snippets (conf.d/atuin.env.fish) stay local rather than living in the repo.
+mkdir -p $XDG_CONFIG_HOME/fish/functions
+ln -s $HOME/dotfiles/.config/fish/config.fish $XDG_CONFIG_HOME/fish/config.fish
+ln -s $HOME/dotfiles/.config/fish/functions/fish_prompt.fish $XDG_CONFIG_HOME/fish/functions/fish_prompt.fish
+# fisher plugin list; config.fish bootstraps fisher and runs `fisher update`.
+ln -s $HOME/dotfiles/.config/fish/fish_plugins $XDG_CONFIG_HOME/fish/fish_plugins
+
 mkdir -p $HOME/.agents
 ln -s $HOME/dotfiles/.agents/skills $HOME/.agents/skills
 ln -s $HOME/.agents/skills $HOME/.claude/skills

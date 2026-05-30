@@ -74,6 +74,18 @@ touch ~/.profile
 linkdotfile zsh/.zshrc
 linkdotfile zsh/.zprofile
 
+# fish lives under XDG config and shares its dir with fish-managed state
+# (fish_variables) and tool snippets (conf.d/), so symlink individual files.
+mkdir -p ~/.config/fish/functions
+for f in config.fish functions/fish_prompt.fish fish_plugins; do
+    if [ ! -e ~/.config/fish/$f -a ! -L ~/.config/fish/$f ]; then
+        yecho "fish/$f not found, linking..." >&2
+        ln -s ~/dotfiles/.config/fish/$f ~/.config/fish/$f
+    else
+        gecho "fish/$f found, ignoring..." >&2
+    fi
+done
+
 echo "Install fonts RobotoMono + Source Code Pro + Hacknerd + Victormono"
 
 curl -fsSL https://get.pnpm.io/install.sh | sh -
