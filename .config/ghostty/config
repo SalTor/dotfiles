@@ -1,6 +1,10 @@
 macos-titlebar-style = hidden
 theme = Catppuccin Frappe
 
+# Run fish in Ghostty without changing the system login shell (reversible:
+# remove this line). Other terminals / login / ssh still use the default shell.
+command = /opt/homebrew/bin/fish
+
 font-family = Maple Mono NF
 font-size = 12
 font-thicken = true
