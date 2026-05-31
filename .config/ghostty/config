@@ -33,3 +33,6 @@ keybind = cmd+shift+[=text:\x02p
 
 # Sends Ctrl-b a
 keybind = cmd+;=text:\x02a
+
+# Sends Ctrl-b ' (tmux prefix-apostrophe → assistant-tui popup)
+keybind = cmd+'=text:\x02'
