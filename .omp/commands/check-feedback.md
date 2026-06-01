@@ -34,21 +34,7 @@ Examples:
      gh auth status   # or: glab auth status
      ```
 
-2. **Sync local state with origin**
-
-   Your working copy may be stale: the author can push new commits after you last pulled, leaving `@`'s parent on a commit that no longer matches the PR head. The tell is inline threads reported as *outdated* against an anchor you reviewed. Refresh before reading feedback so the cross-check in step 6 runs against the code reviewers actually see.
-   ```bash
-   jj git fetch
-   ```
-   - This updates remote-tracking bookmarks (e.g. `<bookmark>@origin`) without touching your working copy.
-   - If `@` (or its nearest bookmarked ancestor) is now behind `<bookmark>@origin`, move onto the fetched head:
-     ```bash
-     jj new <bookmark>@origin
-     ```
-   - Only move the working copy when it's empty / has no in-progress edits to preserve. If `@` carries uncommitted work, leave it put and instead inspect the PR head by revision (`<bookmark>@origin`) in step 6 rather than relocating.
-   - Git fallback (only if `jj` is unavailable): `git fetch origin`, and `git switch`/`git checkout` only when the tree is clean.
-
-3. **Resolve the PR/MR number**
+2. **Resolve the PR/MR number**
    - If the user passed a bare number, use it.
    - Otherwise resolve from the revset:
      ```bash
@@ -67,7 +53,7 @@ Examples:
        ```
    - If nothing matches, report that no PR/MR exists for the revset and stop. Don't guess.
 
-4. **Pull the feedback**
+3. **Pull the feedback**
 
    **GitHub (`gh`)**
    ```bash
@@ -88,7 +74,7 @@ Examples:
    glab api projects/:fullpath/merge_requests/<iid>/discussions
    ```
 
-5. **Classify each thread**
+4. **Classify each thread**
 
    For every review thread / discussion:
    - **Unresolved + actionable** — reviewer asked for a change or raised a concern that hasn't been addressed.
@@ -104,20 +90,20 @@ Examples:
    - the most recent reply (if any) and who replied
    - timestamp of the latest activity
 
-6. **Cross-check against the current diff**
-   - For unresolved threads tied to a file/line, check whether the current code at that location still matches what the reviewer was looking at. Inspect the fetched PR head, not a possibly-stale local rev:
+5. **Cross-check against the current diff**
+   - For unresolved threads tied to a file/line, check whether the current code at that location still matches what the reviewer was looking at:
      ```bash
-     jj show <bookmark>@origin -- <path>
+     jj show <rev-with-bookmark> -- <path>
      ```
    - If the code has changed since the comment, note it as "possibly addressed — confirm with reviewer" rather than "outstanding".
    - Don't claim a thread is fixed unless the diff clearly addresses the specific ask.
 
-7. **Note overall review state**
+6. **Note overall review state**
    - Approvals, change requests, dismissed reviews — surface the latest state per reviewer.
    - Failing required checks that reviewers have referenced.
    - Whether the PR/MR is in draft.
 
-8. **Report**
+7. **Report**
 
    Output structure:
    - **Header**: PR/MR number, URL, title, state (open/draft/merged), base ← head, last updated.
