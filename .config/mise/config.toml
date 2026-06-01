@@ -15,6 +15,7 @@ go = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
+trusted_config_paths = ["/Users/storcivia/.awp/workspaces"]
 
 [env]
 _.path = ["~/.cache/.bun/bin"]

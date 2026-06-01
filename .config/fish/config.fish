@@ -49,6 +49,18 @@ if test (uname) = Darwin; and test -x /opt/homebrew/bin/brew
     /opt/homebrew/bin/brew shellenv | source
 end
 
+# ── mise shims (so non-interactive shells get mise-managed tools) ────────────
+# `mise activate` below runs for interactive shells only, so non-interactive
+# invocations have no mise tools on PATH. The big one: tmux `display-popup -E
+# "…"` runs `fish -c`, which is non-interactive and exits at the guard below
+# before activating mise — so `awp` (lives in ~/.local/share/mise/installs, not
+# Homebrew) goes missing. Adding the shims dir up here, ahead of the guard,
+# makes those tools resolve everywhere; interactive shells still get the full
+# `mise activate` treatment further down.
+if test -d $HOME/.local/share/mise/shims
+    fish_add_path $HOME/.local/share/mise/shims
+end
+
 # Everything below is for interactive shells only.
 if not status is-interactive
     exit
@@ -154,3 +166,5 @@ if command -q jj
     end
     test -s $_jj_cache; and source $_jj_cache
 end
+
+alias assume="source (brew --prefix)/bin/assume.fish"

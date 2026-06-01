@@ -1,0 +1,10 @@
+# Finder-launched apps don't inherit the shell PATH, so point Neovide at the
+# mise shim explicitly (stable across neovim version updates).
+neovim-bin = "/Users/storcivia/.local/share/mise/shims/nvim"
+
+# Finder-opened files are injected as a post-startup `:drop`, not as CLI args,
+# so dashboard-nvim's "no args + unnamed buffer" check still fires. With
+# tabs = true the file lands in a second tab hidden behind the dashboard
+# (which also hides the tabline). Plain `:drop` replaces the dashboard buffer
+# in the current window instead.
+tabs = false
