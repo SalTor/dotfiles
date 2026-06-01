@@ -1,6 +1,10 @@
 return {
+  -- NOTE: tracking `master`, not the frozen `0.1.x` stable branch. 0.1.x's
+  -- previewer uses the removed `nvim-treesitter.configs`/`parsers.ft_to_lang`
+  -- API and crashes against nvim-treesitter's `main` branch; master uses
+  -- native `vim.treesitter` instead.
   'nvim-telescope/telescope.nvim',
-  branch = '0.1.x',
+  branch = 'master',
   dependencies = {
     'nvim-lua/plenary.nvim',
     {
