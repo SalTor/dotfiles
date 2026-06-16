@@ -13,3 +13,5 @@ emacs/project-setups/
 .DS_Store
 .git/*
 .config/jjui/themes
+# jj's centralized per-repo config/state (machine-specific paths); not portable
+.config/jj/repos/
