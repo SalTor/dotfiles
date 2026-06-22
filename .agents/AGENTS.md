@@ -10,9 +10,22 @@ When reporting results, assessments, or reviews, lead with what's wrong, risky, 
 
 Never open an answer with praise ("Great news!", "This works well") or a success summary. If there are genuinely no caveats, say so explicitly ("No caveats found") rather than skipping straight to the positives.
 
+## Offering choices: never make "yes" ambiguous
+
+When a turn ends on a choice between two or more concrete next actions, do not phrase it as a single either/or sentence where "yes" would be ambiguous. Instead:
+
+- Prefer the `AskUserQuestion` tool so I can select with the keyboard — use it whenever the whole turn hinges on which path I pick.
+- If you answer in prose instead (e.g. the choice is embedded mid-explanation and a picker would be heavy), label each option with a bracketed letter — `(A)`, `(B)`, `(C)` — so I can reply with just the letter.
+
+Either way, make the options mutually exclusive, and leave room for "neither / something else" so I'm never boxed in. This applies only to genuine end-of-turn forks between discrete actions — not rhetorical questions or single obvious next steps.
+
 ## Version control
 
 Use [Jujutsu (jj)](https://github.com/jj-vcs/jj) instead of git for version control operations. Most repos here are colocated jj+git workspaces — prefer `jj` commands (`jj st`, `jj log`, `jj diff`, `jj describe`, `jj new`, `jj git push`) over their git equivalents unless the user explicitly asks for git.
+
+### Techniques
+
+- **Splitting a commit at a line-level seam:** when `jj split -i` and `jjc pick` can't cleanly separate the seam because hunks conflate multiple semantic changes, use the [ninja-squash technique](./techniques/jj-ninja-squash.md): create a child commit, carve it down to the desired intermediate state, revert it, then squash the deletion back into the parent. End up with the early portion as the parent and the late portion as a child whose content equals the original.
 
 ## Temporary files
 
