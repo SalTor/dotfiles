@@ -71,8 +71,15 @@ Examples:
 
    **GitHub (`gh`)**
    ```bash
-   # PR metadata + top-level conversation + review threads (with resolution state) + reviews
-   gh pr view <number> --json number,url,title,state,isDraft,author,headRefName,baseRefName,updatedAt,reviews,reviewThreads,comments
+   # PR metadata + top-level conversation + reviews + merge-gating decision
+   gh pr view <number> --json number,url,title,state,isDraft,author,headRefName,baseRefName,updatedAt,reviewDecision,reviews,comments
+
+   # Review threads WITH resolution state — via GraphQL (the `reviewThreads`
+   # --json field is unsupported on some gh versions; see Notes).
+   gh api graphql -f query='{ repository(owner:"OWNER", name:"REPO") {
+     pullRequest(number: NUM) { reviewThreads(first: 50) { nodes {
+       isResolved isOutdated path line
+       comments(first: 10) { nodes { author { login } body createdAt } } } } } } }'
 
    # Inline code-review comments with file/line anchors and in_reply_to chains
    gh api repos/{owner}/{repo}/pulls/<number>/comments --paginate
@@ -117,10 +124,26 @@ Examples:
    - Failing required checks that reviewers have referenced.
    - Whether the PR/MR is in draft.
 
-8. **Report**
+8. **Decide whether approval is warranted**
+
+   After classifying, state an explicit verdict: **would you approve this PR/MR right now?** The user wants a recommendation, not just a thread dump. Pick one:
+   - **Approve warranted** — no unresolved blocking threads, required checks green, and any residual risk is operational/deferred rather than a merge blocker.
+   - **Approve with follow-up** — mergeable now, but name the loose ends to track (e.g. a deferred fix in another PR/repo) so they aren't lost.
+   - **Not yet** — name the specific blockers: outstanding change-requests, failing required checks, unanswered questions, or a thread whose ask the diff doesn't cover.
+
+   Ground the verdict in evidence you can cite: which checks are green, which threads are resolved/addressed, what the cross-check in step 6 showed. Separate *merge* from *deploy* when the PR gates them differently — a cutover can be safe to merge while a prod deploy stays gated.
+
+   Caveats to surface, not bury:
+   - Your verdict is advice; the gating approval is a human's. Note `reviewDecision`, and whether the PR author can self-approve (they can't — so if they're the only reviewer, a second human is still required to unblock).
+   - If the verdict rests on author/CI claims you didn't verify yourself (e.g. you didn't re-run a generator or reproduce a test), say so — name the signal it leans on.
+
+   **Recommending is in scope; approving is not.** Never submit an APPROVE review or merge — report the verdict and let the user act.
+
+9. **Report**
 
    Output structure:
    - **Header**: PR/MR number, URL, title, state (open/draft/merged), base ← head, last updated.
+   - **Approval verdict** (from step 8): approve-warranted / approve-with-follow-up / not-yet, in one line with the one-clause reason and the gating caveat. Lead with this — it's the question the user most often actually has.
    - **Top-line status**: reviewer approvals/change-requests, failing checks worth noting.
    - **Action items** (unresolved + actionable), grouped by file, each citing reviewer and file:line.
    - **Open questions** (unresolved + question) — the author owes a reply, not necessarily a code change.
@@ -132,8 +155,15 @@ Examples:
 
 ## Notes
 
-- **Report only.** Do not post replies, resolve threads, push commits, or edit code. If the user wants to act, point them at `/simplify` (apply fixes) or have them reply directly.
+- **Report only.** Recommending whether to approve (step 8) is in scope; *acting* is not — do not submit an APPROVE/request-changes review, merge, post replies, resolve threads, push commits, or edit code. If the user wants to act, point them at `/simplify` (apply fixes) or have them reply/approve directly.
 - Cite **Jujutsu change IDs** when referring to local changes, and **PR/MR comment URLs or file:line anchors** when referring to feedback — so the user can click straight to either side.
-- Resolution state on GitHub lives on `reviewThreads[].isResolved`; the older `comments` endpoint doesn't carry it. Use `gh pr view --json reviewThreads` as the source of truth for resolved-vs-not.
+- Resolution state on GitHub lives on `reviewThreads[].isResolved`; the older `comments` endpoint doesn't carry it. Use `gh pr view --json reviewThreads` as the source of truth for resolved-vs-not — **but some `gh` versions reject `reviewThreads` as an unknown `--json` field.** When that happens, drop it from the `gh pr view` call and fetch threads via GraphQL instead:
+  ```bash
+  gh api graphql -f query='{ repository(owner:"OWNER", name:"REPO") {
+    pullRequest(number: NUM) { reviewThreads(first: 50) { nodes {
+      isResolved isOutdated path line
+      comments(first: 10) { nodes { author { login } body createdAt } } } } } } }'
+  ```
+- `reviewDecision` (`gh pr view --json reviewDecision`) gives the merge-gating state (`APPROVED` / `CHANGES_REQUESTED` / `REVIEW_REQUIRED`) in one field — use it for the step-8 verdict's gating caveat.
 - Pagination matters on busy PRs — use `--paginate` on `gh api` calls.
 - Git is a fallback only if `jj` is unavailable in the repo.

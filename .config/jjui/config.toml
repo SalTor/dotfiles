@@ -15,3 +15,20 @@ action = "workspace-refresh"
 key = "ctrl+h"
 scope="revisions"
 desc = "Run workspace update-stale"
+
+[[actions]]
+name = "review-in-tuicr"
+lua = '''
+local rev = context.change_id()
+if not rev then
+  flash("No revision selected")
+  return
+end
+exec_shell(string.format("tuicr -r %s", rev))
+'''
+
+[[bindings]]
+action = "review-in-tuicr"
+key = "t"
+scope = "revisions"
+desc = "Review selected revision in tuicr"
