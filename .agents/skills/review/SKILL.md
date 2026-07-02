@@ -52,8 +52,9 @@ If no revset is given, default to `trunk()..@`.
    - If a PR/MR exists for the revset, fetch its comments first so the review doesn't duplicate ongoing discussion.
    - Detect the forge from origin:
      ```bash
-     git remote get-url origin
+     jj git remote list
      ```
+   - Fall back to `git remote get-url origin` only if `jj` is unavailable.
    - **GitHub** (`gh`) — run from the bookmark's branch, or pass `<number>`:
      ```bash
      # PR metadata + top-level conversation + review threads (with resolution state)
@@ -71,7 +72,12 @@ If no revset is given, default to `trunk()..@`.
      - Note unresolved threads the author hasn't addressed yet so the recommendation reflects them.
    - If no PR/MR exists (pre-push or local-only stack), skip this step and say so.
 
-5. **Staff Engineer review**
+5. **Load the project's review checklist**
+   - Look for a **`REVIEW.md`** at the root of the project this skill is running in (repo root / working directory).
+   - If present, read it and treat it as the project's authoritative reviewer checklist. Apply its criteria alongside the generic focus areas below, and cite the relevant `REVIEW.md` section (e.g. "§2.4") in any finding it drives.
+   - If absent, proceed with the generic focus areas only.
+
+6. **Staff Engineer review**
 
    Focus on:
    - correctness and edge cases
@@ -83,11 +89,11 @@ If no revset is given, default to `trunk()..@`.
 
    Classify findings by severity: **blocker**, **major**, **minor**, **nit**.
 
-6. **Questions for the author**
+7. **Questions for the author**
 
    Capture things you'd want confirmed before approving but aren't outright findings — hidden assumptions, unclear intent, missing context. Keep these separate from severity-classified findings.
 
-7. **Final summary**
+8. **Final summary**
    - Header: revset reviewed, change count, PR/MR link (if any), overall recommendation (`approve`, `approve with follow-ups`, or `changes required`).
    - Findings grouped by severity, each tied to a change ID.
    - Questions section.

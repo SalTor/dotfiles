@@ -103,8 +103,9 @@ If the feedback itself isn't already in the conversation, ask the user for it (o
 
 1. **Detect forge**
    ```bash
-   git remote get-url origin
+   jj git remote list
    ```
+   - Fall back to `git remote get-url origin` only if `jj` is unavailable.
    - GitHub host → use `gh`.
    - GitLab host → use `glab`.
    - Verify auth before posting:
@@ -140,6 +141,7 @@ If the feedback itself isn't already in the conversation, ask the user for it (o
    - If a finding's line no longer exists at head, demote it into the summary instead of anchoring it — a bad anchor makes the API reject the whole review.
 
 4. **Reshape and apply the prefixes**
+   - Look for a **`REVIEW.md`** at the root of the project this skill is running in (repo root / working directory). If present, treat it as the project's authoritative reviewer checklist: align each comment's type tag and framing with its conventions, and where a finding maps to a checklist item, cite the relevant `REVIEW.md` section (e.g. "§2.4") in the comment so the author can trace it back.
    - Restructure every comment per "Comment style: headline + bullets" above — never post source prose as one blob.
    - Prepend the full attribution line + blank line to the summary body.
    - Pick one type tag per inline comment (see "Comment types") and lead with it: `[<TYPE>] :robot: ` (tag, emoji token + space, same line). No exceptions. The summary carries the attribution line, not a type tag.
