@@ -84,9 +84,42 @@ elif [ "$kind" = "b" ] && [ -n "$f1" ]; then
   branch="${icon} "$'\033[35m'"${f1}${reset}"
 fi
 
-# --- Emit:  {context}  {model}  {path}  {jj info} -----------------------
+# --- Stack PR numbers (jj bookmarks in trunk()..@ mapped via gh, cached) ---
+# pr.* in the status JSON only covers the current branch's single PR, so we
+# enumerate the stack ourselves. gh is a network call -> cache 60s per session;
+# the jj part stays live. Each #NNN is an OSC 8 hyperlink to the PR.
+stack_prs=""
+if [ -n "$kind" ] && command -v gh >/dev/null 2>&1; then
+  sid=$(printf '%s' "$input" | jq -r '.session_id // "x"')
+  cache="${TMPDIR:-/tmp}/cc-stack-prs-$sid.json"
+  if [ ! -f "$cache" ] || [ $(( $(date +%s) - $(stat -f %m "$cache" 2>/dev/null || echo 0) )) -gt 60 ]; then
+    (cd "$dir" 2>/dev/null && gh pr list --state open --json number,headRefName,url --limit 50 2>/dev/null) \
+      > "$cache.tmp" 2>/dev/null && mv "$cache.tmp" "$cache" 2>/dev/null
+  fi
+  # stack bookmarks, top-of-stack first (jj log default order)
+  bms=$(cd "$dir" 2>/dev/null && jj log -r 'trunk()..@' --no-graph --ignore-working-copy \
+        -T 'bookmarks.join(",") ++ "\n"' 2>/dev/null | tr ',' '\n' | sed '/^$/d')
+  if [ -s "$cache" ] && [ -n "$bms" ]; then
+    nums=""
+    while IFS= read -r bm; do
+      [ -z "$bm" ] && continue
+      pair=$(jq -r --arg b "$bm" '.[]|select(.headRefName==$b)|"\(.number)\t\(.url)"' "$cache" 2>/dev/null | head -1)
+      [ -z "$pair" ] && continue
+      IFS=$'\t' read -r num url <<< "$pair"
+      [ -z "$num" ] && continue
+      # OSC 8 hyperlink (clickable in iTerm2/Kitty/WezTerm; plain text elsewhere)
+      link=$'\033]8;;'"$url"$'\a'"#${num}"$'\033]8;;\a'
+      nums="$nums $link"
+    done <<< "$bms"
+    nums="${nums# }"
+    [ -n "$nums" ] && stack_prs=$'\033[34m'"PR ${nums}"$'\033[0m'
+  fi
+fi
+
+# --- Emit:  {context}  {model}  {path}  {jj info}  {stack PRs} ----------
 line=""
 [ -n "$ctx" ] && line="$ctx  "
 line="$line$model  $short"
 [ -n "$branch" ] && line="$line  $branch"
+[ -n "$stack_prs" ] && line="$line  $stack_prs"
 printf '%s' "$line"
