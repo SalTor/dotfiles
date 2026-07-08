@@ -67,6 +67,9 @@ mkdir -p $HOME/.agents
 ln -s $HOME/dotfiles/.agents/skills $HOME/.agents/skills
 ln -s $HOME/.agents/skills $HOME/.claude/skills
 
+# Claude Code status line script (referenced by ~/.claude/settings.json)
+ln -s $HOME/dotfiles/.claude/statusline-command.sh $HOME/.claude/statusline-command.sh
+
 echo 'Install Alfred at: https://www.alfredapp.com/'
 echo 'Install Magnet (window management) at: https://magnet.crowdcafe.com/'
 echo 'Install Source Code Pro fonts'
