@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Claude Code status line. Reads session JSON on stdin.
-# Format:  <model>  <~/first/…/last>  <branch>  ctx <pct>% · <tokens>
-# Branch is jj-first and understands anonymous branches (no bookmark → change id).
-# ctx segment tracks context-window fill so you know when to /compact or start fresh.
+# Format:  <change-id>  🧠 <used>/<max>  <model>  <~/first/…/last>  <PRs>
+# Branch is jj-first (always the change id; bookmarks ignored), git branch otherwise.
+# 🧠 segment tracks context-window fill (colour = how full) so you know when to /compact.
 
 input=$(cat)
 
-model=$(printf '%s' "$input" | jq -r '.model.display_name // "?"')
+# Strip any trailing "(… context)" note (e.g. "Opus 4.8 (1M context)"); the
+# window size is shown in the ctx segment instead, so it's redundant here.
+model=$(printf '%s' "$input" | jq -r '.model.display_name // "?"' | sed -E 's/ *\([^)]*context\)//')
 dir=$(printf '%s' "$input" | jq -r '.workspace.current_dir // .cwd // empty')
 [ -z "$dir" ] && dir="$PWD"
 
@@ -29,13 +31,14 @@ else
 fi
 
 # --- Branch: jj first, then git (evaluated in the session's directory) --
+# For jj we always show the change id (bookmarks are ignored on purpose).
 # Emits tab-separated "<kind>\t<f1>\t<f2>":
-#   kind=b (bookmark/git branch): f1=name, f2 empty
-#   kind=a (anonymous change id): f1=unique prefix, f2=remaining chars
+#   kind=a (jj change id):   f1=unique prefix, f2=remaining chars
+#   kind=b (git branch only): f1=name, f2 empty
 raw=$(cd "$dir" 2>/dev/null && {
   if command -v jj >/dev/null 2>&1 && jj root --quiet >/dev/null 2>&1; then
     jj log -r @ --no-graph --ignore-working-copy \
-      -T 'if(bookmarks, "b\t" ++ bookmarks.join(",") ++ "\t", "a\t" ++ change_id.shortest(8).prefix() ++ "\t" ++ change_id.shortest(8).rest())' 2>/dev/null
+      -T '"a\t" ++ change_id.shortest(8).prefix() ++ "\t" ++ change_id.shortest(8).rest()' 2>/dev/null
   elif command -v git >/dev/null 2>&1; then
     b=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     [ -n "$b" ] && printf 'b\t%s\t' "$b"
@@ -47,17 +50,32 @@ if [ -n "$raw" ]; then
 fi
 
 # --- Context-window usage ----------------------------------------------
-# used_percentage + total_input_tokens describe how full the current window is.
-read -r pct toks <<< "$(printf '%s' "$input" | jq -r '
-  (.context_window.used_percentage // empty | tostring) + " " +
-  (.context_window.total_input_tokens // empty | tostring)')"
+# used_percentage + total_input_tokens describe how full the current window is;
+# context_window_size is the window's max (e.g. 200000 or 1000000).
+# Emit all three space-joined; a missing field becomes "" (not an empty jq
+# stream, which would collapse the whole concatenation and drop the others).
+read -r pct toks max <<< "$(printf '%s' "$input" | jq -r '[
+  (.context_window.used_percentage // ""),
+  (.context_window.total_input_tokens // ""),
+  (.context_window.context_window_size // "")
+] | map(tostring) | join(" ")')"
 
 ctx=""
 if [ -n "$pct" ] && [ "$pct" != "null" ]; then
-  # tokens as a compact k-count (e.g. 47065 -> 47k)
+  # tokens as a compact k-count (e.g. 47065 -> 47k), with the window max
+  # appended as "used/max" (e.g. 44k/1M).
   if [ -n "$toks" ] && [ "$toks" != "null" ]; then
     k=$(( (toks + 500) / 1000 ))
     tstr="${k}k"
+    if [ -n "$max" ] && [ "$max" != "null" ] && [ "$max" -gt 0 ] 2>/dev/null; then
+      if [ "$max" -ge 1000000 ]; then
+        mm=$(( max / 1000000 )); rem=$(( (max % 1000000) / 100000 ))
+        if [ "$rem" -eq 0 ]; then maxstr="${mm}M"; else maxstr="${mm}.${rem}M"; fi
+      else
+        maxstr="$(( (max + 500) / 1000 ))k"
+      fi
+      tstr="${tstr}/${maxstr}"
+    fi
   else
     tstr=""
   fi
@@ -67,9 +85,10 @@ if [ -n "$pct" ] && [ "$pct" != "null" ]; then
   else                         c=$'\033[32m'   # green
   fi
   reset=$'\033[0m'
-  ctx="${c}ctx ${pct}%"
-  [ -n "$tstr" ] && ctx="$ctx · $tstr"
-  ctx="$ctx${reset}"
+  # 🧠 <used>/<max> (e.g. 🧠 44k/1M). The fill % is conveyed by the colour
+  # instead of a number; fall back to the % only if token counts are absent.
+  brain=$'\360\237\247\240'   # U+1F9E0 brain emoji
+  ctx="${brain} ${c}${tstr:-${pct}%}${reset}"
 fi
 
 # --- Render the branch with a glyph; mimic jj's unique-prefix highlight ---
@@ -116,10 +135,11 @@ if [ -n "$kind" ] && command -v gh >/dev/null 2>&1; then
   fi
 fi
 
-# --- Emit:  {context}  {model}  {path}  {jj info}  {stack PRs} ----------
+# --- Emit:  {jj change id}  {context}  {model}  {path}  {stack PRs} -----
+# Join non-empty segments with a double-space separator.
 line=""
-[ -n "$ctx" ] && line="$ctx  "
-line="$line$model  $short"
-[ -n "$branch" ] && line="$line  $branch"
-[ -n "$stack_prs" ] && line="$line  $stack_prs"
+for seg in "$branch" "$ctx" "$model  $short" "$stack_prs"; do
+  [ -z "$seg" ] && continue
+  if [ -z "$line" ]; then line="$seg"; else line="$line  $seg"; fi
+done
 printf '%s' "$line"
