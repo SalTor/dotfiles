@@ -23,6 +23,17 @@ Either way, make the options mutually exclusive, and leave room for "neither / s
 
 Use [Jujutsu (jj)](https://github.com/jj-vcs/jj) instead of git for version control operations. Most repos here are colocated jj+git workspaces — prefer `jj` commands (`jj st`, `jj log`, `jj diff`, `jj describe`, `jj new`, `jj git push`) over their git equivalents unless the user explicitly asks for git.
 
+### Bug fixes: red test commit, then the fix
+
+When a change fixes a bug, structure it as two revisions so the regression test's value is provable from history:
+
+1. **Red revision** — the test that reproduces the bug, and nothing else. It must _fail_ against the current buggy code.
+2. **Fix revision** (child of the red one) — the source change that makes that same test _pass_.
+
+Anyone can then check out the red revision, watch the test fail, move to the fix, and watch it pass — evidence the test actually exercises the bug and the fix actually resolves it. A test committed together with its fix can pass for unrelated reasons, and that can't be distinguished after the fact.
+
+Keep both revisions building/typechecking (only the new test is red at the red revision), and don't squash the pair together before it's reviewed.
+
 ### Techniques
 
 - **Splitting a commit at a line-level seam:** when `jj split -i` and `jjc pick` can't cleanly separate the seam because hunks conflate multiple semantic changes, use the [ninja-squash technique](./techniques/jj-ninja-squash.md): create a child commit, carve it down to the desired intermediate state, revert it, then squash the deletion back into the parent. End up with the early portion as the parent and the late portion as a child whose content equals the original.
