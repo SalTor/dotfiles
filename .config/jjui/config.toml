@@ -32,3 +32,25 @@ action = "review-in-tuicr"
 key = "t"
 scope = "revisions"
 desc = "Review selected revision in tuicr"
+
+[[actions]]
+name = "copy-change-id"
+lua = '''
+local id = context.change_id()
+if not id then
+  flash("No revision selected")
+  return
+end
+local ok, err = copy_to_clipboard(id)
+if ok then
+  flash("Copied " .. id)
+else
+  flash({ text = "Copy failed: " .. (err or "unknown"), error = true })
+end
+'''
+
+[[bindings]]
+action = "copy-change-id"
+key = "Y"
+scope = "revisions"
+desc = "copy selected change id to clipboard"
