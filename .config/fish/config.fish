@@ -168,3 +168,21 @@ if command -q jj
 end
 
 alias assume="source (brew --prefix)/bin/assume.fish"
+
+# ── Cloudflare WARP CA bundles ──────────────────────────────────────────────
+# WARP inspects TLS, so tools that ship their own trust store reject its
+# Gateway CA. Only export when the bundle is actually there: without WARP
+# installed these paths don't exist, and pointing node at a missing file makes
+# it warn on every startup.
+if test -f $HOME/.aws/warp-ca-bundle.pem
+    set -gx AWS_CA_BUNDLE $HOME/.aws/warp-ca-bundle.pem
+    set -gx REQUESTS_CA_BUNDLE $HOME/.aws/warp-ca-bundle.pem
+end
+
+# Quoted because the path contains a space — unquoted, fish stores it as a
+# two-element list (it only exports correctly by accident, and `test -f`
+# against the list fails).
+set -l _cf_cert "/Library/Application Support/Cloudflare/installed_cert.pem"
+if test -f "$_cf_cert"
+    set -gx NODE_EXTRA_CA_CERTS "$_cf_cert"
+end
