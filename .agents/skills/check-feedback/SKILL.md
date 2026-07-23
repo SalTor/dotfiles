@@ -85,7 +85,7 @@ Examples:
    gh pr view <number> --json author --jq .author.login # PR author
    # GitLab: glab api user --jq .username ; glab mr view <iid> --json author
    ```
-   - **You are the author** → **author mode.** Skip the approval verdict (step 9). Frame the report around what *you* need to address and what you can now resolve.
+   - **You are the author** → **author mode.** Skip the approval verdict (step 9). Frame the report around what *you* need to address and what you can now resolve. There is no "my last review" to anchor the delta on (you don't review your own PR), so anchor on **time**: the delta is any review, thread, *or top-level comment* whose `createdAt`/`updatedAt` is newer than the last time you checked (the PR's prior `updatedAt`, or — on a first run — sort everything by recency and surface what's unaddressed).
    - **Someone else is the author** → **reviewer mode.** Find the anchor for "since last review": your most recent review on this PR and the commit it was made against.
      ```bash
      gh api graphql -f query='{ repository(owner:"OWNER", name:"REPO") {
@@ -157,10 +157,15 @@ Examples:
      ```
      Use this delta to judge whether your prior comments were addressed and whether the new changes introduce anything worth raising.
 
-8. **Note overall review state**
-   - Approvals, change requests, dismissed reviews — surface the latest state per reviewer.
-   - Failing required checks that reviewers have referenced.
-   - Whether the PR/MR is in draft.
+8. **Note what changed — across all three feedback channels**
+
+   Feedback arrives on three independent channels; check each and report the delta on each separately:
+   - **(a) Review state** — approvals, change requests, dismissed reviews (latest per reviewer), plus `reviewDecision` and whether the PR/MR is in draft.
+   - **(b) Inline review threads** — new or newly-resolved threads (from step 6).
+   - **(c) Top-level issue comments** — plain conversation comments, which carry no review state and no thread resolution. Reviewers routinely leave actionable feedback (nits, questions) here rather than as a formal review.
+
+   Tripwire: if the PR's `updatedAt` advanced since you last looked but no new *review* appeared, channel (b) or (c) changed — go find it. **Never infer "nothing new" from the review channel alone**; a comments-only update is still new feedback.
+   - Also surface failing required checks that reviewers have referenced.
 
 9. **Decide whether approval is warranted — REVIEWER MODE ONLY**
 
@@ -218,5 +223,6 @@ Examples:
       comments(first: 10) { nodes { author { login } body createdAt } } } } } } }'
   ```
 - `reviewDecision` (`gh pr view --json reviewDecision`) gives the merge-gating state (`APPROVED` / `CHANGES_REQUESTED` / `REVIEW_REQUIRED`) in one field — use it for the step-9 verdict's gating caveat.
+- `reviews`/`reviewDecision` cover only the **formal-review channel**. Reviewers routinely leave actionable feedback as plain top-level comments (`comments`) — always diff those by timestamp too; don't gate "what's new" on review-state change. `updatedAt` advancing without a new review is the tell that comment or thread activity is what changed.
 - Pagination matters on busy PRs — use `--paginate` on `gh api` calls.
 - Git is a fallback only if `jj` is unavailable in the repo.
