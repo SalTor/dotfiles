@@ -53,3 +53,7 @@ Crucially: when typecheck/build reports errors in files you did **not** touch �
 Local edge/worker dev runtimes (MiniOxygen / workerd / wrangler, i.e. Cloudflare Workers and Shopify Hydrogen dev) use their own network + TLS stack — they do **not** go through Cloudflare WARP / Zero Trust on the host machine. So a server-side `fetch` from the dev worker to a host that's only reachable via WARP / a Cloudflare tunnel (e.g. an internal `*.sandbox.*` host) fails with an opaque `internal error; reference = …` and **no HTTP response**, even though `curl` from the shell succeeds (curl rides WARP).
 
 Tell: the host's TLS cert is issued by a `Cloudflare Gateway CA` (WARP is doing TLS inspection). If a worker `fetch` fails this way but `curl` works, suspect WARP — disable WARP, or point the worker at a `localhost`/publicly-reachable host. It is **not** a code/auth bug.
+
+## Non-`awp` worktrees
+
+Manually-created jj worktrees — isolated checkouts driven from another session (e.g. a redwood `awp` session that also has to touch a companion `grove` / `etl-pipelines` checkout) — live under **`~/code/worktrees/<repo>/<slug>/`**, not `~/.awp/workspaces/` (which is `awp`'s own). See that directory's `AGENTS.md` for the layout, the `jj workspace add` recipe, and cleanup rules. Don't scatter ad-hoc `~/code/<repo>-worktrees` dirs.
