@@ -15,3 +15,10 @@ emacs/project-setups/
 .config/jjui/themes
 # jj's centralized per-repo config/state (machine-specific paths); not portable
 .config/jj/repos/
+# A live SQLite db and its write-ahead sidecars; tracked by accident. Reading the
+# db rewrites -shm, so it dirtied the working copy on every query.
+notes.db
+notes.db-shm
+notes.db-wal
+# home-manager build output symlink; points into /nix/store on this machine only
+result
