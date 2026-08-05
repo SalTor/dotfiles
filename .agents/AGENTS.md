@@ -19,6 +19,25 @@ When a turn ends on a choice between two or more concrete next actions, do not p
 
 Either way, make the options mutually exclusive, and leave room for "neither / something else" so I'm never boxed in. This applies only to genuine end-of-turn forks between discrete actions — not rhetorical questions or single obvious next steps.
 
+## Markdown: no manual line wraps
+
+Never hard-wrap prose. Each paragraph, bullet, and table row goes on one line however long it gets — the editor soft-wraps it.
+
+Hard wraps make every later edit churn unrelated lines, so diffs stop showing what actually changed. They also invite pointless "match the house wrap width" work, and that width usually turns out not to exist. Prettier and oxfmt default to `proseWrap: preserve`, so nothing re-wraps what you leave unwrapped.
+
+When editing a doc that is already hard-wrapped, unwrap the parts you touch rather than adding more wrapped lines.
+
+## Writing documents: state the fact, don't frame it
+
+This governs prose written into a repo — specs, ADRs, design docs, READMEs. (`Answer structure` above governs what you say back to me in chat; the two are separate.)
+
+- No bold thesis phrase leading a bullet. State the fact instead of announcing it and then repeating it. `- **The list is seeded by classification, not by guessing.** Every header key was classified keep/drop.` is just `- Every header key was classified keep/drop.`
+- One fact per line. A bullet carrying three facts becomes a lead line with nested sub-bullets, not a longer sentence.
+- Plain connectives. Not "The general rule — X, Y, Z — is the ADR's", not "Front door, in plain language:". Say what the thing is.
+- No trailing period on short fragment bullets.
+- Cut anything not pulling weight, whole sections included. Length is not thoroughness.
+- One fact, one home. If something is already stated elsewhere, link to it rather than restating it.
+
 ## Version control
 
 Use [Jujutsu (jj)](https://github.com/jj-vcs/jj) instead of git for version control operations. Most repos here are colocated jj+git workspaces — prefer `jj` commands (`jj st`, `jj log`, `jj diff`, `jj describe`, `jj new`, `jj git push`) over their git equivalents unless the user explicitly asks for git.
