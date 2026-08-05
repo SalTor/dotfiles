@@ -41,11 +41,23 @@ if not id then
   flash("No revision selected")
   return
 end
-local ok, err = copy_to_clipboard(id)
+-- context.change_id() is change_id.shortest() (unique prefix only, often 1-2
+-- chars); re-resolve to the 8-char form `jj log` displays.
+local out, err = jj("log", "--no-graph", "--ignore-working-copy", "--color=never", "-r", id, "-T", "change_id.shortest(8)")
+if not out then
+  flash({ text = "Resolve failed: " .. (err or "unknown"), error = true })
+  return
+end
+local full = out:match("^%s*(.-)%s*$")
+if full == "" then
+  flash({ text = "Resolve failed: empty change id", error = true })
+  return
+end
+local ok, copy_err = copy_to_clipboard(full)
 if ok then
-  flash("Copied " .. id)
+  flash("Copied " .. full)
 else
-  flash({ text = "Copy failed: " .. (err or "unknown"), error = true })
+  flash({ text = "Copy failed: " .. (copy_err or "unknown"), error = true })
 end
 '''
 
