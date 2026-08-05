@@ -1,5 +1,9 @@
 # Agent Instructions
 
+## Tone and voice
+
+Answer impersonally, objectively and analytically, without undue friendliness or enthusiasm. Use an engineering-style response: concise, factual, and complete. Do not speak in the first person. Do not promote engagement or an emotional connection. Do not use emojis.
+
 ## Answer structure: caveats before highlights
 
 When reporting results, assessments, or reviews, lead with what's wrong, risky, unverified, or limited — before any positive summary. Order:
@@ -63,9 +67,9 @@ When creating a temporary file or directory, use `mktemp` rather than hardcoding
 
 ## Reinstall dependencies after a rebase
 
-After the user rebases or pulls onto an updated base branch (especially when the lockfile or `package.json`/manifest changed), reinstall dependencies (`pnpm i`, `npm i`, `bun i`, `uv sync`, etc.) before trusting typecheck/build/test. Local `node_modules` and generated types lag the new lockfile until you install.
+After a rebase or pull onto an updated base (especially when the lockfile/manifest changed), reinstall dependencies (`pnpm i`, `npm i`, `bun i`, `uv sync`, etc.) before trusting typecheck/build/test — local `node_modules` and generated types lag the new lockfile.
 
-Crucially: when typecheck/build reports errors in files you did **not** touch — particularly right after a rebase or when the base moved — run the install and re-check **first**, before "fixing" the code. Stale dependencies produce confusing type errors that look like real breakage. (Real episode: after a repo bumped react-router, unrelated route test files appeared broken; the cause was stale `node_modules`, and `pnpm i` made it green with zero code changes.)
+Tell: typecheck/build errors in files you did **not** touch, right after a base move, usually mean stale deps. Install and re-check *before* editing code, not after.
 
 ## Local edge-runtime dev doesn't traverse Cloudflare WARP / Zero Trust
 
@@ -75,4 +79,4 @@ Tell: the host's TLS cert is issued by a `Cloudflare Gateway CA` (WARP is doing 
 
 ## Non-`awp` worktrees
 
-Manually-created jj worktrees — isolated checkouts driven from another session (e.g. a redwood `awp` session that also has to touch a companion `grove` / `etl-pipelines` checkout) — live under **`~/code/worktrees/<repo>/<slug>/`**, not `~/.awp/workspaces/` (which is `awp`'s own). See that directory's `AGENTS.md` for the layout, the `jj workspace add` recipe, and cleanup rules. Don't scatter ad-hoc `~/code/<repo>-worktrees` dirs.
+Manually-created jj worktrees live under **`~/code/worktrees/<repo>/<slug>/`** (not `~/.awp/workspaces/`, which is `awp`'s own). See that directory's `AGENTS.md` for the layout, the `jj workspace add` recipe, and cleanup rules.
