@@ -32,7 +32,9 @@ Examples:
    - Note the *why* (intent) as well as the *what* (mechanics) when possible — pull the why from prior conversation context if the user has been discussing it.
 
 3. **Draft the description**
-   - **Subject line**: short, imperative, plain prose. **Do not use Conventional Commit prefixes** (`feat(...)`, `fix(...)`, `chore(...)`, etc.) — those are reserved for PR titles. A jj change description is for the change itself, not a packaged release artifact. Even if `git log` / `jj log` shows recent commits in Conventional Commit format, treat those as squashed PR titles, not a style to mirror on per-change descriptions.
+   - **Subject line**: short, imperative, plain prose that just says what the change does. **Do not prefix it with a scope of any kind** — this covers Conventional Commit forms (`feat(...)`, `fix(...)`, `chore(...)`), bare `area:` / `area: subarea:` forms (`consumer-api:`, `consumer-api: sentry:`), and issue/spec/decision markers (`[spec:...]`, `[decision:...]`, `[ET-1234]`). All of those are PR-title style. A jj change description is for the change itself, not a packaged release artifact.
+   - Two prefixes are the exception: `docs:` on a change whose diff is documentation only, `tests:` on one whose diff is tests only. A change that touches source alongside either takes no prefix.
+   - **Whatever style `git log` / `jj log` shows, do not mirror it.** On a squash-merge repo every commit on the trunk *is* a PR title, so the log is evidence of the PR convention and says nothing about per-change style. Check for the `(#123)` suffix: if it's there, you're reading a squashed PR title. This applies to any prefix flavor you find, not just Conventional Commit ones.
    - **Body** (when the change is non-trivial): explain the bug or motivation, the mechanism of the fix, and any follow-up considerations. Wrap at ~72 cols.
    - Don't invent a body for a one-line mechanical change — a subject is enough.
 
@@ -54,5 +56,5 @@ Examples:
 
 - **Never `jj describe` without first reading the diff.** Filenames lie; the diff is the source of truth.
 - **Preserve existing descriptions unless the user asks to overwrite.** If the change already has a description, ask before replacing it (unless the user explicitly says "rewrite" or "replace").
-- **No Conventional Commit prefixes** on jj change descriptions. The `pr` skill applies that style to PR/MR titles by default. If a description needs scope context, work it into the prose (e.g. "drop the leading zero on minutes in the delivery-promise countdown") rather than a `feat(delivery-promise): ...` prefix.
+- **No scope prefixes of any kind** on jj change descriptions — not `feat(delivery-promise):`, not `consumer-api: delivery:`, not a trailing `[spec:20260804-i59z]`. The `docs:` / `tests:` carve-out above is the only exception. The `pr` skill puts scope, and any spec/decision marker, on the PR/MR title. If a description needs scope context, work it into the prose (e.g. "drop the leading zero on minutes in the delivery-promise countdown").
 - Don't push or open a PR as part of this skill — describing is the whole job. Use `/pr` for that.

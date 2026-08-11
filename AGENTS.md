@@ -1,31 +1,66 @@
 # Agent Instructions
 
-## Answer structure: caveats before highlights
+## Tone and voice
 
-When reporting results, assessments, or reviews, lead with what's wrong, risky, unverified, or limited — before any positive summary. Order:
+- Answer impersonally, objectively and analytically — concise, factual and complete, in an engineering style
+- Do not speak in the first person
+- No undue friendliness or enthusiasm, no promoting engagement or emotional connection, no emojis
 
-1. Caveats, failure modes, and anything not tested/verified
-2. Open questions or assumptions made
-3. Then the highlights / what works
+## Answer structure
 
-Never open an answer with praise ("Great news!", "This works well") or a success summary. If there are genuinely no caveats, say so explicitly ("No caveats found") rather than skipping straight to the positives.
+Governs what you say back in chat. [Writing documents](#writing-documents) governs prose written into a repo.
+
+- Lead with what is wrong, risky, unverified or limited, then open questions and assumptions made, then what works
+- Never open with praise or a success summary
+- When there are genuinely no caveats, say so explicitly rather than skipping to the positives
+
+## Offering choices
+
+At a genuine end-of-turn fork between discrete actions — not a rhetorical question or a single obvious next step:
+
+- Never phrase the fork so that "yes" is ambiguous
+- Use `AskUserQuestion` when the whole turn hinges on the choice, otherwise label the options `(A)`, `(B)`, `(C)` so the reply can be one letter
+- Keep options mutually exclusive, and always leave room for "neither / something else"
+
+## Markdown
+
+- Never hard-wrap prose — one line per paragraph, bullet and table row, however long it gets. Hard wraps churn unrelated lines on every later edit, so diffs stop showing what actually changed
+- When editing an already-wrapped doc, unwrap the parts you touch rather than adding more wrapped lines
+
+## Writing documents
+
+Governs prose written into a repo — specs, ADRs, design docs, READMEs.
+
+- No bold thesis phrase leading a bullet. State the fact rather than announcing it and then repeating it
+- One fact per line. A bullet carrying three facts becomes a lead line with nested sub-bullets, not a longer sentence
+- Plain connectives. Not "The general rule — X, Y, Z — is the ADR's", not "Front door, in plain language:". Say what the thing is
+- No trailing period on short fragment bullets
+- Cut anything not pulling weight, whole sections included. Length is not thoroughness
+- One fact, one home. Link to what is already stated elsewhere rather than restating it
 
 ## Version control
 
-Use [Jujutsu (jj)](https://github.com/jj-vcs/jj) instead of git for version control operations. Most repos here are colocated jj+git workspaces — prefer `jj` commands (`jj st`, `jj log`, `jj diff`, `jj describe`, `jj new`, `jj git push`) over their git equivalents unless the user explicitly asks for git.
+Use [Jujutsu (jj)](https://github.com/jj-vcs/jj), not git, for all VCS inspection and operations. Most repos here are colocated jj+git workspaces.
+
+- Investigate repo state with `jj st` and `jj log`, never `git status` or `git log`. Fall back to git only when jj has no equivalent, or the user asks for git explicitly
+- Default to jj workflows when showing VCS instructions
+- Never add yourself as a co-author, and never advertise yourself in commit messages, pull requests or other output — no "Generated with Claude Code", no 🤖 line, no equivalent
+- Never let a `jj` invocation block on an editor with no tty. Pass `-m "..."` wherever the command accepts it, including `jj squash --from <rev> --into <rev> -m "..."`, whose default is to open an editor combining both descriptions. For commands with no `-m` flag, such as `jj split <paths>`, set `JJ_EDITOR=true` for that invocation and fix the descriptions afterwards with `jj describe -r <rev> -m "..."`
+- Commit a bug fix as [a red test revision, then the fix](.agents/techniques/red-test-then-fix.md)
+- Split a commit at a seam `jj split -i` and `jjc pick` cannot separate with [ninja-squash](.agents/techniques/jj-ninja-squash.md)
+
+## Skills
+
+- When the user gives feedback on a skill's output, workflow, formatting or recurring behavior, propose or make the corresponding update to the skill definition so future uses reflect it
 
 ## Temporary files
 
-When creating a temporary file or directory, use `mktemp` rather than hardcoding a path under `/tmp`. Capture the path into a variable (`tmp=$(mktemp)` for a file, `dir=$(mktemp -d)` for a directory) and reference it quoted (`"$tmp"`). This avoids collisions between concurrent runs, predictable-path hijacking, and sandbox-write failures; `mktemp` honors `$TMPDIR` by default.
+- Create temporary files and directories with `mktemp`, never a hardcoded path under `/tmp`. Capture the path into a variable (`tmp=$(mktemp)`, `dir=$(mktemp -d)`) and reference it quoted
 
-## Reinstall dependencies after a rebase
+## Environment gotchas
 
-After the user rebases or pulls onto an updated base branch (especially when the lockfile or `package.json`/manifest changed), reinstall dependencies (`pnpm i`, `npm i`, `bun i`, `uv sync`, etc.) before trusting typecheck/build/test. Local `node_modules` and generated types lag the new lockfile until you install.
+Recognize the symptom, then read the linked note.
 
-Crucially: when typecheck/build reports errors in files you did **not** touch — particularly right after a rebase or when the base moved — run the install and re-check **first**, before "fixing" the code. Stale dependencies produce confusing type errors that look like real breakage. (Real episode: after a repo bumped react-router, unrelated route test files appeared broken; the cause was stale `node_modules`, and `pnpm i` made it green with zero code changes.)
-
-## Local edge-runtime dev doesn't traverse Cloudflare WARP / Zero Trust
-
-Local edge/worker dev runtimes (MiniOxygen / workerd / wrangler, i.e. Cloudflare Workers and Shopify Hydrogen dev) use their own network + TLS stack — they do **not** go through Cloudflare WARP / Zero Trust on the host machine. So a server-side `fetch` from the dev worker to a host that's only reachable via WARP / a Cloudflare tunnel (e.g. an internal `*.sandbox.*` host) fails with an opaque `internal error; reference = …` and **no HTTP response**, even though `curl` from the shell succeeds (curl rides WARP).
-
-Tell: the host's TLS cert is issued by a `Cloudflare Gateway CA` (WARP is doing TLS inspection). If a worker `fetch` fails this way but `curl` works, suspect WARP — disable WARP, or point the worker at a `localhost`/publicly-reachable host. It is **not** a code/auth bug.
+- Typecheck or build errors in files you did not touch, right after a rebase or pull: [stale dependencies](.agents/environment/stale-deps.md). Reinstall and re-check before editing code
+- A server-side `fetch` from a local worker dev runtime fails with `internal error; reference = …` and no HTTP response, while `curl` to the same host succeeds: [Cloudflare WARP](.agents/environment/cloudflare-warp.md). Not a code or auth bug
+- Manually-created jj worktrees live under `~/code/worktrees/<repo>/<slug>/`, not `~/.awp/workspaces/` which is `awp`'s own. See that directory's `AGENTS.md` for the layout, the `jj workspace add` recipe and cleanup rules

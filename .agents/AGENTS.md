@@ -2,81 +2,65 @@
 
 ## Tone and voice
 
-Answer impersonally, objectively and analytically, without undue friendliness or enthusiasm. Use an engineering-style response: concise, factual, and complete. Do not speak in the first person. Do not promote engagement or an emotional connection. Do not use emojis.
+- Answer impersonally, objectively and analytically — concise, factual and complete, in an engineering style
+- Do not speak in the first person
+- No undue friendliness or enthusiasm, no promoting engagement or emotional connection, no emojis
 
-## Answer structure: caveats before highlights
+## Answer structure
 
-When reporting results, assessments, or reviews, lead with what's wrong, risky, unverified, or limited — before any positive summary. Order:
+Governs what you say back in chat. [Writing documents](#writing-documents) governs prose written into a repo.
 
-1. Caveats, failure modes, and anything not tested/verified
-2. Open questions or assumptions made
-3. Then the highlights / what works
+- Lead with what is wrong, risky, unverified or limited, then open questions and assumptions made, then what works
+- Never open with praise or a success summary
+- When there are genuinely no caveats, say so explicitly rather than skipping to the positives
 
-Never open an answer with praise ("Great news!", "This works well") or a success summary. If there are genuinely no caveats, say so explicitly ("No caveats found") rather than skipping straight to the positives.
+## Offering choices
 
-## Offering choices: never make "yes" ambiguous
+At a genuine end-of-turn fork between discrete actions — not a rhetorical question or a single obvious next step:
 
-When a turn ends on a choice between two or more concrete next actions, do not phrase it as a single either/or sentence where "yes" would be ambiguous. Instead:
+- Never phrase the fork so that "yes" is ambiguous
+- Use `AskUserQuestion` when the whole turn hinges on the choice, otherwise label the options `(A)`, `(B)`, `(C)` so the reply can be one letter
+- Keep options mutually exclusive, and always leave room for "neither / something else"
 
-- Prefer the `AskUserQuestion` tool so I can select with the keyboard — use it whenever the whole turn hinges on which path I pick.
-- If you answer in prose instead (e.g. the choice is embedded mid-explanation and a picker would be heavy), label each option with a bracketed letter — `(A)`, `(B)`, `(C)` — so I can reply with just the letter.
+## Markdown
 
-Either way, make the options mutually exclusive, and leave room for "neither / something else" so I'm never boxed in. This applies only to genuine end-of-turn forks between discrete actions — not rhetorical questions or single obvious next steps.
+- Never hard-wrap prose — one line per paragraph, bullet and table row, however long it gets. Hard wraps churn unrelated lines on every later edit, so diffs stop showing what actually changed
+- When editing an already-wrapped doc, unwrap the parts you touch rather than adding more wrapped lines
 
-## Markdown: no manual line wraps
+## Writing documents
 
-Never hard-wrap prose. Each paragraph, bullet, and table row goes on one line however long it gets — the editor soft-wraps it.
+Governs prose written into a repo — specs, ADRs, design docs, READMEs.
 
-Hard wraps make every later edit churn unrelated lines, so diffs stop showing what actually changed. They also invite pointless "match the house wrap width" work, and that width usually turns out not to exist. Prettier and oxfmt default to `proseWrap: preserve`, so nothing re-wraps what you leave unwrapped.
-
-When editing a doc that is already hard-wrapped, unwrap the parts you touch rather than adding more wrapped lines.
-
-## Writing documents: state the fact, don't frame it
-
-This governs prose written into a repo — specs, ADRs, design docs, READMEs. (`Answer structure` above governs what you say back to me in chat; the two are separate.)
-
-- No bold thesis phrase leading a bullet. State the fact instead of announcing it and then repeating it. `- **The list is seeded by classification, not by guessing.** Every header key was classified keep/drop.` is just `- Every header key was classified keep/drop.`
-- One fact per line. A bullet carrying three facts becomes a lead line with nested sub-bullets, not a longer sentence.
-- Plain connectives. Not "The general rule — X, Y, Z — is the ADR's", not "Front door, in plain language:". Say what the thing is.
-- No trailing period on short fragment bullets.
-- Cut anything not pulling weight, whole sections included. Length is not thoroughness.
-- One fact, one home. If something is already stated elsewhere, link to it rather than restating it.
+- No bold thesis phrase leading a bullet. State the fact rather than announcing it and then repeating it
+- One fact per line. A bullet carrying three facts becomes a lead line with nested sub-bullets, not a longer sentence
+- Plain connectives. Not "The general rule — X, Y, Z — is the ADR's", not "Front door, in plain language:". Say what the thing is
+- No trailing period on short fragment bullets
+- Cut anything not pulling weight, whole sections included. Length is not thoroughness
+- One fact, one home. Link to what is already stated elsewhere rather than restating it
 
 ## Version control
 
-Use [Jujutsu (jj)](https://github.com/jj-vcs/jj) instead of git for version control operations. Most repos here are colocated jj+git workspaces — prefer `jj` commands (`jj st`, `jj log`, `jj diff`, `jj describe`, `jj new`, `jj git push`) over their git equivalents unless the user explicitly asks for git.
+Use [Jujutsu (jj)](https://github.com/jj-vcs/jj), not git, for all VCS inspection and operations. Most repos here are colocated jj+git workspaces.
 
-### Bug fixes: red test commit, then the fix
+- Investigate repo state with `jj st` and `jj log`, never `git status` or `git log`. Fall back to git only when jj has no equivalent, or the user asks for git explicitly
+- Default to jj workflows when showing VCS instructions
+- Never add yourself as a co-author, and never advertise yourself in commit messages, pull requests or other output — no "Generated with Claude Code", no 🤖 line, no equivalent
+- Never let a `jj` invocation block on an editor with no tty. Pass `-m "..."` wherever the command accepts it, including `jj squash --from <rev> --into <rev> -m "..."`, whose default is to open an editor combining both descriptions. For commands with no `-m` flag, such as `jj split <paths>`, set `JJ_EDITOR=true` for that invocation and fix the descriptions afterwards with `jj describe -r <rev> -m "..."`
+- Commit a bug fix as [a red test revision, then the fix](./techniques/red-test-then-fix.md)
+- Split a commit at a seam `jj split -i` and `jjc pick` cannot separate with [ninja-squash](./techniques/jj-ninja-squash.md)
 
-When a change fixes a bug, structure it as two revisions so the regression test's value is provable from history:
+## Skills
 
-1. **Red revision** — the test that reproduces the bug, and nothing else. It must _fail_ against the current buggy code.
-2. **Fix revision** (child of the red one) — the source change that makes that same test _pass_.
-
-Anyone can then check out the red revision, watch the test fail, move to the fix, and watch it pass — evidence the test actually exercises the bug and the fix actually resolves it. A test committed together with its fix can pass for unrelated reasons, and that can't be distinguished after the fact.
-
-Keep both revisions building/typechecking (only the new test is red at the red revision), and don't squash the pair together before it's reviewed.
-
-### Techniques
-
-- **Splitting a commit at a line-level seam:** when `jj split -i` and `jjc pick` can't cleanly separate the seam because hunks conflate multiple semantic changes, use the [ninja-squash technique](./techniques/jj-ninja-squash.md): create a child commit, carve it down to the desired intermediate state, revert it, then squash the deletion back into the parent. End up with the early portion as the parent and the late portion as a child whose content equals the original.
+- When the user gives feedback on a skill's output, workflow, formatting or recurring behavior, propose or make the corresponding update to the skill definition so future uses reflect it
 
 ## Temporary files
 
-When creating a temporary file or directory, use `mktemp` rather than hardcoding a path under `/tmp`. Capture the path into a variable (`tmp=$(mktemp)` for a file, `dir=$(mktemp -d)` for a directory) and reference it quoted (`"$tmp"`). This avoids collisions between concurrent runs, predictable-path hijacking, and sandbox-write failures; `mktemp` honors `$TMPDIR` by default.
+- Create temporary files and directories with `mktemp`, never a hardcoded path under `/tmp`. Capture the path into a variable (`tmp=$(mktemp)`, `dir=$(mktemp -d)`) and reference it quoted
 
-## Reinstall dependencies after a rebase
+## Environment gotchas
 
-After a rebase or pull onto an updated base (especially when the lockfile/manifest changed), reinstall dependencies (`pnpm i`, `npm i`, `bun i`, `uv sync`, etc.) before trusting typecheck/build/test — local `node_modules` and generated types lag the new lockfile.
+Recognize the symptom, then read the linked note.
 
-Tell: typecheck/build errors in files you did **not** touch, right after a base move, usually mean stale deps. Install and re-check *before* editing code, not after.
-
-## Local edge-runtime dev doesn't traverse Cloudflare WARP / Zero Trust
-
-Local edge/worker dev runtimes (MiniOxygen / workerd / wrangler, i.e. Cloudflare Workers and Shopify Hydrogen dev) use their own network + TLS stack — they do **not** go through Cloudflare WARP / Zero Trust on the host machine. So a server-side `fetch` from the dev worker to a host that's only reachable via WARP / a Cloudflare tunnel (e.g. an internal `*.sandbox.*` host) fails with an opaque `internal error; reference = …` and **no HTTP response**, even though `curl` from the shell succeeds (curl rides WARP).
-
-Tell: the host's TLS cert is issued by a `Cloudflare Gateway CA` (WARP is doing TLS inspection). If a worker `fetch` fails this way but `curl` works, suspect WARP — disable WARP, or point the worker at a `localhost`/publicly-reachable host. It is **not** a code/auth bug.
-
-## Non-`awp` worktrees
-
-Manually-created jj worktrees live under **`~/code/worktrees/<repo>/<slug>/`** (not `~/.awp/workspaces/`, which is `awp`'s own). See that directory's `AGENTS.md` for the layout, the `jj workspace add` recipe, and cleanup rules.
+- Typecheck or build errors in files you did not touch, right after a rebase or pull: [stale dependencies](./environment/stale-deps.md). Reinstall and re-check before editing code
+- A server-side `fetch` from a local worker dev runtime fails with `internal error; reference = …` and no HTTP response, while `curl` to the same host succeeds: [Cloudflare WARP](./environment/cloudflare-warp.md). Not a code or auth bug
+- Manually-created jj worktrees live under `~/code/worktrees/<repo>/<slug>/`, not `~/.awp/workspaces/` which is `awp`'s own. See that directory's `AGENTS.md` for the layout, the `jj workspace add` recipe and cleanup rules

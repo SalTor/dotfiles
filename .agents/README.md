@@ -6,6 +6,8 @@ This repository uses `.agents/` as the canonical home for agent instructions and
 
 - `.agents/AGENTS.md`
 - `.agents/skills/*/SKILL.md`
+- `.agents/techniques/*.md` — VCS techniques linked from `AGENTS.md`
+- `.agents/environment/*.md` — machine-specific failure modes linked from `AGENTS.md`
 
 ## Compatibility targets (generated/synced)
 

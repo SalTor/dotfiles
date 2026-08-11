@@ -7,8 +7,9 @@ cd "$repo_root"
 mkdir -p .github .pi/agent/skills agent_skills .omp/commands
 mkdir -p "$HOME/.claude/commands"
 
-# Canonical AGENTS.md -> compatibility locations
-cp .agents/AGENTS.md AGENTS.md
+# Canonical AGENTS.md -> compatibility locations.
+# Rewrite `.agents/`-relative links so they still resolve from the repo root.
+sed -e 's#](\./#](.agents/#g' .agents/AGENTS.md > AGENTS.md
 
 cat > .github/copilot-instructions.md <<'EOF'
 # GitHub Copilot Instructions

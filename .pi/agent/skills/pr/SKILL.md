@@ -15,6 +15,7 @@ Create a GitHub PR (`gh`) or GitLab MR (`glab`), defaulting to Jujutsu workflows
 
 Examples:
 - `/pr main`
+- `/pr main "fixes the 403 by dropping the country rule; edge B only"` (your notes; skips the ask)
 - "open a PR" (defaults to repo conventions; ask for base if missing)
 
 ## Workflow
@@ -84,39 +85,53 @@ Examples:
      - `PULL_REQUEST_TEMPLATE.md`
    - If a template exists, follow its structure exactly in the body.
 
-8. **Create PR/MR**
-   - Ask for base branch if not provided.
-   - Use a well-formed title/body.
-   - **Avoid literal `\n` rendering issues** by using ANSI-C quoting or a here-doc.
+8. **Ask the user to describe the change in their own words first**
+   - Before drafting anything, ask once for the user's own account of the change, then stop for the answer. Rough is the point: bullets, fragments, one line. No formatting, no template, no polish.
+   - Phrase it as a starting point, e.g. "Before I draft the body — how would you describe this change? Rough notes are fine, or say 'you write it' and I'll draft from the diff."
+   - Skip the ask when the user already gave their framing: notes passed to `/pr`, a spec or issue they pointed at, or an explanation earlier in the conversation. Use that.
+   - Accept a pass. If they decline or say go ahead, draft from the diff and the JJ change descriptions and move on. Do not ask twice.
 
-   **GitHub (`gh`)**
-   ```bash
-   gh pr create --base <base> --head <name> \
-     --title "<title>" \
-     --body $'## Summary\n- item\n\n## Testing\n- command'
-   ```
+9. **Build the body on the user's words**
+   - Their notes are the source of intent. Keep their framing, their emphasis, and above all their *why* — the diff cannot supply that, and smoothing it into neutral summary prose loses it.
+   - Fill the template's remaining sections from evidence: files touched, commands run, spec/issue IDs, screenshots.
+   - Match their scale. Three bullets of notes make a three-bullet Summary. Do not pad to fill headings; leave inapplicable template sections empty or drop them.
+   - Flag your additions. When the draft asserts something the user did not say — a risk, a rollback note, a claim about behavior — point it out when you show them the draft so they can correct it.
+   - This governs the PR/MR body only. It is not license to rewrite JJ change descriptions (see step 4).
 
-   **GitLab (`glab`)**
-   ```bash
-   glab mr create \
-     --source-branch <name> \
-     --target-branch <base> \
-     --title "<title>" \
-     --description $'## Summary\n- item\n\n## Testing\n- command'
-   ```
+10. **Create PR/MR**
+    - Ask for base branch if not provided.
+    - Use a well-formed title/body.
+    - **Avoid literal `\n` rendering issues** by using ANSI-C quoting or a here-doc.
 
-9. **If body renders incorrectly, update it in-place**
-   - GitHub:
-     ```bash
-     gh pr edit <number> --body $'...'
-     ```
-   - GitLab:
-     ```bash
-     glab mr update <iid> --description $'...'
-     ```
+    **GitHub (`gh`)**
+    ```bash
+    gh pr create --base <base> --head <name> \
+      --title "<title>" \
+      --body $'## Summary\n- item\n\n## Testing\n- command'
+    ```
+
+    **GitLab (`glab`)**
+    ```bash
+    glab mr create \
+      --source-branch <name> \
+      --target-branch <base> \
+      --title "<title>" \
+      --description $'## Summary\n- item\n\n## Testing\n- command'
+    ```
+
+11. **If body renders incorrectly, update it in-place**
+    - GitHub:
+      ```bash
+      gh pr edit <number> --body $'...'
+      ```
+    - GitLab:
+      ```bash
+      glab mr update <iid> --description $'...'
+      ```
 
 ## Notes / Learned Behavior
 
+- Ask for the user's own description before drafting. A body written only from a diff describes what changed and guesses at why; their notes are the only reliable source of intent.
 - `gh pr create --body "text\nmore"` can render literal `\n`; use ANSI-C quotes or here-doc.
 - Use the same approach with `glab mr create --description` to keep formatting reliable.
 - When including code examples in the body, wrap in triple backticks.
