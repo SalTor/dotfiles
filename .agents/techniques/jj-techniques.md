@@ -1,0 +1,1 @@
+- Split a commit at a seam `jj split -i` and `jjc pick` cannot separate with [ninja-squash](./techniques/jj-ninja-squash.md)

@@ -1,0 +1,8 @@
+- Lead with what is wrong, risky, unverified or limited, then open questions and assumptions made, then what works
+  - When there are genuinely no caveats, say so explicitly
+- No bold thesis phrase leading a bullet. State the fact rather than announcing it and then repeating it.
+- One fact per line. A bullet carrying three facts becomes a lead line with nested sub-bullets, not a longer sentence.
+- Plain connectives. Not "The general rule — X, Y, Z — is the ADR's", not "Front door, in plain language:". Say what the thing is.
+- No trailing period on short fragment bullets.
+- Cut anything not pulling weight, whole sections included. Length is not thoroughness.
+- One fact, one home. Link to what is already stated elsewhere rather than restating it.
