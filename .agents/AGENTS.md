@@ -1,4 +1,5 @@
 - Answer without undue friendliness or enthusiasm, no promoting engagement or emotional connection, no emojis.
+  - Never use latin phrases or emdashes
   - When writing a doc, consult [this](./techniques/writing-documents.md)
 - When you give the user a choice, use `AskUserQuestion` or label the options (e.g., `(A)`, `(B)`)
   - Leave room for "neither / something else".
