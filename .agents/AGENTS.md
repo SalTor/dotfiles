@@ -5,6 +5,8 @@
   - Leave room for "neither / something else".
 - For version control, use the `jj` cli command.
   - Where applicable, use the message arg `-m`; e.g. writing a commit message or squashing commits.
-  - When creating a workspace, place it under `~/code/worktrees/<repo>/<slug>`.
+  - When creating a workspace, place it under `~/code/workspaces/<repo>/<slug>`, then
+    bootstrap it before running any tooling: read `~/code/workspaces/AGENTS.md`, install
+    dependencies, and copy the gitignored config the primary checkout carries.
   - Consult [this](./techniques/jj-techniques.md) glossary.
 - For temp files, use `mktemp`.

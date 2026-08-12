@@ -25,24 +25,24 @@ return {
       -- nmap('<leader>gb', gitsigns.blame_line, 'Git blame')
     end,
   },
-  {
-    'algmyr/vcsigns.nvim',
-    config = function()
-      local vcsigns = require 'vcsigns'
-
-      vcsigns.setup { target_commit = 0 }
-
-      local actions = vcsigns.actions
-
-      -- stylua: ignore start
-      nmap('[r', function() actions.target_older_commit(0, vim.v.count1) end, 'Move diff target back')
-      nmap(']r', function() actions.target_newer_commit(0, vim.v.count1) end, 'Move diff target forward')
-      nmap('[h', function() actions.hunk_prev(0, vim.v.count1) end, 'Go to previous hunk')
-      nmap(']h', function() actions.hunk_next(0, vim.v.count1) end, 'Go to next hunk')
-      nmap('<leader>sd', function() actions.toggle_hunk_diff(0) end, 'Show hunk diffs inline in the current buffer')
-      -- stylua: ignore end
-    end,
-  },
+  -- {
+  --   'algmyr/vcsigns.nvim',
+  --   config = function()
+  --     local vcsigns = require 'vcsigns'
+  --
+  --     vcsigns.setup { target_commit = 0 }
+  --
+  --     local actions = vcsigns.actions
+  --
+  --     -- stylua: ignore start
+  --     nmap('[r', function() actions.target_older_commit(0, vim.v.count1) end, 'Move diff target back')
+  --     nmap(']r', function() actions.target_newer_commit(0, vim.v.count1) end, 'Move diff target forward')
+  --     nmap('[h', function() actions.hunk_prev(0, vim.v.count1) end, 'Go to previous hunk')
+  --     nmap(']h', function() actions.hunk_next(0, vim.v.count1) end, 'Go to next hunk')
+  --     nmap('<leader>sd', function() actions.toggle_hunk_diff(0) end, 'Show hunk diffs inline in the current buffer')
+  --     -- stylua: ignore end
+  --   end,
+  -- },
   {
     'algmyr/vcmarkers.nvim',
     config = function()
