@@ -1,12 +1,12 @@
 - Answer without undue friendliness or enthusiasm, no promoting engagement or emotional connection, no emojis.
   - Never use latin phrases or emdashes
+  - Show more than tell. Use unicode diagrams rather than writing long essays.
   - When writing a doc, consult [this](./techniques/writing-documents.md)
 - When you give the user a choice, use `AskUserQuestion` or label the options (e.g., `(A)`, `(B)`)
   - Leave room for "neither / something else".
-- For version control, use the `jj` cli command.
-  - Where applicable, use the message arg `-m`; e.g. writing a commit message or squashing commits.
-  - When creating a workspace, place it under `~/code/workspaces/<repo>/<slug>`, then
-    bootstrap it before running any tooling: read `~/code/workspaces/AGENTS.md`, install
-    dependencies, and copy the gitignored config the primary checkout carries.
+- For version control, use `jj`, never git (see the `jujutsu` skill).
+  - Always pass `-m`; the bare `describe`/`squash`/`split` forms open `$EDITOR` and hang.
+  - Never `jj edit` or `jj abandon`; push with `jj git push -c <change-id>`.
+  - Change an earlier commit with `jj new <change-id>`, edit, then `jj squash`; a `jj restore --to` from the stack tip silently drags later commits' content into it.
   - Consult [this](./techniques/jj-techniques.md) glossary.
 - For temp files, use `mktemp`.
