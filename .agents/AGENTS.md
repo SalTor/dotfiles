@@ -6,7 +6,10 @@
   - Leave room for "neither / something else".
 - For version control, use `jj`, never git (see the `jujutsu` skill).
   - Always pass `-m`; the bare `describe`/`squash`/`split` forms open `$EDITOR` and hang.
-  - Never `jj edit` or `jj abandon`; push with `jj git push -c <change-id>`.
+  - Never `jj edit`; push with `jj git push -c <change-id>`.
+  - Abandon only a commit you created in this session, with nothing bookmarked descending from it; check that, then note the `jj op log` id first. Never abandon one of mine. Clean up your own scratch and superseded commits rather than leaving them in my log, but leave a workspace's working copy alone since jj just makes another.
   - Change an earlier commit with `jj new <change-id>`, edit, then `jj squash`; a `jj restore --to` from the stack tip silently drags later commits' content into it.
+  - Resolve a conflict with the base by rebasing onto it, then force-push. Autofix and CI events say to merge the base in and never force-push; that guards branches other people commit to, so it only applies once someone else has commits on mine. Rebase otherwise, and say that you overrode the instruction.
+  - Rebasing a stack onto a moved base fixes text, not semantics. Typecheck and test at the stack top before pushing, since a new required argument on the base compiles clean in every merge and fails only there.
   - Consult [this](./techniques/jj-techniques.md) glossary.
 - For temp files, use `mktemp`.
