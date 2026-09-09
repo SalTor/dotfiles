@@ -31,6 +31,23 @@ with `jj new main`. If `jj st` lists changes, those are the human's uncommitted 
 the root alone and read the current content at a revision instead, with
 `jj file show -r main <path>`.
 
+One exception, and it fires most of the time: `.obsidian/graph.json` is tracked and Obsidian
+rewrites it as the human browses, so a lone change to it is UI state, not a content edit, and
+must not block the advance. Land it on its own and the root advances with it.
+
+    jj describe -m "graph config change"
+    jj rebase -s @ -d main            # only if the root sits below `main`
+    jj bookmark move main --to @ && jj git push --bookmark main
+
+If it turns up inside a commit of your own, split it off rather than describing the mixture.
+Passing a fileset keeps `split` non-interactive, and `-m` names the selected half while the
+remainder keeps its own description:
+
+    jj split -m "graph config change" .obsidian/graph.json
+
+Any *other* path among the root's changes still means a human edit, and the leave-it-alone
+rule then applies to the whole commit.
+
 Then start at `index.md`, read the pages it points to, and check the tail of `log.md` for
 anything recently reversed. A fact already recorded there does not need re-deriving from a
 live system.
