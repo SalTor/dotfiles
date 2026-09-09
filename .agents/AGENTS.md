@@ -30,12 +30,9 @@ live systems, meeting outcomes, research, and plans spanning more than one codeb
 - A fact from a live system (a query, a dashboard) goes in as an observation dated
   "as of YYYY-MM-DD"; check the wiki before re-deriving one.
 - Open questions that need a person or a meeting go on `~/wiki/agenda.md`.
-- The wiki is a jj repo with remote `origin` (`Fast-Growing-Trees-LLC/wiki-experiment`).
-  **Always work on `main`, no pull requests, no `saltor/` bookmarks here.** That overrides
-  the `saltor/<slug>` bookmark convention in `~/code/workspaces/AGENTS.md`, for `~/wiki`
-  only. **Sync before editing:** `jj git fetch` in `~/wiki`, then `jj rebase -d main@origin`
-  if the local work is behind. **Commit and push after every wiki change:** describe it
-  (`docs(<subject>): …`), `jj bookmark set main -r @`, `jj new`,
-  `jj git push --bookmark main`. Never leave wiki edits uncommitted at the end of a turn.
+- **Editing it is the `wiki` skill's job. Invoke that skill first.** Several agents write
+  this repo at once, so it takes a workspace and a specific push protocol; `~/wiki` itself
+  is the human's vault and is not the place to edit. Content conventions live in
+  `~/wiki/AGENTS.md`.
 - Never cite `~/wiki` paths in commits, PRs, or committed docs, since the path is local.
   Link the GitHub file instead, or restate the fact, or cite its original source.
