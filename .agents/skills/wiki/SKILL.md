@@ -18,11 +18,22 @@ pages state current truth, `log.md` carries decisions only, `agenda.md` is local
 style, `log.md` prefixes, and the ingest / query / agenda / lint operations. Read it before
 writing a page. This skill owns the mechanics only.
 
-## Reading needs no workspace
+## Reading: the vault tree is probably stale
 
-Read straight from `~/wiki`. Start at `index.md`, then the pages it points to, then the
-tail of `log.md` for anything recently reversed. A fact already recorded there does not
-need re-deriving from a live system.
+`~/wiki` is a working copy that does **not** follow `main`. Every push from a workspace
+leaves it behind, so reading a file there gives you the vault as of whatever commit the root
+happens to sit on, with no warning that it is old. Check first:
+
+    cd ~/wiki && jj st        # compare the parent commit against `main`
+
+If the parent is not `main` and `jj st` says the working copy has no changes, advance it
+with `jj new main`. If `jj st` lists changes, those are the human's uncommitted edits: leave
+the root alone and read the current content at a revision instead, with
+`jj file show -r main <path>`.
+
+Then start at `index.md`, read the pages it points to, and check the tail of `log.md` for
+anything recently reversed. A fact already recorded there does not need re-deriving from a
+live system.
 
 ## Editing needs a workspace
 
@@ -31,10 +42,15 @@ agents in the cloud. Assume `main` has moved since you last looked. `~/wiki` its
 human's Obsidian vault and the default workspace, so editing there drops your snapshot into
 whatever commit they are holding.
 
-    mkdir -p ~/code/workspaces/wiki
+    mkdir -p ~/.wiki-workspaces
     cd ~/wiki
     jj git fetch
-    jj workspace add --name wiki-<slug> -r main ~/code/workspaces/wiki/<slug>
+    jj workspace add --name wiki-<slug> -r main ~/.wiki-workspaces/<slug>
+    # already exists?  cd ~/.wiki-workspaces/<slug> && jj workspace update-stale
+
+`~/.wiki-workspaces/` is fixed by the wiki's own `AGENTS.md`, one per agent or task and
+reused across sessions. Never put one in a temp or scratchpad directory: when that vanishes
+the store keeps a dead entry and the workspace cannot be resumed.
 
 A workspace isolates the working copy. It does **not** isolate `main`, which is a single
 pointer in one shared store:
@@ -88,15 +104,15 @@ silently, and nothing downstream reports it. Rebase instead.
 ## Traps
 
 **Every `jj` command here needs the sandbox bypass.** File edits inside
-`~/code/workspaces/wiki/<slug>` run in-sandbox, but the store lives under `~/wiki`, so even
+`~/.wiki-workspaces/<slug>` run in-sandbox, but the store lives under `~/wiki`, so even
 `jj st` fails with `Could not create named temp file in '/Users/storcivia/wiki/.git/objects'`.
 That is the sandbox, not a damaged repo.
 
-**A push from a workspace leaves the vault's git refs stale.** `~/wiki` is colocated, so
-`.git` carries its own `main`. After pushing from a workspace,
-`jj bookmark list --all-remotes` in `~/wiki` reports `@git (behind by 1 commits)` and
-Obsidian or any git tool still sees the old state. Run `jj git export` in `~/wiki` to
-resync.
+**A push from a workspace leaves the vault two ways behind.** Its git refs, because `~/wiki`
+is colocated and `.git` carries its own `main`, so `jj bookmark list --all-remotes` reports
+`@git (behind by 1 commits)`; and its working copy, which never follows `main`. Finish a
+change by running `jj git export` and then `jj new main` in `~/wiki`, or the human opens
+Obsidian and does not see what you just filed.
 
 **`index.md` and `log.md` conflict on nearly every concurrent change.** Both are shared and
 append-shaped. Keep both sides' rows; `log.md` is newest first.
@@ -105,8 +121,17 @@ append-shaped. Keep both sides' rows; `log.md` is newest first.
 worked. After every fetch, re-read `index.md` and `rg` the vault. Two pages asserting the
 same fact will drift, so link rather than duplicate.
 
+**`agenda.md` and `_unfiled/` exist only in the root.** Both are gitignored, so a workspace
+has no copy. Edit them in place at `~/wiki`, and note they carry no VCS safety net: two
+agents writing one of them at once is last-writer-wins.
+
 ## Cleanup
+
+Workspaces are meant to be reused across sessions, so keep yours unless the task is closed
+for good. When it is:
 
     cd ~/wiki
     jj workspace forget wiki-<slug>
-    rm -rf ~/code/workspaces/wiki/<slug>
+    rm -rf ~/.wiki-workspaces/<slug>
+
+`jj workspace forget` is also how you clear an entry whose directory is already gone.
