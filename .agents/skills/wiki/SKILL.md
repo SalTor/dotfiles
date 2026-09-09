@@ -1,6 +1,6 @@
 ---
 name: wiki
-description: Read or edit `~/wiki`, the shared LLM-maintained knowledge base. Covers the workspace layout, the compare-and-swap protocol for moving `main` when several agents write at once, and the sandbox and colocation traps.
+description: The shared knowledge base at `~/wiki`, covering product data, inventory and availability, presell and dropship dates, delivery promises, state restrictions, facilities, and the contracts between redwood, grove/consumer-api and the ETL. Consult it before deriving any of those from code or a live query, however small the question. Also covers editing it: workspaces, the compare-and-swap protocol for moving `main`, and the stale-root and sandbox traps.
 ---
 
 # wiki - the shared knowledge base

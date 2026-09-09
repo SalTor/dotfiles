@@ -24,7 +24,12 @@
 knowledge that does not belong to any one repo: contracts between services, findings from
 live systems, meeting outcomes, research, and plans spanning more than one codebase.
 
-- Before cross-repo or research work, read `~/wiki/index.md`, then the pages it points to.
+- **Read `~/wiki/index.md` before deriving a fact about a production system or another
+  repo's behavior**, then the pages it points to. Reach for it by subject, not by how large
+  the task feels: product data, inventory and availability, presell and dropship dates,
+  delivery promises, state restrictions, facilities, and the contracts between redwood,
+  grove/consumer-api and the ETL are all filed there. A one-line lookup counts. The index is
+  one line per page, so the read is cheap and it tells you whether the answer already exists.
 - File there anything that would be wrong in a single repo or came from outside the code.
   Repo-scoped knowledge stays in the repo's own docs and specs.
 - A fact from a live system (a query, a dashboard) goes in as an observation dated
