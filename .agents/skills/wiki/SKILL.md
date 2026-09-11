@@ -26,27 +26,24 @@ happens to sit on, with no warning that it is old. Check first:
 
     cd ~/wiki && jj st        # compare the parent commit against `main`
 
-If the parent is not `main` and `jj st` says the working copy has no changes, advance it
-with `jj new main`. If `jj st` lists changes, those are the human's uncommitted edits: leave
-the root alone and read the current content at a revision instead, with
-`jj file show -r main <path>`.
+If the parent is not `main`, rebase the root's working-copy commit onto it. The human's
+uncommitted edits ride along and nothing is orphaned:
 
-One exception, and it fires most of the time: `.obsidian/graph.json` is tracked and Obsidian
-rewrites it as the human browses, so a lone change to it is UI state, not a content edit, and
-must not block the advance. Land it on its own and the root advances with it.
+    cd ~/wiki && jj rebase -s @ -d main
 
-    jj describe -m "graph config change"
-    jj rebase -s @ -d main            # only if the root sits below `main`
-    jj bookmark move main --to @ && jj git push --bookmark main
+Never `jj new main` in the root. With edits present that leaves them on a commit off
+`main`'s ancestry, and Obsidian keeps the root dirty (`.obsidian/app.json`, `graph.json`,
+`workspace.json` move as the human browses), so waiting for a clean root does not work
+either. If the rebase reports a conflict, the human edited a file another agent also
+changed: leave the marker for them and say so, do not resolve it.
 
-If it turns up inside a commit of your own, split it off rather than describing the mixture.
-Passing a fileset keeps `split` non-interactive, and `-m` names the selected half while the
-remainder keeps its own description:
+`.obsidian/*` changes are tracked. When one turns up in a commit you own, split it off so
+the page commit stays readable. A fileset keeps `split` non-interactive, and `-m` names the
+selected half while the remainder keeps its own description:
 
-    jj split -m "graph config change" .obsidian/graph.json
+    jj split -m "obsidian config change" .obsidian/
 
-Any *other* path among the root's changes still means a human edit, and the leave-it-alone
-rule then applies to the whole commit.
+Never fold it into a page commit.
 
 Then start at `index.md`, read the pages it points to, and check the tail of `log.md` for
 anything recently reversed. A fact already recorded there does not need re-deriving from a
@@ -128,8 +125,8 @@ That is the sandbox, not a damaged repo.
 **A push from a workspace leaves the vault two ways behind.** Its git refs, because `~/wiki`
 is colocated and `.git` carries its own `main`, so `jj bookmark list --all-remotes` reports
 `@git (behind by 1 commits)`; and its working copy, which never follows `main`. Finish a
-change by running `jj git export` and then `jj new main` in `~/wiki`, or the human opens
-Obsidian and does not see what you just filed.
+change by running `jj git export` and then `jj rebase -s @ -d main` in `~/wiki`, or the
+human opens Obsidian and does not see what you just filed.
 
 **`index.md` and `log.md` conflict on nearly every concurrent change.** Both are shared and
 append-shaped. Keep both sides' rows; `log.md` is newest first.
