@@ -60,11 +60,11 @@ whatever commit they are holding.
     cd ~/wiki
     jj git fetch
     jj workspace add --name wiki-<slug> -r main ~/.wiki-workspaces/<slug>
-    # already exists?  cd ~/.wiki-workspaces/<slug> && jj workspace update-stale
+    # one left over from a past session?  cd ~/.wiki-workspaces/<slug> && jj workspace update-stale
 
-`~/.wiki-workspaces/` is fixed by the wiki's own `AGENTS.md`, one per agent or task and
-reused across sessions. Never put one in a temp or scratchpad directory: when that vanishes
-the store keeps a dead entry and the workspace cannot be resumed.
+`~/.wiki-workspaces/` is fixed by the wiki's own `AGENTS.md`, one per task, removed once the
+change is pushed (see [Cleanup](#cleanup)). Never put one in a temp or scratchpad directory:
+when that vanishes the store keeps a dead entry and the workspace cannot be resumed.
 
 A workspace isolates the working copy. It does **not** isolate `main`, which is a single
 pointer in one shared store:
@@ -141,11 +141,17 @@ agents writing one of them at once is last-writer-wins.
 
 ## Cleanup
 
-Workspaces are meant to be reused across sessions, so keep yours unless the task is closed
-for good. When it is:
+Remove your workspace once its change is pushed. Standing another one up is two commands
+against a store that is already on disk, so keeping one buys nothing, while a kept workspace
+holds a working copy that goes stale behind `main` and has to be recovered before the next
+edit. Same-session follow-up work is the one case worth keeping it for.
 
     cd ~/wiki
     jj workspace forget wiki-<slug>
     rm -rf ~/.wiki-workspaces/<slug>
 
 `jj workspace forget` is also how you clear an entry whose directory is already gone.
+
+`jj workspace list` in `~/wiki` shows what is left. An entry other than `default` whose
+commit is empty and undescribed is finished work someone did not clear, but it may belong to
+a session still running, so report those rather than removing them.

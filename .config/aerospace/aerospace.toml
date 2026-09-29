@@ -235,3 +235,7 @@ run = 'move-node-to-workspace O'
 [[on-window-detected]]
 if.app-id = 'com.apple.Notes'
 run = 'move-node-to-workspace O'
+
+[[on-window-detected]]
+if.app-id = 'nyc.saltor.deck'
+run = 'move-node-to-workspace I'
