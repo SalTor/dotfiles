@@ -27,3 +27,6 @@ result
 .pi/agent/skills/
 .omp/commands/
 agent_skills/
+
+# The Claude app syncs its built-in skills here and rewrites them
+.agents/skills/synced/

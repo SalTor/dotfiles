@@ -1,0 +1,7 @@
+# Loaded only in Claude Code sessions, through JJ_CONFIG in ~/.claude/settings.json.
+# An agent has no terminal, so an editor it opens is never closed. Any jj command
+# that wants a description or a diff edit now fails at once instead of hanging,
+# and the agent retries with -m or with paths. Complements hooks/jj-editor-guard.sh,
+# which checks command text; this also covers scripts and split with no fileset.
+ui.editor = "false"
+ui.diff-editor = "false"

@@ -1,0 +1,11 @@
+# deck's keys (decision 098). deck reads this through the symlink at
+# ~/.config/deck/keys.yaml and never writes it. Anything not listed keeps
+# its default, and an action bound here loses its default keys (114);
+# Settings, Keys has Copy defaults for the full set.
+leader: space
+leave_after_send: 2000   # ms before the composer lets go after a send (116)
+
+normal:
+  leader g i: place.inbox
+  leader g l: place.library
+  f: hints.open
