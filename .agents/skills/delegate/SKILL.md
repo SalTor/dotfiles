@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: How to fire off a sub-agent - deciding whether the work is worth delegating, giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
+description: How to fire off a sub-agent - deciding whether the work is worth delegating, which model does which part (Fable 5.1 specs, Opus 5.5 builds), giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
 ---
 
 # Firing off a sub-agent
@@ -28,6 +28,31 @@ The test is whether you can write a brief the agent can act on without guessing.
 If writing the brief is most of the work, do the work. If you cannot name the
 command that proves it worked, delegating produces a claim rather than a result,
 and you will end up doing it again to check.
+
+## Which model does which part
+
+Spec first, then build, and each half has its own model. Pass it as the
+`Agent` tool's `model`, since the default inherits yours.
+
+```text
+speccing, planning, design    one Fable 5.1 agent    model: "fable"
+implementation                Opus 5.5 agent(s)      model: "opus"
+```
+
+The Fable agent writes the spec (and the decision, where the repo keeps
+them) and commits it, with no code. It picks a default for every open
+question so the build is not blocked, and lists each one for Sal. The Opus
+agents build from that committed spec, one workspace each, and the brief
+points them at it by path rather than restating it. Read the spec before
+firing the builders; a question in it that only Sal can answer goes to him
+first.
+
+A task too small to need a spec (a one-file fix, a test that flakes, a
+stale doc) goes straight to an Opus agent. A research or read-only
+question that produces no code is a Fable agent's alone.
+
+Sal, 2026-09-30: "a fable 5.1 subagent should be used for speccing/planning
+and then opus 5.5 subagent(s) should be used for implementation".
 
 ## A workspace per agent
 
