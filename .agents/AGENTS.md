@@ -26,11 +26,12 @@ knowledge that does not belong to any one repo: contracts between services, find
 live systems, meeting outcomes, research, and plans spanning more than one codebase.
 
 - **Read `~/wiki/index.md` before deriving a fact about a production system or another
-  repo's behavior**, then the pages it points to. Reach for it by subject, not by how large
-  the task feels: product data, inventory and availability, presell and dropship dates,
-  delivery promises, state restrictions, facilities, and the contracts between redwood,
-  grove/consumer-api and the ETL are all filed there. A one-line lookup counts. The index is
-  one line per page, so the read is cheap and it tells you whether the answer already exists.
+  repo's behavior, and before starting cross-repo or research work**, then the pages it
+  points to. Reach for it by subject, not by how large the task feels: product data,
+  inventory and availability, presell and dropship dates, delivery promises, state
+  restrictions, facilities, and the contracts between redwood, grove/consumer-api and the
+  ETL are all filed there. A one-line lookup counts. The index is one line per page, so the
+  read is cheap and it tells you whether the answer already exists.
 - File there anything that would be wrong in a single repo or came from outside the code.
   Repo-scoped knowledge stays in the repo's own docs and specs.
 - A fact from a live system (a query, a dashboard) goes in as an observation dated
@@ -40,5 +41,12 @@ live systems, meeting outcomes, research, and plans spanning more than one codeb
   this repo at once, so it takes a workspace and a specific push protocol; `~/wiki` itself
   is the human's vault and is not the place to edit. Content conventions live in
   `~/wiki/AGENTS.md`.
+- Follow the wiki's AGENTS.md Collaboration rules: edit only in a jj workspace under
+  `~/.wiki-workspaces/<slug>`, only on `main` (no branches or PRs), never force push. A
+  rejected push means `jj git fetch` and rebase onto `main@origin`, at most three tries.
+  This overrides the force-push rule under version control above.
+- Track team work on the wiki's board with the `friday` command (`friday list --mine`,
+  `friday show CT-n`, `friday new "…" --project CT-n`), never in TODO files or by
+  hand-editing card state.
 - Never cite `~/wiki` paths in commits, PRs, or committed docs, since the path is local.
   Link the GitHub file instead, or restate the fact, or cite its original source.
