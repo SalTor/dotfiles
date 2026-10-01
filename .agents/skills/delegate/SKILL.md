@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: How to fire off a sub-agent - deciding whether the work is worth delegating, which model does which part (Fable 5.1 specs, Opus 5.5 builds), giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
+description: How to fire off a sub-agent - deciding whether the work is worth delegating, which model does which part (Fable 5.1 specs, Opus 5.5 builds, Sonnet 5 small fixes and research), keeping usage down, giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
 ---
 
 # Firing off a sub-agent
@@ -35,24 +35,45 @@ Spec first, then build, and each half has its own model. Pass it as the
 `Agent` tool's `model`, since the default inherits yours.
 
 ```text
-speccing, planning, design    one Fable 5.1 agent    model: "fable"
-implementation                Opus 5.5 agent(s)      model: "opus"
+speccing, planning, design        one Fable 5.1 agent    model: "fable"
+implementation                    Opus 5.5 agent(s)      model: "opus"
+a fix touching one to three files Sonnet 5 agent         model: "sonnet"
+read-only research, no code       Sonnet 5 agent         model: "sonnet"
 ```
 
-The Fable agent writes the spec (and the decision, where the repo keeps
-them) and commits it, with no code. It picks a default for every open
-question so the build is not blocked, and lists each one for Sal. The Opus
-agents build from that committed spec, one workspace each, and the brief
-points them at it by path rather than restating it. Read the spec before
-firing the builders; a question in it that only Sal can answer goes to him
-first.
+Before the Fable agent starts, ask Sal the two to four questions that
+decide the design, in one batch (below). Put his answers in its brief. It
+writes the spec (and the decision, where the repo keeps them) and commits
+it, with no code, and defaults every remaining question without asking,
+listing each default in the spec so Sal can overturn it later. Keep the
+spec near 250 lines with at most five open questions. The Opus agents
+build from that committed spec, one workspace each, and the brief points
+them at it by path rather than restating it. Read the spec before firing
+the builders.
 
-A task too small to need a spec (a one-file fix, a test that flakes, a
-stale doc) goes straight to an Opus agent. A research or read-only
-question that produces no code is a Fable agent's alone.
+Avoid resuming a Fable agent to revise its spec. A resumed agent re-reads
+its whole context, and revisions were about 40% of Fable use on
+2026-09-30. Make a small revision yourself. When a revision is larger,
+start a fresh agent with the committed spec and the change.
+
+A task too small to need a spec (a fix in one to three files, a test that
+flakes, a stale doc) goes straight to a Sonnet agent, or to Opus when the
+fix needs real design judgment. Research or a read-only question that
+produces no code goes to Sonnet.
 
 Sal, 2026-09-30: "a fable 5.1 subagent should be used for speccing/planning
-and then opus 5.5 subagent(s) should be used for implementation".
+and then opus 5.5 subagent(s) should be used for implementation". Revised
+2026-10-01 after hitting the five-hour usage limit: Sonnet for small fixes
+and research, the question and spec caps above, and the limits below.
+
+## Keeping usage down
+
+```text
+questions     ask in batches of four, one topic each, not one per turn
+builders      at most two running at once
+orchestrator  start a fresh session after each batch of landings, with a
+              short handoff, rather than carrying every landing's context
+```
 
 ## A workspace per agent
 
@@ -180,15 +201,15 @@ compiles in every sibling and fails only at the top.
 
 ## Several at once
 
-Normal, and the reason workspaces exist. One workspace each, all fired in a
-single message so they run concurrently, and you merge or rebase the siblings at
-the end.
+Normal, and the reason workspaces exist, but no more than two building at
+once. One workspace each, fired in a single message so they run concurrently,
+and you merge or rebase the siblings at the end. Queue the rest and fire the
+next one when one lands.
 
 ```text
       default (main checkout, you)
         ├── workspaces/<repo>/a   agent A
-        ├── workspaces/<repo>/b   agent B
-        └── workspaces/<repo>/c   agent C
+        └── workspaces/<repo>/b   agent B
                    ↓
         you rebase or merge, run the gate at the top, then publish
 ```
