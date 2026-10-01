@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: How to fire off a sub-agent - deciding whether the work is worth delegating, which model does which part (Fable 5.1 specs, Opus 5.5 builds, Sonnet 5 small fixes and research), keeping usage down, giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
+description: How to fire off a sub-agent - deciding whether the work is worth delegating, which model does which part (Opus 5.5 specs by default and Fable 5.1 for the hard ones, Opus 5.5 builds, Sonnet 5 small fixes and research), keeping usage down, giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
 disable-model-invocation: true
 ---
 
@@ -36,13 +36,33 @@ Spec first, then build, and each half has its own model. Pass it as the
 `Agent` tool's `model`, since the default inherits yours.
 
 ```text
-speccing, planning, design        one Fable 5.1 agent    model: "fable"
+speccing, planning, design        one Opus 5.5 agent     model: "opus"
+  ...when the problem deserves it one Fable 5.1 agent    model: "fable"
 implementation                    Opus 5.5 agent(s)      model: "opus"
 a fix touching one to three files Sonnet 5 agent         model: "sonnet"
 read-only research, no code       Sonnet 5 agent         model: "sonnet"
 ```
 
-Before the Fable agent starts, ask Sal the two to four questions that
+The spec model is your call, made per problem without asking Sal. Opus is
+the default. Pick Fable when the problem itself is hard, not when the spec
+is long:
+
+```text
+Opus 5.5                              Fable 5.1
+follows a pattern the repo has        no precedent in the repo to follow
+one subsystem, scope already known    several subsystems, or a contract between
+                                        services or repos
+the cause is measured, the fix shape  the right shape is unclear and the options
+  is mostly obvious                     trade off against each other
+easy to undo                          a record format, protocol or wire shape
+                                        that is costly to change once written
+```
+
+When you are unsure, use Opus. Its spec shows whether the problem is harder
+than it looked, and a fresh Fable agent can start from that committed spec.
+Tell Sal which model you picked, and for Fable, why.
+
+Before the spec agent starts, ask Sal the two to four questions that
 decide the design, in one batch (below). Put his answers in its brief. It
 writes the spec (and the decision, where the repo keeps them) and commits
 it, with no code, and defaults every remaining question without asking,
@@ -52,7 +72,7 @@ build from that committed spec, one workspace each, and the brief points
 them at it by path rather than restating it. Read the spec before firing
 the builders.
 
-Avoid resuming a Fable agent to revise its spec. A resumed agent re-reads
+Avoid resuming a spec agent to revise its spec. A resumed agent re-reads
 its whole context, and revisions were about 40% of Fable use on
 2026-09-30. Make a small revision yourself. When a revision is larger,
 start a fresh agent with the committed spec and the change.
@@ -66,6 +86,8 @@ Sal, 2026-09-30: "a fable 5.1 subagent should be used for speccing/planning
 and then opus 5.5 subagent(s) should be used for implementation". Revised
 2026-10-01 after hitting the five-hour usage limit: Sonnet for small fixes
 and research, the question and spec caps above, and the limits below.
+Revised 2026-10-02: Opus specs by default, and the delegator decides per
+problem whether it deserves Fable.
 
 ## Keeping usage down
 
