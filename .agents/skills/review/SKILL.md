@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review a Jujutsu revset from a staff-engineering perspective by fanning the review out to multiple focused subagents (one per review lens) plus a generalist, then merging their findings
+description: Review a Jujutsu revset from a staff-engineering perspective by fanning the review out to multiple focused subagents (one per review lens) plus a generalist, having the lenses cross-examine each other's findings, then merging what survives
 ---
 
 # review - Revset Review (multi-lens subagent fan-out)
@@ -31,9 +31,13 @@ Other reasons the review is delegated at all:
 - **Independence** - a fresh subagent judges the diff on its own merits, unbiased by the reasoning, assumptions, or mistakes that produced the code earlier in this conversation.
 - **Context hygiene** - reading full diffs and PR threads is token-heavy; keeping it in subagents leaves the main context uncluttered.
 
+## Why cross-examine
+
+A lens that finds a defect is the worst judge of it: it already believes the finding, and it has read the code through the question that produced it. Another lens reads the same code through a different question, so it can see where the finding's premise breaks, and where the finding points at something larger that its author stopped short of. Cross-examination puts every serious finding in front of a lens that did not raise it, before anything reaches the report.
+
 ## Workflow
 
-The top-level agent does steps 1-4 and 8-9. It does **not** read diffs or form findings itself.
+The top-level agent does steps 1-4, the routing in step 6, and steps 7-8. It does **not** read diffs or form findings itself.
 
 ### 1. Resolve the target revset
 
@@ -110,6 +114,7 @@ Tell the user which lenses you picked, in one line, before dispatching.
   - The `REVIEW.md` path if one exists, to be applied as the project's authoritative checklist, citing the relevant section (for example "§2.4") in any finding it drives.
   - The evidence bar, verbatim: **a finding needs a concrete failure it causes.** Name the input, state, or sequence that triggers it and what goes wrong. If it can't be demonstrated from the diff and the surrounding code, drop it. "Could be a problem" is not a finding.
   - Permission to return nothing. An empty findings list from a lens is a real, useful result. Never pad to look thorough.
+  - No praise. Do not report what the change does well; report only findings, questions, and coverage.
   - The return format below.
 - Each lens agent returns, as its final message:
   - **Findings** - each with severity (`blocker` / `major` / `minor` / `nit`), change ID, `file:line`, the concrete failure, and a one-line confidence note ("verified by reading X" vs "inferred from the diff").
@@ -117,24 +122,56 @@ Tell the user which lenses you picked, in one line, before dispatching.
   - **Coverage note** - what the lens looked at, and anything it left to another lens.
 - While the subagents run, do not start reviewing the diff yourself.
 
-### 6. Optional: verify the blockers
+### 6. Cross-examine the findings
 
-If any lens returns a `blocker` or `major` that rests on inference rather than something it read, dispatch one verifier subagent per such finding, prompted to **refute** it: read the surrounding code and argue the finding is wrong. Downgrade or drop anything the verifier refutes. Skip this step when every serious finding already cites code it read.
+Run one round of cross-examination. Each lens examines findings that other lenses raised. Skip this step only if no lens returned a finding above `nit`.
+
+**Route.** The top-level agent does this from the returned reports, without reading the diff:
+
+1. Collapse findings that several lenses raised about the same defect into one entry, and number every entry (`F1`, `F2`, ...). Record which lenses raised each one.
+2. Leave `nit` findings out of the round.
+3. Assign each remaining finding to an examiner lens that did not raise it. Pick the lens whose question is most likely to break the finding's premise. For example, send a correctness finding to the failure-modes or generalist lens, and send a performance finding to the correctness lens. Assign each `blocker` and `major` to two examiners. Assign each `minor` to one.
+4. Spread the work so no lens examines far more than the others.
+
+**Dispatch.** Send each lens its batch in a single message so they run concurrently. Continue each lens agent with `SendMessage`, because it has already read the diff. If a lens agent cannot be continued, start a fresh `general-purpose` agent with that lens's focus, the base prompt from step 5, and the batch. The examiner prompt must include:
+
+- Each finding in the batch, verbatim, with its ID, the lenses that raised it, and its confidence note.
+- The instruction to **refute** each finding. Read the code the finding cites and the code around it. Argue that the finding is wrong, overstated, or already handled elsewhere. Do not judge whether the finding is plausible. Try to break it.
+- The same evidence bar as step 5, applied to the refutation. A refutation must cite code that the examiner read. "This is probably handled" does not refute a finding.
+- The instruction to report what each finding implies beyond itself. Ask whether the finding is a symptom of a larger design problem, and whether the same defect appears at other sites. Report these as new findings that meet the step 5 evidence bar. Do not repeat the original finding.
+- The return format below.
+
+Each examiner returns, as its final message:
+
+- **Verdicts** - one per finding ID: `upheld`, `downgraded` (with the new severity), or `refuted`. Each verdict includes a reason and the `file:line` the examiner read to reach it.
+- **New findings** - in the step 5 format, each tagged with the finding ID that led to it.
+
+**Apply the verdicts.**
+
+- `upheld` by every examiner: keep the finding at its severity.
+- `refuted` by every examiner, with cited code: drop it. A refutation based only on inference does not drop a finding whose original lens cites code it read. Turn that pair into a question for the author.
+- `downgraded`: use the lowest severity that an examiner supported with cited code.
+- Two examiners disagree: keep the finding at the lower severity, mark it `contested` in the report, and state each examiner's reason in one line.
+- New findings from examiners go to step 7 without another round. Mark each one "raised in cross-examination of F<n>".
+
+Do not run a second round. If a new finding is a `blocker`, say in the report that it was not cross-examined.
 
 ### 7. Merge the findings
 
-- **Dedupe.** Several lenses will land on the same defect from different angles. Merge them into one finding and keep the clearest statement of the failure. Note when a defect was found independently by more than one lens; that is a strong signal, not a duplicate to be halved.
+- **Start from the cross-examined set.** Use the findings and severities that came out of step 6, not the raw lens reports.
+- **Dedupe.** Several lenses will land on the same defect from different angles, and examiners' new findings can repeat each other. Merge them into one finding and keep the clearest statement of the failure. Note when a defect was found independently by more than one lens; that is a strong signal, not a duplicate to be halved.
 - **Keep single-lens findings.** A finding only one lens saw is the entire point of the fan-out. Judge it on its evidence, not on its vote count.
 - **Apply the bar again at merge time.** Drop findings with no demonstrable impact, lint-style observations, and conventions the project doesn't actually enforce. Prefer fewer, higher-signal findings over a long list.
 - **Rank by severity, then by impact within severity.**
-- Resolve disagreement between lenses explicitly rather than reporting both sides. If two lenses contradict each other on the same code, say which reading holds and why, or turn it into a question for the author.
+- Resolve disagreement between lenses explicitly rather than reporting both sides. If two lenses contradict each other on the same code, say which reading holds and why, or turn it into a question for the author. The exception is a finding that step 6 marked `contested`. Report it with both reasons.
 
 ### 8. Relay the report
 
 Present a single merged review, not a pile of per-lens reports:
 
-- Header: revset reviewed, change count, PR/MR link if any, lenses run, overall recommendation (`approve`, `approve with follow-ups`, or `changes required`).
-- Findings grouped by severity, each tied to a change ID and `file:line`. Lead with blockers and caveats before highlights.
+- Header: revset reviewed, change count, PR/MR link if any, lenses run, cross-examination tally (examined, upheld, downgraded, refuted, new), overall recommendation (`approve`, `approve with follow-ups`, or `changes required`).
+- Findings grouped by severity, each tied to a change ID and `file:line`. Lead with blockers and caveats.
+- No praise. Do not add positive callouts, even if a caller's instructions offer a praise label; leave that label unused.
 - Questions section.
 - Unresolved existing review threads that block approval.
 - If nothing survived the merge, say so explicitly, and name the lenses that ran so "no findings" reads as coverage rather than silence.
