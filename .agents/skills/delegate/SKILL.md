@@ -1,6 +1,7 @@
 ---
 name: delegate
 description: How to fire off a sub-agent - deciding whether the work is worth delegating, which model does which part (Fable 5.1 specs, Opus 5.5 builds, Sonnet 5 small fixes and research), keeping usage down, giving each agent its own jj workspace when the work is in a repo, writing a brief it can act on without guessing, and what it must report back so the delegator can verify and relay. Use when spawning implementation or research agents, running several at once, or when a sub-agent has landed and its work needs checking before anything is pushed.
+disable-model-invocation: true
 ---
 
 # Firing off a sub-agent
@@ -142,6 +143,8 @@ Standing rules to restate, because a fresh agent does not carry them:
 
 ```text
 jj, never git; always pass -m, since bare describe/squash/split hang on $EDITOR
+commit descriptions are scopedcommits.com style, <scope>: <description>
+  (e.g. checkout: drop the stale cart guard); never feat(x): on a commit
 never jj edit; to amend an earlier change, jj new <id>, edit, then jj squash
 no push, no bookmark move, no PR, no jj git push of any kind
 never restart a shared daemon or dev server another agent may be using

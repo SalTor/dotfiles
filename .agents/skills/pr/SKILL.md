@@ -54,10 +54,19 @@ Examples:
      ```
 
 4. **Preserve JJ change descriptions unless explicitly asked to rewrite them**
-   - Do not rewrite stack/change descriptions into Conventional Commit format by default.
-   - Prefer keeping existing JJ descriptions as-is when opening a PR/MR.
-   - Use Conventional Commit style for the PR/MR title unless the user asks for a different style.
+   - Changes in the stack use Scoped Commits (`<scope>: <description>`, see the `describe` skill). Keep them that way; never rewrite them into Conventional Commit format.
    - Only update a JJ change description if the user explicitly requests it or if the current description is clearly unusable for review.
+
+4a. **Write the PR/MR title in [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style**, unless the user asks for a different style:
+   ```
+   <type>[(scope)][!]: <description>
+   ```
+   - `type`: `feat` (a new capability for users or callers), `fix` (a bug fix), or one of `refactor`, `perf`, `docs`, `test`, `build`, `ci`, `chore`, `style`, `revert`. Pick it by reading the diff for what the PR does as a whole. The commits' scopes do not tell you the type.
+   - `scope`: take it from the stack's Scoped Commit scopes. If they share one, use it; if they span several, use the area that covers them, or omit the scope.
+   - `!` after the type/scope marks a breaking change; also add a `BREAKING CHANGE:` line to the body saying what breaks.
+   - `description`: imperative, lowercase, no trailing period.
+   - A spec/decision/ticket marker, when there is one, goes at the end: `feat(delivery-promise): show the cutoff countdown [spec:20260804-i59z]`.
+   - Example: a stack of `consumer-api: delivery: add cutoff field` + `storefront: render cutoff countdown` gives `feat(delivery-promise): show the cutoff countdown`.
 
 5. **Create or reuse a bookmark (branch)**
    - If none exists, create one for `@`:
@@ -137,6 +146,6 @@ Examples:
 - When including code examples in the body, wrap in triple backticks.
 - Prefer Jujutsu for VCS operations (describe, bookmark, track, push).
 - Use `jj git remote list` to find the remote/host (and recover the repo slug for `gh --repo`) rather than relying on git remote discovery.
-- Conventional Commit style applies to the PR/MR title by default, not to JJ change descriptions.
+- Conventional Commits for the PR/MR title, Scoped Commits for JJ change descriptions.
 - Ask for base branch if not specified; default to `main` only when appropriate.
 - In repos with `docs/pull-request-template.md`, prefer that template over GitHub defaults.
