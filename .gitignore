@@ -30,3 +30,5 @@ agent_skills/
 
 # The Claude app syncs its built-in skills here and rewrites them
 .agents/skills/synced/
+# Skills removed through the app land here
+.agents/skills/.trash/
