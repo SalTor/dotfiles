@@ -3,9 +3,11 @@
 # its default, and an action bound here loses its default keys (114);
 # Settings, Keys has Copy defaults for the full set.
 leader: space
-leave_after_send: 2000   # ms before the composer lets go after a send (116)
+leave_after_send: 0     # ms before the composer lets go after a send; 0 at once, false never (116)
 
 normal:
   leader g i: place.inbox
   leader g l: place.library
+  leader g r: place.reminders
+  leader g w: place.mywork
   f: hints.open
