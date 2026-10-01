@@ -95,6 +95,14 @@ gitignored config that `.worktreeinclude` lists. Read the `jj-workspaces` skill
 before creating one by hand, since the path convention is the layout setting's
 business and not yours to pick.
 
+From a deck chat, the worktree flow fails: the chat folder is not a jj
+repo, so the hook refuses. Make the workspace with
+`deck chat workspace add <main checkout> <slug>`, which runs the repo's
+bootstrap hooks and records it, and hand the agent the link
+`<chat>/<repo>/<slug>/` as its path. Those workspaces live under
+`~/.deck/workspaces`, which settings list as an additional directory so
+the agent's edits there do not prompt.
+
 A workspace needs bootstrapping before any tooling runs there: dependency
 install at minimum, plus whatever `~/code/workspaces/AGENTS.md` says. Say in the
 brief whether you already did this or the agent must.
