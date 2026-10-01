@@ -1,5 +1,5 @@
 [tools]
-node = "20.17.0"
+node = "24.14.1"
 "ubi:ajeetdsouza/zoxide" = "latest"
 "ubi:pnpm/pnpm" = "latest"
 "aqua:BurntSushi/ripgrep" = "latest"
@@ -15,7 +15,7 @@ go = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
-trusted_config_paths = ["/Users/storcivia/.awp/workspaces"]
+trusted_config_paths = ["/Users/storcivia/.awp/workspaces", "/Users/storcivia/code/deck", "/Users/storcivia/.deck/workspaces/deck"]
 
 [env]
 _.path = ["~/.cache/.bun/bin"]
