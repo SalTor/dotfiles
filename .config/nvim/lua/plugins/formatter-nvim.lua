@@ -3,6 +3,29 @@ return {
   config = function()
     local util = require 'formatter.util'
 
+    -- Without this, prettierd formats with its bundled prettier in repos that
+    -- don't use prettier at all (e.g. redwood, which uses oxfmt).
+    vim.env.PRETTIERD_LOCAL_PRETTIER_ONLY = '1'
+
+    -- oxfmt when the project has an .oxfmtrc, prettierd otherwise
+    local function js_formatter()
+      local path = util.get_current_buffer_file_path()
+      local rc = vim.fs.find({ '.oxfmtrc.json', '.oxfmtrc.jsonc' }, { upward = true, path = vim.fs.dirname(path) })[1]
+      if rc then
+        local root = vim.fs.dirname(rc)
+        local oxfmt = root .. '/node_modules/.bin/oxfmt'
+        if vim.fn.executable(oxfmt) == 1 then
+          return {
+            exe = oxfmt,
+            args = { '--stdin-filepath', util.escape_path(path) },
+            stdin = true,
+            cwd = root,
+          }
+        end
+      end
+      return require('formatter.defaults.prettierd')()
+    end
+
     local formatterGroup = vim.api.nvim_create_augroup('FormatAutogroup', { clear = true })
     vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
       pattern = '*',
@@ -56,19 +79,19 @@ return {
         },
 
         typescriptreact = {
-          require('formatter.filetypes.typescriptreact').prettierd,
+          js_formatter,
         },
 
         typescript = {
-          require('formatter.filetypes.typescript').prettierd,
+          js_formatter,
         },
 
         javascript = {
-          require('formatter.filetypes.typescript').prettierd,
+          js_formatter,
         },
 
         markdown = {
-          require('formatter.filetypes.markdown').prettierd,
+          js_formatter,
         },
 
         rust = {
