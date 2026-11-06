@@ -1,9 +1,14 @@
 ---
 name: archive
-description: Archive this deck chat, or the chat given, with `deck chat archive`.
+description: Deck chats only (working directory under ~/.deck/chats/). Archive this deck chat, or the chat given, with `deck chat archive`.
 argument-hint: "[chat id]"
 disable-model-invocation: true
 ---
+
+**Deck chats only.** Before anything else, check that the working directory
+is under `~/.deck/chats/`. If it is not, stop: run no `deck` command, and
+tell Sal this command only works in a deck chat. A chat id argument does not
+lift this.
 
 Sal ran this to archive a deck chat. Do it now; do not ask to confirm.
 
