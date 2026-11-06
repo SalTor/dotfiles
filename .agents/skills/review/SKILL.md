@@ -76,7 +76,14 @@ Fetch what every lens would otherwise fetch separately, and write it to a temp f
     glab mr view [<iid>] --comments
     ```
 - The project's reviewer checklist, if there is one: a **`REVIEW.md`** at the repo root. Note its path for the subagents rather than reading it yourself.
-- Write the PR body and the comment threads to a scratch file (`mktemp`), and pass that path to every subagent. If no PR/MR exists (pre-push or local-only stack), say so and skip.
+- Related work on the wiki's board, so no lens reviews the diff blind to what teammates are building or just rebuilt. Run this when `command -v friday` succeeds and the repo's name (the last segment of its remote URL, without `.git`) is a key of `repos` in the vault's `.friday/config.json`:
+  ```bash
+  jj diff -r '<revset>' --name-only | friday domains --repo <name> --paths -
+  doms=$(jj diff -r '<revset>' --name-only | friday domains --repo <name> --paths - --names)
+  [ -n "$doms" ] && friday list --domain "$doms" --recent 30d
+  ```
+  The first prints the domains the diff hits and the wiki pages to read (paths under the vault root it names); the third prints the open issues in those domains and those finished in the last 30 days, with assignee and title. Copy both outputs into the scratch file under a `## Related work` heading. Do not read the pages or the issues yourself; that is the Related work lens's job. If `friday` is missing, the repo has no domains, or the lookup returns nothing, write that under the heading and do not pick the lens.
+- Write the PR body and the comment threads to a scratch file (`mktemp`), and pass that path to every subagent. If no PR/MR exists (pre-push or local-only stack), say so and skip the PR part; the related-work section still goes in.
 
 ### 4. Pick the review lenses
 
@@ -99,6 +106,7 @@ Sizing guide: single small change → generalist + 2. Multi-file feature → gen
 | **Intent and scope conformance** | There is a spec, PR body, or commit description to check the diff against. Does the code do what it claims, and only that? |
 | **Simplification and altitude** | Reasonable on most diffs: reuse of existing helpers, duplication, wrong layer, dead code, over-abstraction. |
 | **Domain conventions** | The diff touches a domain with its own authoring doc (UI/design, analytics, experiments, error capture, money math). Pick this lens once per domain doc the diff actually touches, and name that doc in the lens prompt. |
+| **Related work** | Step 3's lookup found pages or issues. Always pick it then. It reads every listed page, scans the issue titles, and runs `friday show <id>` on the few that touch what the diff changes. It reports where the diff works against that work: it reimplements or sidesteps something a recent refactor centralized (a new field or helper answering a question a canonical function already answers), conflicts with an in-progress change in the same area, contradicts a rule a page states, or duplicates planned work. Calling the canonical function is not enough: check that every value the diff derives in that area comes from the function's answer, and treat a field that splits off part of that answer, or recomputes part of it with an older rule beside it, as a finding or a question. A page or issue that describes this diff's own work (it names the PR, its spec, or its issue) states the author's intent; it is not a rule to check the diff against. Each finding names the issue or page, its owner (the assignee), and the diff line, and quotes the page or issue text it relies on. When the conflict is a direction question rather than a demonstrable failure, it goes under Questions for the author, addressed so the author knows whom to ask ("CT-411 (Andrew) moved restriction into `resolveAvailability`; should this field come from it?"). |
 | **Docs and prose** | The diff is mostly documentation, ADRs, or specs. Review framing, sequencing, and evidence quality. For a `proposed` ADR that defers scoping to follow-up specs, stay at proposal granularity. |
 
 Tell the user which lenses you picked, in one line, before dispatching.
