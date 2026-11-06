@@ -5,6 +5,7 @@
       Match what the file already does over what its conventions doc illustrates, and say
       when the two differ rather than picking silently.
   - Show more than tell. Use unicode diagrams rather than writing long essays.
+  - When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision.
   - When writing a doc, consult [this](./techniques/writing-documents.md)
 - When you give the user a choice, use `AskUserQuestion` or label the options (e.g., `(A)`, `(B)`)
   - Leave room for "neither / something else".
