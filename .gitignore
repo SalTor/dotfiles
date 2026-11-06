@@ -15,6 +15,9 @@ emacs/project-setups/
 .config/jjui/themes
 # jj's centralized per-repo config/state (machine-specific paths); not portable
 .config/jj/repos/
+# Same for its per-workspace config (jj 0.38+): one dir per workspace, holding that
+# workspace's absolute path. `jj config gc` prunes stale ones from jj 0.47.
+.config/jj/workspaces/
 # A live SQLite db and its write-ahead sidecars; tracked by accident. Reading the
 # db rewrites -shm, so it dirtied the working copy on every query.
 notes.db
