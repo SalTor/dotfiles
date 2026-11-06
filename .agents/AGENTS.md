@@ -19,5 +19,6 @@
   - Rebasing a stack onto a moved base fixes text, not semantics. Typecheck and test at the stack top before pushing, since a new required argument on the base compiles clean in every merge and fails only there.
   - Consult [this](./techniques/jj-techniques.md) glossary.
 - For temp files, use `mktemp`.
+- deck metrics are retired. A number from a live system goes to the wiki as an evidence run (`~/wiki/AGENTS.md`, Evidence); never `deck metric new` or `deck metric record`.
 
 @~/wiki/.friday/claude-block.md
