@@ -86,6 +86,7 @@ Examples:
 
 7. **Check for a PR/MR template**
    - Look for template files in this order:
+     - `docs/pull_request_template.md`
      - `docs/pull-request-template.md`
      - `pull-request-template.md`
      - `.github/pull_request_template.md`
@@ -148,4 +149,4 @@ Examples:
 - Use `jj git remote list` to find the remote/host (and recover the repo slug for `gh --repo`) rather than relying on git remote discovery.
 - Conventional Commits for the PR/MR title, Scoped Commits for JJ change descriptions.
 - Ask for base branch if not specified; default to `main` only when appropriate.
-- In repos with `docs/pull-request-template.md`, prefer that template over GitHub defaults.
+- Prefer `docs/pull_request_template.md` (or the hyphenated variant) over GitHub defaults.

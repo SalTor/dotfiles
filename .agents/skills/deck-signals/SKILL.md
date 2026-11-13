@@ -54,9 +54,8 @@ Four standing rules:
    Three things still have no command, so for those print the exact line and let
    him paste it: `test:` on a coupling, `signals_off:`, and `extra_units:`.
 
-   A number never goes in this file. A measurement is a metric reading, which is
-   `deck metric record`, and the project file holds only the slug that points at
-   it.
+   A number never goes in this file. A measurement is a wiki evidence run
+   (`deck-metrics` skill).
 3. **Specs and code in this repo are fair game.** A topic's spec lives in the
    repo, not in the project file. Editing it is normal work.
 4. **A signal can be wrong or stale.** Rollups run against a moment. Saying "the
@@ -99,19 +98,11 @@ taking the next. If the project references no metric yet, the spec carrying the
 newest `measured` line usually holds the query instead.
 
 Re-run it. The `query-db` skill is the route to Redshift and MySQL. Then file
-the answer, which is what closes this signal:
+the answer as a wiki evidence run per the `deck-metrics` skill; never run
+`deck metric new` or `deck metric record`.
 
-```bash
-deck metric record <slug> --value … --measures … --source … < body.md
-```
-
-The `deck-metrics` skill has the shape of a good reading and the one field that
-matters, `--measures`. A first-time metric needs `deck metric new` and then
-`deck project metric <project> <slug>` to point the project at it.
-
-Do not give Sal a `baseline:` line to paste. Deck no longer maintains that
-field; a reading is the measurement now. Good answer: one number, its date, the
-query that produced it, and the path the reading landed at.
+Do not give Sal a `baseline:` line to paste. Good answer: one number, its date,
+the query that produced it, and the path of the evidence run.
 
 ### stale-spec
 
@@ -235,8 +226,8 @@ it before calling it clear.
 ```text
 what deck saw        one line, restated
 what is true now     what the forge and the code actually say
-what I did           edits in this repo with paths, and any `deck project` or
-                     `deck metric` command you ran, with its output
+what I did           edits in this repo with paths, any `deck project` command
+                     you ran with its output, and any evidence run filed, with its path
 what Sal must do     work in another repo, or the three project-file keys that
                      still have no command
 ```

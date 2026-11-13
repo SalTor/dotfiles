@@ -48,7 +48,7 @@ Rules:
 
 ## Comment style: headline + bullets
 
-Feedback often arrives as dense review prose (e.g. from `/review`). **Do not post it as-is.** Reshape every comment — inline and summary — into a skimmable structure before showing it for confirmation:
+Feedback often arrives as dense review prose (e.g. from `/review`). **Do not post it as-is.** Reshape every comment — inline and summary — into a skimmable structure before printing it for the record:
 
 1. **Headline first.** One bold sentence stating the takeaway or ask. A reader who stops here should know what the comment is about and whether it needs action.
 2. **Then 2–4 terse bullets** carrying the supporting evidence: what was checked, what's missing, the concrete suggestion. One idea per bullet. Use backticked `file/symbol/test-name` references, not prose descriptions of them.
